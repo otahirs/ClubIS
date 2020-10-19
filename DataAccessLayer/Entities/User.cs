@@ -20,7 +20,6 @@ namespace DataAccessLayer.Entities
         public virtual Address Address { get; set; }
 
         [Required]
-        [Key]
         [MaxLength(10)]
         public string Username { get; set; }
         [Required]
