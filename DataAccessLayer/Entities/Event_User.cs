@@ -7,7 +7,7 @@ using static DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Entities
 {
-    public class Signup
+    public class Event_User
     {
         public int? UserId { get; set; }
 
@@ -17,15 +17,14 @@ namespace DataAccessLayer.Entities
 
         [ForeignKey(nameof(EventId))]
         public virtual Event Event { get; set; }
-
-        public DateTime Timestamp { get; set; }
-        public Class Class { get; set; }
-        public Accommodation Accommodation { get; set; }
-        public Transport Transport { get; set; }
+        [MaxLength(10)]
+        public string Class { get; set; }
+        public bool? HasClubAccommodation { get; set; }
+        public bool? HasClubTransport { get; set; }
         [MaxLength(255)]
         public string NoteForClub { get; set; }
         [MaxLength(255)]
-        public string NoteforOrganizator { get; set; }
+        public string NoteForOrganisator { get; set; }
 
     }
 }

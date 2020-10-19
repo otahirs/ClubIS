@@ -5,12 +5,12 @@ using System.Text;
 
 namespace DataAccessLayer.Entities
 {
-    public class SelectedMemberFee
+    public class User_MemberFee
     {
-        public int FeeId { get; set; }
+        public int MemberFeeId { get; set; }
 
-        [ForeignKey(nameof(FeeId))]
-        public virtual MemberFee Fee { get; set; }
+        [ForeignKey(nameof(MemberFeeId))]
+        public virtual MemberFee MemberFee { get; set; }
         public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]

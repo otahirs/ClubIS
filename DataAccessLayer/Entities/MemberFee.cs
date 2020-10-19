@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Entities
 {
@@ -12,7 +13,6 @@ namespace DataAccessLayer.Entities
         [MaxLength(255)]
         public string Description { get; set; }
         public int Amount { get; set; }
-        // TODO type of permissions
-        public bool Permissions { get; set; }
+        public MemberFeeType MemberFeeType { get; set; }
     }
 }
