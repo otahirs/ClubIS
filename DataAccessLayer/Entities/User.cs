@@ -46,7 +46,7 @@ namespace DataAccessLayer.Entities
         public Licence Licence { get; set; }
         public AccountState AccountState { get; set; }
         public DateTime Created { get; set; }
-        public Role Roles { get; set; }
+        public ICollection<UserRole> Roles { get; set; }
         public int? CreditBalance { get; set; }
 
     }
