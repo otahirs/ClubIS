@@ -16,8 +16,8 @@ namespace DataAccessLayer.Entities
         [MaxLength(50)]
         public string Place { get; set; }
         [MaxLength(50)]
-        public ICollection<ClubEventOptions> AccommodationOptions { get; set; }
-        public ICollection<ClubEventOptions> TransportOptions { get; set; }
+        public ClubEventOptions AccommodationOption { get; set; }
+        public ClubEventOptions TransportOption { get; set; }
 
         [MaxLength(50)]
         public string Link { get; set; }
