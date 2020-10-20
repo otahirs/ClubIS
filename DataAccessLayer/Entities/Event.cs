@@ -7,7 +7,7 @@ using DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Entities
 {
-    public class Event
+    public class Event : BaseEntity
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
