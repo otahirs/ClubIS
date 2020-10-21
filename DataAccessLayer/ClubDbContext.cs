@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace DataAccessLayer
 {
-    class ClubDbContext : DbContext
+    public class ClubDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
