@@ -6,8 +6,10 @@ using DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Entities
 {
-    public class MemberFee : BaseEntity
+    public class MemberFee : TrackModifiedDateEntity
     {
+        [Key]
+        public int Id { get; set; }
         [MaxLength(20)]
         public string Name { get; set; }
         [MaxLength(255)]

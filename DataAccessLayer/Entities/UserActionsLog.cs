@@ -6,8 +6,10 @@ using System.Text;
 
 namespace DataAccessLayer.Entities
 {
-    public class UserActionsLog : BaseEntity
+    public class UserActionsLog
     {
+        [Key]
+        public int Id { get; set; }
         public int? UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]

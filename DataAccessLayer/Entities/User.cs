@@ -8,8 +8,10 @@ using DataAccessLayer.Enums;
 namespace DataAccessLayer.Entities
 {
 
-    public class User : BaseEntity
+    public class User : TrackModifiedDateEntity
     {
+        [Key]
+        public int Id { get; set; }
         public int? BillingUserId { get; set; }
 
         [ForeignKey(nameof(BillingUserId))]

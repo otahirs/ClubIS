@@ -7,8 +7,10 @@ using DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Entities
 {
-    public class Payment : BaseEntity
+    public class Payment : TrackModifiedDateEntity
     {
+        [Key]
+        public int Id { get; set; }
         public int? ExecutorId { get; set; }
 
         [ForeignKey(nameof(ExecutorId))]

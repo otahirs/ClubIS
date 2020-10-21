@@ -6,8 +6,10 @@ using System.Text;
 
 namespace DataAccessLayer.Entities
 {
-    public class News : BaseEntity
+    public class News : TrackModifiedDateEntity
     {
+        [Key]
+        public int Id { get; set; }
         public int? UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]

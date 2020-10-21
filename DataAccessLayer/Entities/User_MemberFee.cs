@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataAccessLayer.Entities
 {
-    public class User_MemberFee
+    public class User_MemberFee : TrackModifiedDateEntity
     {
         public int MemberFeeId { get; set; }
 

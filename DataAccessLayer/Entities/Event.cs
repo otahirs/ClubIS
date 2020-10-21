@@ -7,8 +7,10 @@ using DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Entities
 {
-    public class Event : BaseEntity
+    public class Event : TrackModifiedDateEntity
     {
+        [Key]
+        public int Id { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         [MaxLength(50)]

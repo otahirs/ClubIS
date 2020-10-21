@@ -5,8 +5,10 @@ using System.Text;
 
 namespace DataAccessLayer.Entities
 {
-    public class Address : BaseEntity
+    public class Address : TrackModifiedDateEntity
     {
+        [Key]
+        public int Id { get; set; }
         [MaxLength(50)]
         public string StreetAndNumber { get; set; }
         [MaxLength(25)]

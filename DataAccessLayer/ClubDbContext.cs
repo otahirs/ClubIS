@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DataAccessLayer.Entities;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace DataAccessLayer
 {
@@ -36,6 +38,53 @@ namespace DataAccessLayer
                 .HasKey(us => new { us.UserId, us.SignUpSupervisorId });
             modelBuilder.Entity<User_MemberFee>()
                 .HasKey(um => new { um.UserId, um.MemberFeeId });
+        }
+
+
+        // automatically create/update CreatedDate and UpdatedDate properties
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            OnBeforeSaving();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
+                                                         CancellationToken cancellationToken = default)
+        {
+            OnBeforeSaving();
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        private void OnBeforeSaving()
+        {
+            var entries = ChangeTracker.Entries();
+            var utcNow = DateTime.UtcNow;
+
+            foreach (var entry in entries)
+            {
+                // for entities that inherit from BaseEntity,
+                // set UpdatedDate / CreatedDate appropriately
+                if (entry.Entity is TrackModifiedDateEntity trackable)
+                {
+                    switch (entry.State)
+                    {
+                        case EntityState.Modified:
+                            // set the updated date to "now"
+                            trackable.UpdatedDate = utcNow;
+
+                            // mark property as "don't touch"
+                            // we don't want to update on a Modify operation
+                            entry.Property("CreatedDate").IsModified = false;
+                            break;
+
+                        case EntityState.Added:
+                            // set both updated and created date to "now"
+                            trackable.CreatedDate = utcNow;
+                            trackable.UpdatedDate = utcNow;
+                            break;
+                    }
+                }
+            }
         }
     }
 }
