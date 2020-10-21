@@ -9,11 +9,11 @@ namespace DataAccessLayer.Entities
 {
     public class Event_User : TrackModifiedDateEntity
     {
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
-        public int? EventId { get; set; }
+        public int EventId { get; set; }
 
         [ForeignKey(nameof(EventId))]
         public virtual Event Event { get; set; }

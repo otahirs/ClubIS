@@ -15,7 +15,7 @@ namespace DataAccessLayer.Entities
 
         [ForeignKey(nameof(ExecutorId))]
         public virtual User Executor { get; set; }
-        public int? AccountOwnerId { get; set; }
+        public int AccountOwnerId { get; set; }
 
         [ForeignKey(nameof(AccountOwnerId))]
         public virtual User AccountOwner { get; set; }
