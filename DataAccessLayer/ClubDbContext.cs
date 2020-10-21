@@ -34,10 +34,24 @@ namespace DataAccessLayer
         {
             modelBuilder.Entity<Event_User>()
                 .HasKey(eu => new { eu.EventId, eu.UserId });
-            modelBuilder.Entity<User_SignUpSupervisor>()
-                .HasKey(us => new { us.UserId, us.SignUpSupervisorId });
+
             modelBuilder.Entity<User_MemberFee>()
                 .HasKey(um => new { um.UserId, um.MemberFeeId });
+
+            modelBuilder.Entity<User_SignUpSupervisor>()
+                .HasKey(us => new { us.UserId, us.SignUpSupervisorId });
+
+            modelBuilder.Entity<User_SignUpSupervisor>()
+                .HasOne(i => i.User)
+                .WithMany(i => i.SignUpSupervisors)
+                .HasForeignKey(i => i.SignUpSupervisorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User_SignUpSupervisor>()
+                .HasOne(i => i.SignUpSupervisor)
+                .WithMany(i => i.SignUpSupervisedUsers)
+                .HasForeignKey(i => i.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
 
