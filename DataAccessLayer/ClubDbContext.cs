@@ -13,7 +13,6 @@ namespace DataAccessLayer
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Event_User> SignUps { get; set; }
-        public DbSet<User_SignUpSupervisor> SignUpSupervisors { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<MemberFee> MemberFees { get; set; }
@@ -44,13 +43,13 @@ namespace DataAccessLayer
             modelBuilder.Entity<User_SignUpSupervisor>()
                 .HasOne(i => i.User)
                 .WithMany(i => i.SignUpSupervisors)
-                .HasForeignKey(i => i.SignUpSupervisorId)
+                .HasForeignKey(i => i.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User_SignUpSupervisor>()
                 .HasOne(i => i.SignUpSupervisor)
                 .WithMany(i => i.SignUpSupervisedUsers)
-                .HasForeignKey(i => i.UserId)
+                .HasForeignKey(i => i.SignUpSupervisorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Seed();
