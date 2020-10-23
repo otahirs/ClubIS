@@ -52,6 +52,10 @@ namespace DataAccessLayer
                 .WithMany(i => i.SignUpSupervisedUsers)
                 .HasForeignKey(i => i.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Seed();
+
+            base.OnModelCreating(modelBuilder);
         }
 
 
