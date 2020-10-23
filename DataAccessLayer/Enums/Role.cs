@@ -6,7 +6,7 @@
         Financier,
         EventManager,
         News,
-        SignUpManager,
+        EntriesManager,
         AccountManager,
         Admin
     }

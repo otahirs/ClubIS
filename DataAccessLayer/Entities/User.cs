@@ -16,8 +16,8 @@ namespace DataAccessLayer.Entities
 
         [ForeignKey(nameof(BillingUserId))]
         public virtual User BillingUser { get; set; }
-        public virtual ICollection<User_SignUpSupervisor> SignUpSupervisors { get; set; }
-        public virtual ICollection<User_SignUpSupervisor> SignUpSupervisedUsers { get; set; }
+        public virtual ICollection<User_EntriesSupervisor> EntriesSupervisors { get; set; }
+        public virtual ICollection<User_EntriesSupervisor> EntriesSupervisedUsers { get; set; }
         public int AddressId { get; set; }
 
         [ForeignKey(nameof(AddressId))]

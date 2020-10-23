@@ -12,7 +12,7 @@ namespace DataAccessLayer
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
-        public DbSet<Event_User> SignUps { get; set; }
+        public DbSet<EventEntry> EventEntries { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<MemberFee> MemberFees { get; set; }
@@ -30,22 +30,22 @@ namespace DataAccessLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Event_User>()
+            modelBuilder.Entity<EventEntry>()
                 .HasKey(eu => new { eu.EventId, eu.UserId });
 
-            modelBuilder.Entity<User_SignUpSupervisor>()
-                .HasKey(us => new { us.UserId, us.SignUpSupervisorId });
+            modelBuilder.Entity<User_EntriesSupervisor>()
+                .HasKey(us => new { us.UserId, us.EntriesSupervisorId });
 
-            modelBuilder.Entity<User_SignUpSupervisor>()
+            modelBuilder.Entity<User_EntriesSupervisor>()
                 .HasOne(i => i.User)
-                .WithMany(i => i.SignUpSupervisors)
+                .WithMany(i => i.EntriesSupervisors)
                 .HasForeignKey(i => i.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<User_SignUpSupervisor>()
-                .HasOne(i => i.SignUpSupervisor)
-                .WithMany(i => i.SignUpSupervisedUsers)
-                .HasForeignKey(i => i.SignUpSupervisorId)
+            modelBuilder.Entity<User_EntriesSupervisor>()
+                .HasOne(i => i.EntriesSupervisor)
+                .WithMany(i => i.EntriesSupervisedUsers)
+                .HasForeignKey(i => i.EntriesSupervisorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Seed();
