@@ -16,7 +16,6 @@ namespace DataAccessLayer
         public DbSet<Payment> Payments { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<MemberFee> MemberFees { get; set; }
-        public DbSet<User_MemberFee> SelectedMemberFee { get; set; }
         public DbSet<UserActionsLog> UserActionsLogs { get; set; }
         public DbSet<SystemLog> SystemLogs { get; set; }
 
@@ -33,9 +32,6 @@ namespace DataAccessLayer
         {
             modelBuilder.Entity<Event_User>()
                 .HasKey(eu => new { eu.EventId, eu.UserId });
-
-            modelBuilder.Entity<User_MemberFee>()
-                .HasKey(um => new { um.UserId, um.MemberFeeId });
 
             modelBuilder.Entity<User_SignUpSupervisor>()
                 .HasKey(us => new { us.UserId, us.SignUpSupervisorId });
