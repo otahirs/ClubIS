@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -42,7 +42,7 @@ namespace DataAccessLayer.Entities
         [MaxLength(9)]
         public int? SiCardNumber { get; set; }
         [MaxLength(7)]
-        public int? RegistrationNumber { get; set; }
+        public string RegistrationNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
         [MaxLength(50)]
         public string Nationality { get; set; }
