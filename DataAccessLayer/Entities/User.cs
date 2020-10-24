@@ -16,8 +16,8 @@ namespace DataAccessLayer.Entities
 
         [ForeignKey(nameof(BillingUserId))]
         public virtual User BillingUser { get; set; }
-        public virtual ICollection<User_EntriesSupervisor> EntriesSupervisors { get; set; }
-        public virtual ICollection<User_EntriesSupervisor> EntriesSupervisedUsers { get; set; }
+        public virtual ISet<User_EntriesSupervisor> EntriesSupervisors { get; set; }
+        public virtual ISet<User_EntriesSupervisor> EntriesSupervisedUsers { get; set; }
         public int AddressId { get; set; }
 
         [ForeignKey(nameof(AddressId))]
@@ -53,7 +53,7 @@ namespace DataAccessLayer.Entities
         public Gender Gender { get; set; }
         public Licence Licence { get; set; }
         public AccountState AccountState { get; set; }
-        public ICollection<UserRole> Roles { get; set; }
+        public ISet<Role> Roles { get; set; }
         public int? CreditBalance { get; set; }
 
     }

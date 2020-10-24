@@ -42,11 +42,6 @@ namespace DataAccessLayer
                 MemberFeeType = MemberFeeType.Basic
             });
 
-
-            UserRole ur1 = new UserRole() { Id = 1, Role = Role.Member };
-            UserRole ur2 = new UserRole() { Id = 5, Role = Role.EntriesManager };
-            modelBuilder.Entity<UserRole>().HasData(ur1, ur2);
-
             User_EntriesSupervisor ues = new User_EntriesSupervisor()
             {
                 UserId = 2,
@@ -58,7 +53,6 @@ namespace DataAccessLayer
             User supervisor = new User
             {
                 Id = 1,
-                EntriesSupervisedUsers = new List<User_EntriesSupervisor>() { ues },
                 AddressId = 1,
                 MemberFeeId = 2,
                 Username = "m.chaloup",
@@ -72,13 +66,15 @@ namespace DataAccessLayer
                 Gender = Gender.Male,
                 Licence = Licence.C,
                 AccountState = AccountState.Archived,
-                Roles = new List<UserRole>() { ur1, ur2 }
+                Roles = new HashSet<Role>() { 
+                    Role.Member, 
+                    Role.EntriesManager 
+                }
             };
             User supervised = new User()
             {
                 Id = 2,
                 BillingUserId = 1,
-                EntriesSupervisors = new List<User_EntriesSupervisor>() { ues },
                 AddressId = 2,
                 MemberFeeId = 1,
                 Username = "kachna",
@@ -92,7 +88,7 @@ namespace DataAccessLayer
                 Gender = Gender.Female,
                 Licence = Licence.A,
                 AccountState = AccountState.Active,
-                Roles = new List<UserRole>() { ur1 }
+                Roles = new HashSet<Role>() { Role.Member }
             };
             modelBuilder.Entity<User>().HasData(supervisor, supervised);
 
@@ -113,20 +109,22 @@ namespace DataAccessLayer
                 EndDate = new DateTime(2020, 10, 11),
                 Name = "MČR klubů a oblastních výběrů",
                 Place = "Kobyla nad Vidnávkou",
-                AccommodationOption = Enums.ClubEventOptions.Optional,
-                TransportOption = Enums.ClubEventOptions.ClubEnsured,
+                AccommodationOption = ClubEventOption.Optional,
+                TransportOption = ClubEventOption.ClubEnsured,
                 Link = "mcr2020.obopava.cz",
-                Deadlines = new List<DateTime>() { 
+                Deadlines = new HashSet<DateTime>() { 
                     new DateTime(2020, 9, 11),
                     new DateTime(2020, 9, 30)
                 },
-                ClassOptions = new List<string>() { 
+                ClassOptions = new HashSet<string>() { 
                     "A",
                     "B"
                 },
                 EventType = EventType.Race,
                 EventState = EventState.Archived,
-                EventProperties = EventProperties.Championship
+                EventProperties = new HashSet<EventProperty>() {
+                    EventProperty.Championship
+                }
             });
 
             modelBuilder.Entity<EventEntry>().HasData(new EventEntry()

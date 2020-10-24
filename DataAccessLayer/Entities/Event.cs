@@ -18,18 +18,18 @@ namespace DataAccessLayer.Entities
         [MaxLength(50)]
         public string Place { get; set; }
         [MaxLength(50)]
-        public ClubEventOptions AccommodationOption { get; set; }
-        public ClubEventOptions TransportOption { get; set; }
+        public ClubEventOption AccommodationOption { get; set; }
+        public ClubEventOption TransportOption { get; set; }
 
         [MaxLength(50)]
         public string Link { get; set; }
         [MaxLength(255)]
         public string Note { get; set; }
-        public IList<DateTime> Deadlines { get; set; }
-        public IList<string> ClassOptions { get; set; }
+        public ISet<DateTime> Deadlines { get; set; }
+        public ISet<string> ClassOptions { get; set; }
         public string Leader { get; set; }
         public EventType EventType { get; set; }
         public EventState EventState { get; set; }
-        public EventProperties EventProperties { get; set; }
+        public ISet<EventProperty> EventProperties { get; set; }
     }
 }

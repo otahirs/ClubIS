@@ -1,6 +1,6 @@
 ﻿namespace DataAccessLayer.Enums
 {
-    public enum ClubEventOptions
+    public enum ClubEventOption
     {
         Individual,
         ClubEnsured,

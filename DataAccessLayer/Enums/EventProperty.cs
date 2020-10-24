@@ -1,6 +1,6 @@
 ﻿namespace DataAccessLayer.Enums
 {
-    public enum EventProperties
+    public enum EventProperty
     {
         National,
         Bohemian,
