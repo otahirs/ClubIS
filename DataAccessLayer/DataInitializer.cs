@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DataAccessLayer.Enums;
 
 namespace DataAccessLayer
 {
@@ -30,7 +31,7 @@ namespace DataAccessLayer
                 Name = "All Inclusive",
                 Description = "Oddílem jsou placeny veškeré závody. Závodník platí pouze storna.",
                 Amount = 0,
-                MemberFeeType = Enums.MemberFeeType.All
+                MemberFeeType = MemberFeeType.All
             },
             new MemberFee()
             {
@@ -38,12 +39,12 @@ namespace DataAccessLayer
                 Name = "Základ",
                 Description = "Nikam nejezdím nebo málo - veškeré závody se strhávají z osobního vkladu.",
                 Amount = 100,
-                MemberFeeType = Enums.MemberFeeType.Basic
+                MemberFeeType = MemberFeeType.Basic
             });
 
 
-            UserRole ur1 = new UserRole() { Id = 1, Role = Enums.Role.Member };
-            UserRole ur2 = new UserRole() { Id = 5, Role = Enums.Role.EntriesManager };
+            UserRole ur1 = new UserRole() { Id = 1, Role = Role.Member };
+            UserRole ur2 = new UserRole() { Id = 5, Role = Role.EntriesManager };
             modelBuilder.Entity<UserRole>().HasData(ur1, ur2);
 
             User_EntriesSupervisor ues = new User_EntriesSupervisor()
@@ -68,9 +69,9 @@ namespace DataAccessLayer
                 RegistrationNumber = 1403,
                 Nationality = "Česká republika",
                 Email = "tst2@eof.cz",
-                Gender = Enums.Gender.Male,
-                Licence = Enums.Licence.C,
-                AccountState = Enums.AccountState.Archived,
+                Gender = Gender.Male,
+                Licence = Licence.C,
+                AccountState = AccountState.Archived,
                 Roles = new List<UserRole>() { ur1, ur2 }
             };
             User supervised = new User()
@@ -88,9 +89,9 @@ namespace DataAccessLayer
                 RegistrationNumber = 0352,
                 Nationality = "Česká republika",
                 Email = "tst2@eob.cz",
-                Gender = Enums.Gender.Female,
-                Licence = Enums.Licence.A,
-                AccountState = Enums.AccountState.Active,
+                Gender = Gender.Female,
+                Licence = Licence.A,
+                AccountState = AccountState.Active,
                 Roles = new List<UserRole>() { ur1 }
             };
             modelBuilder.Entity<User>().HasData(supervisor, supervised);
@@ -123,9 +124,9 @@ namespace DataAccessLayer
                     "A",
                     "B"
                 },
-                EventType = Enums.EventType.Race,
-                EventState = Enums.EventState.Archived,
-                EventProperties = Enums.EventProperties.Championship
+                EventType = EventType.Race,
+                EventState = EventState.Archived,
+                EventProperties = EventProperties.Championship
             });
 
             modelBuilder.Entity<EventEntry>().HasData(new EventEntry()
@@ -143,7 +144,7 @@ namespace DataAccessLayer
                 AccountOwnerId = 2,
                 EventId = 1,
                 CreditAmount = 1000,
-                PaymentState = Enums.PaymentState.Ok
+                PaymentState = PaymentState.Ok
             });
         }
     }
