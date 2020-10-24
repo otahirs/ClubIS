@@ -5,19 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20201023155406_init.cs" />
-    <Compile Remove="Migrations\20201023155406_init.Designer.cs" />
-    <Compile Remove="Migrations\20201024084411_init.cs" />
-    <Compile Remove="Migrations\20201024084411_init.Designer.cs" />
-    <Compile Remove="Migrations\20201024092648_remove.cs" />
-    <Compile Remove="Migrations\20201024092648_remove.Designer.cs" />
-    <Compile Remove="Migrations\20201024092846_init.cs" />
-    <Compile Remove="Migrations\20201024092846_init.Designer.cs" />
-    <Compile Remove="Migrations\20201024093136_init.cs" />
-    <Compile Remove="Migrations\20201024093136_init.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

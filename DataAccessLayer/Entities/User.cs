@@ -41,8 +41,8 @@ namespace DataAccessLayer.Entities
         public string Surname { get; set; }
         [MaxLength(9)]
         public int? SiCardNumber { get; set; }
-        [MaxLength(4)]
-        public int RegistrationNumber { get; set; }
+        [MaxLength(7)]
+        public int? RegistrationNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
         [MaxLength(50)]
         public string Nationality { get; set; }
@@ -54,7 +54,7 @@ namespace DataAccessLayer.Entities
         public Licence Licence { get; set; }
         public AccountState AccountState { get; set; }
         public ISet<Role> Roles { get; set; }
-        public int? CreditBalance { get; set; }
+        public int CreditBalance { get; set; }
 
     }
 }
