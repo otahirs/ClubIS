@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
+    <ProjectReference Include="..\DataAccessLayer\clubIS.DataAccessLayer.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clubIS", "clubIS\clubIS.csproj", "{367D4241-9A00-4FBB-B9FE-40EE87417EAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "clubIS.Web", "clubIS\clubIS.Web.csproj", "{367D4241-9A00-4FBB-B9FE-40EE87417EAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{655FF303-534A-4800-A666-8D9BDFAA5714}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "clubIS.DataAccessLayer", "DataAccessLayer\clubIS.DataAccessLayer.csproj", "{655FF303-534A-4800-A666-8D9BDFAA5714}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{DA47F3C0-8C9A-4365-B028-188BC0FC7236}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "clubIS.BusinessLayer", "BusinessLayer\clubIS.BusinessLayer.csproj", "{DA47F3C0-8C9A-4365-B028-188BC0FC7236}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
