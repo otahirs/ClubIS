@@ -5,6 +5,7 @@ using System.Text;
 using DataAccessLayer.Entities;
 using System.Threading.Tasks;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace DataAccessLayer
 {
@@ -25,6 +26,7 @@ namespace DataAccessLayer
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(ConnectionString);
+            optionsBuilder.EnableSensitiveDataLogging();
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -32,6 +34,18 @@ namespace DataAccessLayer
         {
             modelBuilder.Entity<EventEntry>()
                 .HasKey(eu => new { eu.EventId, eu.UserId });
+
+            modelBuilder.Entity<Event>()
+                .Property(e => e.ClassOptions)
+                .HasConversion(
+                    o => JsonConvert.SerializeObject(o),
+                    o => JsonConvert.DeserializeObject<IList<string>>(o));
+
+            modelBuilder.Entity<Event>()
+                .Property(e => e.Deadlines)
+                .HasConversion(
+                    o => JsonConvert.SerializeObject(o),
+                    o => JsonConvert.DeserializeObject<IList<DateTime>>(o));
 
             modelBuilder.Entity<User_EntriesSupervisor>()
                 .HasKey(us => new { us.UserId, us.EntriesSupervisorId });

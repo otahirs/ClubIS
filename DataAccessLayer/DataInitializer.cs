@@ -115,24 +115,14 @@ namespace DataAccessLayer
                 AccommodationOption = Enums.ClubEventOptions.Optional,
                 TransportOption = Enums.ClubEventOptions.ClubEnsured,
                 Link = "mcr2020.obopava.cz",
-                Deadlines = new List<Deadline>() { new Deadline()
-                {
-                    Id = 1, Date = new DateTime(2020, 9, 11)
+                Deadlines = new List<DateTime>() { 
+                    new DateTime(2020, 9, 11),
+                    new DateTime(2020, 9, 30)
                 },
-                new Deadline()
-                {
-                    Id = 2, Date = new DateTime(2020, 9, 30)
-                }},
-                ClassesOptions = new List<ClassOption>() { new ClassOption()
-                {
-                    Id = 1,
-                    Class = "A"
+                ClassOptions = new List<string>() { 
+                    "A",
+                    "B"
                 },
-                new ClassOption()
-                {
-                    Id = 2,
-                    Class = "B"
-                }},
                 EventType = Enums.EventType.Race,
                 EventState = Enums.EventState.Archived,
                 EventProperties = Enums.EventProperties.Championship
