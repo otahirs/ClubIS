@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace DataAccessLayer
 {
-    public class ClubDbContext : DbContext
+    public class ClubContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
