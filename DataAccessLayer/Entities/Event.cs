@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -26,7 +26,6 @@ namespace DataAccessLayer.Entities
         public string Link { get; set; }
         [MaxLength(255)]
         public string Note { get; set; }
-        [Required]
         public ICollection<EventDeadline> Deadlines { get; set; }
         public ISet<string> ClassOptions { get; set; }
         public string Leader { get; set; }
