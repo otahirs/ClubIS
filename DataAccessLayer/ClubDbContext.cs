@@ -41,24 +41,6 @@ namespace DataAccessLayer
                     o => JsonConvert.SerializeObject(o),
                     o => JsonConvert.DeserializeObject<ISet<string>>(o));
 
-            modelBuilder.Entity<Event>()
-                .Property(e => e.Deadlines)
-                .HasConversion(
-                    o => JsonConvert.SerializeObject(o),
-                    o => JsonConvert.DeserializeObject<ISet<DateTime>>(o));
-
-            modelBuilder.Entity<Event>()
-                .Property(e => e.EventProperties)
-                .HasConversion(
-                    o => JsonConvert.SerializeObject(o),
-                    o => JsonConvert.DeserializeObject<ISet<Enums.EventProperty>>(o));
-
-            modelBuilder.Entity<User>()
-                .Property(e => e.Roles)
-                .HasConversion(
-                    o => JsonConvert.SerializeObject(o),
-                    o => JsonConvert.DeserializeObject<ISet<Enums.Role>>(o));
-
             modelBuilder.Entity<User_EntriesSupervisor>()
                 .HasKey(us => new { us.UserId, us.EntriesSupervisorId });
 

@@ -53,7 +53,7 @@ namespace DataAccessLayer.Entities
         public Gender Gender { get; set; }
         public Licence Licence { get; set; }
         public AccountState AccountState { get; set; }
-        public ISet<Role> Roles { get; set; }
+        public Role Roles { get; set; }
         public int CreditBalance { get; set; }
 
     }

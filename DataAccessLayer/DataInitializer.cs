@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DataAccessLayer.Enums;
+using clubIS.DataAccessLayer.Entities;
 
 namespace DataAccessLayer
 {
@@ -66,10 +67,7 @@ namespace DataAccessLayer
                 Gender = Gender.Male,
                 Licence = Licence.C,
                 AccountState = AccountState.Archived,
-                Roles = new HashSet<Role>() { 
-                    Role.Member, 
-                    Role.EntriesManager 
-                }
+                Roles = Role.Member & Role.EntriesManager
             };
             User supervised = new User()
             {
@@ -88,7 +86,7 @@ namespace DataAccessLayer
                 Gender = Gender.Female,
                 Licence = Licence.A,
                 AccountState = AccountState.Active,
-                Roles = new HashSet<Role>() { Role.Member }
+                Roles = Role.Member
             };
             modelBuilder.Entity<User>().HasData(supervisor, supervised);
 
@@ -112,20 +110,29 @@ namespace DataAccessLayer
                 AccommodationOption = ClubEventOption.Optional,
                 TransportOption = ClubEventOption.ClubEnsured,
                 Link = "mcr2020.obopava.cz",
-                Deadlines = new HashSet<DateTime>() { 
-                    new DateTime(2020, 9, 11),
-                    new DateTime(2020, 9, 30)
-                },
                 ClassOptions = new HashSet<string>() { 
                     "A",
                     "B"
                 },
                 EventType = EventType.Race,
                 EventState = EventState.Archived,
-                EventProperties = new HashSet<EventProperty>() {
-                    EventProperty.Championship
-                }
+                EventProperties = EventProperty.Championship
             });
+
+            modelBuilder.Entity<EventDeadline>().HasData(
+               new EventDeadline()
+               {
+                   Id = 1,
+                   EventId = 1,
+                   Deadline = new DateTime(2020, 9, 11)
+               },
+               new EventDeadline()
+               {
+                   Id = 2,
+                   EventId = 1,
+                   Deadline = new DateTime(2020, 9, 30)
+               }
+           );
 
             modelBuilder.Entity<EventEntry>().HasData(new EventEntry()
             {

@@ -1,5 +1,8 @@
-﻿namespace DataAccessLayer.Enums
+﻿using System;
+
+namespace DataAccessLayer.Enums
 {
+    [Flags]
     public enum EventProperty
     {
         National,
