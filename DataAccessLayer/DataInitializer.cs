@@ -67,7 +67,7 @@ namespace DataAccessLayer
                 Gender = Gender.Male,
                 Licence = Licence.C,
                 AccountState = AccountState.Archived,
-                Roles = Role.Member & Role.EntriesManager
+                Roles = Role.Member | Role.EntriesManager
             };
             User supervised = new User()
             {
