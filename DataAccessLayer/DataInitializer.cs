@@ -104,12 +104,14 @@ namespace DataAccessLayer
                 new SiCard()
                 {
                     Id = 1,
+                    UserId = 1,
                     Number = ***REMOVED***,
                     IsDefault = true
                 },
                 new SiCard()
                 {
                     Id = 2,
+                    UserId = 2,
                     Number = ***REMOVED***,
                     IsDefault = true
                 }
