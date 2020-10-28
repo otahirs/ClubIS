@@ -61,7 +61,6 @@ namespace DataAccessLayer
                 Password = "123456",
                 Firstname = "Matěj",
                 Surname = "***REMOVED***",
-                SiCardNumbers = new List<int>(2129226),
                 RegistrationNumber = "***REMOVED***",
                 Nationality = "Česká republika",
                 Email = "tst2@eof.cz",
@@ -79,7 +78,6 @@ namespace DataAccessLayer
                 Password = "password",
                 Firstname = "Kateřina",
                 Surname = "***REMOVED***",
-                SiCardNumbers = new List<int>(***REMOVED***),
                 RegistrationNumber = "***REMOVED***",
                 Nationality = "Česká republika",
                 Email = "tst2@eob.cz",
@@ -101,6 +99,21 @@ namespace DataAccessLayer
                 Id = 2,
                 CreditBalance = 0,
             });
+
+            modelBuilder.Entity<SiCard>().HasData(
+                new SiCard()
+                {
+                    Id = 1,
+                    Number = ***REMOVED***,
+                    IsDefault = true
+                },
+                new SiCard()
+                {
+                    Id = 2,
+                    Number = ***REMOVED***,
+                    IsDefault = true
+                }
+            );
 
             modelBuilder.Entity<News>().HasData(new News()
             {

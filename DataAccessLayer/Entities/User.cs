@@ -45,8 +45,9 @@ namespace DataAccessLayer.Entities
         [Required]
         [MaxLength(30)]
         public string Surname { get; set; }
-        [MaxLength(9)]
-        public IList<int> SiCardNumbers { get; set; }
+        public ISet<SiCard> SiCards { get; set; }
+
+
         [MaxLength(7)]
         public string RegistrationNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
