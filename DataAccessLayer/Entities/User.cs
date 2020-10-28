@@ -27,10 +27,6 @@ namespace DataAccessLayer.Entities
         public int? MemberFeeId { get; set; }
         [ForeignKey(nameof(MemberFeeId))]
         public virtual MemberFee MemberFee { get; set; }
-
-        public int AddressId { get; set; }
-
-        [ForeignKey(nameof(AddressId))]
         public virtual Address Address { get; set; }
 
         [Required]

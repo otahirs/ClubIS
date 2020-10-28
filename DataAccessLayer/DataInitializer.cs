@@ -15,6 +15,7 @@ namespace DataAccessLayer
             modelBuilder.Entity<Address>().HasData(new Address()
             {
                 Id = 1,
+                UserId = 1,
                 StreetAndNumber = "***REMOVED***",
                 City = "Brno",
                 PostalCode = "***REMOVED***"
@@ -22,6 +23,7 @@ namespace DataAccessLayer
             new Address()
             {
                 Id = 2,
+                UserId = 2,
                 City = "Brno - Horní Heršpice",
                 PostalCode = "***REMOVED***"
             });
@@ -54,7 +56,6 @@ namespace DataAccessLayer
             User supervisor = new User
             {
                 Id = 1,
-                AddressId = 1,
                 AccountId = 2,
                 BillingAccountId = 1,
                 Username = "m.chaloup",
@@ -73,7 +74,6 @@ namespace DataAccessLayer
             {
                 Id = 2,
                 AccountId = 1,
-                AddressId = 2,
                 Username = "kachna",
                 Password = "password",
                 Firstname = "Kateřina",
@@ -163,6 +163,7 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<EventEntry>().HasData(new EventEntry()
             {
+                Id = 1,
                 UserId = 2,
                 EventId = 1,
                 Class = "A",
