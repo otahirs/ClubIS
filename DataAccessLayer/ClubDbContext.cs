@@ -6,6 +6,7 @@ using DataAccessLayer.Entities;
 using System.Threading.Tasks;
 using System.Threading;
 using Newtonsoft.Json;
+using clubIS.DataAccessLayer.Entities;
 
 namespace DataAccessLayer
 {
@@ -19,6 +20,7 @@ namespace DataAccessLayer
         public DbSet<MemberFee> MemberFees { get; set; }
         public DbSet<UserActionsLog> UserActionsLogs { get; set; }
         public DbSet<SystemLog> SystemLogs { get; set; }
+        public DbSet<FinanceAccount> FinanceAccounts { get; set; }
 
 
 
@@ -32,9 +34,6 @@ namespace DataAccessLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<EventEntry>()
-                .HasKey(eu => new { eu.EventId, eu.UserId });
-
             modelBuilder.Entity<Event>()
                 .Property(e => e.ClassOptions)
                 .HasConversion(
