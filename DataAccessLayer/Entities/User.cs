@@ -23,6 +23,11 @@ namespace DataAccessLayer.Entities
         public virtual FinanceAccount BillingAccount { get; set; }
         public virtual ISet<User_EntriesSupervisor> EntriesSupervisors { get; set; }
         public virtual ISet<User_EntriesSupervisor> EntriesSupervisedUsers { get; set; }
+
+        public int? MemberFeeId { get; set; }
+        [ForeignKey(nameof(MemberFeeId))]
+        public virtual MemberFee MemberFee { get; set; }
+
         public int AddressId { get; set; }
 
         [ForeignKey(nameof(AddressId))]

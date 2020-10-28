@@ -55,12 +55,13 @@ namespace DataAccessLayer
             {
                 Id = 1,
                 AddressId = 1,
-                MemberFeeId = 2,
+                AccountId = 2,
+                BillingAccountId = 1,
                 Username = "m.chaloup",
                 Password = "123456",
                 Firstname = "Matěj",
                 Surname = "***REMOVED***",
-                SiCardNumber = 2129226,
+                SiCardNumbers = new List<int>(2129226),
                 RegistrationNumber = "***REMOVED***",
                 Nationality = "Česká republika",
                 Email = "tst2@eof.cz",
@@ -72,14 +73,13 @@ namespace DataAccessLayer
             User supervised = new User()
             {
                 Id = 2,
-                BillingUserId = 1,
+                AccountId = 1,
                 AddressId = 2,
-                MemberFeeId = 1,
                 Username = "kachna",
                 Password = "password",
                 Firstname = "Kateřina",
                 Surname = "***REMOVED***",
-                SiCardNumber = ***REMOVED***,
+                SiCardNumbers = new List<int>(***REMOVED***),
                 RegistrationNumber = "***REMOVED***",
                 Nationality = "Česká republika",
                 Email = "tst2@eob.cz",
@@ -89,6 +89,18 @@ namespace DataAccessLayer
                 Roles = Role.Member
             };
             modelBuilder.Entity<User>().HasData(supervisor, supervised);
+
+            modelBuilder.Entity<FinanceAccount>().HasData(new FinanceAccount()
+            {
+                Id = 1,
+                CreditBalance = 0,
+            });
+
+            modelBuilder.Entity<FinanceAccount>().HasData(new FinanceAccount()
+            {
+                Id = 2,
+                CreditBalance = 0,
+            });
 
             modelBuilder.Entity<News>().HasData(new News()
             {
@@ -146,7 +158,9 @@ namespace DataAccessLayer
             modelBuilder.Entity<Payment>().HasData(new Payment()
             {
                 Id = 1,
-                AccountOwnerId = 2,
+                ExecutorId = 1,
+                SourceAccountId = 1,
+                TargetAccountId = 2,
                 EventId = 1,
                 CreditAmount = 1000,
                 PaymentState = PaymentState.Ok

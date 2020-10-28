@@ -25,6 +25,7 @@ namespace DataAccessLayer.Entities
         public string Link { get; set; }
         [MaxLength(255)]
         public string Note { get; set; }
+        public ICollection<EventDeadline> Deadlines { get; set; }
         public ISet<string> ClassOptions { get; set; }
         public string Leader { get; set; }
         public EventType EventType { get; set; }
