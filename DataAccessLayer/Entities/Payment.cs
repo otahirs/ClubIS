@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using clubIS.DataAccessLayer.Entities;
 using DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Entities
@@ -15,10 +16,14 @@ namespace DataAccessLayer.Entities
 
         [ForeignKey(nameof(ExecutorId))]
         public virtual User Executor { get; set; }
-        public int AccountOwnerId { get; set; }
+        public int SourceAccountId { get; set; }
 
-        [ForeignKey(nameof(AccountOwnerId))]
-        public virtual User AccountOwner { get; set; }
+        [ForeignKey(nameof(SourceAccountId))]
+        public virtual FinanceAccount SourceAccount { get; set; }
+        public int TargetAccountId { get; set; }
+
+        [ForeignKey(nameof(TargetAccountId))]
+        public virtual FinanceAccount TargetAccount { get; set; }
         public int? EventId { get; set; }
 
         [ForeignKey(nameof(EventId))]

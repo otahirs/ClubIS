@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using clubIS.DataAccessLayer.Entities;
 using DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Entities
 {
     public class EventEntry : TrackModifiedDateEntity
     {
+        [Key]
+        public int Id { get; set; }
         public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
@@ -25,6 +28,8 @@ namespace DataAccessLayer.Entities
         public string NoteForClub { get; set; }
         [MaxLength(255)]
         public string NoteForOrganisator { get; set; }
+        public int? SiCardNumber { get; set; }
+        public ISet<EventStage> EnteredStages { get; set; }
 
     }
 }
