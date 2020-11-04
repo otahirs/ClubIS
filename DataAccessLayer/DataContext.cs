@@ -10,7 +10,7 @@ using clubIS.DataAccessLayer.Entities;
 
 namespace DataAccessLayer
 {
-    public class ClubContext : DbContext
+    public class DataContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
