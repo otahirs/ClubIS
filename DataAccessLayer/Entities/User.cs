@@ -17,7 +17,7 @@ namespace DataAccessLayer.Entities
 
         [ForeignKey(nameof(AccountId))]
         public virtual FinanceAccount Account { get; set; }
-        public int BillingAccountId { get; set; }
+        public int? BillingAccountId { get; set; }
 
         [ForeignKey(nameof(BillingAccountId))]
         public virtual FinanceAccount BillingAccount { get; set; }

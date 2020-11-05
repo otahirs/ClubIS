@@ -20,7 +20,7 @@ namespace DataAccessLayer.Entities
 
         [ForeignKey(nameof(SourceAccountId))]
         public virtual FinanceAccount SourceAccount { get; set; }
-        public int TargetAccountId { get; set; }
+        public int? TargetAccountId { get; set; }
 
         [ForeignKey(nameof(TargetAccountId))]
         public virtual FinanceAccount TargetAccount { get; set; }
