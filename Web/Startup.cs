@@ -17,7 +17,6 @@ namespace clubIS
 {
     public class Startup
     {
-        private string ConnectionString { get; set; } = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=clubIS";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
