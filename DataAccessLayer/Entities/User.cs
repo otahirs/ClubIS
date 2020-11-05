@@ -9,7 +9,7 @@ using DataAccessLayer.Enums;
 namespace DataAccessLayer.Entities
 {
 
-    public class User : TrackModifiedDateEntity
+    public class User
     {
         [Key]
         public int Id { get; set; }

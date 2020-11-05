@@ -8,7 +8,7 @@ using DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Entities
 {
-    public class EventEntry : TrackModifiedDateEntity
+    public class EventEntry
     {
         [Key]
         public int Id { get; set; }

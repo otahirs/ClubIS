@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DataAccessLayer.Entities
 {
-    public class Address : TrackModifiedDateEntity
+    public class Address
     {
         [Key]
         public int Id { get; set; }

@@ -18,8 +18,7 @@ namespace DataAccessLayer
         public DbSet<Payment> Payments { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<MemberFee> MemberFees { get; set; }
-        public DbSet<UserActionsLog> UserActionsLogs { get; set; }
-        public DbSet<SystemLog> SystemLogs { get; set; }
+
         public DbSet<FinanceAccount> FinanceAccounts { get; set; }
 
 
@@ -80,31 +79,31 @@ namespace DataAccessLayer
             var entries = ChangeTracker.Entries();
             var utcNow = DateTime.UtcNow;
 
-            foreach (var entry in entries)
-            {
-                // for entities that inherit from BaseEntity,
-                // set UpdatedDate / CreatedDate appropriately
-                if (entry.Entity is TrackModifiedDateEntity trackable)
-                {
-                    switch (entry.State)
-                    {
-                        case EntityState.Modified:
-                            // set the updated date to "now"
-                            trackable.UpdatedDate = utcNow;
+            //foreach (var entry in entries)
+            //{
+            //    // for entities that inherit from BaseEntity,
+            //    // set UpdatedDate / CreatedDate appropriately
+            //    if (entry.Entity is TrackModifiedDateEntity trackable)
+            //    {
+            //        switch (entry.State)
+            //        {
+            //            case EntityState.Modified:
+            //                // set the updated date to "now"
+            //                trackable.UpdatedDate = utcNow;
 
-                            // mark property as "don't touch"
-                            // we don't want to update on a Modify operation
-                            entry.Property("CreatedDate").IsModified = false;
-                            break;
+            //                // mark property as "don't touch"
+            //                // we don't want to update on a Modify operation
+            //                entry.Property("CreatedDate").IsModified = false;
+            //                break;
 
-                        case EntityState.Added:
-                            // set both updated and created date to "now"
-                            trackable.CreatedDate = utcNow;
-                            trackable.UpdatedDate = utcNow;
-                            break;
-                    }
-                }
-            }
+            //            case EntityState.Added:
+            //                // set both updated and created date to "now"
+            //                trackable.CreatedDate = utcNow;
+            //                trackable.UpdatedDate = utcNow;
+            //                break;
+            //        }
+            //    }
+            //}
         }
     }
 }

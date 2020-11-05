@@ -6,7 +6,7 @@ using DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Entities
 {
-    public class MemberFee : TrackModifiedDateEntity
+    public class MemberFee
     {
         [Key]
         public int Id { get; set; }
