@@ -13,7 +13,7 @@ namespace DataAccessLayer.Entities
         public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public virtual User User { get; set; }
+        public User User { get; set; }
         public DateTime Timestamp { get; set; }
         [MaxLength(255)]
         public string Message { get; set; }

@@ -15,11 +15,11 @@ namespace DataAccessLayer.Entities
         public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public virtual User User { get; set; }
+        public User User { get; set; }
         public int EventId { get; set; }
 
         [ForeignKey(nameof(EventId))]
-        public virtual Event Event { get; set; }
+        public Event Event { get; set; }
         [MaxLength(10)]
         public string Class { get; set; }
         public bool HasClubAccommodation { get; set; }

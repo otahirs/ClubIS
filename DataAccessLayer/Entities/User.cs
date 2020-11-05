@@ -16,18 +16,18 @@ namespace DataAccessLayer.Entities
         public int AccountId { get; set; }
 
         [ForeignKey(nameof(AccountId))]
-        public virtual FinanceAccount Account { get; set; }
+        public FinanceAccount Account { get; set; }
         public int? BillingAccountId { get; set; }
 
         [ForeignKey(nameof(BillingAccountId))]
-        public virtual FinanceAccount BillingAccount { get; set; }
-        public virtual ISet<User_EntriesSupervisor> EntriesSupervisors { get; set; }
-        public virtual ISet<User_EntriesSupervisor> EntriesSupervisedUsers { get; set; }
+        public FinanceAccount BillingAccount { get; set; }
+        public ISet<User_EntriesSupervisor> EntriesSupervisors { get; set; }
+        public ISet<User_EntriesSupervisor> EntriesSupervisedUsers { get; set; }
 
         public int? MemberFeeId { get; set; }
         [ForeignKey(nameof(MemberFeeId))]
-        public virtual MemberFee MemberFee { get; set; }
-        public virtual Address Address { get; set; }
+        public MemberFee MemberFee { get; set; }
+        public Address Address { get; set; }
 
         [Required]
         [MaxLength(10)]

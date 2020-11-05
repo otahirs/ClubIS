@@ -14,6 +14,6 @@ namespace clubIS.DataAccessLayer.Entities
         public DateTime Deadline { get; set; }
         public int EventId { get; set; }
         [ForeignKey(nameof(EventId))]
-        public virtual Event Event { get; set; }
+        public Event Event { get; set; }
     }
 }

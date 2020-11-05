@@ -14,7 +14,7 @@ namespace clubIS.DataAccessLayer.Entities
         public int EventId { get; set; }
 
         [ForeignKey(nameof(EventId))]
-        public virtual Event Event { get; set; }
+        public Event Event { get; set; }
         [MaxLength(50)]
         public DateTime Date { get; set; }
         public string Name { get; set; }
