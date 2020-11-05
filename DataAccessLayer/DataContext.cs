@@ -18,17 +18,25 @@ namespace DataAccessLayer
         public DbSet<Payment> Payments { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<MemberFee> MemberFees { get; set; }
-
         public DbSet<FinanceAccount> FinanceAccounts { get; set; }
 
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
 
+        }
 
-        private string ConnectionString { get; set; } = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=clubIS";
+        public DataContext()
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(ConnectionString);
-            optionsBuilder.EnableSensitiveDataLogging();
-            base.OnConfiguring(optionsBuilder);
+            // For dev purposes
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=clubIS");
+                optionsBuilder.EnableSensitiveDataLogging();
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,53 +65,6 @@ namespace DataAccessLayer
             modelBuilder.Seed();
 
             base.OnModelCreating(modelBuilder);
-        }
-
-
-        // automatically create/update CreatedDate and UpdatedDate properties
-        public override int SaveChanges(bool acceptAllChangesOnSuccess)
-        {
-            OnBeforeSaving();
-            return base.SaveChanges(acceptAllChangesOnSuccess);
-        }
-
-        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
-                                                         CancellationToken cancellationToken = default)
-        {
-            OnBeforeSaving();
-            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-        private void OnBeforeSaving()
-        {
-            var entries = ChangeTracker.Entries();
-            var utcNow = DateTime.UtcNow;
-
-            //foreach (var entry in entries)
-            //{
-            //    // for entities that inherit from BaseEntity,
-            //    // set UpdatedDate / CreatedDate appropriately
-            //    if (entry.Entity is TrackModifiedDateEntity trackable)
-            //    {
-            //        switch (entry.State)
-            //        {
-            //            case EntityState.Modified:
-            //                // set the updated date to "now"
-            //                trackable.UpdatedDate = utcNow;
-
-            //                // mark property as "don't touch"
-            //                // we don't want to update on a Modify operation
-            //                entry.Property("CreatedDate").IsModified = false;
-            //                break;
-
-            //            case EntityState.Added:
-            //                // set both updated and created date to "now"
-            //                trackable.CreatedDate = utcNow;
-            //                trackable.UpdatedDate = utcNow;
-            //                break;
-            //        }
-            //    }
-            //}
         }
     }
 }
