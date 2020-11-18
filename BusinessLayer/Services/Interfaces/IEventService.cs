@@ -12,6 +12,6 @@ namespace clubIS.BusinessLayer.Services.Interfaces
         public Task<IEnumerable<EventListDTO>> GetAll();
         public Task<EventDetailDTO> GetById(int id);
         public Task Update(EventEditDTO e);
-        public void Delete(int id);
+        public Task Delete(int id);
     }
 }

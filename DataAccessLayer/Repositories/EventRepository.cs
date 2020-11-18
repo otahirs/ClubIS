@@ -15,6 +15,14 @@ namespace clubIS.DataAccessLayer.Repositories
         {
         }
 
+        public async Task<IEnumerable<Event>> GetAllWithAllIncluded()
+        {
+            return await _entities
+                .Include(e => e.Deadlines)
+                .Include(e => e.EventStages)
+                .ToListAsync();
+        }
+
         public async Task<Event> GetByIdWithAllIncluded(int id)
         {
             return await _entities
