@@ -1,12 +1,11 @@
-﻿using DataAccessLayer.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using DataAccessLayer.Enums;
 using clubIS.DataAccessLayer.Entities;
+using clubIS.DataAccessLayer.Enums;
 
-namespace DataAccessLayer
+namespace clubIS.DataAccessLayer
 {
     public static class DataInitializer
     {
@@ -137,7 +136,7 @@ namespace DataAccessLayer
                 AccommodationOption = ClubEventOption.Optional,
                 TransportOption = ClubEventOption.ClubEnsured,
                 Link = "mcr2020.obopava.cz",
-                ClassOptions = new HashSet<string>() { 
+                ClassOptions = new HashSet<string>() {
                     "A",
                     "B"
                 },

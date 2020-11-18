@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using DataAccessLayer.Enums;
+using clubIS.DataAccessLayer.Enums;
 
-namespace DataAccessLayer.Entities
+namespace clubIS.DataAccessLayer.Entities
 {
     public class MemberFee
     {

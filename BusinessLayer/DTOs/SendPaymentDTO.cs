@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace clubIS.DataAccessLayer.DTOs
+namespace clubIS.BusinessLayer.DTOs
 {
-    class SendPaymentDTO
+    public class SendPaymentDTO
     {
         public int SourceAccountId { get; set; }
         public int TargetAccountId { get; set; }

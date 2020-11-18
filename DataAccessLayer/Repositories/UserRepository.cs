@@ -1,6 +1,5 @@
-﻿using clubIS.DataAccessLayer.Repositories.Interfaces;
-using DataAccessLayer;
-using DataAccessLayer.Entities;
+﻿using clubIS.DataAccessLayer.Entities;
+using clubIS.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

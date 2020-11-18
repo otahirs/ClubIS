@@ -2,12 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace clubIS.DataAccessLayer.Repositories.Interfaces
 {
-    public interface IEventRepository : IRepository<Event>
+    public interface INewsRepository : IRepository<News>
     {
-       Task<Event> GetByIdWithAllIncluded(int id);
     }
 }

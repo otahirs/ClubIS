@@ -11,12 +11,12 @@ namespace clubIS.DataAccessLayer.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly DbContext Context;
+        protected readonly DbContext _context;
         protected readonly DbSet<TEntity> _entities;
 
         public Repository(DbContext context)
         {
-            Context = context;
+            _context = context;
             _entities = context.Set<TEntity>();
         }
 
@@ -50,12 +50,12 @@ namespace clubIS.DataAccessLayer.Repositories
             await _entities.AddRangeAsync(entities);
         }
 
-        public async Task Remove(TEntity entity)
+        public void Remove(TEntity entity)
         {
             _entities.Remove(entity);
         }
 
-        public async Task RemoveRange(IEnumerable<TEntity> entities)
+        public void RemoveRange(IEnumerable<TEntity> entities)
         {
             _entities.RemoveRange(entities);
         }

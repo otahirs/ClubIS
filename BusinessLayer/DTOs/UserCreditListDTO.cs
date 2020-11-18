@@ -1,11 +1,11 @@
-﻿using DataAccessLayer.Entities;
+﻿using clubIS.DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace clubIS.DataAccessLayer.DTOs
+namespace clubIS.BusinessLayer.DTOs
 {
-    class UserCreditListDTO
+    public class UserCreditListDTO
     {
         public string Firstname { get; set; }
         public string Surname { get; set; }

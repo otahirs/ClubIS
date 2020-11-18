@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
-using clubIS.DataAccessLayer.Entities;
-using DataAccessLayer.Enums;
+using clubIS.DataAccessLayer.Enums;
 
-namespace DataAccessLayer.Entities
+namespace clubIS.DataAccessLayer.Entities
 {
 
     public class User

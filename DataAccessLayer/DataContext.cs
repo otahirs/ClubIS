@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using DataAccessLayer.Entities;
 using System.Threading.Tasks;
 using System.Threading;
 using Newtonsoft.Json;
 using clubIS.DataAccessLayer.Entities;
 
-namespace DataAccessLayer
+namespace clubIS.DataAccessLayer
 {
     public class DataContext : DbContext
     {

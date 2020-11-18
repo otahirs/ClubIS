@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace clubIS.DataAccessLayer.DTOs
+namespace clubIS.BusinessLayer.DTOs
 {
-    class UserCredentialsEditDTO
+    public class UserCredentialsEditDTO
     {
         public int Id { get; set; }
         public string Login { get; set; }

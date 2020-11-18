@@ -1,15 +1,15 @@
 ﻿using clubIS.DataAccessLayer.Entities;
-using DataAccessLayer.Entities;
-using DataAccessLayer.Enums;
+using clubIS.DataAccessLayer.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace clubIS.DataAccessLayer.DTOs
+namespace clubIS.BusinessLayer.DTOs
 {
-    class UserDetailDTO
+    public class UserDetailDTO
     {
-        public string Name { get; set; }
+        public string Firstname { get; set; }
+        public string Surname { get; set; }
         public string RegistrationNumber { get; set; }
         public ISet<SiCard> SiCards { get; set; }
         public DateTime? DateOfBirth { get; set; }

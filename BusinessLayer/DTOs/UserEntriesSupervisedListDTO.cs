@@ -1,16 +1,14 @@
-﻿using DataAccessLayer.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace clubIS.DataAccessLayer.DTOs
+namespace clubIS.BusinessLayer.DTOs
 {
-    class UserAdministrationDTO
+    public class UserEntriesSupervisedListDTO
     {
         public string Firstname { get; set; }
         public string Surname { get; set; }
         public string RegistrationNumber { get; set; }
-        public AccountState AccountState { get; set; }
-        public Role Roles { get; set; }
+        public List<UserListDTO> SupervisedUsers { get; set; }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using clubIS.DataAccessLayer.Repositories.Interfaces;
-using DataAccessLayer;
-using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using clubIS.DataAccessLayer.Entities;
 
 namespace clubIS.DataAccessLayer.Repositories
 {
@@ -11,6 +13,14 @@ namespace clubIS.DataAccessLayer.Repositories
     {
         public EventRepository(DataContext context) : base(context)
         {
+        }
+
+        public async Task<Event> GetByIdWithAllIncluded(int id)
+        {
+            return await _entities
+                .Include(e => e.Deadlines)
+                .Include(e => e.EventStages)
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
     }
 }

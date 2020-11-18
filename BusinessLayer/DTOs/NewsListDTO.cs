@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace clubIS.DataAccessLayer.DTOs
+namespace clubIS.BusinessLayer.DTOs
 {
-    class NewsListDTO
+    public class NewsListDTO
     {
         public string UserName { get; set; }
         public DateTime Date { get; set; }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace clubIS.DataAccessLayer.DTOs
+namespace clubIS.BusinessLayer.DTOs
 {
-    class UserListDTO
+    public class UserListDTO
     {
         public string Firstname { get; set; }
         public string Surname { get; set; }

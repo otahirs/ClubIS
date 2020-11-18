@@ -1,4 +1,4 @@
-﻿namespace DataAccessLayer.Enums
+﻿namespace clubIS.DataAccessLayer.Enums
 {
     public enum AccountState
     {

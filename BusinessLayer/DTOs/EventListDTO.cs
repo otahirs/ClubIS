@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using clubIS.DataAccessLayer.Entities;
-using DataAccessLayer.Enums;
+using clubIS.DataAccessLayer.Enums;
 
-namespace clubIS.DataAccessLayer.DTOs
+namespace clubIS.BusinessLayer.DTOs
 {
-    class EventDetailDTO
+    public class EventListDTO
     {
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime Date { get; set; }
         public string Name { get; set; }
         public string Place { get; set; }
         public string Organizer { get; set; }
@@ -20,7 +19,5 @@ namespace clubIS.DataAccessLayer.DTOs
         public string Class { get; set; }
         public EventState EventState { get; set; }
         public EventProperty EventProperties { get; set; }
-        public string Note { get; set; }
-        public ISet<EventStage> EventStages { get; set; }
     }
 }

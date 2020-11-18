@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataAccessLayer.Enums
+namespace clubIS.DataAccessLayer.Enums
 {
     public enum LogSeverity
     {

@@ -17,7 +17,7 @@ namespace clubIS.DataAccessLayer.Repositories.Interfaces
         Task Add(TEntity entity);
         Task AddRange(IEnumerable<TEntity> entities);
 
-        Task Remove(TEntity entity);
-        Task RemoveRange(IEnumerable<TEntity> entities);
+        void Remove(TEntity entity);
+        void RemoveRange(IEnumerable<TEntity> entities);
     }
 }

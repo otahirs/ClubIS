@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DataAccessLayer.Enums;
+using clubIS.DataAccessLayer.Enums;
 
-namespace clubIS.DataAccessLayer.DTOs
+namespace clubIS.BusinessLayer.DTOs
 {
-    class PaymentListDTO
+    public class PaymentListDTO
     {
         public string ExecutorName { get; set; }
         public string SourceAccountName { get; set; }

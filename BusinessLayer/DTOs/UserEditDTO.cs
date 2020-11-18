@@ -1,13 +1,12 @@
 ﻿using clubIS.DataAccessLayer.Entities;
-using DataAccessLayer.Entities;
-using DataAccessLayer.Enums;
+using clubIS.DataAccessLayer.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace clubIS.DataAccessLayer.DTOs
+namespace clubIS.BusinessLayer.DTOs
 {
-    class UserEditDTO
+    public class UserEditDTO
     {
         public string Firstname { get; set; }
         public string Surname { get; set; }

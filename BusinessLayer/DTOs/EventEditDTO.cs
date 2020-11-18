@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using clubIS.DataAccessLayer.Entities;
-using DataAccessLayer.Enums;
+using clubIS.DataAccessLayer.Enums;
 
-namespace clubIS.DataAccessLayer.DTOs
+namespace clubIS.BusinessLayer.DTOs
 {
-    class EventEditDTO
+    public class EventEditDTO
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

@@ -1,5 +1,4 @@
 ﻿using System;
-using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 
 namespace clubIS.DataAccessLayer.Tests

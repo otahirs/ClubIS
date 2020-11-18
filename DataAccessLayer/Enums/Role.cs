@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DataAccessLayer.Enums
+namespace clubIS.DataAccessLayer.Enums
 {
     [Flags]
     public enum Role
