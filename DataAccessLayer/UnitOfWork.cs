@@ -14,12 +14,15 @@ namespace clubIS.DataAccessLayer
         public IEventRepository Events { get; private set; }
         public INewsRepository News { get; private set; }
 
+        public IEntryRepository Entry { get; private set; }
+
         public UnitOfWork(DataContext context)
         {
             _context = context;
             Users = new UserRepository(_context);
             Events = new EventRepository(_context);
             News = new NewsRepository(_context);
+            Entry = new EntryRepository(_context);
         }
 
         public async Task<int> Save()
