@@ -14,7 +14,7 @@ namespace clubIS.BusinessLayer.MapperConfig
             config.CreateMap<Event, EventDetailDTO>().ReverseMap();
             config.CreateMap<Event, EventEditDTO>().ReverseMap();
             config.CreateMap<EventEntry, EventEntriesListDTO>().ReverseMap();
-            config.CreateMap<Tuple<User, Payment>, EventEntryPaymentListDTO>()
+            config.CreateMap<Tuple<User, Payment>, PaymentEntryListDTO>()
                 .ForMember(d => d.Firstname, opt => opt.MapFrom(s => s.Item1.Firstname))
                 .ForMember(d => d.Surname, opt => opt.MapFrom(s => s.Item1.Surname))
                 .ForMember(d => d.RegistrationNumber, opt => opt.MapFrom(s => s.Item1.RegistrationNumber))
@@ -29,8 +29,8 @@ namespace clubIS.BusinessLayer.MapperConfig
             config.CreateMap<MemberFee, MemberFeeDTO>().ReverseMap();
             config.CreateMap<News, NewsEditDTO>().ReverseMap();
             config.CreateMap<News, NewsListDTO>().ReverseMap();
-            // TODO config.CreateMap<Payment, PaymentListDTO>().ReverseMap();
-            config.CreateMap<Payment, SendPaymentDTO>().ReverseMap();
+            //TODO config.CreateMap<Payment, PaymentListDTO>().ReverseMap();
+            config.CreateMap<Payment, PaymentSendDTO>().ReverseMap();
             config.CreateMap<User, UserAdministrationDTO>().ReverseMap();
             config.CreateMap<User, UserCredentialsEditDTO>().ReverseMap();
             config.CreateMap<User, UserCreditListDTO>().ReverseMap();

@@ -11,6 +11,7 @@ namespace clubIS.DataAccessLayer
         IUserRepository Users { get; }
         IEventRepository Events { get; }
         INewsRepository News { get; }
+        IPaymentRepository Payments { get; }
         Task<int> Save();
     }
 }

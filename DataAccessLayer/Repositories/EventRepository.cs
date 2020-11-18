@@ -22,5 +22,12 @@ namespace clubIS.DataAccessLayer.Repositories
                 .Include(e => e.EventStages)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
+        public async Task<string> GetNameById(int id)
+        {
+            return await _entities
+                .Where(e => e.Id == id)
+                .Select(e => e.Name)
+                .FirstOrDefaultAsync();
+        }
     }
 }

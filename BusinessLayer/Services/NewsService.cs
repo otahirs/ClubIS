@@ -46,8 +46,8 @@ namespace clubIS.BusinessLayer.Services
 
         public async Task Update(NewsEditDTO news)
         {
-            var newsEntity = await _unitOfWork.News.GetById(news.Id);
-            newsEntity = _mapper.Map<News>(news);
+            News newsEntity = await _unitOfWork.News.GetById(news.Id);
+            _mapper.Map(news, newsEntity);
         }
     }
 }

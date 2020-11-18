@@ -13,6 +13,7 @@ namespace clubIS.DataAccessLayer
         public IUserRepository Users { get; private set; }
         public IEventRepository Events { get; private set; }
         public INewsRepository News { get; private set; }
+        public IPaymentRepository Payments { get; private set; }
 
         public UnitOfWork(DataContext context)
         {

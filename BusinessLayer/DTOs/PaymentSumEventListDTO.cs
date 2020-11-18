@@ -4,7 +4,7 @@ using System.Text;
 
 namespace clubIS.BusinessLayer.DTOs
 {
-    public class FinanceEventListDTO
+    public class PaymentSumEventListDTO
     {
         public EventListDTO EventList { get; set; }
         public int TotalCosts { get; set; }
