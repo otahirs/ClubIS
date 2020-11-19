@@ -8,7 +8,7 @@ namespace clubIS.BusinessLayer.DTOs
 {
     public class UserEditDTO
     {
-        public readonly int Id;
+        public int Id { get; }
         public string Firstname { get; set; }
         public string Surname { get; set; }
         public string RegistrationNumber { get; set; }
