@@ -123,7 +123,6 @@ namespace clubIS.DataAccessLayer
                 Date = new DateTime(2020, 9, 30),
                 Title = "test nadpisu",
                 Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111",
-                IsPublic = false
             });
 
             modelBuilder.Entity<Event>().HasData(new Event()

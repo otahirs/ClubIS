@@ -19,6 +19,5 @@ namespace clubIS.DataAccessLayer.Entities
         public string Title { get; set; }
         [MaxLength(255)]
         public string Text { get; set; }
-        public bool? IsPublic { get; set; }
     }
 }

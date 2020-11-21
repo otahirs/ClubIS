@@ -31,7 +31,6 @@ namespace clubIS.DataAccessLayer.Tests
                     UserId = 1,
                     Date = new DateTime(2020, 10, 24),
                     Title = "Hello",
-                    IsPublic = false
                 });
                 context.SaveChanges();
                 var item = context.News.FirstOrDefault(e => e.Id == id);
