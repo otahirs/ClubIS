@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "clubIS.DataAccessLayer", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "clubIS.BusinessLayer", "BusinessLayer\clubIS.BusinessLayer.csproj", "{DA47F3C0-8C9A-4365-B028-188BC0FC7236}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clubIS.DataAccessLayer.Tests", "Tests\DAL\clubIS.DataAccessLayer.Tests.csproj", "{70463022-AB6C-44EA-81A3-863A62918074}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "clubIS.DataAccessLayer.Tests", "Tests\DAL\clubIS.DataAccessLayer.Tests.csproj", "{70463022-AB6C-44EA-81A3-863A62918074}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "clubIS.BusinessLayer.Tests", "Tests\BL\clubIS.BusinessLayer.Tests.csproj", "{463FBA6D-AF8E-44A5-86AA-8898673B235F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{70463022-AB6C-44EA-81A3-863A62918074}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70463022-AB6C-44EA-81A3-863A62918074}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70463022-AB6C-44EA-81A3-863A62918074}.Release|Any CPU.Build.0 = Release|Any CPU
+		{463FBA6D-AF8E-44A5-86AA-8898673B235F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{463FBA6D-AF8E-44A5-86AA-8898673B235F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{463FBA6D-AF8E-44A5-86AA-8898673B235F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{463FBA6D-AF8E-44A5-86AA-8898673B235F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
