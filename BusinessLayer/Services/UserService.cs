@@ -21,13 +21,13 @@ namespace clubIS.BusinessLayer.Services
             _unitOfWork = unitOfWork;
             _mapper = new Mapper(new MapperConfiguration(AutoMapperConfig.ConfigureMapping));
         }
-        public async Task Create(UserEditDTO e)
+        public async Task Create(UserEditDTO user)
         {
-            User entity = _mapper.Map<User>(e);
+            User entity = _mapper.Map<User>(user);
             await _unitOfWork.Users.Add(entity);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task Delete(int id)
         {
             _unitOfWork.Users.Remove(await _unitOfWork.Users.GetById(id));
         }
@@ -48,10 +48,10 @@ namespace clubIS.BusinessLayer.Services
             return _mapper.Map<UserDetailDTO>(await _unitOfWork.Users.GetById(id));
         }
 
-        public async Task Update(UserEditDTO e)
+        public async Task Update(UserEditDTO user)
         {
-            User userEntity = await _unitOfWork.Users.GetById(e.Id);
-            _mapper.Map(e, userEntity);
+            User userEntity = await _unitOfWork.Users.GetById(user.Id);
+            _mapper.Map(user, userEntity);
         }
 
         public async Task UpdateLogin(UserCredentialsEditDTO user)
