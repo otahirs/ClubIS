@@ -6,6 +6,7 @@ namespace clubIS.BusinessLayer.DTOs
 {
     public class NewsListDTO
     {
+        public int Id { get; }
         public string UserName { get; set; }
         public DateTime Date { get; set; }
         public string Title { get; set; }
