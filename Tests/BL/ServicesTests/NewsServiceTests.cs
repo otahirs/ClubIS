@@ -15,12 +15,7 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
 {
     public class NewsServiceTests
     {
-        private readonly Func<NewsService> _createNewsService = () =>
-        {
-            return new NewsService(TestUoWFactory.Create());
-        };
-
-        private readonly IMapper _mapper = new Mapper(new MapperConfiguration(AutoMapperConfig.ConfigureMapping));
+        //private readonly IMapper _mapper = new Mapper(new MapperConfiguration(AutoMapperConfig.ConfigureMapping));
 
         [Fact]
         public async Task Basic()
