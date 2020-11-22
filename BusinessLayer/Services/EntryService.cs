@@ -38,10 +38,10 @@ namespace clubIS.BusinessLayer.Services
             _mapper.Map(entry, entryEntity);
         }
 
-        public async Task<IEnumerable<EventEntriesListDTO>> GetAllByEventId()
+        public async Task<IEnumerable<EventEntryListDTO>> GetAllByEventId()
         {
             var list = await _unitOfWork.Entry.GetAllWithAllIncluded();
-            return _mapper.Map<IEnumerable<EventEntriesListDTO>>(list);
+            return _mapper.Map<IEnumerable<EventEntryListDTO>>(list);
         }
     }
 }
