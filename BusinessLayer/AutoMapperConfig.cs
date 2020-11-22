@@ -14,6 +14,7 @@ namespace clubIS.BusinessLayer.MapperConfig
             config.CreateMap<Event, EventDetailDTO>().ReverseMap();
             config.CreateMap<Event, EventEditDTO>().ReverseMap();
             config.CreateMap<EventEntry, EventEntriesListDTO>().ReverseMap();
+            config.CreateMap<EventEntry, EventEntryEditDTO>().ReverseMap();
             config.CreateMap<Event, EventListDTO>().ReverseMap();
             config.CreateMap<EventStage, EventStageDTO>().ReverseMap();
             // TODO config.CreateMap<Tuple<Event, Payment>, FinanceEventListDTO>().ReverseMap();
