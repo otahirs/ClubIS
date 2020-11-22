@@ -10,10 +10,6 @@ namespace clubIS.DataAccessLayer.Repositories.Interfaces
     {
         Task<TEntity> GetById(int id);
         Task<IEnumerable<TEntity>> GetAll();
-
-        Task<IEnumerable<TEntity>> GetWhere(Expression<Func<TEntity, bool>> predicate);
-        Task<TEntity> FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
-
         Task Add(TEntity entity);
         Task AddRange(IEnumerable<TEntity> entities);
 

@@ -30,16 +30,6 @@ namespace clubIS.DataAccessLayer.Repositories
             return await _entities.ToListAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetWhere(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await _entities.Where(predicate).ToListAsync();
-        }
-
-        public async Task<TEntity> FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await _entities.FirstOrDefaultAsync(predicate);
-        }
-
         public async Task Add(TEntity entity)
         {
             await _entities.AddAsync(entity);
