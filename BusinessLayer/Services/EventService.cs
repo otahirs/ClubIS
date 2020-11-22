@@ -35,7 +35,7 @@ namespace clubIS.BusinessLayer.Services
 
         public async Task<IEnumerable<EventListDTO>> GetAll()
         {
-            var list = await _unitOfWork.Entry.GetAllWithAllIncluded();
+            var list = await _unitOfWork.Events.GetAllWithAllIncluded();
             return _mapper.Map<IEnumerable<EventListDTO>>(list);
         }
 
