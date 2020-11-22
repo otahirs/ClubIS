@@ -39,9 +39,9 @@ namespace clubIS.BusinessLayer.Services
             return _mapper.Map<IEnumerable<EventListDTO>>(list);
         }
 
-        public async Task<EventDetailDTO> GetById(int id)
+        public async Task<EventEditDTO> GetById(int id)
         {
-            return _mapper.Map<EventDetailDTO>(await _unitOfWork.Events.GetByIdWithAllIncluded(id));
+            return _mapper.Map<EventEditDTO>(await _unitOfWork.Events.GetByIdWithAllIncluded(id));
         }
 
         public async Task Update(EventEditDTO e)

@@ -20,5 +20,6 @@ namespace clubIS.BusinessLayer.DTOs
         public string Class { get; set; }
         public EventState EventState { get; set; }
         public EventProperty EventProperties { get; set; }
+        public object StartDate { get; set; }
     }
 }

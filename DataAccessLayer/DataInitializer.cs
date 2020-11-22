@@ -132,6 +132,7 @@ namespace clubIS.DataAccessLayer
                 EndDate = new DateTime(2020, 10, 11),
                 Name = "MČR klubů a oblastních výběrů",
                 Place = "Kobyla nad Vidnávkou",
+                Organizer = "OB ZAM",
                 AccommodationOption = ClubEventOption.Optional,
                 TransportOption = ClubEventOption.ClubEnsured,
                 Link = "mcr2020.obopava.cz",

@@ -10,7 +10,7 @@ namespace clubIS.BusinessLayer.Services.Interfaces
     {
         Task Create(EventEditDTO e);
         Task<IEnumerable<EventListDTO>> GetAll();
-        Task<EventDetailDTO> GetById(int id);
+        Task<EventEditDTO> GetById(int id);
         Task Update(EventEditDTO e);
         Task Delete(int id);
     }
