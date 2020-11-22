@@ -9,6 +9,5 @@ namespace clubIS.DataAccessLayer.Repositories.Interfaces
     public interface IEventRepository : IRepository<Event>
     {
         Task<Event> GetByIdWithAllIncluded(int id);
-        Task<string> GetNameById(int id);
     }
 }
