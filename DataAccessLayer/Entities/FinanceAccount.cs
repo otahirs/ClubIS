@@ -10,5 +10,6 @@ namespace clubIS.DataAccessLayer.Entities
         [Key]
         public int Id { get; set; }
         public int CreditBalance { get; set; }
+        public User Owner { get; set; }
     }
 }

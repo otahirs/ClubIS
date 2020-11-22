@@ -61,6 +61,11 @@ namespace clubIS.DataAccessLayer
                 .HasForeignKey(i => i.EntriesSupervisorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<FinanceAccount>()
+                .HasOne(a => a.Owner)
+                .WithOne(u => u.Account)
+                .HasForeignKey<User>(u => u.AccountId);
+
             modelBuilder.Seed();
 
             base.OnModelCreating(modelBuilder);
