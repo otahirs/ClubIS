@@ -8,7 +8,8 @@ namespace clubIS.BusinessLayer.Services.Interfaces
 {
     public interface IEntryService
     {
-        public Task<IEnumerable<EventEntriesListDTO>> GetAllByEventId();
+        Task<IEnumerable<EventEntriesListDTO>> GetAllByEventId();
+
 
     }
 }

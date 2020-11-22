@@ -10,12 +10,12 @@ namespace clubIS.BusinessLayer.Services.Interfaces
 {
     public interface IPaymentService
     {
-        public Task Create(PaymentSendDTO p);
-        public Task<IEnumerable<PaymentListDTO>> GetAll();
-        public Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int id);
-        public Task<IEnumerable<UserCreditListDTO>> GetAllUSerCreditList();
-        public Task<IEnumerable<PaymentSumEventListDTO>> GetAllEventSum();
-        public Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id);
-        public Task Delete(int id);
+        Task Create(PaymentSendDTO p);
+        Task<IEnumerable<PaymentListDTO>> GetAll();
+        Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int id);
+        Task<IEnumerable<UserCreditListDTO>> GetAllUSerCreditList();
+        Task<IEnumerable<PaymentSumEventListDTO>> GetAllEventSum();
+        Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id);
+        Task Delete(int id);
     }
 }

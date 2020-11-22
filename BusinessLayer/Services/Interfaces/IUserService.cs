@@ -8,12 +8,12 @@ namespace clubIS.BusinessLayer.Services.Interfaces
 {
     public interface IUserService
     {
-        public Task Create(UserEditDTO e);
-        public Task<IEnumerable<UserListDTO>> GetAll();
-        public Task<UserDetailDTO> GetById(int id);
-        public Task Update(UserEditDTO e);
-        public Task Delete(int id);
-        public Task UpdateLogin(UserCredentialsEditDTO user);
-        public Task<IEnumerable<UserEntriesSupervisedListDTO>> GetAllEntriesSupervisors();
+        Task Create(UserEditDTO e);
+        Task<IEnumerable<UserListDTO>> GetAll();
+        Task<UserDetailDTO> GetById(int id);
+        Task Update(UserEditDTO e);
+        Task Delete(int id);
+        Task UpdateLogin(UserCredentialsEditDTO user);
+        Task<IEnumerable<UserEntriesSupervisedListDTO>> GetAllEntriesSupervisors();
     }
 }

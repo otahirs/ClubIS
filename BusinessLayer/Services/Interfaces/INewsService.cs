@@ -8,10 +8,10 @@ namespace clubIS.BusinessLayer.Services.Interfaces
 {
     public interface INewsService
     {
-        public Task Create(NewsEditDTO news);
-        public Task<NewsEditDTO> GetById(int id);
-        public Task<IEnumerable<NewsListDTO>> GetAll();
-        public Task Update(NewsEditDTO news);
-        public Task Delete(int id);
+        Task Create(NewsEditDTO news);
+        Task<NewsEditDTO> GetById(int id);
+        Task<IEnumerable<NewsListDTO>> GetAll();
+        Task Update(NewsEditDTO news);
+        Task Delete(int id);
     }
 }
