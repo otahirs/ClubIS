@@ -18,6 +18,8 @@ namespace clubIS.DataAccessLayer.Entities
         [MaxLength(50)]
         public string Place { get; set; }
         [MaxLength(50)]
+        public string Organizer { get; set; }
+        [MaxLength(50)]
         public ClubEventOption AccommodationOption { get; set; }
         public ClubEventOption TransportOption { get; set; }
         [MaxLength(50)]
