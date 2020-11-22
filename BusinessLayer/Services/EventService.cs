@@ -47,7 +47,7 @@ namespace clubIS.BusinessLayer.Services
         public async Task Update(EventEditDTO e)
         {
             var entity = await _unitOfWork.Events.GetByIdWithAllIncluded(e.Id);
-            entity = _mapper.Map<Event>(e);
+            _mapper.Map(e, entity);
         }
     }
 }
