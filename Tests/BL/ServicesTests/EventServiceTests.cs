@@ -168,8 +168,7 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
                 event1.Place.Should().Be(origEvent.Place);
                 event1.Organizer.Should().Be(origEvent.Organizer);
                 event1.Link.Should().Be(origEvent.Link);
-                event1.Deadlines.First().Should().Be(origEvent.Deadlines.First());
-                event1.Deadlines.Count.Should().Be(origEvent.Deadlines.Count);
+                Assert.Equal(event1.Deadlines, origEvent.Deadlines);
                 event1.Leader.Should().Be(origEvent.Leader);
                 event1.EventType.Should().Be(origEvent.EventType);
                 event1.EventState.Should().Be(origEvent.EventState);
