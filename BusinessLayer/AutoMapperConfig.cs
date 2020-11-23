@@ -27,19 +27,13 @@ namespace clubIS.BusinessLayer.MapperConfig
                 .ForMember(d => d.ExecutorName, opt => opt.MapFrom(s => s.ExecutorId.HasValue ? $"{s.Executor.Firstname} {s.Executor.Surname}" : ""))
                 .ForMember(d => d.SourceAccountName, opt => opt.MapFrom(s => $"{s.SourceAccount.Owner.Firstname} {s.SourceAccount.Owner.Surname}"))
                 .ForMember(d => d.TargetAccountName, opt => opt.MapFrom(s => $"{s.TargetAccount.Owner.Firstname} {s.TargetAccount.Owner.Surname}"))
-                .ForMember(d => d.EventName, opt => opt.MapFrom(s => s.EventId.HasValue ? s.Event.Name : ""))
-                .ForMember(d => d.CreditAmount, opt => opt.MapFrom(s => s.CreditAmount))
-                .ForMember(d => d.Message, opt => opt.MapFrom(s => s.Message))
-                .ForMember(d => d.PaymentState, opt => opt.MapFrom(s => s.PaymentState))
-                .ForMember(d => d.StornoNote, opt => opt.MapFrom(s => s.StornoNote));
+                .ForMember(d => d.EventName, opt => opt.MapFrom(s => s.EventId.HasValue ? s.Event.Name : ""));
             config.CreateMap<Payment, PaymentEntryListDTO>()
                 .ForMember(d => d.Firstname, opt => opt.MapFrom(s => s.TargetAccount.Owner.Firstname))
                 .ForMember(d => d.Surname, opt => opt.MapFrom(s => s.TargetAccount.Owner.Surname))
                 .ForMember(d => d.RegistrationNumber, opt => opt.MapFrom(s => s.TargetAccount.Owner.RegistrationNumber))
                 .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.TargetAccount.Owner.Id))
-                .ForMember(d => d.PaymentId, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.CreditAmount, opt => opt.MapFrom(s => s.CreditAmount))
-                .ForMember(d => d.Message, opt => opt.MapFrom(s => s.Message));
+                .ForMember(d => d.PaymentId, opt => opt.MapFrom(s => s.Id));
             config.CreateMap<User, UserAdministrationDTO>().ReverseMap();
             config.CreateMap<User, UserCredentialsEditDTO>().ReverseMap();
             config.CreateMap<User, UserCreditListDTO>().ReverseMap();
