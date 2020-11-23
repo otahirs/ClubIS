@@ -16,8 +16,6 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
 {
     public class EventServiceTests
     {
-        private readonly ITestOutputHelper _testOutputHelper;
-
         public EventEditDTO origEvent = new EventEditDTO()
         {
             Id = 42,
@@ -55,11 +53,6 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
                 }
             }
         };
-
-        public EventServiceTests(ITestOutputHelper testOutputHelper)
-        {
-            _testOutputHelper = testOutputHelper;
-        }
 
         [Fact]
         public async Task GetById() // db seed dependant
@@ -164,6 +157,7 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
                 events.Count().Should().BeGreaterThan(1);
                 var event1 = events.First(n => n.Id == 42);
                 event1.StartDate.Should().Be(origEvent.StartDate);
+                event1.EndDate.Should().Be(origEvent.EndDate);
                 event1.Name.Should().Be(origEvent.Name);
                 event1.Place.Should().Be(origEvent.Place);
                 event1.Organizer.Should().Be(origEvent.Organizer);

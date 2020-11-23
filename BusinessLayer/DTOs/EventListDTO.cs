@@ -9,7 +9,8 @@ namespace clubIS.BusinessLayer.DTOs
     public class EventListDTO
     {
         public int Id { get; set;}
-        public DateTime Date { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public string Name { get; set; }
         public string Place { get; set; }
         public string Organizer { get; set; }
@@ -20,6 +21,5 @@ namespace clubIS.BusinessLayer.DTOs
         public string Class { get; set; }
         public EventState EventState { get; set; }
         public EventProperty EventProperties { get; set; }
-        public object StartDate { get; set; }
     }
 }
