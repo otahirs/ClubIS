@@ -19,9 +19,7 @@ namespace clubIS.DataAccessLayer.Repositories
         {
             return await _entities
                 .Include(e => e.Deadlines)
-                    .ThenInclude(d => d.Event)
                 .Include(e => e.EventStages)
-                    .ThenInclude(d => d.Event)
                 .ToListAsync();
         }
 
@@ -29,9 +27,7 @@ namespace clubIS.DataAccessLayer.Repositories
         {
             return await _entities
                 .Include(e => e.Deadlines)
-                    .ThenInclude(d=> d.Event)
                 .Include(e => e.EventStages)
-                    .ThenInclude(d => d.Event)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
     }
