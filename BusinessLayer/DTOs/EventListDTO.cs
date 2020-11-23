@@ -8,7 +8,7 @@ namespace clubIS.BusinessLayer.DTOs
 {
     public class EventListDTO
     {
-        public int Id { get; }
+        public int Id { get; set;}
         public DateTime Date { get; set; }
         public string Name { get; set; }
         public string Place { get; set; }

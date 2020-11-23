@@ -7,6 +7,7 @@ namespace clubIS.BusinessLayer.DTOs
 {
     public class PaymentListDTO
     {
+        public int Id { get; set; }
         public string ExecutorName { get; set; }
         public string SourceAccountName { get; set; }
         public string TargetAccountName { get; set; }

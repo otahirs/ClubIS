@@ -8,6 +8,7 @@ namespace clubIS.BusinessLayer.DTOs
 {
     public class UserDetailDTO
     {
+        public int Id { get; set; }
         public string Firstname { get; set; }
         public string Surname { get; set; }
         public string RegistrationNumber { get; set; }
