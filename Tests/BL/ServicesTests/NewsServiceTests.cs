@@ -135,6 +135,7 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
                 news.Count().Should().BeGreaterThan(1);
                 var news1 = news.First(n => n.Id == 42);
                 news1.Date.Should().Be(origNews1.Date);
+                news1.UserId.Should().Be(origNews1.UserId);
                 news1.Title.Should().Be(origNews1.Title);
                 news1.Text.Should().Be(origNews1.Text);
                 news1.UserName.Should().NotBeNullOrEmpty();
