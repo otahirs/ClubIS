@@ -22,6 +22,6 @@ namespace clubIS.BusinessLayer.DTOs
         public EventState EventState { get; set; }
         public EventProperty EventProperties { get; set; }
         public string Note { get; set; }
-        public ISet<EventStage> EventStages { get; set; }
+        public ISet<EventStageDTO> EventStages { get; set; }
     }
 }

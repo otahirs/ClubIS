@@ -22,6 +22,21 @@ namespace clubIS.DataAccessLayer.Repositories
                 .ToListAsync();
         }
 
+        public async Task<EventEntry> GetByIdWithAllIncluded(int id)
+        {
+            return await _entities
+                .Include(e => e.EnteredStages)
+                .FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        public async Task<IEnumerable<EventEntry>> GetAllByEventId(int eventId)
+        {
+            return await _entities
+                .Where(e => e.EventId == eventId)
+                .Include(e => e.EnteredStages)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<EventEntry>> GetAllByUserId(int userId)
         {
             return await _entities

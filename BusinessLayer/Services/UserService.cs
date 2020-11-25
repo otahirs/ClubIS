@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace clubIS.BusinessLayer.Services
 {
-    class UserService : IUserService
+    public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;

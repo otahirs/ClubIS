@@ -42,9 +42,9 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
             EventType = EventType.Race,
             EventState = EventState.Archived,
             EventProperties = EventProperty.Championship,
-            EventStages = new HashSet<EventStage>()
+            EventStages = new HashSet<EventStageDTO>()
             {
-                new EventStage
+                new EventStageDTO
                 {
                     Id = 69,
                     EventId = 42,
@@ -141,7 +141,7 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
                 EventType = EventType.Race,
                 EventState = EventState.Archived,
                 EventProperties = EventProperty.Championship,
-                EventStages = new HashSet<EventStage>()
+                EventStages = new HashSet<EventStageDTO>()
             };
             List<EventListDTO> events;
             using (var uow = TestUoWFactory.Create())
