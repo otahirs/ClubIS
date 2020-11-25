@@ -18,7 +18,7 @@ namespace clubIS.BusinessLayer.DTOs
         public string Link { get; set; }
         public ICollection<EventDeadline> Deadlines { get; set; }
         public string Leader { get; set; }
-        public string Class { get; set; }
+        public EventEntryBasicInfoDTO EntryInfo { get; set; }
         public EventState EventState { get; set; }
         public EventProperty EventProperties { get; set; }
     }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using clubIS.BusinessLayer.Services.Interfaces;
 using clubIS.DataAccessLayer.Entities;
+using System.Linq;
 
 namespace clubIS.BusinessLayer.Services
 {
@@ -33,10 +34,19 @@ namespace clubIS.BusinessLayer.Services
             _unitOfWork.Events.Remove(await _unitOfWork.Events.GetByIdWithAllIncluded(id));
         }
 
-        public async Task<IEnumerable<EventListDTO>> GetAll()
+        public async Task<IEnumerable<EventListDTO>> GetAllWithEntryInfo(int userId)
         {
-            var list = await _unitOfWork.Events.GetAllWithAllIncluded();
-            return _mapper.Map<IEnumerable<EventListDTO>>(list);
+            var entries = await _unitOfWork.Entry.GetAllByUserId(userId);
+            var events = _mapper.Map<IEnumerable<EventListDTO>>(await _unitOfWork.Events.GetAllWithAllIncluded());
+            foreach(var e in events) 
+            {
+                var entry = entries.SingleOrDefault(entry => entry.EventId == e.Id);
+                if (entry != null)
+                {
+                    e.EntryInfo = _mapper.Map<EventEntryBasicInfoDTO>(entry);
+                }
+            }
+            return events;
         }
 
         public async Task<EventEditDTO> GetById(int id)

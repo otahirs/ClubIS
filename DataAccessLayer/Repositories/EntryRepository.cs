@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using clubIS.DataAccessLayer.Entities;
 using clubIS.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace clubIS.DataAccessLayer.Repositories
 {
@@ -20,5 +21,14 @@ namespace clubIS.DataAccessLayer.Repositories
                 .Include(e => e.EnteredStages)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<EventEntry>> GetAllByUserId(int userId)
+        {
+            return await _entities
+                .Where(e => e.UserId == userId)
+                .ToListAsync();
+        }
+
+        
     }
 }

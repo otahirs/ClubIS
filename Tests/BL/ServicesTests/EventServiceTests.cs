@@ -150,7 +150,7 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
                 await es.Create(origEvent);
                 await es.Create(origEvent2);
                 await uow.Save();
-                events = (await es.GetAll()).ToList();
+                events = (await es.GetAllWithEntryInfo(userId: 2)).ToList();
             }
             using (new AssertionScope())
             {
