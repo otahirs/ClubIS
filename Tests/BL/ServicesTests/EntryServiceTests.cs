@@ -29,7 +29,6 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
             {
                 new EventStageDTO
                 {
-                    Id = 69,
                     EventId = 42,
                     Date = DateTime.Now,
                     Name = "null"
@@ -104,7 +103,6 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
                 {
                     new EventStageDTO
                     {
-                        Id = 2,
                         Date = DateTime.Now,
                         Name = "null"
                     }

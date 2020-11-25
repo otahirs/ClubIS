@@ -46,7 +46,6 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
             {
                 new EventStageDTO
                 {
-                    Id = 69,
                     EventId = 42,
                     Date = DateTime.Now,
                     Name = "null"
