@@ -167,6 +167,7 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
                 event1.EventType.Should().Be(origEvent.EventType);
                 event1.EventState.Should().Be(origEvent.EventState);
                 event1.EventProperties.Should().Be(origEvent.EventProperties);
+                Assert.Null(event1.EntryInfo);
             }
         }
     }
