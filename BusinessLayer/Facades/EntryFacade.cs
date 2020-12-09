@@ -9,7 +9,7 @@ using clubIS.DataAccessLayer;
 
 namespace clubIS.BusinessLayer.Facades
 {
-    class EntryFacade : IEntryFacade
+    public class EntryFacade : IEntryFacade
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEntryService _entryService;

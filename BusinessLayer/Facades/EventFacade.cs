@@ -8,7 +8,7 @@ using clubIS.DataAccessLayer;
 
 namespace clubIS.BusinessLayer.Facades
 {
-    class EventFacade : IEventFacade
+    public class EventFacade : IEventFacade
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEventService _eventService;
