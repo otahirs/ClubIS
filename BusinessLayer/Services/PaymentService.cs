@@ -49,17 +49,6 @@ namespace clubIS.BusinessLayer.Services
             return _mapper.Map<IEnumerable<UserCreditListDTO>>(await _unitOfWork.Users.GetAll());
         }
 
-        public async Task<IEnumerable<PaymentSumEventListDTO>> GetAllEventSum()
-        {
-            var events = _mapper.Map<IEnumerable<EventListDTO>>(await _unitOfWork.Events.GetAll());
-            return await Task.WhenAll(events
-                .Select(async e => new PaymentSumEventListDTO
-                {
-                    EventList = e,
-                    TotalCosts = await _unitOfWork.Payments.GetEventPaymentSumByEventId(e.Id)
-                }));
-        }
-
         public async Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id)
         {
             var paymentsEntities = await _unitOfWork.Payments.GetAllWithTargetAccountOwnerByEventId(id);

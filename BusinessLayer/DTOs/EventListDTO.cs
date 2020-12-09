@@ -13,13 +13,7 @@ namespace clubIS.BusinessLayer.DTOs
         public DateTime EndDate { get; set; }
         public string Name { get; set; }
         public string Place { get; set; }
-        public string Organizer { get; set; }
         public EventType EventType { get; set; }
-        public string Link { get; set; }
         public ICollection<EventDeadline> Deadlines { get; set; }
-        public string Leader { get; set; }
-        public EventEntryBasicInfoDTO EntryInfo { get; set; }
-        public EventState EventState { get; set; }
-        public EventProperty EventProperties { get; set; }
     }
 }

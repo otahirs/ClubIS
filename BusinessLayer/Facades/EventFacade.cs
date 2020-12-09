@@ -18,7 +18,7 @@ namespace clubIS.BusinessLayer.Facades
             _unitOfWork = unitOfWork;
             _eventService = eventService;
         }
-        public async Task<IEnumerable<EventListDTO>> GetAllWithEntryInfo(int userId)
+        public async Task<IEnumerable<EventListWithUserEntryDTO>> GetAllWithEntryInfo(int userId)
         {
             return await _eventService.GetAllWithEntryInfo(userId);
         }
