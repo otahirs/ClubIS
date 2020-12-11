@@ -43,12 +43,21 @@ namespace clubIS.WebAPI
                 options.EnableSensitiveDataLogging();
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IEntryRepository, EntryRepository>();
+            services.AddScoped<IEntryService, EntryService>();
+            services.AddScoped<IEntryFacade, EntryFacade>();
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IEventFacade, EventFacade>();
+            services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<INewsService, NewsService>();
+            services.AddScoped<INewsFacade, NewsFacade>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IPaymentFacade, PaymentFacade>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserFacade, UserFacade>();
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
