@@ -71,17 +71,18 @@ namespace clubIS.BusinessLayer.Services
             });
         }
 
-        public async Task<IEnumerable<EventListWithTotalCostsDTO>> GetAllWithTotalCosts()
-        {
-            var events = _mapper.Map<IEnumerable<EventListDTO>>(await _unitOfWork.Events.GetAll());
-            return await Task.WhenAll(events
-                .Select(async e => new EventListWithTotalCostsDTO
-                    {
-                        Event = e,
-                        TotalCosts = await _unitOfWork.Payments.GetEventPaymentSumByEventId(e.Id)
-                    }
-                ));
-        }
+        //public async Task<IEnumerable<EventListWithTotalCostsDTO>> GetAllWithTotalCosts()
+        //{
+            
+        //    var events = _mapper.Map<IEnumerable<EventListDTO>>(await _unitOfWork.Events.GetAll());
+        //    return await Task.WhenAll(events
+        //        .Select(async e => new EventListWithTotalCostsDTO
+        //            {
+        //                Event = e,
+        //                TotalCosts = await _unitOfWork.Payments.GetEventPaymentSumByEventId(e.Id)
+        //            }
+        //        ));
+        //}
 
         
     }

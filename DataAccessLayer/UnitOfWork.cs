@@ -24,6 +24,7 @@ namespace clubIS.DataAccessLayer
             Events = new EventRepository(_context);
             News = new NewsRepository(_context);
             Entry = new EntryRepository(_context);
+            Payments = new PaymentRepository(_context);
         }
 
         public async Task<int> Save()

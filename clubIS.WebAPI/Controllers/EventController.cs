@@ -40,14 +40,13 @@ namespace clubIS.WebAPI.Controllers
             return Ok(events);
         }
 
-        // TODO
-        //[HttpGet("costs")]
-        //[SwaggerResponse(StatusCodes.Status200OK, "Events retrieved.")]
-        //public async Task<ActionResult<IEnumerable<EventListWithTotalCostsDTO>>> GetCosts()
-        //{
-        //    var events = await _facade.GetAllWithTotalCosts();
-        //    return Ok(events);
-        //}
+        [HttpGet("costs")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Events retrieved.")]
+        public async Task<ActionResult<IEnumerable<EventListWithTotalCostsDTO>>> GetCosts()
+        {
+            var events = await _facade.GetAllWithTotalCosts();
+            return Ok(events);
+        }
 
         [HttpGet("entry/{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Event not found.")]

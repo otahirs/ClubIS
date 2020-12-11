@@ -54,5 +54,10 @@ namespace clubIS.BusinessLayer.Services
             var paymentsEntities = await _unitOfWork.Payments.GetAllWithTargetAccountOwnerByEventId(id);
             return _mapper.Map<IEnumerable<PaymentEntryListDTO>>(paymentsEntities);
         }
+
+        public async Task<int> GetEventPaymentSumByEventId(int id)
+        {
+            return await _unitOfWork.Payments.GetEventPaymentSumByEventId(id);
+        }
     }
 }

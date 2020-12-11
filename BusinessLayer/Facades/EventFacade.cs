@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using clubIS.BusinessLayer.DTOs;
 using clubIS.BusinessLayer.Facades.Interfaces;
@@ -12,11 +13,13 @@ namespace clubIS.BusinessLayer.Facades
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEventService _eventService;
+        private readonly IPaymentService _paymentService;
 
-        public EventFacade(IUnitOfWork unitOfWork, IEventService eventService)
+        public EventFacade(IUnitOfWork unitOfWork, IEventService eventService, IPaymentService paymentService)
         {
             _unitOfWork = unitOfWork;
             _eventService = eventService;
+            _paymentService = paymentService;
         }
 
         public async Task<IEnumerable<EventListWithExportStatusDTO>> GetAllWithExportStatus()
@@ -47,7 +50,14 @@ namespace clubIS.BusinessLayer.Facades
 
         public async Task<IEnumerable<EventListWithTotalCostsDTO>> GetAllWithTotalCosts()
         {
-            return await _eventService.GetAllWithTotalCosts();
+            var events = await _eventService.GetAll();
+            return await Task.WhenAll(events
+                .Select(async e => new EventListWithTotalCostsDTO
+                    {
+                        Event = e,
+                        TotalCosts = await _paymentService.GetEventPaymentSumByEventId(e.Id)
+                    }
+                ));
         }
 
         public async Task Delete(int id)
