@@ -46,6 +46,9 @@ namespace clubIS.WebAPI
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IEventFacade, EventFacade>();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             services.AddControllers();
 
             services.AddApiVersioning(x =>

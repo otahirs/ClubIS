@@ -149,7 +149,7 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
                 await es.Create(origEvent);
                 await es.Create(origEvent2);
                 await uow.Save();
-                events = (await es.GetAllWithEntryInfo(userId: 2)).ToList();
+                events = (await es.GetAll()).ToList();
             }
             using (new AssertionScope())
             {
@@ -159,14 +159,8 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
                 event1.EndDate.Should().Be(origEvent.EndDate);
                 event1.Name.Should().Be(origEvent.Name);
                 event1.Place.Should().Be(origEvent.Place);
-                event1.Organizer.Should().Be(origEvent.Organizer);
-                event1.Link.Should().Be(origEvent.Link);
                 Assert.Equal(event1.Deadlines, origEvent.Deadlines);
-                event1.Leader.Should().Be(origEvent.Leader);
                 event1.EventType.Should().Be(origEvent.EventType);
-                event1.EventState.Should().Be(origEvent.EventState);
-                event1.EventProperties.Should().Be(origEvent.EventProperties);
-                Assert.Null(event1.EntryInfo);
             }
         }
     }
