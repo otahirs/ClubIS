@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace clubIS.BusinessLayer.Facades.Interfaces
 {
-    interface IUserFacade : IDisposable
+    public interface IUserFacade : IDisposable
     {
         Task Create(UserEditDTO e);
         Task<IEnumerable<UserListDTO>> GetAll();

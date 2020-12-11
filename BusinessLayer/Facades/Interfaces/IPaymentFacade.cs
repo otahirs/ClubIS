@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace clubIS.BusinessLayer.Facades.Interfaces
 {
-    interface IPaymentFacade : IDisposable
+    public interface IPaymentFacade : IDisposable
     {
         Task Create(PaymentSendDTO p);
         Task<IEnumerable<PaymentListDTO>> GetAll();

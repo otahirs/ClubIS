@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace clubIS.BusinessLayer.Facades.Interfaces
 {
-    interface INewsFacade : IDisposable
+    public interface INewsFacade : IDisposable
     {
         Task Create(NewsEditDTO news);
         Task<NewsEditDTO> GetById(int id);

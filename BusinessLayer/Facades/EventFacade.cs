@@ -18,9 +18,10 @@ namespace clubIS.BusinessLayer.Facades
             _unitOfWork = unitOfWork;
             _eventService = eventService;
         }
-        public async Task<IEnumerable<EventListWithUserEntryDTO>> GetAllWithEntryInfo(int userId)
+
+        public async Task<IEnumerable<EventListWithExportStatusDTO>> GetAllWithExportStatus()
         {
-            return await _eventService.GetAllWithEntryInfo(userId);
+            return await _eventService.GetAllWithExportStatus();
         }
 
         public async Task<EventEditDTO> GetById(int id)
@@ -32,6 +33,21 @@ namespace clubIS.BusinessLayer.Facades
         {
             await _eventService.Create(e);
             await _unitOfWork.Save();
+        }
+
+        public async Task<IEnumerable<EventListDTO>> GetAll()
+        {
+            return await _eventService.GetAll();
+        }
+
+        public async Task<IEnumerable<EventListWithUserEntryDTO>> GetAllWithUserEntry(int userId)
+        {
+            return await _eventService.GetAllWithUserEntry(userId);
+        }
+
+        public async Task<IEnumerable<EventListWithTotalCostsDTO>> GetAllWithTotalCosts()
+        {
+            return await _eventService.GetAllWithTotalCosts();
         }
 
         public async Task Delete(int id)

@@ -6,7 +6,7 @@ using clubIS.BusinessLayer.DTOs;
 
 namespace clubIS.BusinessLayer.Facades.Interfaces
 {
-    interface IEntryFacade : IDisposable
+    public interface IEntryFacade : IDisposable
     {
         Task<IEnumerable<EventEntryListDTO>> GetAllByEventId(int eventId);
         Task<EventEntryEditDTO> GetById(int id);
