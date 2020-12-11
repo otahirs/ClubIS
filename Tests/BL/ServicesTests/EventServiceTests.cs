@@ -115,7 +115,7 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
         }
 
         [Fact]
-        public async Task GetAll() // db seed dependant
+        public async Task GetAllWithUserEntry() // db seed dependant
         {
             var origEvent2 = new EventEditDTO
             {
@@ -142,25 +142,26 @@ namespace clubIS.BusinessLayer.Tests.ServicesTests
                 EventProperties = EventProperty.Championship,
                 EventStages = new HashSet<EventStageDTO>()
             };
-            List<EventListDTO> events;
+            List<EventListWithUserEntryDTO> events;
             using (var uow = TestUoWFactory.Create())
             {
                 var es = new EventService(uow);
                 await es.Create(origEvent);
                 await es.Create(origEvent2);
                 await uow.Save();
-                events = (await es.GetAll()).ToList();
+                events = (await es.GetAllWithUserEntry(userId: 2)).ToList();
             }
             using (new AssertionScope())
             {
                 events.Count().Should().BeGreaterThan(1);
-                var event1 = events.First(n => n.Id == 42);
-                event1.StartDate.Should().Be(origEvent.StartDate);
-                event1.EndDate.Should().Be(origEvent.EndDate);
-                event1.Name.Should().Be(origEvent.Name);
-                event1.Place.Should().Be(origEvent.Place);
-                Assert.Equal(event1.Deadlines, origEvent.Deadlines);
-                event1.EventType.Should().Be(origEvent.EventType);
+                var event1 = events.First(n => n.Event.Id == 42);
+                event1.Event.StartDate.Should().Be(origEvent.StartDate);
+                event1.Event.EndDate.Should().Be(origEvent.EndDate);
+                event1.Event.Name.Should().Be(origEvent.Name);
+                event1.Event.Place.Should().Be(origEvent.Place);
+                Assert.Equal(event1.Event.Deadlines, origEvent.Deadlines);
+                event1.Event.EventType.Should().Be(origEvent.EventType);
+                Assert.Null(event1.EntryInfo);
             }
         }
     }
