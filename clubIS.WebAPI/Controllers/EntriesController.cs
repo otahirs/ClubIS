@@ -14,7 +14,7 @@ namespace clubIS.WebAPI.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]s")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class EntriesController : ControllerBase
     {
         private IEntryFacade _entryFacade;
