@@ -27,7 +27,7 @@ namespace clubIS.WebAPI.Controllers
         [HttpGet("event/{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entries retrieved.")]
-        public async Task<ActionResult<IEnumerable<EventListWithUserEntryDTO>>> GetByEventId([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult<IEnumerable<EventEntryListDTO>>> GetByEventId([Range(1, int.MaxValue)] int id)
         {
             var entries = await _entryFacade.GetAllByEventId(id);
             if (entries == null)
@@ -40,7 +40,7 @@ namespace clubIS.WebAPI.Controllers
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One entry retrieved.")]
-        public async Task<ActionResult<EventEditDTO>> Get([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult<EventEntryEditDTO>> Get([Range(1, int.MaxValue)] int id)
         {
             var entry = await _entryFacade.GetById(id);
 

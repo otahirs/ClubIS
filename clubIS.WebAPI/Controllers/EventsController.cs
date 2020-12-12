@@ -34,7 +34,7 @@ namespace clubIS.WebAPI.Controllers
 
         [HttpGet("status")]
         [SwaggerResponse(StatusCodes.Status200OK, "Events retrieved.")]
-        public async Task<ActionResult<IEnumerable<EventListWithTotalCostsDTO>>> GetStatus()
+        public async Task<ActionResult<IEnumerable<EventListWithExportStatusDTO>>> GetStatus()
         {
             var events = await _eventFacade.GetAllWithExportStatus();
             return Ok(events);
