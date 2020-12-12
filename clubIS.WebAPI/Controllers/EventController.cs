@@ -51,7 +51,7 @@ namespace clubIS.WebAPI.Controllers
         [HttpGet("entry/{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Event not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]
-        public async Task<ActionResult<IEnumerable<EventListWithUserEntryDTO>>> GetEntry([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult<IEnumerable<EventListWithUserEntryDTO>>> GetByEntryId([Range(1, int.MaxValue)] int id)
         {
             var events = await _facade.GetAllWithUserEntry(id);
             if (events == null)
@@ -92,7 +92,7 @@ namespace clubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided event.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Event updated.")]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult> Update([FromBody] EventEditDTO e)
+        public async Task<ActionResult> Put([FromBody] EventEditDTO e)
         {
             if (e == null)
                 return BadRequest();
@@ -104,9 +104,14 @@ namespace clubIS.WebAPI.Controllers
         [HttpDelete("{id}")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Event not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Event deleted.")]
-        [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult> Delete([Range(1, int.MaxValue)] int id)
         {
+            var e = await _facade.GetById(id);
+
+            if (e == null)
+            {
+                return NotFound();
+            }
             await _facade.Delete(id);
             return Ok();
         }
