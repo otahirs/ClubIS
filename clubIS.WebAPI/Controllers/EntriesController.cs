@@ -14,14 +14,14 @@ namespace clubIS.WebAPI.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]")]
-    public class EntryController : ControllerBase
+    [Route("api/v{version:apiVersion}/[controller]s")]
+    public class EntriesController : ControllerBase
     {
-        private IEntryFacade _facade;
+        private IEntryFacade _entryFacade;
 
-        public EntryController(IEntryFacade facade)
+        public EntriesController(IEntryFacade entryFacade)
         {
-            _facade = facade;
+            _entryFacade = entryFacade;
         }
 
         [HttpGet("event/{id}")]
@@ -29,7 +29,7 @@ namespace clubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Entries retrieved.")]
         public async Task<ActionResult<IEnumerable<EventListWithUserEntryDTO>>> GetByEventId([Range(1, int.MaxValue)] int id)
         {
-            var entries = await _facade.GetAllByEventId(id);
+            var entries = await _entryFacade.GetAllByEventId(id);
             if (entries == null)
             {
                 return NotFound();
@@ -42,7 +42,7 @@ namespace clubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "One entry retrieved.")]
         public async Task<ActionResult<EventEditDTO>> Get([Range(1, int.MaxValue)] int id)
         {
-            var entry = await _facade.GetById(id);
+            var entry = await _entryFacade.GetById(id);
 
             if (entry == null)
             {
@@ -60,7 +60,7 @@ namespace clubIS.WebAPI.Controllers
             if (entry == null)
                 return BadRequest();
 
-            await _facade.Create(entry);
+            await _entryFacade.Create(entry);
             return Ok();
         }
 
@@ -73,7 +73,7 @@ namespace clubIS.WebAPI.Controllers
             if (entry == null)
                 return BadRequest();
 
-            await _facade.Update(entry);
+            await _entryFacade.Update(entry);
             return Ok();
         }
 
@@ -82,13 +82,13 @@ namespace clubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Entry deleted.")]
         public async Task<ActionResult> Delete([Range(1, int.MaxValue)] int id)
         {
-            var entry = await _facade.GetById(id);
+            var entry = await _entryFacade.GetById(id);
 
             if (entry == null)
             {
                 return NotFound();
             }
-            await _facade.Delete(id);
+            await _entryFacade.Delete(id);
             return Ok();
         }
     }

@@ -15,20 +15,20 @@ namespace clubIS.WebAPI.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class EventController : ControllerBase
+    public class EventsController : ControllerBase
     {
-        private IEventFacade _facade;
+        private IEventFacade _eventFacade;
 
-        public EventController(IEventFacade facade)
+        public EventsController(IEventFacade eventFacade)
         {
-            _facade = facade;
+            _eventFacade = eventFacade;
         }
 
         [HttpGet]
         [SwaggerResponse(StatusCodes.Status200OK, "Events retrieved.")]
         public async Task<ActionResult<IEnumerable<EventListDTO>>> Get()
         {
-            var events = await _facade.GetAll();
+            var events = await _eventFacade.GetAll();
             return Ok(events);
         }
 
@@ -36,7 +36,7 @@ namespace clubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Events retrieved.")]
         public async Task<ActionResult<IEnumerable<EventListWithTotalCostsDTO>>> GetStatus()
         {
-            var events = await _facade.GetAllWithExportStatus();
+            var events = await _eventFacade.GetAllWithExportStatus();
             return Ok(events);
         }
 
@@ -44,7 +44,7 @@ namespace clubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Events retrieved.")]
         public async Task<ActionResult<IEnumerable<EventListWithTotalCostsDTO>>> GetCosts()
         {
-            var events = await _facade.GetAllWithTotalCosts();
+            var events = await _eventFacade.GetAllWithTotalCosts();
             return Ok(events);
         }
 
@@ -53,7 +53,7 @@ namespace clubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]
         public async Task<ActionResult<IEnumerable<EventListWithUserEntryDTO>>> GetByEntryId([Range(1, int.MaxValue)] int id)
         {
-            var events = await _facade.GetAllWithUserEntry(id);
+            var events = await _eventFacade.GetAllWithUserEntry(id);
             if (events == null)
             {
                 return NotFound();
@@ -66,7 +66,7 @@ namespace clubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]
         public async Task<ActionResult<EventEditDTO>> Get([Range(1, int.MaxValue)] int id)
         {
-            var e = await _facade.GetById(id);
+            var e = await _eventFacade.GetById(id);
 
             if (e == null)
             {
@@ -84,7 +84,7 @@ namespace clubIS.WebAPI.Controllers
             if (e == null)
                 return BadRequest();
 
-            await _facade.Create(e);
+            await _eventFacade.Create(e);
             return Ok();
         }
 
@@ -97,7 +97,7 @@ namespace clubIS.WebAPI.Controllers
             if (e == null)
                 return BadRequest();
 
-            await _facade.Update(e);
+            await _eventFacade.Update(e);
             return Ok();
         }
 
@@ -106,13 +106,13 @@ namespace clubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Event deleted.")]
         public async Task<ActionResult> Delete([Range(1, int.MaxValue)] int id)
         {
-            var e = await _facade.GetById(id);
+            var e = await _eventFacade.GetById(id);
 
             if (e == null)
             {
                 return NotFound();
             }
-            await _facade.Delete(id);
+            await _eventFacade.Delete(id);
             return Ok();
         }
     }
