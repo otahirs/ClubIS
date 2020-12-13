@@ -48,12 +48,12 @@ namespace clubIS.WebAPI.Controllers
             return Ok(events);
         }
 
-        [HttpGet("entry/{id}")]
+        [HttpGet("user/{userId}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Event not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]
-        public async Task<ActionResult<IEnumerable<EventListWithUserEntryDTO>>> GetByEntryId([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult<IEnumerable<EventListWithUserEntryDTO>>> GetWithEntryInfo([Range(1, int.MaxValue)] int userId)
         {
-            var events = await _eventFacade.GetAllWithUserEntry(id);
+            var events = await _eventFacade.GetAllWithUserEntry(userId);
             if (events == null)
             {
                 return NotFound();
