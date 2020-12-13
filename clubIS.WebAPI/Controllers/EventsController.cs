@@ -15,7 +15,6 @@ namespace clubIS.WebAPI.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    [Produces("application/json")]
     public class EventsController : ControllerBase
     {
         private IEventFacade _eventFacade;
@@ -79,7 +78,6 @@ namespace clubIS.WebAPI.Controllers
         [HttpPost]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided event.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Event added.")]
-        [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult> Post([FromBody] EventEditDTO e)
         {
             if (e == null)
@@ -92,7 +90,6 @@ namespace clubIS.WebAPI.Controllers
         [HttpPut]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided event.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Event updated.")]
-        [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult> Put([FromBody] EventEditDTO e)
         {
             if (e == null)

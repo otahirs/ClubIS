@@ -15,7 +15,6 @@ namespace clubIS.WebAPI.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    [Produces("application/json")]
     public class EntriesController : ControllerBase
     {
         private IEntryFacade _entryFacade;
@@ -55,7 +54,6 @@ namespace clubIS.WebAPI.Controllers
         [HttpPost]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided entry.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry added.")]
-        [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult> Post([FromBody] EventEntryEditDTO entry)
         {
             if (entry == null)
@@ -68,7 +66,6 @@ namespace clubIS.WebAPI.Controllers
         [HttpPut]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided entry.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry updated.")]
-        [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult> Put([FromBody] EventEntryEditDTO entry)
         {
             if (entry == null)

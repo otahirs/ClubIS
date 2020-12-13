@@ -42,6 +42,7 @@ namespace clubIS.WebAPI
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection"));
                 options.EnableSensitiveDataLogging();
             });
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IEntryRepository, EntryRepository>();
             services.AddScoped<IEntryService, EntryService>();
@@ -75,6 +76,11 @@ namespace clubIS.WebAPI
                 o.SubstituteApiVersionInUrl = true;
             });
 
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new ProducesAttribute("application/json"));
+                options.Filters.Add(new ConsumesAttribute("application/json"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
