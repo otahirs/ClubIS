@@ -25,6 +25,7 @@ namespace clubIS.WebAPI.Controllers
         }
 
         [HttpGet]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Events not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Events retrieved.")]
         public async Task<ActionResult<IEnumerable<EventListDTO>>> Get()
         {
