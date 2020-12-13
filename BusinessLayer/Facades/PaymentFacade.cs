@@ -46,7 +46,7 @@ namespace clubIS.BusinessLayer.Facades
             return await _paymentService.GetAllByUserId(id);
         }
 
-        public async Task<IEnumerable<UserCreditListDTO>> GetAllUSerCreditList()
+        public async Task<IEnumerable<UserCreditListDTO>> GetAllUserCreditList()
         {
             return await _paymentService.GetAllUSerCreditList();
         }
