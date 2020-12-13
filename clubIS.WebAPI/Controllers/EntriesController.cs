@@ -24,7 +24,7 @@ namespace clubIS.WebAPI.Controllers
             _entryFacade = entryFacade;
         }
 
-        [HttpGet("event/{id}")]
+        [HttpGet("event/{eventId}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entries retrieved.")]
         public async Task<ActionResult<IEnumerable<EventEntryListDTO>>> GetByEventId([Range(1, int.MaxValue)] int id)
