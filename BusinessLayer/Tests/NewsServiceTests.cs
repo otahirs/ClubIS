@@ -11,7 +11,7 @@ using clubIS.BusinessLayer.MapperConfig;
 using FluentAssertions.Execution;
 using FluentAssertions;
 
-namespace clubIS.BusinessLayer.Tests.ServicesTests
+namespace clubIS.BusinessLayer.Tests
 {
     public class NewsServiceTests
     {
