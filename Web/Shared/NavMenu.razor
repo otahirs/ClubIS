@@ -1,5 +1,18 @@
-﻿<MudNavMenu>
+﻿<MudNavMenu Class="mt-10">
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Home">Home</MudNavLink>
+    <MudNavLink Href="/events" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.DirectionsRun">Event Entries</MudNavLink>
+    <MudNavLink Href="/users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.People">Member list</MudNavLink>
+    <MudNavLink Href="/finance" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.AccountBalanceWallet">Finance</MudNavLink>
+    <MudNavLink Href="/settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Settings">Settings</MudNavLink>
+    <MudDivider DividerType="DividerType.Middle" Class="mt-10" />
+    <br />
+    <MudNavLink Href="/admin/entries" Match="NavLinkMatch.All" Icon="@Icons.Material.StickyNote2">Entries</MudNavLink>
+    <MudNavLink Href="/admin/events" Match="NavLinkMatch.All" Icon="@Icons.Material.RunCircle">Events</MudNavLink>
+    <MudNavLink Href="/admin/users" Match="NavLinkMatch.All" Icon="@Icons.Material.SupervisorAccount" >Users</MudNavLink>
+    <MudNavLink Href="/admin/finance" Match="NavLinkMatch.All" Icon="@Icons.Material.AccountBalance">Finance</MudNavLink>
+    <br />
+    <MudDivider DividerType="DividerType.Middle" Class="mb-10"/>
+
     <MudNavLink Href="/counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Add">Counter</MudNavLink>
     <MudNavLink Href="/fetchdata" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.List">Fetch data</MudNavLink>
 </MudNavMenu>
