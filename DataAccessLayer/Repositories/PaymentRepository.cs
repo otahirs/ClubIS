@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using clubIS.DataAccessLayer.Entities;
-using System.Linq.Expressions;
+using clubIS.CoreLayer.Entities;
 
 namespace clubIS.DataAccessLayer.Repositories
 {

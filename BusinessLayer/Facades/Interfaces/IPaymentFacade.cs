@@ -1,8 +1,8 @@
-﻿using clubIS.BusinessLayer.DTOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using clubIS.CoreLayer.DTOs;
 
 namespace clubIS.BusinessLayer.Facades.Interfaces
 {

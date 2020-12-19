@@ -4,6 +4,13 @@
     <MudText Typo="Typo.h3" GutterBottom="true">Event entries</MudText>
 </MudContainer>
 
-@code {
+@using System.Net.Http
+@using clubIS.CoreLayer.DTOs
+@inject HttpClient Http
 
+@code {
+    private EventEntryListDTO todoItems;
+
+    protected override async Task OnInitializedAsync() =>
+        todoItems = await Http.GetFromJsonAsync<EventEntryListDTO>("api/v1/Entries/event/1");
 }

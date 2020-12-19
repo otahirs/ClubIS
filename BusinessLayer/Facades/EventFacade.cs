@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using clubIS.BusinessLayer.DTOs;
 using clubIS.BusinessLayer.Facades.Interfaces;
 using clubIS.BusinessLayer.Services.Interfaces;
+using clubIS.CoreLayer.DTOs;
 using clubIS.DataAccessLayer;
 
 namespace clubIS.BusinessLayer.Facades

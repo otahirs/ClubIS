@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using clubIS.DataAccessLayer.Entities;
-using clubIS.DataAccessLayer.Enums;
+using clubIS.CoreLayer.Entities;
+using clubIS.CoreLayer.Enums;
 
 namespace clubIS.DataAccessLayer
 {

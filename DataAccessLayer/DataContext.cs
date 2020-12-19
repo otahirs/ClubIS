@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using clubIS.CoreLayer.Entities;
 using Newtonsoft.Json;
-using clubIS.DataAccessLayer.Entities;
 
 namespace clubIS.DataAccessLayer
 {

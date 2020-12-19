@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
-using clubIS.BusinessLayer.DTOs;
 using clubIS.BusinessLayer.MapperConfig;
 using clubIS.BusinessLayer.Services.Interfaces;
 using clubIS.DataAccessLayer;
-using clubIS.DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using clubIS.CoreLayer.DTOs;
+using clubIS.CoreLayer.Entities;
 
 namespace clubIS.BusinessLayer.Services
 {

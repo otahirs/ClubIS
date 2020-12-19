@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using clubIS.BusinessLayer.DTOs;
-using clubIS.DataAccessLayer.Entities;
+using clubIS.CoreLayer.DTOs;
+
 using System;
 using System.Collections.Generic;
 using System.Text;
+using clubIS.CoreLayer.Entities;
 
 namespace clubIS.BusinessLayer.MapperConfig
 {

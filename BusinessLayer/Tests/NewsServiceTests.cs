@@ -1,5 +1,4 @@
-﻿using clubIS.BusinessLayer.DTOs;
-using clubIS.BusinessLayer.Services;
+﻿using clubIS.BusinessLayer.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +7,7 @@ using Xunit;
 using System.Linq;
 using AutoMapper;
 using clubIS.BusinessLayer.MapperConfig;
+using clubIS.CoreLayer.DTOs;
 using FluentAssertions.Execution;
 using FluentAssertions;
 

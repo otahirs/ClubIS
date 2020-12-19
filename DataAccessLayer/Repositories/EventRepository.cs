@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using clubIS.CoreLayer.Entities;
 using Microsoft.EntityFrameworkCore;
-using clubIS.DataAccessLayer.Entities;
 
 namespace clubIS.DataAccessLayer.Repositories
 {

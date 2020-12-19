@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using clubIS.BusinessLayer.DTOs;
 using clubIS.BusinessLayer.MapperConfig;
 using clubIS.BusinessLayer.Services.Interfaces;
+using clubIS.CoreLayer.DTOs;
+using clubIS.CoreLayer.Entities;
 using clubIS.DataAccessLayer;
-using clubIS.DataAccessLayer.Entities;
 
 namespace clubIS.BusinessLayer.Services
 {

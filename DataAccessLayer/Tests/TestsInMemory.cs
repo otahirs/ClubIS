@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using clubIS.DataAccessLayer.Entities;
+using clubIS.CoreLayer.Entities;
 using Microsoft.EntityFrameworkCore.Internal;
 using Xunit;
 
