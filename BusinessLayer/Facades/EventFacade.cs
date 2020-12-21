@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using clubIS.BusinessLayer.Facades.Interfaces;
-using clubIS.BusinessLayer.Services.Interfaces;
-using clubIS.CoreLayer.DTOs;
-using clubIS.DataAccessLayer;
+using ClubIS.BusinessLayer.Facades.Interfaces;
+using ClubIS.BusinessLayer.Services.Interfaces;
+using ClubIS.CoreLayer.DTOs;
+using ClubIS.DataAccessLayer;
 
-namespace clubIS.BusinessLayer.Facades
+namespace ClubIS.BusinessLayer.Facades
 {
     public class EventFacade : IEventFacade
     {

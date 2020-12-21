@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 
-namespace clubIS.DataAccessLayer.Tests
+namespace ClubIS.DataAccessLayer.Tests
 {
     class TestClubContext : DataContext
     {

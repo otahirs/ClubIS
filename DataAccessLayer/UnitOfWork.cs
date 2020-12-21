@@ -1,11 +1,8 @@
-﻿using clubIS.DataAccessLayer.Repositories;
-using clubIS.DataAccessLayer.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using ClubIS.DataAccessLayer.Repositories;
+using ClubIS.DataAccessLayer.Repositories.Interfaces;
 
-namespace clubIS.DataAccessLayer
+namespace ClubIS.DataAccessLayer
 {
     public class UnitOfWork : IUnitOfWork
     {

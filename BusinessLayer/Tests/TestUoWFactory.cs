@@ -1,8 +1,8 @@
 ﻿using System;
-using clubIS.DataAccessLayer;
+using ClubIS.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 
-namespace clubIS.BusinessLayer.Tests
+namespace ClubIS.BusinessLayer.Tests
 {
     public static class TestUoWFactory
     {

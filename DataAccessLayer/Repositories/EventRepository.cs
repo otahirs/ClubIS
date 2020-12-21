@@ -1,13 +1,10 @@
-﻿using clubIS.DataAccessLayer.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
-using clubIS.CoreLayer.Entities;
+using ClubIS.CoreLayer.Entities;
+using ClubIS.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace clubIS.DataAccessLayer.Repositories
+namespace ClubIS.DataAccessLayer.Repositories
 {
     public class EventRepository : Repository<Event>, IEventRepository
     {

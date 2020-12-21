@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using clubIS.BusinessLayer.Services;
-using clubIS.CoreLayer.DTOs;
-using clubIS.CoreLayer.Entities;
-using clubIS.CoreLayer.Enums;
+using ClubIS.BusinessLayer.Services;
+using ClubIS.CoreLayer.DTOs;
+using ClubIS.CoreLayer.Entities;
+using ClubIS.CoreLayer.Enums;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
-using Xunit.Abstractions;
 
-namespace clubIS.BusinessLayer.Tests.ServicesTests
+namespace ClubIS.BusinessLayer.Tests
 {
     public class EventServiceTests
     {

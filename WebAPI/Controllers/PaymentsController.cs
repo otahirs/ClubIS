@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
-using clubIS.BusinessLayer.Facades.Interfaces;
-using clubIS.CoreLayer.DTOs;
+using ClubIS.BusinessLayer.Facades.Interfaces;
+using ClubIS.CoreLayer.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace clubIS.WebAPI.Controllers
+namespace ClubIS.WebAPI.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]

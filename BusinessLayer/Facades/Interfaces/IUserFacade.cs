@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using clubIS.CoreLayer.DTOs;
+using ClubIS.CoreLayer.DTOs;
 
-namespace clubIS.BusinessLayer.Facades.Interfaces
+namespace ClubIS.BusinessLayer.Facades.Interfaces
 {
     public interface IUserFacade : IDisposable
     {

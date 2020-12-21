@@ -1,27 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using clubIS.BusinessLayer.Facades;
-using clubIS.BusinessLayer.Facades.Interfaces;
-using clubIS.BusinessLayer.Services;
-using clubIS.BusinessLayer.Services.Interfaces;
-using clubIS.DataAccessLayer;
-using clubIS.DataAccessLayer.Repositories;
-using clubIS.DataAccessLayer.Repositories.Interfaces;
+using ClubIS.BusinessLayer.Facades;
+using ClubIS.BusinessLayer.Facades.Interfaces;
+using ClubIS.BusinessLayer.Services;
+using ClubIS.BusinessLayer.Services.Interfaces;
+using ClubIS.DataAccessLayer;
+using ClubIS.DataAccessLayer.Repositories;
+using ClubIS.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-
-namespace clubIS.WebAPI
+namespace ClubIS.WebAPI
 {
     public class Startup
     {

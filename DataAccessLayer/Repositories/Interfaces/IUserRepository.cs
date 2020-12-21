@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using clubIS.CoreLayer.Entities;
+﻿using ClubIS.CoreLayer.Entities;
 
-namespace clubIS.DataAccessLayer.Repositories.Interfaces
+namespace ClubIS.DataAccessLayer.Repositories.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {

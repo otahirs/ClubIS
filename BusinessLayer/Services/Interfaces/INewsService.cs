@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using clubIS.CoreLayer.DTOs;
+using ClubIS.CoreLayer.DTOs;
 
-namespace clubIS.BusinessLayer.Services.Interfaces
+namespace ClubIS.BusinessLayer.Services.Interfaces
 {
     public interface INewsService
     {

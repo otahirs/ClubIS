@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using clubIS.BusinessLayer.MapperConfig;
-using clubIS.BusinessLayer.Services.Interfaces;
-using clubIS.CoreLayer.DTOs;
-using clubIS.CoreLayer.Entities;
-using clubIS.DataAccessLayer;
+using ClubIS.BusinessLayer.Services.Interfaces;
+using ClubIS.CoreLayer.DTOs;
+using ClubIS.CoreLayer.Entities;
+using ClubIS.DataAccessLayer;
 
-namespace clubIS.BusinessLayer.Services
+namespace ClubIS.BusinessLayer.Services
 {
     public class EntryService : IEntryService
     {

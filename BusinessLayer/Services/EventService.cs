@@ -1,16 +1,13 @@
-﻿using AutoMapper;
-using clubIS.BusinessLayer.MapperConfig;
-using clubIS.DataAccessLayer;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using clubIS.BusinessLayer.Services.Interfaces;
+﻿using System.Collections.Generic;
 using System.Linq;
-using clubIS.CoreLayer.DTOs;
-using clubIS.CoreLayer.Entities;
+using System.Threading.Tasks;
+using AutoMapper;
+using ClubIS.BusinessLayer.Services.Interfaces;
+using ClubIS.CoreLayer.DTOs;
+using ClubIS.CoreLayer.Entities;
+using ClubIS.DataAccessLayer;
 
-namespace clubIS.BusinessLayer.Services
+namespace ClubIS.BusinessLayer.Services
 {
     public class EventService : IEventService
     {

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using clubIS.CoreLayer.Entities;
-using Microsoft.EntityFrameworkCore.Internal;
+using ClubIS.CoreLayer.Entities;
 using Xunit;
 
-namespace clubIS.DataAccessLayer.Tests
+namespace ClubIS.DataAccessLayer.Tests
 {
     public class TestsInMemory
     {

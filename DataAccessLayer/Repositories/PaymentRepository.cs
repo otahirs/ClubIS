@@ -1,13 +1,11 @@
-﻿using clubIS.DataAccessLayer.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using ClubIS.CoreLayer.Entities;
+using ClubIS.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using clubIS.CoreLayer.Entities;
 
-namespace clubIS.DataAccessLayer.Repositories
+namespace ClubIS.DataAccessLayer.Repositories
 {
     public class PaymentRepository : Repository<Payment>, IPaymentRepository
     {

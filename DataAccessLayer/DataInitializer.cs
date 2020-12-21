@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using clubIS.CoreLayer.Entities;
-using clubIS.CoreLayer.Enums;
+using ClubIS.CoreLayer.Entities;
+using ClubIS.CoreLayer.Enums;
+using Microsoft.EntityFrameworkCore;
 
-namespace clubIS.DataAccessLayer
+namespace ClubIS.DataAccessLayer
 {
     public static class DataInitializer
     {

@@ -1,13 +1,11 @@
-﻿using clubIS.BusinessLayer.Facades.Interfaces;
-using clubIS.BusinessLayer.Services.Interfaces;
-using clubIS.DataAccessLayer;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using clubIS.CoreLayer.DTOs;
+using ClubIS.BusinessLayer.Facades.Interfaces;
+using ClubIS.BusinessLayer.Services.Interfaces;
+using ClubIS.CoreLayer.DTOs;
+using ClubIS.DataAccessLayer;
 
-namespace clubIS.BusinessLayer.Facades
+namespace ClubIS.BusinessLayer.Facades
 {
     public class NewsFacade : INewsFacade
     {

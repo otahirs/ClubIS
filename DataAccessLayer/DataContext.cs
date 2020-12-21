@@ -1,13 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using clubIS.CoreLayer.Entities;
+﻿using System.Collections.Generic;
+using ClubIS.CoreLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-namespace clubIS.DataAccessLayer
+namespace ClubIS.DataAccessLayer
 {
     public class DataContext : DbContext
     {

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using clubIS.BusinessLayer.Services;
-using clubIS.CoreLayer.DTOs;
+using ClubIS.BusinessLayer.Services;
+using ClubIS.CoreLayer.DTOs;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
 
-namespace clubIS.BusinessLayer.Tests.ServicesTests
+namespace ClubIS.BusinessLayer.Tests
 {
     public class EntryServiceTests
     {

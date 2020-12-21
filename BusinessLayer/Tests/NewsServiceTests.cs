@@ -1,17 +1,14 @@
-﻿using clubIS.BusinessLayer.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
 using System.Linq;
-using AutoMapper;
-using clubIS.BusinessLayer.MapperConfig;
-using clubIS.CoreLayer.DTOs;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using ClubIS.BusinessLayer.Services;
+using ClubIS.CoreLayer.DTOs;
 using FluentAssertions;
+using FluentAssertions.Execution;
+using Xunit;
 
-namespace clubIS.BusinessLayer.Tests
+namespace ClubIS.BusinessLayer.Tests
 {
     public class NewsServiceTests
     {

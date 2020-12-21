@@ -12,7 +12,7 @@ using MudBlazor.Dialog;
 using MudBlazor.Services;
 
 
-namespace clubis.Web
+namespace ClubIS.Web
 {
     public class Program
     {

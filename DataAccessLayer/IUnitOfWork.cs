@@ -1,10 +1,8 @@
-﻿using clubIS.DataAccessLayer.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using ClubIS.DataAccessLayer.Repositories.Interfaces;
 
-namespace clubIS.DataAccessLayer
+namespace ClubIS.DataAccessLayer
 {
     public interface IUnitOfWork : IDisposable
     {

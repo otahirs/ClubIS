@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using clubIS.CoreLayer.DTOs;
+using ClubIS.CoreLayer.DTOs;
+using ClubIS.CoreLayer.Entities;
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using clubIS.CoreLayer.Entities;
-
-namespace clubIS.BusinessLayer.MapperConfig
+namespace ClubIS.BusinessLayer
 {
     public class AutoMapperConfig
     {       
