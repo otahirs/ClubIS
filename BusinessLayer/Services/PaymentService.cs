@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
+using ClubIS.CoreLayer.Enums;
 using ClubIS.DataAccessLayer;
 
 namespace ClubIS.BusinessLayer.Services
@@ -17,9 +20,12 @@ namespace ClubIS.BusinessLayer.Services
             _unitOfWork = unitOfWork;
             _mapper = new Mapper(new MapperConfiguration(AutoMapperConfig.ConfigureMapping));
         }
-        public Task Create(PaymentSendDTO p)
+        public Task Create(PaymentEditDTO p)
         {
-            return _unitOfWork.Payments.Add(_mapper.Map<Payment>(p));
+            var payment = _mapper.Map<Payment>(p);
+            payment.Date = DateTime.Now;
+            payment.PaymentState = PaymentState.Ok;
+            return _unitOfWork.Payments.Add(payment);
         }
 
         public async Task Delete(int id)
@@ -32,10 +38,15 @@ namespace ClubIS.BusinessLayer.Services
             var paymentEntities = await _unitOfWork.Payments.GetAllIncluded();
             return _mapper.Map<IEnumerable<PaymentListDTO>>(paymentEntities);
         }
-        public async Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int id)
+        public async Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int userId)
         {
-            var user = await _unitOfWork.Users.GetById(id);
+            var user = await _unitOfWork.Users.GetById(userId);
             var paymentEntities = await _unitOfWork.Payments.GetAllIncludedByAccountId(user.AccountId);
+            foreach(var p in paymentEntities)
+            {
+                if (p.SourceAccountId == user.AccountId)
+                    p.CreditAmount *= -1;
+            }
             return _mapper.Map<IEnumerable<PaymentListDTO>>(paymentEntities);
         }
 

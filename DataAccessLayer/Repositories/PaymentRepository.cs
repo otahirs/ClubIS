@@ -18,7 +18,7 @@ namespace ClubIS.DataAccessLayer.Repositories
                 .Include(p => p.Executor)
                 .Include(p => p.SourceAccount)
                     .ThenInclude(a => a.Owner)
-                .Include(p => p.TargetAccount)
+                .Include(p => p.RecipientAccount)
                     .ThenInclude(a => a.Owner)
                 .Include(p => p.Event)
                 .ToListAsync();
@@ -27,18 +27,20 @@ namespace ClubIS.DataAccessLayer.Repositories
         {
             return await _entities
                 .Include(p => p.Executor)
+                .Include(p => p.SourceUser)
                 .Include(p => p.SourceAccount)
                     .ThenInclude(a => a.Owner)
-                .Include(p => p.TargetAccount)
+                .Include(p => p.RecipientUser)
+                .Include(p => p.RecipientAccount)
                     .ThenInclude(a => a.Owner)
                 .Include(p => p.Event)
-                .Where(p => p.SourceAccountId == accountId || p.TargetAccountId == accountId)
+                .Where(p => p.SourceAccountId == accountId || p.RecipientAccountId == accountId)
                 .ToListAsync();
         }
         public async Task<IEnumerable<Payment>> GetAllWithTargetAccountOwnerByEventId(int id)
         {
             return await _entities
-                .Include(p => p.TargetAccount)
+                .Include(p => p.RecipientAccount)
                     .ThenInclude(a => a.Owner)
                 .Where(p => p.EventId == id)
                 .ToListAsync();

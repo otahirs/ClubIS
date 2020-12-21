@@ -1,9 +1,97 @@
 ﻿@page "/finance"
+@inject HttpClient Http
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Finance</MudText>
+
+    @if (payments == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudTable Items="@payments">
+            <HeaderContent>
+                <MudTh>Date</MudTh>
+                <MudTh>Event</MudTh>
+                <MudTh>Amount</MudTh>
+                <MudTh>Note</MudTh>
+                <MudTh>Executed by</MudTh>
+                <MudTh>Status</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Date">@context.Date</MudTd>
+                <MudTd DataLabel="Event">@context.EventName</MudTd>
+                <MudTd DataLabel="Amount">@context.CreditAmount</MudTd>
+                <MudTd DataLabel="Note">@context.Message</MudTd>
+                <MudTd DataLabel="Executed by">@context.ExecutorName</MudTd>
+                <MudTd DataLabel="Status">@context.PaymentState</MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+    <MudGrid>
+        <MudItem lg="3" md="6" xs="12">
+            <MudExpansionPanels Class="mt-10">
+                <MudExpansionPanel Text="Credit transfer" IsExpandedChanged="LoadUsers">
+                    @if (users == null)
+                    {
+                        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+                    }
+                    else
+                    {
+                        <EditForm Model="@sendPayment" OnValidSubmit="OnValidSubmit">
+                            <DataAnnotationsValidator />
+                            <MudCard Elevation="0">
+                                <MudCardContent>
+                                    <MudSelect Label="Recipient" @bind-Value="@sendPayment.RecipientUserId" Variant="Variant.Outlined">
+                                        @foreach (var user in users)
+                                            {
+                                            <MudSelectItem Value="@user.Id">@user.Surname @user.Firstname</MudSelectItem>
+                                            }
+                                    </MudSelect>
+                                    <MudTextField Label="Amount" @bind-Value="sendPayment.CreditAmount" For="@(() => sendPayment.CreditAmount)" Variant="Variant.Outlined" />
+                                    <MudTextField Label="Note" @bind-Value="sendPayment.Message" For="@(() => sendPayment.Message)" Variant="Variant.Outlined" />
+                                </MudCardContent>
+                                <MudCardActions>
+                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
+                                </MudCardActions>
+                            </MudCard>
+                        </EditForm>
+                    }
+                </MudExpansionPanel>
+            </MudExpansionPanels>
+        </MudItem>
+    </MudGrid>
 </MudContainer>
 
 @code {
+    private PaymentListDTO[] payments;
+    private List<UserListDTO> users;
+    private PaymentUserTransferDTO sendPayment = new PaymentUserTransferDTO();
+
+    private int UserId = 2;
+
+    protected override async Task OnInitializedAsync()
+    {
+        payments = await Http.GetFromJsonAsync<PaymentListDTO[]>($"Payments/{UserId}");
+    }
+
+    private async Task LoadUsers(bool panelIsExpanded)
+    {
+        if (panelIsExpanded && users == null)
+        {
+            users = await Http.GetFromJsonAsync<List<UserListDTO>>("Users");
+            users.RemoveAll(u => u.Id == UserId);
+        }
+    }
+
+    private async Task OnValidSubmit(EditContext context)
+    {
+        sendPayment.SourceUserId = UserId;
+        await Http.PostAsJsonAsync<PaymentUserTransferDTO>("Payments/transfer", sendPayment);
+        sendPayment = new PaymentUserTransferDTO();
+        payments = await Http.GetFromJsonAsync<PaymentListDTO[]>($"Payments/{UserId}");
+    }
 
 }
+

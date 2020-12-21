@@ -7,7 +7,8 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
 {
     public interface IPaymentFacade : IDisposable
     {
-        Task Create(PaymentSendDTO p);
+        Task Create(PaymentEditDTO p);
+        Task Create(PaymentUserTransferDTO p);
         Task<IEnumerable<PaymentListDTO>> GetAll();
         Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int id);
         Task<IEnumerable<UserCreditListDTO>> GetAllUserCreditList();

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ClubIS.DataAccessLayer.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -89,7 +89,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AccountId = table.Column<int>(nullable: false),
-                    BillingAccountId = table.Column<int>(nullable: true),
+                    BillingAccountId = table.Column<int>(nullable: false),
                     MemberFeeId = table.Column<int>(nullable: true),
                     Username = table.Column<string>(maxLength: 10, nullable: false),
                     Password = table.Column<string>(maxLength: 33, nullable: false),
@@ -211,9 +211,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ExecutorId = table.Column<int>(nullable: true),
-                    SourceAccountId = table.Column<int>(nullable: false),
-                    TargetAccountId = table.Column<int>(nullable: true),
+                    SourceAccountId = table.Column<int>(nullable: true),
+                    SourceUserId = table.Column<int>(nullable: true),
+                    RecipientAccountId = table.Column<int>(nullable: true),
+                    RecipientUserId = table.Column<int>(nullable: true),
                     EventId = table.Column<int>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
                     CreditAmount = table.Column<int>(nullable: false),
                     Message = table.Column<string>(maxLength: 255, nullable: true),
                     PaymentState = table.Column<int>(nullable: false),
@@ -235,15 +238,27 @@ namespace ClubIS.DataAccessLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_Payments_FinanceAccounts_RecipientAccountId",
+                        column: x => x.RecipientAccountId,
+                        principalTable: "FinanceAccounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Payments_Users_RecipientUserId",
+                        column: x => x.RecipientUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Payments_FinanceAccounts_SourceAccountId",
                         column: x => x.SourceAccountId,
                         principalTable: "FinanceAccounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Payments_FinanceAccounts_TargetAccountId",
-                        column: x => x.TargetAccountId,
-                        principalTable: "FinanceAccounts",
+                        name: "FK_Payments_Users_SourceUserId",
+                        column: x => x.SourceUserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -358,7 +373,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                 columns: new[] { "Id", "AccountId", "AccountState", "BillingAccountId", "DateOfBirth", "Email", "Firstname", "Gender", "Licence", "MemberFeeId", "Nationality", "Password", "Phone", "RegistrationNumber", "Roles", "Surname", "Username" },
                 values: new object[,]
                 {
-                    { 2, 1, 0, null, null, "tst2@eob.cz", "Kateřina", 1, 2, null, "Česká republika", "password", null, "***REMOVED***", 0, "***REMOVED***", "kachna" },
+                    { 2, 1, 0, 1, null, "tst2@eob.cz", "Kateřina", 1, 2, null, "Česká republika", "password", null, "***REMOVED***", 0, "***REMOVED***", "kachna" },
                     { 1, 2, 3, 1, null, "tst2@eof.cz", "Matěj", 0, 0, null, "Česká republika", "123456", null, "***REMOVED***", 8, "***REMOVED***", "m.chaloup" }
                 });
 
@@ -383,8 +398,8 @@ namespace ClubIS.DataAccessLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "Payments",
-                columns: new[] { "Id", "CreditAmount", "EventId", "ExecutorId", "Message", "PaymentState", "SourceAccountId", "StornoNote", "TargetAccountId" },
-                values: new object[] { 1, 1000, 1, 1, null, 0, 1, null, 2 });
+                columns: new[] { "Id", "CreditAmount", "Date", "EventId", "ExecutorId", "Message", "PaymentState", "RecipientAccountId", "RecipientUserId", "SourceAccountId", "SourceUserId", "StornoNote" },
+                values: new object[] { 1, 1000, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, null, 0, 2, null, 1, null, null });
 
             migrationBuilder.InsertData(
                 table: "SiCard",
@@ -447,14 +462,24 @@ namespace ClubIS.DataAccessLayer.Migrations
                 column: "ExecutorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payments_RecipientAccountId",
+                table: "Payments",
+                column: "RecipientAccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_RecipientUserId",
+                table: "Payments",
+                column: "RecipientUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Payments_SourceAccountId",
                 table: "Payments",
                 column: "SourceAccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_TargetAccountId",
+                name: "IX_Payments_SourceUserId",
                 table: "Payments",
-                column: "TargetAccountId");
+                column: "SourceUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SiCard_UserId",

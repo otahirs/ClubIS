@@ -72,6 +72,7 @@ namespace ClubIS.DataAccessLayer
             {
                 Id = 2,
                 AccountId = 1,
+                BillingAccountId = 1,
                 Username = "kachna",
                 Password = "password",
                 Firstname = "Kateřina",
@@ -174,7 +175,7 @@ namespace ClubIS.DataAccessLayer
                 Id = 1,
                 ExecutorId = 1,
                 SourceAccountId = 1,
-                TargetAccountId = 2,
+                RecipientAccountId = 2,
                 EventId = 1,
                 CreditAmount = 1000,
                 PaymentState = PaymentState.Ok

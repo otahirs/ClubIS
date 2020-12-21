@@ -17,5 +17,7 @@ namespace ClubIS.CoreLayer.DTOs
         public string Email { get; set; }
         public string Phone { get; set; }
         public Licence Licence { get; set; }
+        public int AccountId { get; set; }
+        public int BillingAccountId { get; set; }
     }
 }

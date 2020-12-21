@@ -15,7 +15,7 @@ namespace ClubIS.CoreLayer.Entities
 
         [ForeignKey(nameof(AccountId))]
         public FinanceAccount Account { get; set; }
-        public int? BillingAccountId { get; set; }
+        public int BillingAccountId { get; set; }
 
         [ForeignKey(nameof(BillingAccountId))]
         public FinanceAccount BillingAccount { get; set; }

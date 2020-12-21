@@ -5,6 +5,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20201221081533_InitialCreate.cs" />
+    <Compile Remove="Migrations\20201221081533_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20201221120159_paymentDate.cs" />
+    <Compile Remove="Migrations\20201221120159_paymentDate.Designer.cs" />
+    <Compile Remove="Migrations\20201221191357_paymentEntityRework.cs" />
+    <Compile Remove="Migrations\20201221191357_paymentEntityRework.Designer.cs" />
+    <Compile Remove="Migrations\20201221191952_paymentEntityReworkFix.cs" />
+    <Compile Remove="Migrations\20201221191952_paymentEntityReworkFix.Designer.cs" />
+    <Compile Remove="Migrations\20201221192357_paymentEntityRework.cs" />
+    <Compile Remove="Migrations\20201221192357_paymentEntityRework.Designer.cs" />
+    <Compile Remove="Migrations\20201221192637_paymentEntityRework.cs" />
+    <Compile Remove="Migrations\20201221192637_paymentEntityRework.Designer.cs" />
+    <Compile Remove="Migrations\20201221192800_init.cs" />
+    <Compile Remove="Migrations\20201221192800_init.Designer.cs" />
+    <Compile Remove="Migrations\20201221194956_init.cs" />
+    <Compile Remove="Migrations\20201221194956_init.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

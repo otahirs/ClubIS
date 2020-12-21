@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
@@ -11,14 +12,32 @@ namespace ClubIS.BusinessLayer.Facades
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPaymentService _paymentService;
-        public PaymentFacade(IUnitOfWork unitOfWork, IPaymentService paymentService)
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+        public PaymentFacade(IUnitOfWork unitOfWork, IPaymentService paymentService, IUserService userService)
         {
             _unitOfWork = unitOfWork;
             _paymentService = paymentService;
+            _userService = userService;
+            _mapper = new Mapper(new MapperConfiguration(AutoMapperConfig.ConfigureMapping));
         }
 
-        public async Task Create(PaymentSendDTO payment)
+        public async Task Create(PaymentEditDTO payment)
         {
+            await _paymentService.Create(payment);
+            await _unitOfWork.Save();
+        }
+
+        public async Task Create(PaymentUserTransferDTO p)
+        {
+            var payment = _mapper.Map<PaymentEditDTO>(p);
+            var recipientUser = await _userService.GetById(p.RecipientUserId);
+            var sourceUser = await _userService.GetById(p.SourceUserId);
+
+            payment.RecipientAccountId = recipientUser.BillingAccountId;
+            payment.SourceAccountId = sourceUser.BillingAccountId;
+            payment.ExecutorId = sourceUser.Id;
+
             await _paymentService.Create(payment);
             await _unitOfWork.Save();
         }

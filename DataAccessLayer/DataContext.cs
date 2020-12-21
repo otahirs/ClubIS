@@ -62,6 +62,11 @@ namespace ClubIS.DataAccessLayer
                 .WithOne(u => u.Account)
                 .HasForeignKey<User>(u => u.AccountId);
 
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.BillingAccount)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Seed();
 
             base.OnModelCreating(modelBuilder);

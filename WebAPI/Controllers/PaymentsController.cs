@@ -47,10 +47,10 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(payments);
         }
 
-        [HttpPost]
+        [HttpPost("transfer")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided payment.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Payment added.")]
-        public async Task<ActionResult> Post([FromBody] PaymentSendDTO payment)
+        public async Task<ActionResult> Post([FromBody] PaymentUserTransferDTO payment)
         {
             if (payment == null)
                 return BadRequest();

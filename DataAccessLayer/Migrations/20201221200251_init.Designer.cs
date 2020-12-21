@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClubIS.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201221081533_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201221200251_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -381,6 +381,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("CreditAmount")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("EventId")
                         .HasColumnType("int");
 
@@ -394,15 +397,21 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("PaymentState")
                         .HasColumnType("int");
 
-                    b.Property<int>("SourceAccountId")
+                    b.Property<int?>("RecipientAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RecipientUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SourceAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SourceUserId")
                         .HasColumnType("int");
 
                     b.Property<string>("StornoNote")
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
-
-                    b.Property<int?>("TargetAccountId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -410,9 +419,13 @@ namespace ClubIS.DataAccessLayer.Migrations
 
                     b.HasIndex("ExecutorId");
 
+                    b.HasIndex("RecipientAccountId");
+
+                    b.HasIndex("RecipientUserId");
+
                     b.HasIndex("SourceAccountId");
 
-                    b.HasIndex("TargetAccountId");
+                    b.HasIndex("SourceUserId");
 
                     b.ToTable("Payments");
 
@@ -421,11 +434,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 1,
                             CreditAmount = 1000,
+                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EventId = 1,
                             ExecutorId = 1,
                             PaymentState = 0,
-                            SourceAccountId = 1,
-                            TargetAccountId = 2
+                            RecipientAccountId = 2,
+                            SourceAccountId = 1
                         });
                 });
 
@@ -481,7 +495,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("AccountState")
                         .HasColumnType("int");
 
-                    b.Property<int?>("BillingAccountId")
+                    b.Property<int>("BillingAccountId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateOfBirth")
@@ -569,6 +583,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Id = 2,
                             AccountId = 1,
                             AccountState = 0,
+                            BillingAccountId = 1,
                             Email = "tst2@eob.cz",
                             Firstname = "Kateřina",
                             Gender = 1,
@@ -669,15 +684,21 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .WithMany()
                         .HasForeignKey("ExecutorId");
 
+                    b.HasOne("ClubIS.CoreLayer.Entities.FinanceAccount", "RecipientAccount")
+                        .WithMany()
+                        .HasForeignKey("RecipientAccountId");
+
+                    b.HasOne("ClubIS.CoreLayer.Entities.User", "RecipientUser")
+                        .WithMany()
+                        .HasForeignKey("RecipientUserId");
+
                     b.HasOne("ClubIS.CoreLayer.Entities.FinanceAccount", "SourceAccount")
                         .WithMany()
-                        .HasForeignKey("SourceAccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SourceAccountId");
 
-                    b.HasOne("ClubIS.CoreLayer.Entities.FinanceAccount", "TargetAccount")
+                    b.HasOne("ClubIS.CoreLayer.Entities.User", "SourceUser")
                         .WithMany()
-                        .HasForeignKey("TargetAccountId");
+                        .HasForeignKey("SourceUserId");
                 });
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.SiCard", b =>
@@ -699,7 +720,9 @@ namespace ClubIS.DataAccessLayer.Migrations
 
                     b.HasOne("ClubIS.CoreLayer.Entities.FinanceAccount", "BillingAccount")
                         .WithMany()
-                        .HasForeignKey("BillingAccountId");
+                        .HasForeignKey("BillingAccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ClubIS.CoreLayer.Entities.MemberFee", "MemberFee")
                         .WithMany()

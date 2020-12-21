@@ -6,9 +6,9 @@ namespace ClubIS.BusinessLayer.Services.Interfaces
 {
     public interface IPaymentService
     {
-        Task Create(PaymentSendDTO p);
+        Task Create(PaymentEditDTO p);
         Task<IEnumerable<PaymentListDTO>> GetAll();
-        Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int id);
+        Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int userId);
         Task<IEnumerable<UserCreditListDTO>> GetAllUSerCreditList();
         Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id);
         Task<int> GetEventPaymentSumByEventId(int id);

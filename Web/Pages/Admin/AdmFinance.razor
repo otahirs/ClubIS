@@ -1,9 +1,91 @@
 ﻿@page "/admin/finance"
+@inject HttpClient Http
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin finance</MudText>
+    <MudTabs Vertical="true">
+        <MudTabPanel Text="Item One">
+            <MudContainer MaxWidth="MaxWidth.Large">
+                <MudText>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nunc dolor, ullamcorper ut nunc at, lacinia dignissim lorem. Suspendisse orci velit, lobortis a sagittis vel, varius nec ipsum. Duis sed diam sed massa porttitor consectetur. Proin velit enim, rutrum ac porta sed, pellentesque vitae tortor. Curabitur efficitur scelerisque nunc, et feugiat arcu congue et. Cras risus orci, consectetur at bibendum a, vehicula dignissim eros. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer vulputate enim eget aliquet ornare. Donec magna massa, commodo non porttitor non, finibus in orci. Duis molestie neque non elit feugiat, ut pharetra turpis ullamcorper. Duis libero massa, tincidunt id neque eu, egestas consectetur dui. Integer lobortis scelerisque turpis, sit amet rhoncus est vehicula vel. Sed sodales odio leo, ac sagittis lectus aliquet ullamcorper. Proin sollicitudin ac eros nec varius. In placerat ipsum turpis, vel tempus est egestas ut. Nulla malesuada condimentum eros eget viverra.
+                    Duis pretium bibendum dolor, id tincidunt libero scelerisque eu. Aenean elementum neque eget tincidunt semper. Etiam ultricies ipsum lacus, quis sollicitudin mi auctor vitae. Curabitur pretium venenatis nisl, sit amet fringilla ante vestibulum fermentum. Aenean velit massa, egestas nec tortor sed, venenatis varius mi. Vestibulum dapibus lorem efficitur leo mollis, et dapibus nisl auctor. Proin ut condimentum massa, sit amet tincidunt ligula. Aenean ultrices mauris massa, sed ultrices nibh dignissim in. Duis magna nunc, varius vitae mauris a, lacinia congue mauris. Sed et molestie erat. Vestibulum euismod fringilla risus. Suspendisse ullamcorper egestas augue, vel facilisis erat vulputate quis.
+                    Integer malesuada tempus risus tempor varius. Suspendisse potenti. Mauris cursus pretium nunc, a rutrum urna pulvinar eu. Vestibulum lacinia metus in nibh luctus, vel volutpat magna gravida. Pellentesque in magna sit amet magna elementum rhoncus quis eu mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec pretium luctus ante a pellentesque. Fusce suscipit maximus augue, et mollis leo lobortis nec. Suspendisse lacinia id risus sed consequat. Aliquam sit amet arcu vel ex malesuada congue. Mauris interdum erat non lectus cursus, et dapibus nulla facilisis. Etiam non augue eget justo mollis efficitur eu convallis turpis. Curabitur quis mauris interdum, laoreet quam a, pulvinar enim. Nam mauris arcu, facilisis in felis ac, suscipit faucibus nisl. Sed efficitur fermentum vehicula. Mauris dapibus urna vitae purus pharetra elementum.
+                    In facilisis commodo tortor at euismod. Praesent placerat massa non sapien laoreet, vitae porta metus semper. Sed egestas dictum efficitur. Nulla non aliquam ipsum. Cras et nulla vel libero egestas molestie. In pharetra eros sit amet tortor molestie blandit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin ac sem facilisis, convallis ex at, hendrerit massa. Nam mollis nisi et nibh venenatis cursus.
+                    Proin at posuere arcu. Maecenas et massa vitae metus volutpat finibus at vitae lectus. Sed eu urna non nibh rutrum ornare. Integer pharetra sodales fermentum. Vivamus in velit id turpis semper accumsan sed et sem. Curabitur ultricies dui nec augue placerat, nec eleifend lectus vestibulum. Maecenas in diam velit. Vestibulum vitae tellus sed libero malesuada finibus. Phasellus malesuada vel nulla quis hendrerit. Etiam ex leo, commodo a magna in, sodales rutrum purus. Aenean euismod placerat enim a dictum. Aliquam magna libero, aliquet sed ullamcorper quis, luctus accumsan orci. In tincidunt ultricies lectus, non lacinia quam ullamcorper non.
+                    Vestibulum in urna quis dui consectetur efficitur eget et nunc. Phasellus non lacinia nisi. Vivamus posuere accumsan fringilla. Nullam at orci ac turpis ultricies ullamcorper consectetur eu ante. Nulla egestas lorem id urna imperdiet consequat. Nunc placerat, libero ut molestie lobortis, eros sem tempor lacus, at pretium tortor leo non quam. Nunc vel euismod quam, in fermentum elit. Praesent quis ligula ac purus accumsan venenatis non vitae ipsum. Duis non eros eu felis efficitur lobortis sed sed eros. Maecenas ornare dui eros, at volutpat elit efficitur in. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus in libero blandit, consectetur neque eget, faucibus lacus. Phasellus viverra bibendum consequat. Aliquam sit amet efficitur velit, quis fermentum lacus. Integer nec finibus enim. Phasellus eget tortor pellentesque, sodales odio vitae, consectetur dolor.
+                </MudText>
+            </MudContainer>
+        </MudTabPanel>
+        <MudTabPanel Text="Events">
+            <MudContainer MaxWidth="MaxWidth.Large">
+                @if (events == null)
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+                }
+                else
+                {
+                    <MudTable Items="@events" Hover="true" Filter="new Func<EventListWithTotalCostsDTO,bool>(FilterFunc)" @bind-SelectedItem="selected_item">
+                        <ToolBarContent>
+                            <MudTextField @bind-Value="search_string" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium"></MudTextField>
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Date</MudTh>
+                            <MudTh>Name</MudTh>
+                            <MudTh>Place</MudTh>
+                            <MudTh>Type</MudTh>
+                            <MudTh>Deadlines</MudTh>
+                            <MudTh>Cost</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Date">@context.Event.StartDate</MudTd>
+                            <MudTd DataLabel="Name">@context.Event.Name</MudTd>
+                            <MudTd DataLabel="Place">@context.Event.Place</MudTd>
+                            <MudTd DataLabel="Type">@context.Event.EventType</MudTd>
+                            <MudTd DataLabel="Deadlines">@context.Event.Deadlines</MudTd>
+                            <MudTd DataLabel="Cost">@context.TotalCosts</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                    <MudText>Selected: @selected_item?.Event.Name</MudText>
+                }
+            </MudContainer>
+        </MudTabPanel>
+        <MudTabPanel Text="Item Three">
+            <MudText>Item Three</MudText>
+        </MudTabPanel>
+        <MudTabPanel Text="Item Four">
+            <MudText>Item Four</MudText>
+        </MudTabPanel>
+        <MudTabPanel Text="Item Five">
+            <MudText>Item Five</MudText>
+        </MudTabPanel>
+        <MudTabPanel Text="Item Six">
+            <MudText>Item Six</MudText>
+        </MudTabPanel>
+    </MudTabs>
 </MudContainer>
 
 @code {
+    string search_string = "";
+    EventListWithTotalCostsDTO selected_item = null;
+    private EventListWithTotalCostsDTO[] events;
 
+    protected override async Task OnInitializedAsync()
+    {
+        events = await Http.GetFromJsonAsync<EventListWithTotalCostsDTO[]>("Events/costs");
+    }
+
+    bool FilterFunc(EventListWithTotalCostsDTO element)
+    {
+        if (string.IsNullOrWhiteSpace(search_string))
+            return true;
+        if (element.Event.Name.Contains(search_string))
+            return true;
+        //if ($"{element.Number} {element.Position} {element.Molar}".Contains(search_string))
+        //    return true;
+        return false;
+    }
 }
+
