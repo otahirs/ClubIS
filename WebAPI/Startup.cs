@@ -59,10 +59,10 @@ namespace clubIS.WebAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserFacade, UserFacade>();
-            services.AddControllers().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
             services.AddControllers();
+                //.AddNewtonsoftJson(options =>
+                //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                //);
 
             services.AddApiVersioning(x =>
             {
@@ -75,13 +75,6 @@ namespace clubIS.WebAPI
                 o.GroupNameFormat = "'v'V";
                 o.SubstituteApiVersionInUrl = true;
             });
-
-            services.AddCors();
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new ProducesAttribute("application/json"));
-                options.Filters.Add(new ConsumesAttribute("application/json"));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,13 +88,14 @@ namespace clubIS.WebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
-
             app.UseCors(builder => builder
-             .AllowAnyOrigin()
-             .AllowAnyMethod()
-             .AllowAnyHeader());
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+            );
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
