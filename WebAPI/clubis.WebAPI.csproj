@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BusinessLayer\clubIS.BusinessLayer.csproj" />
-    <ProjectReference Include="..\DataAccessLayer\clubIS.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\clubis.CoreLayer\clubis.CoreLayer.csproj" />
   </ItemGroup>
 
 
