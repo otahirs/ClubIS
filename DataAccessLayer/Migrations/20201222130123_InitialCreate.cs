@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ClubIS.DataAccessLayer.Migrations
 {
-    public partial class init : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -339,7 +339,11 @@ namespace ClubIS.DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "Events",
                 columns: new[] { "Id", "AccommodationOption", "ClassOptions", "EndDate", "EventProperties", "EventState", "EventType", "Leader", "Link", "Name", "Note", "Organizer", "Place", "StartDate", "TransportOption" },
-                values: new object[] { 1, 2, "[\"A\",\"B\"]", new DateTime(2020, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 2, 0, null, "mcr2020.obopava.cz", "MČR klubů a oblastních výběrů", null, "OB ZAM", "Kobyla nad Vidnávkou", new DateTime(2020, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 });
+                values: new object[,]
+                {
+                    { 1, 2, "[\"A\",\"B\"]", new DateTime(2020, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 2, 2, null, "mcr2020.obopava.cz", "Soustředění Vysočina", null, "OB ZAM", "Sklené", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
+                    { 2, 2, "[\"A\",\"B\"]", new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 2, 0, null, "mcr2020.obopava.cz", "9. JML - klasická trať", null, "OB ZAM", "Jilemnice", new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 }
+                });
 
             migrationBuilder.InsertData(
                 table: "FinanceAccounts",
@@ -364,8 +368,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                 columns: new[] { "Id", "Deadline", "EventId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2020, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 2, new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 }
+                    { 1, new DateTime(2020, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
+                    { 2, new DateTime(2020, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 },
+                    { 3, new DateTime(2020, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 }
                 });
 
             migrationBuilder.InsertData(

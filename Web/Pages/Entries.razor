@@ -1,16 +1,97 @@
 ﻿@page "/events"
+@using MudBlazor.Components.Table
+@inject HttpClient Http
+@inject NavigationManager UriHelper
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Event entries</MudText>
+    @if (events == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudTable Items="@events" Filter="new Func<EventListWithUserEntryDTO, bool>(FilterFunc)" OnRowClick="@(e=>Callback(e))" T="EventListWithUserEntryDTO">
+            <ToolBarContent>
+                <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                <MudToolBarSpacer />
+                <MudSelect T="string" @bind-Value="searchType" Label="Filter EventType">
+                    @foreach (var type in types)
+                        {
+                        <MudSelectItem Value="@type" />
+                        }
+                </MudSelect>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>Date</MudTh>
+                <MudTh>Name</MudTh>
+                <MudTh>Place</MudTh>
+                <MudTh>Type</MudTh>
+                <MudTh>Deadlines</MudTh>
+                <MudTh>Entries</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Date">@GetDate(context.Event.StartDate, context.Event.EndDate)</MudTd>
+                <MudTd DataLabel="Name">@context.Event.Name</MudTd>
+                <MudTd DataLabel="Place">@context.Event.Place</MudTd>
+                <MudTd DataLabel="Type">@context.Event.EventType</MudTd>
+                <MudTd DataLabel="Deadlines">@GetDeadlines(context.Event.Deadlines)</MudTd>
+                <MudTd DataLabel="Entries">@GetClass(context.EntryInfo)</MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
 </MudContainer>
 
-@using System.Net.Http
-@using ClubIS.CoreLayer.DTOs
-@inject HttpClient Http
-
 @code {
-    private EventEntryListDTO todoItems;
+    private EventListWithUserEntryDTO[] events;
+    private List<string> types;
+    private int UserId = 1;
+    private string searchString = "";
+    private string searchType = "";
 
-    protected override async Task OnInitializedAsync() =>
-        todoItems = await Http.GetFromJsonAsync<EventEntryListDTO>("api/v1/Entries/event/1");
+    protected override async Task OnInitializedAsync()
+    {
+        events = await Http.GetFromJsonAsync<EventListWithUserEntryDTO[]>("Events/user/1");
+        types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
+        types.Insert(0, "");
+    }
+
+    bool FilterFunc(EventListWithUserEntryDTO e)
+    {
+        if (string.IsNullOrWhiteSpace(searchString) && string.IsNullOrWhiteSpace(searchType))
+            return true;
+        if (string.IsNullOrWhiteSpace(searchType) && $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {GetClass(e.EntryInfo)}".Contains(searchString))
+            return true;
+        if (string.IsNullOrWhiteSpace(searchString) && e.Event.EventType.ToString().Contains(searchType))
+            return true;
+        if ($"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {GetClass(e.EntryInfo)}".Contains(searchString) && e.Event.EventType.ToString().Contains(searchType))
+            return true;
+        return false;
+    }
+
+    private static string GetDate(DateTime start, DateTime end)
+    {
+        String endFormat = end.ToString("dd.MM.yyyy");
+        if (start.Equals(end))
+        {
+            return endFormat;
+        }
+        return start.ToString("dd.") + '-' + endFormat;
+    }
+
+    private static string GetDeadlines(ICollection<EventDeadline> deadlines)
+    {
+        return deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b);
+    }
+
+    private static string GetClass(EventEntryBasicInfoDTO entryInfo)
+    {
+        return (entryInfo == null) ? "not registered" : entryInfo.Class;
+    }
+
+    private void Callback(TableRowClickEventArgs<EventListWithUserEntryDTO> obj)
+    {
+        Console.WriteLine(obj.Item.Event.Id);
+    }
+
 }

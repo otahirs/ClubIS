@@ -128,10 +128,10 @@ namespace ClubIS.DataAccessLayer
             modelBuilder.Entity<Event>().HasData(new Event()
             {
                 Id = 1,
-                StartDate = new DateTime(2020, 10, 11),
-                EndDate = new DateTime(2020, 10, 11),
-                Name = "MČR klubů a oblastních výběrů",
-                Place = "Kobyla nad Vidnávkou",
+                StartDate = new DateTime(2020, 9, 7),
+                EndDate = new DateTime(2020, 9, 18),
+                Name = "Soustředění Vysočina",
+                Place = "Sklené",
                 Organizer = "OB ZAM",
                 AccommodationOption = ClubEventOption.Optional,
                 TransportOption = ClubEventOption.ClubEnsured,
@@ -139,6 +139,27 @@ namespace ClubIS.DataAccessLayer
                 ClassOptions = new HashSet<string>() {
                     "A",
                     "B"
+                },
+                EventType = EventType.Camp,
+                EventState = EventState.Archived,
+                EventProperties = EventProperty.Championship
+            });
+
+            modelBuilder.Entity<Event>().HasData(new Event()
+            {
+                Id = 2,
+                StartDate = new DateTime(2020, 10, 30),
+                EndDate = new DateTime(2020, 10, 30),
+                Name = "9. JML - klasická trať",
+                Place = "Jilemnice",
+                Organizer = "OB ZAM",
+                AccommodationOption = ClubEventOption.Optional,
+                TransportOption = ClubEventOption.ClubEnsured,
+                Link = "mcr2020.obopava.cz",
+                ClassOptions = new HashSet<string>() {
+                    "A",
+                    "B",
+                    "H20"
                 },
                 EventType = EventType.Race,
                 EventState = EventState.Archived,
@@ -150,15 +171,24 @@ namespace ClubIS.DataAccessLayer
                {
                    Id = 1,
                    EventId = 1,
-                   Deadline = new DateTime(2020, 9, 11)
-               },
-               new EventDeadline()
-               {
-                   Id = 2,
-                   EventId = 1,
-                   Deadline = new DateTime(2020, 9, 30)
+                   Deadline = new DateTime(2020, 9, 1)
                }
-           );
+            );
+
+            modelBuilder.Entity<EventDeadline>().HasData(
+                new EventDeadline()
+                {
+                    Id = 2,
+                    EventId = 2,
+                    Deadline = new DateTime(2020, 10, 1)
+                },
+                new EventDeadline()
+                {
+                    Id = 3,
+                    EventId = 2,
+                    Deadline = new DateTime(2020, 10,  5)
+                }
+            );
 
             modelBuilder.Entity<EventEntry>().HasData(new EventEntry()
             {
@@ -166,6 +196,16 @@ namespace ClubIS.DataAccessLayer
                 UserId = 2,
                 EventId = 1,
                 Class = "A",
+                HasClubAccommodation = true,
+                HasClubTransport = true
+            });
+
+            modelBuilder.Entity<EventEntry>().HasData(new EventEntry()
+            {
+                Id = 2,
+                UserId = 1,
+                EventId = 2,
+                Class = "H20",
                 HasClubAccommodation = true,
                 HasClubTransport = true
             });

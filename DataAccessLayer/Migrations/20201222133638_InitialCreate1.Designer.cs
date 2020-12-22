@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClubIS.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201221200251_init")]
-    partial class init
+    [Migration("20201222133638_InitialCreate1")]
+    partial class InitialCreate1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -132,15 +132,31 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Id = 1,
                             AccommodationOption = 2,
                             ClassOptions = "[\"A\",\"B\"]",
-                            EndDate = new DateTime(2020, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2020, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventProperties = 16,
+                            EventState = 2,
+                            EventType = 2,
+                            Link = "mcr2020.obopava.cz",
+                            Name = "Soustředění Vysočina",
+                            Organizer = "OB ZAM",
+                            Place = "Sklené",
+                            StartDate = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransportOption = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccommodationOption = 2,
+                            ClassOptions = "[\"A\",\"B\",\"H20\"]",
+                            EndDate = new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EventProperties = 16,
                             EventState = 2,
                             EventType = 0,
                             Link = "mcr2020.obopava.cz",
-                            Name = "MČR klubů a oblastních výběrů",
+                            Name = "9. JML - klasická trať",
                             Organizer = "OB ZAM",
-                            Place = "Kobyla nad Vidnávkou",
-                            StartDate = new DateTime(2020, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Place = "Jilemnice",
+                            StartDate = new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransportOption = 1
                         });
                 });
@@ -168,14 +184,20 @@ namespace ClubIS.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            Deadline = new DateTime(2020, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deadline = new DateTime(2020, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EventId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Deadline = new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 1
+                            Deadline = new DateTime(2020, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Deadline = new DateTime(2020, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventId = 2
                         });
                 });
 
@@ -230,6 +252,15 @@ namespace ClubIS.DataAccessLayer.Migrations
                             HasClubAccommodation = true,
                             HasClubTransport = true,
                             UserId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Class = "H20",
+                            EventId = 2,
+                            HasClubAccommodation = true,
+                            HasClubTransport = true,
+                            UserId = 1
                         });
                 });
 

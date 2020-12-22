@@ -4,14 +4,16 @@ using ClubIS.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClubIS.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201222130123_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,7 +147,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 2,
                             AccommodationOption = 2,
-                            ClassOptions = "[\"A\",\"B\",\"H20\"]",
+                            ClassOptions = "[\"A\",\"B\"]",
                             EndDate = new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EventProperties = 16,
                             EventState = 2,
@@ -250,15 +252,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                             HasClubAccommodation = true,
                             HasClubTransport = true,
                             UserId = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Class = "H20",
-                            EventId = 2,
-                            HasClubAccommodation = true,
-                            HasClubTransport = true,
-                            UserId = 1
                         });
                 });
 
