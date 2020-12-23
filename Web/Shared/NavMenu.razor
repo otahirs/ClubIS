@@ -1,4 +1,6 @@
-﻿<MudNavMenu Class="mt-10">
+﻿@inject NavigationManager navigationManager
+@inject IdentityAuthenticationStateProvider authStateProvider
+<MudNavMenu Class="mt-10">
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Home">Home</MudNavLink>
     <MudNavLink Href="/events" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.DirectionsRun">Event Entries</MudNavLink>
     <MudNavLink Href="/users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.People">Member list</MudNavLink>
@@ -8,10 +10,19 @@
     <br />
     <MudNavLink Href="/admin/entries" Match="NavLinkMatch.All" Icon="@Icons.Material.StickyNote2">Entries</MudNavLink>
     <MudNavLink Href="/admin/events" Match="NavLinkMatch.All" Icon="@Icons.Material.RunCircle">Events</MudNavLink>
-    <MudNavLink Href="/admin/users" Match="NavLinkMatch.All" Icon="@Icons.Material.SupervisorAccount" >Users</MudNavLink>
+    <MudNavLink Href="/admin/users" Match="NavLinkMatch.All" Icon="@Icons.Material.SupervisorAccount">Users</MudNavLink>
     <MudNavLink Href="/admin/finance" Match="NavLinkMatch.All" Icon="@Icons.Material.AccountBalance">Finance</MudNavLink>
     <br />
-    <MudDivider DividerType="DividerType.Middle" Class="mb-10"/>
+    <MudDivider DividerType="DividerType.Middle" Class="mb-10" />
 
     <MudNavLink Href="/counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Add">Counter</MudNavLink>
+    <AuthorizeView>
+        <Authorized>
+            <MudText>@context.User.Identity.Name</MudText>
+            <MudButton OnClick="@(async ()=> await authStateProvider.Logout())">Logout</MudButton>
+        </Authorized>
+        <NotAuthorized>
+            <MudButton OnClick="@(()=> navigationManager.NavigateTo("/login"))">Login</MudButton>
+        </NotAuthorized>
+    </AuthorizeView>
 </MudNavMenu>
