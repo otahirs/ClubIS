@@ -1,5 +1,7 @@
 ﻿@page "/finance"
+@attribute [Authorize]
 @inject HttpClient Http
+@inject IdentityAuthenticationStateProvider authState
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Finance</MudText>
@@ -68,12 +70,12 @@
     private PaymentListDTO[] payments;
     private List<UserListDTO> users;
     private PaymentUserTransferDTO sendPayment = new PaymentUserTransferDTO();
-
-    private int UserId = 2;
+    private int UserId;
 
     protected override async Task OnInitializedAsync()
     {
-        payments = await Http.GetFromJsonAsync<PaymentListDTO[]>($"Payments/{UserId}");
+        payments = await Http.GetFromJsonAsync<PaymentListDTO[]>($"Payments/user");
+        UserId = await authState.GetUserId();
     }
 
     private async Task LoadUsers(bool panelIsExpanded)
@@ -90,7 +92,7 @@
         sendPayment.SourceUserId = UserId;
         await Http.PostAsJsonAsync<PaymentUserTransferDTO>("Payments/transfer", sendPayment);
         sendPayment = new PaymentUserTransferDTO();
-        payments = await Http.GetFromJsonAsync<PaymentListDTO[]>($"Payments/{UserId}");
+        payments = await Http.GetFromJsonAsync<PaymentListDTO[]>($"Payments/user");
     }
 
 }

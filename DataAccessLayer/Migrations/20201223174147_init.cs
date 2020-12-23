@@ -91,19 +91,16 @@ namespace ClubIS.DataAccessLayer.Migrations
                     AccountId = table.Column<int>(nullable: false),
                     BillingAccountId = table.Column<int>(nullable: false),
                     MemberFeeId = table.Column<int>(nullable: true),
-                    Username = table.Column<string>(maxLength: 10, nullable: false),
-                    Password = table.Column<string>(maxLength: 33, nullable: false),
                     Firstname = table.Column<string>(maxLength: 20, nullable: false),
                     Surname = table.Column<string>(maxLength: 30, nullable: false),
-                    RegistrationNumber = table.Column<string>(maxLength: 7, nullable: true),
+                    RegistrationNumber = table.Column<string>(maxLength: 7, nullable: false),
                     DateOfBirth = table.Column<DateTime>(nullable: true),
                     Nationality = table.Column<string>(maxLength: 50, nullable: true),
                     Email = table.Column<string>(maxLength: 50, nullable: true),
                     Phone = table.Column<string>(maxLength: 25, nullable: true),
                     Gender = table.Column<int>(nullable: false),
                     Licence = table.Column<int>(nullable: false),
-                    AccountState = table.Column<int>(nullable: false),
-                    Roles = table.Column<int>(nullable: false)
+                    AccountState = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -370,11 +367,11 @@ namespace ClubIS.DataAccessLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "AccountId", "AccountState", "BillingAccountId", "DateOfBirth", "Email", "Firstname", "Gender", "Licence", "MemberFeeId", "Nationality", "Password", "Phone", "RegistrationNumber", "Roles", "Surname", "Username" },
+                columns: new[] { "Id", "AccountId", "AccountState", "BillingAccountId", "DateOfBirth", "Email", "Firstname", "Gender", "Licence", "MemberFeeId", "Nationality", "Phone", "RegistrationNumber", "Surname" },
                 values: new object[,]
                 {
-                    { 2, 1, 0, 1, null, "tst2@eob.cz", "Kateřina", 1, 2, null, "Česká republika", "password", null, "***REMOVED***", 0, "***REMOVED***", "kachna" },
-                    { 1, 2, 3, 1, null, "tst2@eof.cz", "Matěj", 0, 0, null, "Česká republika", "123456", null, "***REMOVED***", 8, "***REMOVED***", "m.chaloup" }
+                    { 2, 1, 0, 1, null, "tst2@eob.cz", "Kateřina", 1, 2, null, "Česká republika", null, "***REMOVED***", "***REMOVED***" },
+                    { 1, 2, 3, 1, null, "tst2@eof.cz", "Matěj", 0, 0, null, "Česká republika", null, "***REMOVED***", "***REMOVED***" }
                 });
 
             migrationBuilder.InsertData(

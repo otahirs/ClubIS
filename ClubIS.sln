@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubIS.WebAPI", "WebAPI\Clu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubIS.Web", "Web\ClubIS.Web.csproj", "{8C20F4B6-3F56-40D7-A07B-270BCC39A089}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubIS.CoreLayer", "CoreLayer\ClubIS.CoreLayer.csproj", "{F82F7E37-5E18-47F3-93D3-AFF1AD6EB283}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubIS.CoreLayer", "CoreLayer\ClubIS.CoreLayer.csproj", "{F82F7E37-5E18-47F3-93D3-AFF1AD6EB283}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubIS.IdentityStore", "IdentityStore\ClubIS.IdentityStore.csproj", "{224BCC4F-C341-4A29-95E1-F3BB42338FA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F82F7E37-5E18-47F3-93D3-AFF1AD6EB283}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F82F7E37-5E18-47F3-93D3-AFF1AD6EB283}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F82F7E37-5E18-47F3-93D3-AFF1AD6EB283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{224BCC4F-C341-4A29-95E1-F3BB42338FA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{224BCC4F-C341-4A29-95E1-F3BB42338FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{224BCC4F-C341-4A29-95E1-F3BB42338FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{224BCC4F-C341-4A29-95E1-F3BB42338FA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

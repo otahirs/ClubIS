@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
@@ -34,11 +35,15 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(payments);
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("user")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "News not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "News retrieved.")]
-        public async Task<ActionResult<IEnumerable<PaymentListDTO>>> Get([Range(1, int.MaxValue)] int userId)
+        public async Task<ActionResult<IEnumerable<PaymentListDTO>>> GetByUserId()
         {
+            if (!User.Identity.IsAuthenticated) {
+                return Unauthorized();
+            }
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var payments = await _paymentFacade.GetAllByUserId(userId);
             if (payments == null)
             {

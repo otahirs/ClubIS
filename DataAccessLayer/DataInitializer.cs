@@ -56,8 +56,6 @@ namespace ClubIS.DataAccessLayer
                 Id = 1,
                 AccountId = 2,
                 BillingAccountId = 1,
-                Username = "m.chaloup",
-                Password = "123456",
                 Firstname = "Matěj",
                 Surname = "***REMOVED***",
                 RegistrationNumber = "***REMOVED***",
@@ -65,16 +63,13 @@ namespace ClubIS.DataAccessLayer
                 Email = "tst2@eof.cz",
                 Gender = Gender.Male,
                 Licence = Licence.C,
-                AccountState = AccountState.Archived,
-                Roles = Role.Member | Role.EntriesManager
+                AccountState = AccountState.Archived
             };
             User supervised = new User()
             {
                 Id = 2,
                 AccountId = 1,
                 BillingAccountId = 1,
-                Username = "kachna",
-                Password = "password",
                 Firstname = "Kateřina",
                 Surname = "***REMOVED***",
                 RegistrationNumber = "***REMOVED***",
@@ -82,8 +77,7 @@ namespace ClubIS.DataAccessLayer
                 Email = "tst2@eob.cz",
                 Gender = Gender.Female,
                 Licence = Licence.A,
-                AccountState = AccountState.Active,
-                Roles = Role.Member
+                AccountState = AccountState.Active
             };
             modelBuilder.Entity<User>().HasData(supervisor, supervised);
 
