@@ -1,53 +1,55 @@
 ﻿@page "/event/{eventId:int}"
 @inject HttpClient Http
+@attribute [Authorize]
+@inject IdentityAuthenticationStateProvider authState
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
-@if (E == null)
-{
-    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
-}
-else
-{
-    
-    <MudExpansionPanel>
-        <TitleContent>
-            <MudText Typo="Typo.h3" GutterBottom="true">@E.Event.Name</MudText>
-        </TitleContent>
-        <ChildContent>
-            @if (Users == null)
-            {
-                <MudProgressCircular Color="Color.Default" Indeterminate="true" />
-            }
-            else
-            {
-                <EditForm Model="@sendEntry" OnValidSubmit="OnValidSubmit">
-                    <DataAnnotationsValidator />
-                    <MudCard Elevation="0">
-                        <MudCardContent>
-                            <MudSelect Label="User" @bind-Value="@sendEntry.UserId" Variant="Variant.Outlined">
-                                <MudSelectItem Value="@Users.User.Id">@Users.User.Name</MudSelectItem>
-                                @foreach (var user in Users.Supervised)
-                                {
-                                    <MudSelectItem Value="@user.Id">@user.Name</MudSelectItem>
-                                }
-                            </MudSelect>
-                            
-                            <MudSelect Label="Class" @bind-Value="@sendEntry.Class" Variant="Variant.Outlined">
-                                @foreach (var c in E.Event.ClassOptions)
-                                {
-                                    <MudSelectItem Value="@c">@c</MudSelectItem>
-                                }
-                            </MudSelect>
-                        </MudCardContent>
-                        <MudCardActions>
-                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
-                        </MudCardActions>
-                    </MudCard>
-                </EditForm>
-            }
-        </ChildContent>
-    </MudExpansionPanel>
-}
+    @if (E == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+
+        <MudExpansionPanel>
+            <TitleContent>
+                <MudText Typo="Typo.h3" GutterBottom="true">@E.Event.Name</MudText>
+            </TitleContent>
+            <ChildContent>
+                @if (Users == null)
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+                }
+                else
+                {
+                    <EditForm Model="@sendEntry" OnValidSubmit="OnValidSubmit">
+                        <DataAnnotationsValidator />
+                        <MudCard Elevation="0">
+                            <MudCardContent>
+                                <MudSelect Label="User" @bind-Value="@sendEntry.UserId" Variant="Variant.Outlined">
+                                    <MudSelectItem Value="@Users.User.Id">@Users.User.Name</MudSelectItem>
+                                    @foreach (var user in Users.Supervised)
+                                            {
+                                        <MudSelectItem Value="@user.Id">@user.Name</MudSelectItem>
+                                            }
+                                </MudSelect>
+
+                                <MudSelect Label="Class" @bind-Value="@sendEntry.Class" Variant="Variant.Outlined">
+                                    @foreach (var c in E.Event.ClassOptions)
+                                            {
+                                        <MudSelectItem Value="@c">@c</MudSelectItem>
+                                            }
+                                </MudSelect>
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </EditForm>
+                }
+            </ChildContent>
+        </MudExpansionPanel>
+    }
 </MudContainer>
 
 @code {
@@ -61,6 +63,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        UserId = await authState.GetUserId();
         E = await Http.GetFromJsonAsync<EventEditWithUserEntryDTO>($"Events/user/{EventId}/{UserId}");
         Users = await Http.GetFromJsonAsync<UserEntryListDTO>($"Users/entriesSupervisor/{UserId}");
         sendEntry.UserId = UserId;

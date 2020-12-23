@@ -1,7 +1,9 @@
 ﻿@page "/events"
+@attribute [Authorize]
 @using MudBlazor.Components.Table
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
+@inject IdentityAuthenticationStateProvider authState
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Event entries</MudText>
@@ -51,6 +53,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        UserId = await authState.GetUserId();
         events = await Http.GetFromJsonAsync<EventListWithUserEntryDTO[]>($"Events/user/{UserId}");
         types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
         types.Insert(0, "");
