@@ -46,6 +46,18 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(users);
         }
 
+        [HttpGet("entriesSupervisor/{id}")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Supervisors retrieved.")]
+        public async Task<ActionResult<UserEntryListDTO>> GetEntriesSupervisors([Range(1, int.MaxValue)] int id)
+        {
+            var users = await _userFacade.GetAllEntriesSupervisorsById(id);
+            if (users == null)
+            {
+                return NotFound();
+            }
+            return Ok(users);
+        }
+
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One user retrieved.")]

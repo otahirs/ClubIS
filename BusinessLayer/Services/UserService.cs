@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ClubIS.BusinessLayer.Services.Interfaces;
@@ -38,6 +39,19 @@ namespace ClubIS.BusinessLayer.Services
         public async Task<IEnumerable<UserEntriesSupervisedListDTO>> GetAllEntriesSupervisors()
         {
             return _mapper.Map<IEnumerable<UserEntriesSupervisedListDTO>>(await _unitOfWork.Users.GetAll());
+        }
+
+        public async Task<UserEntryListDTO> GetAllEntriesSupervisorsById(int id)
+        {
+            var user = await _unitOfWork.Users.GetEntriesSupervisorsById(id);
+            var supervised = new List<User_EntriesSupervisor>(user.EntriesSupervisedUsers)
+                .Select(s => s.User).ToList();
+            var x = _mapper.Map<IEnumerable<UserEntryEditDTO>>(supervised);
+            return new UserEntryListDTO
+            {
+                Supervised = _mapper.Map<IEnumerable<UserEntryEditDTO>>(supervised),
+                User = _mapper.Map<UserEntryEditDTO>(user)
+            };
         }
 
         public async Task<UserDetailDTO> GetById(int id)

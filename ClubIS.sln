@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubIS.WebAPI", "WebAPI\Clu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubIS.Web", "Web\ClubIS.Web.csproj", "{8C20F4B6-3F56-40D7-A07B-270BCC39A089}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubIS.CoreLayer", "CoreLayer\ClubIS.CoreLayer.csproj", "{F82F7E37-5E18-47F3-93D3-AFF1AD6EB283}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubIS.CoreLayer", "CoreLayer\ClubIS.CoreLayer.csproj", "{F82F7E37-5E18-47F3-93D3-AFF1AD6EB283}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

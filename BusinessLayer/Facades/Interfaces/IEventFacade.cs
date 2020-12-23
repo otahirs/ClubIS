@@ -10,6 +10,7 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
         Task Create(EventEditDTO e);
         Task<IEnumerable<EventListDTO>> GetAll();
         Task<IEnumerable<EventListWithUserEntryDTO>> GetAllWithUserEntry(int userId);
+        Task<EventEditWithUserEntryDTO> GetByIdWithUserEntry(int id, int userId);
         Task<IEnumerable<EventListWithTotalCostsDTO>> GetAllWithTotalCosts();
         Task<IEnumerable<EventListWithExportStatusDTO>> GetAllWithExportStatus();
         Task<EventEditDTO> GetById(int id);

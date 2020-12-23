@@ -47,6 +47,11 @@ namespace ClubIS.BusinessLayer.Facades
             return await _eventService.GetAllWithUserEntry(userId);
         }
 
+        public async Task<EventEditWithUserEntryDTO> GetByIdWithUserEntry(int id, int userId)
+        {
+            return await _eventService.GetByIdWithUserEntry(id, userId);
+        }
+
         public async Task<IEnumerable<EventListWithTotalCostsDTO>> GetAllWithTotalCosts()
         {
             var events = await _eventService.GetAll();

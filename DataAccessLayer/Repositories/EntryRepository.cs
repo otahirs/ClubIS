@@ -35,6 +35,7 @@ namespace ClubIS.DataAccessLayer.Repositories
                 .ToListAsync();
         }
 
+
         public async Task<IEnumerable<EventEntry>> GetAllByUserId(int userId)
         {
             return await _entities

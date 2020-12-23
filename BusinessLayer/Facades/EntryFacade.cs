@@ -23,6 +23,7 @@ namespace ClubIS.BusinessLayer.Facades
             return await _entryService.GetAllByEventId(eventId);
         }
 
+
         public async Task<EventEntryEditDTO> GetById(int id)
         {
             return await _entryService.GetById(id);

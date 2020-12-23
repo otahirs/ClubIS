@@ -60,5 +60,13 @@ namespace ClubIS.BusinessLayer.Facades
         {
             return await _userService.GetAllEntriesSupervisors();
         }
+
+        public async Task<UserEntryListDTO> GetAllEntriesSupervisorsById(int id)
+        {
+            return await _userService.GetAllEntriesSupervisorsById(id);
+
+
+        }
+        
     }
 }

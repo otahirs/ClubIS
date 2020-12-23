@@ -1,7 +1,7 @@
 ﻿@page "/events"
 @using MudBlazor.Components.Table
 @inject HttpClient Http
-@inject NavigationManager UriHelper
+@inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Event entries</MudText>
@@ -11,15 +11,15 @@
     }
     else
     {
-        <MudTable Items="@events" Filter="new Func<EventListWithUserEntryDTO, bool>(FilterFunc)" OnRowClick="@(e=>Callback(e))" T="EventListWithUserEntryDTO">
+        <MudTable Items="@events" Filter="new Func<EventListWithUserEntryDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListWithUserEntryDTO">
             <ToolBarContent>
                 <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                 <MudToolBarSpacer />
                 <MudSelect T="string" @bind-Value="searchType" Label="Filter EventType">
                     @foreach (var type in types)
-                        {
+                    {
                         <MudSelectItem Value="@type" />
-                        }
+                    }
                 </MudSelect>
             </ToolBarContent>
             <HeaderContent>
@@ -51,7 +51,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        events = await Http.GetFromJsonAsync<EventListWithUserEntryDTO[]>("Events/user/1");
+        events = await Http.GetFromJsonAsync<EventListWithUserEntryDTO[]>($"Events/user/{UserId}");
         types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
         types.Insert(0, "");
     }
@@ -71,12 +71,7 @@
 
     private static string GetDate(DateTime start, DateTime end)
     {
-        String endFormat = end.ToString("dd.MM.yyyy");
-        if (start.Equals(end))
-        {
-            return endFormat;
-        }
-        return start.ToString("dd.") + '-' + endFormat;
+        return (start.Equals(end)) ? end.ToString("dd.MM.yyyy") : start.ToString("dd.") + '-' + end.ToString("dd.MM.yyyy");
     }
 
     private static string GetDeadlines(ICollection<EventDeadline> deadlines)
@@ -89,9 +84,10 @@
         return (entryInfo == null) ? "not registered" : entryInfo.Class;
     }
 
-    private void Callback(TableRowClickEventArgs<EventListWithUserEntryDTO> obj)
+    private void Navigate(TableRowClickEventArgs<EventListWithUserEntryDTO> obj)
     {
         Console.WriteLine(obj.Item.Event.Id);
+        NavigationManager.NavigateTo($"event/{obj.Item.Event.Id}");
     }
 
 }

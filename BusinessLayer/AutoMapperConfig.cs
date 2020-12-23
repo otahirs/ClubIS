@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
 
@@ -11,9 +12,9 @@ namespace ClubIS.BusinessLayer
             config.CreateMap<Event, EventDetailDTO>().ReverseMap();
             config.CreateMap<Event, EventEditDTO>().ReverseMap();
             config.CreateMap<EventEntry, EventEntryListDTO>().ReverseMap();
-            config.CreateMap<EventEntry, EventEntryEditDTO>().ReverseMap();
             config.CreateMap<EventEntry, EventEntryBasicInfoDTO>().ReverseMap();
             config.CreateMap<Event, EventListDTO>().ReverseMap();
+            config.CreateMap<Event, EventEntryEditDTO>().ReverseMap();
             config.CreateMap<EventStage, EventStageDTO>().ReverseMap();
             // TODO config.CreateMap<Tuple<Event, Payment>, FinanceEventListDTO>().ReverseMap();
             config.CreateMap<MemberFee, MemberFeeDTO>().ReverseMap();
@@ -40,6 +41,10 @@ namespace ClubIS.BusinessLayer
             config.CreateMap<User, UserEditDTO>().ReverseMap();
             config.CreateMap<User, UserEntriesSupervisedListDTO>().ReverseMap();
             config.CreateMap<User, UserListDTO>().ReverseMap();
+            config.CreateMap<User, UserEntryEditDTO>()
+                .ForMember(d => d.SiCardNumbers, opt => opt.MapFrom(s => s.SiCards))
+                .ForMember(d => d.Name, opt => opt.MapFrom(s => $"{s.Firstname} {s.Surname}"));
+            config.CreateMap<SiCard, SiCardDTO>().ReverseMap();
         }
     }
 }

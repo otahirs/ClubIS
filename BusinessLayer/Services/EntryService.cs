@@ -45,5 +45,6 @@ namespace ClubIS.BusinessLayer.Services
             var list = await _unitOfWork.Entry.GetAllByEventId(eventId);
             return _mapper.Map<IEnumerable<EventEntryListDTO>>(list);
         }
+
     }
 }
