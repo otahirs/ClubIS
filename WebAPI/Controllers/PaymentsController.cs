@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
+using ClubIS.IdentityStore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -43,7 +44,7 @@ namespace ClubIS.WebAPI.Controllers
             if (!User.Identity.IsAuthenticated) {
                 return Unauthorized();
             }
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userId = User.Identity.GetUserId();
             var payments = await _paymentFacade.GetAllByUserId(userId);
             if (payments == null)
             {

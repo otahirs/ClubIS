@@ -88,12 +88,11 @@ namespace ClubIS.WebAPI.Controllers
 
         private UserInfoDTO BuildUserInfo()
         {
-            var userId = User.Identity.IsAuthenticated ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : -1;
             return new UserInfoDTO
             {
                 IsAuthenticated = User.Identity.IsAuthenticated,
                 UserName = User.Identity.Name,
-                UserId = userId,
+                UserId = User.Identity.GetUserId(),
                 ExposedClaims = User.Claims
                     //Optionally: filter the claims you want to expose to the client
                     //.Where(c => c.Type == "test-claim")
