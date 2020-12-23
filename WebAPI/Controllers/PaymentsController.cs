@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
+using ClubIS.IdentityStore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -34,11 +36,15 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(payments);
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("user")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "News not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "News retrieved.")]
-        public async Task<ActionResult<IEnumerable<PaymentListDTO>>> Get([Range(1, int.MaxValue)] int userId)
+        public async Task<ActionResult<IEnumerable<PaymentListDTO>>> GetByUserId()
         {
+            if (!User.Identity.IsAuthenticated) {
+                return Unauthorized();
+            }
+            var userId = User.Identity.GetUserId();
             var payments = await _paymentFacade.GetAllByUserId(userId);
             if (payments == null)
             {

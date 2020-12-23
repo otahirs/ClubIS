@@ -28,12 +28,6 @@ namespace ClubIS.CoreLayer.Entities
         public Address Address { get; set; }
 
         [Required]
-        [MaxLength(10)]
-        public string Username { get; set; }
-        [Required]
-        [MaxLength(33)]
-        public string Password { get; set; }
-        [Required]
         [MaxLength(20)]
         public string Firstname { get; set; }
         [Required]
@@ -41,7 +35,7 @@ namespace ClubIS.CoreLayer.Entities
         public string Surname { get; set; }
         public ISet<SiCard> SiCards { get; set; }
 
-
+        [Required]
         [MaxLength(7)]
         public string RegistrationNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
@@ -54,6 +48,5 @@ namespace ClubIS.CoreLayer.Entities
         public Gender Gender { get; set; }
         public Licence Licence { get; set; }
         public AccountState AccountState { get; set; }
-        public Role Roles { get; set; }
     }
 }

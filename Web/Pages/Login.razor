@@ -1,0 +1,55 @@
+﻿@page "/login"
+@layout LoginLayout
+@inject NavigationManager navigationManager
+@inject IdentityAuthenticationStateProvider authStateProvider
+
+<EditForm Model="@loginParameters" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudCard Style="margin-top: 72px;">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h5">Login</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudTextField Label="Username"
+                          @bind-Value="loginParameters.UserName" For="@(() => loginParameters.UserName)" />
+            <MudTextField Label="Password" Class="mt-3"
+                          @bind-Value="loginParameters.Password" For="@(() => loginParameters.Password)" InputType="InputType.Password" />
+            <MudCheckBox Label="Remember me" T="bool" @bind-Value="@loginParameters.RememberMe" />
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Sign in</MudButton>
+        </MudCardActions>
+    </MudCard>
+
+
+    @if (!string.IsNullOrEmpty(error))
+    {
+        <MudText Typo="Typo.body2" Align="Align.Center" Class="my-4">
+            @error
+        </MudText>
+    }
+    <NavLink href="register">
+        <h6 class="font-weight-normal text-center">Create account</h6>
+    </NavLink>
+</EditForm>
+
+@code{
+    LoginParametersDTO loginParameters { get; set; } = new LoginParametersDTO();
+    string error { get; set; }
+
+    async Task OnValidSubmit()
+    {
+        error = null;
+        try
+        {
+            await authStateProvider.Login(loginParameters);
+            navigationManager.NavigateTo("");
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+}

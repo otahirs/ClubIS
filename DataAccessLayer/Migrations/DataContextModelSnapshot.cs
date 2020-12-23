@@ -15,7 +15,7 @@ namespace ClubIS.DataAccessLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .HasAnnotation("ProductVersion", "3.1.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -552,31 +552,19 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(33)")
-                        .HasMaxLength(33);
-
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(25)")
                         .HasMaxLength(25);
 
                     b.Property<string>("RegistrationNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(7)")
                         .HasMaxLength(7);
-
-                    b.Property<int>("Roles")
-                        .HasColumnType("int");
 
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
 
                     b.HasKey("Id");
 
@@ -601,11 +589,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Gender = 0,
                             Licence = 0,
                             Nationality = "Česká republika",
-                            Password = "123456",
                             RegistrationNumber = "***REMOVED***",
-                            Roles = 8,
-                            Surname = "***REMOVED***",
-                            Username = "m.chaloup"
+                            Surname = "***REMOVED***"
                         },
                         new
                         {
@@ -618,11 +603,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Gender = 1,
                             Licence = 2,
                             Nationality = "Česká republika",
-                            Password = "password",
                             RegistrationNumber = "***REMOVED***",
-                            Roles = 0,
-                            Surname = "***REMOVED***",
-                            Username = "kachna"
+                            Surname = "***REMOVED***"
                         });
                 });
 
