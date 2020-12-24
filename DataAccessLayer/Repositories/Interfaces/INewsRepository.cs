@@ -6,6 +6,5 @@ namespace ClubIS.DataAccessLayer.Repositories.Interfaces
 {
     public interface INewsRepository : IRepository<News>
     {
-        Task<IEnumerable<News>> GetAllIncludeUser();
     }
 }

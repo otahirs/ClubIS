@@ -32,6 +32,8 @@ namespace ClubIS.DataAccessLayer
                 optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=clubIS");
                 optionsBuilder.EnableSensitiveDataLogging();
             }
+            // enable lazy loading
+            optionsBuilder.UseLazyLoadingProxies();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

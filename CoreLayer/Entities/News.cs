@@ -11,7 +11,7 @@ namespace ClubIS.CoreLayer.Entities
         public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
+        public virtual User User { get; set; }
         public DateTime Date { get; set; }
         [MaxLength(50)]
         public string Title { get; set; }

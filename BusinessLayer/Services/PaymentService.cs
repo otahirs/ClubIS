@@ -35,13 +35,13 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task<IEnumerable<PaymentListDTO>> GetAll()
         {
-            var paymentEntities = await _unitOfWork.Payments.GetAllIncluded();
+            var paymentEntities = await _unitOfWork.Payments.GetAll();
             return _mapper.Map<IEnumerable<PaymentListDTO>>(paymentEntities);
         }
         public async Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int userId)
         {
             var user = await _unitOfWork.Users.GetById(userId);
-            var paymentEntities = await _unitOfWork.Payments.GetAllIncludedByAccountId(user.AccountId);
+            var paymentEntities = await _unitOfWork.Payments.GetAllByAccountId(user.AccountId);
             foreach(var p in paymentEntities)
             {
                 if (p.SourceAccountId == user.AccountId)
@@ -57,7 +57,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id)
         {
-            var paymentsEntities = await _unitOfWork.Payments.GetAllWithTargetAccountOwnerByEventId(id);
+            var paymentsEntities = await _unitOfWork.Payments.GetAllByEventId(id);
             return _mapper.Map<IEnumerable<PaymentEntryListDTO>>(paymentsEntities);
         }
 

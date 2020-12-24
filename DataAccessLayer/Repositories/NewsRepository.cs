@@ -11,11 +11,5 @@ namespace ClubIS.DataAccessLayer.Repositories
         public NewsRepository(DataContext context) : base(context)
         {
         }
-        public async Task<IEnumerable<News>> GetAllIncludeUser()
-        {
-            return await _entities
-                .Include(n => n.User)
-                .ToListAsync();
-        }
     }
 }

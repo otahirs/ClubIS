@@ -7,10 +7,10 @@ namespace ClubIS.CoreLayer.Entities
         public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
+        public virtual User User { get; set; }
         public int EntriesSupervisorId { get; set; }
 
         [ForeignKey(nameof(EntriesSupervisorId))]
-        public User EntriesSupervisor { get; set; }
+        public virtual User EntriesSupervisor { get; set; }
     }
 }

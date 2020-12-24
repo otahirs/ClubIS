@@ -26,18 +26,18 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task Delete(int id)
         {
-            _unitOfWork.Entry.Remove(await _unitOfWork.Entry.GetByIdWithAllIncluded(id));
+            _unitOfWork.Entry.Remove(await _unitOfWork.Entry.GetById(id));
         }
 
         public async Task Update(EventEntryEditDTO entry)
         {
-            var entryEntity = await _unitOfWork.Entry.GetByIdWithAllIncluded(entry.Id);
+            var entryEntity = await _unitOfWork.Entry.GetById(entry.Id);
             _mapper.Map(entry, entryEntity);
         }
 
         public async Task<EventEntryEditDTO> GetById(int id)
         {
-            return _mapper.Map<EventEntryEditDTO>(await _unitOfWork.Entry.GetByIdWithAllIncluded(id));
+            return _mapper.Map<EventEntryEditDTO>(await _unitOfWork.Entry.GetById(id));
         }
 
         public async Task<IEnumerable<EventEntryListDTO>> GetAllByEventId(int eventId)

@@ -9,7 +9,7 @@ namespace ClubIS.CoreLayer.Entities
         public int Id { get; set; }
         public int UserId { get; set; }
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
+        public virtual User User { get; set; }
         [MaxLength(50)]
         public string StreetAndNumber { get; set; }
         [MaxLength(25)]

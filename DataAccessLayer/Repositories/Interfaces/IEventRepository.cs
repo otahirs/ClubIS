@@ -6,7 +6,5 @@ namespace ClubIS.DataAccessLayer.Repositories.Interfaces
 {
     public interface IEventRepository : IRepository<Event>
     {
-        Task<Event> GetByIdWithAllIncluded(int id);
-        Task<IEnumerable<Event>> GetAllWithAllIncluded();
     }
 }

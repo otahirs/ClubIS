@@ -14,18 +14,18 @@ namespace ClubIS.CoreLayer.Entities
         public int AccountId { get; set; }
 
         [ForeignKey(nameof(AccountId))]
-        public FinanceAccount Account { get; set; }
+        public virtual FinanceAccount Account { get; set; }
         public int BillingAccountId { get; set; }
 
         [ForeignKey(nameof(BillingAccountId))]
-        public FinanceAccount BillingAccount { get; set; }
-        public ISet<User_EntriesSupervisor> EntriesSupervisors { get; set; }
-        public ISet<User_EntriesSupervisor> EntriesSupervisedUsers { get; set; }
+        public virtual FinanceAccount BillingAccount { get; set; }
+        public virtual ISet<User_EntriesSupervisor> EntriesSupervisors { get; set; }
+        public virtual ISet<User_EntriesSupervisor> EntriesSupervisedUsers { get; set; }
 
         public int? MemberFeeId { get; set; }
         [ForeignKey(nameof(MemberFeeId))]
-        public MemberFee MemberFee { get; set; }
-        public Address Address { get; set; }
+        public virtual MemberFee MemberFee { get; set; }
+        public virtual Address Address { get; set; }
 
         [Required]
         [MaxLength(20)]
@@ -33,7 +33,7 @@ namespace ClubIS.CoreLayer.Entities
         [Required]
         [MaxLength(30)]
         public string Surname { get; set; }
-        public ISet<SiCard> SiCards { get; set; }
+        public virtual ISet<SiCard> SiCards { get; set; }
 
         [Required]
         [MaxLength(7)]

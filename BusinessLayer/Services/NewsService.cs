@@ -31,7 +31,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task<IEnumerable<NewsListDTO>> GetAll()
         {
-            var list = await _unitOfWork.News.GetAllIncludeUser();
+            var list = await _unitOfWork.News.GetAll();
             return _mapper.Map<IEnumerable<NewsListDTO>>(list);
         }
 

@@ -23,12 +23,12 @@ namespace ClubIS.CoreLayer.Entities
         public string Link { get; set; }
         [MaxLength(255)]
         public string Note { get; set; }
-        public ICollection<EventDeadline> Deadlines { get; set; }
+        public virtual ICollection<EventDeadline> Deadlines { get; set; }
         public ISet<string> ClassOptions { get; set; }
         public string Leader { get; set; }
         public EventType EventType { get; set; }
         public EventState EventState { get; set; }
         public EventProperty EventProperties { get; set; }
-        public ISet<EventStage> EventStages { get; set; }
+        public virtual ISet<EventStage> EventStages { get; set; }
     }
 }

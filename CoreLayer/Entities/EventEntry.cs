@@ -11,11 +11,11 @@ namespace ClubIS.CoreLayer.Entities
         public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
+        public virtual User User { get; set; }
         public int EventId { get; set; }
 
         [ForeignKey(nameof(EventId))]
-        public Event Event { get; set; }
+        public virtual Event Event { get; set; }
         [MaxLength(10)]
         public string Class { get; set; }
         public bool HasClubAccommodation { get; set; }
@@ -25,7 +25,7 @@ namespace ClubIS.CoreLayer.Entities
         [MaxLength(255)]
         public string NoteForOrganisator { get; set; }
         public int? SiCardNumber { get; set; }
-        public ISet<EventStage> EnteredStages { get; set; }
+        public virtual ISet<EventStage> EnteredStages { get; set; }
 
     }
 }
