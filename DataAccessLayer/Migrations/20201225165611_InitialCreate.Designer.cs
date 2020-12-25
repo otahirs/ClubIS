@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClubIS.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201223211917_init")]
-    partial class init
+    [Migration("20201225165611_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -251,6 +251,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                             EventId = 1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
+                            SiCardNumber = ***REMOVED***,
                             UserId = 2
                         },
                         new
@@ -260,6 +261,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                             EventId = 2,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
+                            SiCardNumber = ***REMOVED***,
                             UserId = 1
                         });
                 });

@@ -18,6 +18,7 @@ namespace ClubIS.DataAccessLayer.Repositories
             return await _entities
                 .Where(e => e.EventId == eventId)
                 .Include(e => e.EnteredStages)
+                .Include(e => e.User)
                 .ToListAsync();
         }
 

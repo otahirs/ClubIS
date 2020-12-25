@@ -7,9 +7,9 @@ namespace ClubIS.BusinessLayer.Services.Interfaces
     public interface IEntryService
     {
         Task<IEnumerable<EventEntryListDTO>> GetAllByEventId(int eventId);
-        Task<EventEntryEditDTO> GetById(int id);
-        Task Create(EventEntryEditDTO entry);
-        Task Update(EventEntryEditDTO entry);
+        Task<EventEntryListDTO> GetById(int id);
+        Task Create(EventEntryPostDTO entry);
+        Task Update(EventEntryPostDTO entry);
         Task Delete(int id);
     }
 }

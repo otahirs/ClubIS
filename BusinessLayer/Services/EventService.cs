@@ -58,15 +58,9 @@ namespace ClubIS.BusinessLayer.Services
             });
         }
 
-        public async Task<EventEditWithUserEntryDTO> GetByIdWithUserEntry(int id, int userId)
+        public async Task<EventEntryEditDTO> GetByIdEntryFormData(int id)
         {
-            var entries = await _unitOfWork.Entry.GetAllByUserId(userId);
-            var e = await _unitOfWork.Events.GetById(id);
-            return new EventEditWithUserEntryDTO()
-            {
-                Event = _mapper.Map<EventEntryEditDTO>(e),
-                EntryInfo = _mapper.Map<EventEntryBasicInfoDTO>(entries.SingleOrDefault(entry => entry.EventId == e.Id))
-            };
+            return _mapper.Map<EventEntryEditDTO>(await _unitOfWork.Events.GetById(id));
         }
 
         public async Task<IEnumerable<EventListWithExportStatusDTO>> GetAllWithExportStatus()

@@ -38,7 +38,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One entry retrieved.")]
-        public async Task<ActionResult<EventEntryEditDTO>> Get([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult<EventEntryListDTO>> Get([Range(1, int.MaxValue)] int id)
         {
             var entry = await _entryFacade.GetById(id);
 
@@ -52,7 +52,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpPost]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided entry.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry added.")]
-        public async Task<ActionResult> Post([FromBody] EventEntryEditDTO entry)
+        public async Task<ActionResult> Post([FromBody] EventEntryPostDTO entry)
         {
             if (entry == null)
                 return BadRequest();
@@ -64,7 +64,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpPut]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided entry.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry updated.")]
-        public async Task<ActionResult> Put([FromBody] EventEntryEditDTO entry)
+        public async Task<ActionResult> Put([FromBody] EventEntryPostDTO entry)
         {
             if (entry == null)
                 return BadRequest();

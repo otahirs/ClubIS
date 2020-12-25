@@ -249,6 +249,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                             EventId = 1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
+                            SiCardNumber = ***REMOVED***,
                             UserId = 2
                         },
                         new
@@ -258,6 +259,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                             EventId = 2,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
+                            SiCardNumber = ***REMOVED***,
                             UserId = 1
                         });
                 });

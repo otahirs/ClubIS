@@ -190,6 +190,7 @@ namespace ClubIS.DataAccessLayer
                 UserId = 2,
                 EventId = 1,
                 Class = "A",
+                SiCardNumber = ***REMOVED***,
                 HasClubAccommodation = true,
                 HasClubTransport = true
             });
@@ -200,6 +201,7 @@ namespace ClubIS.DataAccessLayer
                 UserId = 1,
                 EventId = 2,
                 Class = "H20",
+                SiCardNumber = ***REMOVED***,
                 HasClubAccommodation = true,
                 HasClubTransport = true
             });

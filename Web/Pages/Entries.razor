@@ -47,14 +47,12 @@
 @code {
     private EventListWithUserEntryDTO[] events;
     private List<string> types;
-    private int UserId = 1;
     private string searchString = "";
     private string searchType = "";
 
     protected override async Task OnInitializedAsync()
     {
-        UserId = await authState.GetUserId();
-        events = await Http.GetFromJsonAsync<EventListWithUserEntryDTO[]>($"Events/user/{UserId}");
+        events = await Http.GetFromJsonAsync<EventListWithUserEntryDTO[]>($"Events/user/");
         types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
         types.Insert(0, "");
     }

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
+using ClubIS.IdentityStore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -46,11 +47,16 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(events);
         }
 
-        [HttpGet("user/{userId}")]
+        [HttpGet("user")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Event not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]
-        public async Task<ActionResult<IEnumerable<EventListWithUserEntryDTO>>> GetWithEntryInfo([Range(1, int.MaxValue)] int userId)
+        public async Task<ActionResult<IEnumerable<EventListWithUserEntryDTO>>> GetWithEntryInfo()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+            var userId = User.Identity.GetUserId();
             var events = await _eventFacade.GetAllWithUserEntry(userId);
             if (events == null)
             {
@@ -59,12 +65,12 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(events);
         }
 
-        [HttpGet("user/{id}/{userId}")]
+        [HttpGet("form/{id}/")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Event not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]
-        public async Task<ActionResult<EventEditWithUserEntryDTO>> GetWithEntryInfo([Range(1, int.MaxValue)] int id, [Range(1, int.MaxValue)] int userId)
+        public async Task<ActionResult<EventEntryEditDTO>> GetFormData([Range(1, int.MaxValue)] int id)
         {
-            var e = await _eventFacade.GetByIdWithUserEntry(id, userId);
+            var e = await _eventFacade.GetByIdEntryFormData(id);
             if(e == null)
             {
                 return NotFound();

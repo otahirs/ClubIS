@@ -11,8 +11,11 @@ namespace ClubIS.BusinessLayer
         {
             config.CreateMap<Event, EventDetailDTO>().ReverseMap();
             config.CreateMap<Event, EventEditDTO>().ReverseMap();
-            config.CreateMap<EventEntry, EventEntryListDTO>().ReverseMap();
+            config.CreateMap<EventEntry, EventEntryListDTO>()
+                .ForMember(d => d.Name, opt => opt.MapFrom(s => s.User.Firstname + " " + s.User.Surname))
+                .ForMember(d => d.RegistrationNumber, opt => opt.MapFrom(s => s.User.RegistrationNumber));
             config.CreateMap<EventEntry, EventEntryBasicInfoDTO>().ReverseMap();
+            config.CreateMap<EventEntryPostDTO, EventEntry>().ReverseMap();
             config.CreateMap<Event, EventListDTO>().ReverseMap();
             config.CreateMap<Event, EventEntryEditDTO>().ReverseMap();
             config.CreateMap<EventStage, EventStageDTO>().ReverseMap();
