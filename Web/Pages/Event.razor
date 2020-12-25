@@ -91,21 +91,21 @@
                 <MudTd DataLabel="ComTram">
                     @if (context.HasClubTransport)
                     {
-                        <MudIcon Icon="@Icons.Material.Check" />
+                        <MudIcon Icon="@Filled.Check" />
                     }
                     else
                     {
-                        <MudIcon Icon="@Icons.Material.Close" />
+                        <MudIcon Icon="@Filled.Close" />
                     }
                 </MudTd>
                 <MudTd DataLabel="ComAcco">
                     @if (context.HasClubAccommodation)
                     {
-                        <MudIcon Icon="@Icons.Material.Check" />
+                        <MudIcon Icon="@Filled.Check" />
                     }
                     else
                     {
-                        <MudIcon Icon="@Icons.Material.Close" />
+                        <MudIcon Icon="@Filled.Close" />
                     }
                 </MudTd>
                 <MudTd DataLabel="SiNum">@context.SiCardNumber</MudTd>
@@ -170,7 +170,7 @@
         return Users.User.Id == id ? Users.User.SiCardNumbers : (Users.Supervised.FirstOrDefault(c => c.Id == id))?.SiCardNumbers;
     }
 
-    private async Task OnValidSubmit(EditContext context)
+    private void OnValidSubmit(EditContext context)
     {
         if (CurrentEntry == null)
         {
