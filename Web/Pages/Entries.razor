@@ -77,7 +77,7 @@
 
     private static string GetDeadlines(ICollection<EventDeadline> deadlines)
     {
-        return deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b);
+        return (deadlines.Count != 0) ? deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
     }
 
     private static string GetClass(EventEntryBasicInfoDTO entryInfo)

@@ -65,19 +65,6 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(events);
         }
 
-        [HttpGet("form/{id}/")]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "Event not found.")]
-        [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]
-        public async Task<ActionResult<EventEntryEditDTO>> GetFormData([Range(1, int.MaxValue)] int id)
-        {
-            var e = await _eventFacade.GetByIdEntryFormData(id);
-            if(e == null)
-            {
-                return NotFound();
-            }
-            return Ok(e);
-        }
-
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Event not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]

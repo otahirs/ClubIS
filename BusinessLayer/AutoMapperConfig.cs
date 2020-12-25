@@ -17,7 +17,6 @@ namespace ClubIS.BusinessLayer
             config.CreateMap<EventEntry, EventEntryBasicInfoDTO>().ReverseMap();
             config.CreateMap<EventEntryPostDTO, EventEntry>().ReverseMap();
             config.CreateMap<Event, EventListDTO>().ReverseMap();
-            config.CreateMap<Event, EventEntryEditDTO>().ReverseMap();
             config.CreateMap<EventStage, EventStageDTO>().ReverseMap();
             // TODO config.CreateMap<Tuple<Event, Payment>, FinanceEventListDTO>().ReverseMap();
             config.CreateMap<MemberFee, MemberFeeDTO>().ReverseMap();

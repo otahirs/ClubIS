@@ -58,11 +58,6 @@ namespace ClubIS.BusinessLayer.Services
             });
         }
 
-        public async Task<EventEntryEditDTO> GetByIdEntryFormData(int id)
-        {
-            return _mapper.Map<EventEntryEditDTO>(await _unitOfWork.Events.GetById(id));
-        }
-
         public async Task<IEnumerable<EventListWithExportStatusDTO>> GetAllWithExportStatus()
         {
             var events = await _unitOfWork.Events.GetAll();

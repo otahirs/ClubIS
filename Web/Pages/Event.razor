@@ -10,111 +10,123 @@
     }
     else
     {
-
-        <MudExpansionPanel>
-            <TitleContent>
-                <MudText Typo="Typo.h3" GutterBottom="true">@E.Name</MudText>
-            </TitleContent>
-            <ChildContent>
-                @if (Users == null)
-                {
-                    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
-                }
-                else
-                {
-                    <EditForm Model="@SendEntry" OnValidSubmit="OnValidSubmit">
-                        <DataAnnotationsValidator />
-                        <MudCard Elevation="0">
-                            <MudCardContent>
-                                <MudSelect Label="User" Required="true" ValueChanged="@( (int s) => UpdateData(s) )" Value="@SendEntry.UserId" Variant="Variant.Outlined">
-                                    <MudSelectItem Value="@Users.User.Id">@Users.User.Name</MudSelectItem>
-                                    @foreach (var user in Users.Supervised)
-                                    {
-                                        <MudSelectItem Value="@user.Id">@user.Name</MudSelectItem>
-                                    }
-                                </MudSelect>
-
-                                <MudSelect Label="Class" Required="true" @bind-Value="@SendEntry.Class" Variant="Variant.Outlined">
-                                    @foreach (var c in E.ClassOptions)
-                                            {
-                                        <MudSelectItem Value="@c">@c</MudSelectItem>
-                                            }
-                                </MudSelect>
-
-                                <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubTransport" Label="Transport" />
-
-                                <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubAccommodation" Label="Accommodation" />
-
-                                <MudSelect T="int" Required="true" Label="SI card number" @bind-Value="@SendEntry.SiCardNumber" Variant="Variant.Outlined">
-                                    @foreach (var card in GetSiCards(SendEntry.UserId))
-                                    {
-                                        <MudSelectItem Value="@card.Number">@card.Number</MudSelectItem>
-                                    }
-                                </MudSelect>
-
-                                <MudTextField Label="Note(intern)" @bind-Value="SendEntry.NoteForClub" For="@(() => SendEntry.NoteForClub)" Variant="Variant.Outlined" />
-
-                                <MudTextField Label="Note(organizer)" @bind-Value="SendEntry.NoteForOrganizators" For="@(() => SendEntry.NoteForOrganizators)" Variant="Variant.Outlined" />
-
-                            </MudCardContent>
-                            <MudCardActions>
-                                @if (CurrentEntry == null)
+    <MudExpansionPanel>
+        <TitleContent>
+            <MudText Typo="Typo.h3">@E.Name</MudText>
+        </TitleContent>
+        <ChildContent>
+            <MudText><b>Place:</b> @E.Place</MudText>
+            <MudText><b>Organizer:</b> @E.Organizer</MudText>
+            <MudText><b>Leader:</b> @E.Leader</MudText>
+            <MudText><b>Start date:</b> @E.StartDate.ToString("dd.MM.yyyy")</MudText>
+            <MudText><b>End date:</b> @E.EndDate.ToString("dd.MM.yyyy")</MudText>
+            <MudText><b>Event type:</b> @E.EventType</MudText>
+            <MudText><b>Link:</b> <MudLink Href="@GetLink()">@E.Link</MudLink></MudText>
+            <MudText><b>Deadlines:</b> @GetDeadlines()</MudText>
+            <MudText><b>Class options:</b> @GetClassOptions()</MudText>
+            <MudText><b>Event state:</b> @E.EventState</MudText>
+            <MudText><b>Event properties:</b> @E.EventProperties</MudText>
+            <MudText><b>Event stages:</b> @GetStages()</MudText>
+            <MudText><b>Note:</b> @E.Note</MudText>
+        </ChildContent>
+    </MudExpansionPanel>
+            @if (Users == null)
+            {
+                <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+            }
+            else
+            {
+                <EditForm Model="@SendEntry" OnValidSubmit="OnValidSubmit">
+                    <DataAnnotationsValidator />
+                    <MudCard Elevation="0">
+                        <MudCardContent>
+                            <MudSelect Label="User" Required="true" ValueChanged="@( (int s) => UpdateData(s) )" Value="@SendEntry.UserId" Variant="Variant.Outlined">
+                                <MudSelectItem Value="@Users.User.Id">@Users.User.Name</MudSelectItem>
+                                @foreach (var user in Users.Supervised)
                                 {
-                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
+                                    <MudSelectItem Value="@user.Id">@user.Name</MudSelectItem>
                                 }
-                                else
+                            </MudSelect>
+
+                            <MudSelect Label="Class" Required="true" @bind-Value="@SendEntry.Class" Variant="Variant.Outlined">
+                                @foreach (var c in E.ClassOptions)
+                                    {
+                                    <MudSelectItem Value="@c">@c</MudSelectItem>
+                                    }
+                            </MudSelect>
+
+                            <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubTransport" Label="Transport" />
+
+                            <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubAccommodation" Label="Accommodation" />
+
+                            <MudSelect T="int" Required="true" Label="SI card number" @bind-Value="@SendEntry.SiCardNumber" Variant="Variant.Outlined">
+                                @foreach (var card in GetSiCards(SendEntry.UserId))
                                 {
-                                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveEntry" Class="ml-auto">Remove</MudButton>
-                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Edit</MudButton>
+                                    <MudSelectItem Value="@card.Number">@card.Number</MudSelectItem>
                                 }
-                            </MudCardActions>
-                        </MudCard>
-                    </EditForm>
-                }
-            </ChildContent>
-        </MudExpansionPanel>
-        <MudText Typo="Typo.h5" GutterBottom="true">Entries</MudText>
-        <MudTable Items="@Entries">
-            <HeaderContent>
-                <MudTh>Name</MudTh>
-                <MudTh>Class</MudTh>
-                <MudTh>ComTram</MudTh>
-                <MudTh>ComAcco</MudTh>
-                <MudTh>SiNum</MudTh>
-                <MudTh>Note(i)</MudTh>
-                <MudTh>Note(org)</MudTh>
-                <MudTh>Stages</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="Name">@context.Name</MudTd>
-                <MudTd DataLabel="Class">@context.Class</MudTd>
-                <MudTd DataLabel="ComTram">
-                    @if (context.HasClubTransport)
-                    {
-                        <MudIcon Icon="@Filled.Check" />
-                    }
-                    else
-                    {
-                        <MudIcon Icon="@Filled.Close" />
-                    }
-                </MudTd>
-                <MudTd DataLabel="ComAcco">
-                    @if (context.HasClubAccommodation)
-                    {
-                        <MudIcon Icon="@Filled.Check" />
-                    }
-                    else
-                    {
-                        <MudIcon Icon="@Filled.Close" />
-                    }
-                </MudTd>
-                <MudTd DataLabel="SiNum">@context.SiCardNumber</MudTd>
-                <MudTd DataLabel="Note(i)">@context.NoteForClub</MudTd>
-                <MudTd DataLabel="Note(org)">@context.NoteForOrganizators</MudTd>
-                <MudTd DataLabel="Stages">@GetStages(context.EnteredStages.ToList())</MudTd>
-            </RowTemplate>
-        </MudTable>
-    }
+                            </MudSelect>
+
+                            <MudTextField Label="Note(intern)" @bind-Value="SendEntry.NoteForClub" For="@(() => SendEntry.NoteForClub)" Variant="Variant.Outlined" />
+
+                            <MudTextField Label="Note(organizer)" @bind-Value="SendEntry.NoteForOrganizators" For="@(() => SendEntry.NoteForOrganizators)" Variant="Variant.Outlined" />
+
+                        </MudCardContent>
+                        <MudCardActions>
+                            @if (CurrentEntry == null)
+                            {
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
+                            }
+                            else
+                            {
+                                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveEntry" Class="ml-auto">Remove</MudButton>
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Edit</MudButton>
+                            }
+                        </MudCardActions>
+                    </MudCard>
+                </EditForm>
+                @*  *@}
+            <MudText Typo="Typo.h5" GutterBottom="true">Entries</MudText>
+            <MudTable Items="@Entries">
+                <HeaderContent>
+                    <MudTh>Name</MudTh>
+                    <MudTh>Class</MudTh>
+                    <MudTh>ComTram</MudTh>
+                    <MudTh>ComAcco</MudTh>
+                    <MudTh>SiNum</MudTh>
+                    <MudTh>Note(i)</MudTh>
+                    <MudTh>Note(org)</MudTh>
+                    <MudTh>Stages</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Name">@context.Name</MudTd>
+                    <MudTd DataLabel="Class">@context.Class</MudTd>
+                    <MudTd DataLabel="ComTram">
+                        @if (context.HasClubTransport)
+                        {
+                            <MudIcon Icon="@Filled.Check" />
+                        }
+                        else
+                        {
+                            <MudIcon Icon="@Filled.Close" />
+                        }
+                    </MudTd>
+                    <MudTd DataLabel="ComAcco">
+                        @if (context.HasClubAccommodation)
+                        {
+                            <MudIcon Icon="@Filled.Check" />
+                        }
+                        else
+                        {
+                            <MudIcon Icon="@Filled.Close" />
+                        }
+                    </MudTd>
+                    <MudTd DataLabel="SiNum">@context.SiCardNumber</MudTd>
+                    <MudTd DataLabel="Note(i)">@context.NoteForClub</MudTd>
+                    <MudTd DataLabel="Note(org)">@context.NoteForOrganizators</MudTd>
+                    <MudTd DataLabel="Stages">@GetStages(context.EnteredStages.ToList())</MudTd>
+                </RowTemplate>
+            </MudTable>
+            }
 </MudContainer>
 
 @code {
@@ -122,7 +134,7 @@
     public int EventId { get; set; }
     private int UserId;
 
-    private EventEntryEditDTO E;
+    private EventEditDTO E;
     private UserEntryListDTO Users;
     private EventEntryListDTO[] Entries;
     private EventEntryListDTO CurrentEntry;
@@ -131,7 +143,7 @@
     protected override async Task OnInitializedAsync()
     {
         UserId = await authState.GetUserId();
-        E = await Http.GetFromJsonAsync<EventEntryEditDTO>($"Events/form/{EventId}");
+        E = await Http.GetFromJsonAsync<EventEditDTO>($"Events/{EventId}");
         Users = await Http.GetFromJsonAsync<UserEntryListDTO>($"Users/entriesSupervisor/{UserId}");
         Entries = await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{EventId}");
 
@@ -209,6 +221,26 @@
     private string GetStages(List<EventStageDTO> enteredStages)
     {
         return (enteredStages.Count != 0) ? enteredStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
+    }
+
+    private string GetLink()
+    {
+        return "https://" + E.Link;
+    }
+
+    private string GetDeadlines()
+    {
+        return (E.Deadlines.Count != 0) ? E.Deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
+    }
+
+    private string GetClassOptions()
+    {
+        return E.ClassOptions.Aggregate((a, b) => a + ", " + b);
+    }
+
+    private string GetStages()
+    {
+        return (E.EventStages.Count != 0) ? E.EventStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
     }
 
 }
