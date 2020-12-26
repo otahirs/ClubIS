@@ -13,7 +13,7 @@
     }
     else
     {
-        <MudTable Items="@events" Filter="new Func<EventListWithUserEntryDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListWithUserEntryDTO">
+        <MudTable Items="@events" Filter="new Func<EventListWithUserEntryDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListWithUserEntryDTO" Hover="true">
             <ToolBarContent>
                 <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                 <MudToolBarSpacer />
@@ -38,7 +38,16 @@
                 <MudTd DataLabel="Place">@context.Event.Place</MudTd>
                 <MudTd DataLabel="Type">@context.Event.EventType</MudTd>
                 <MudTd DataLabel="Deadlines">@GetDeadlines(context.Event.Deadlines)</MudTd>
-                <MudTd DataLabel="Entries">@GetClass(context.EntryInfo)</MudTd>
+                <MudTd DataLabel="Entries">
+                    @if (context.EntryInfo == null)
+                    {
+                        <MudChip Label="true">@GetClass(context.EntryInfo)</MudChip>
+                    }
+                    else
+                    {
+                        <MudChip Label="true" Color="Color.Primary">@GetClass(context.EntryInfo)</MudChip>
+                    }
+                </MudTd>
             </RowTemplate>
         </MudTable>
     }

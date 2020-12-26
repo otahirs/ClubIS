@@ -29,13 +29,13 @@ namespace ClubIS.BusinessLayer.Facades
             return await _entryService.GetById(id);
         }
 
-        public async Task Create(EventEntryPostDTO entry)
+        public async Task Create(EventEntryEditDTO entry)
         {
             await _entryService.Create(entry);
             await _unitOfWork.Save();
         }
 
-        public async Task Update(EventEntryPostDTO entry)
+        public async Task Update(EventEntryEditDTO entry)
         {
             await _entryService.Update(entry);
             await _unitOfWork.Save();

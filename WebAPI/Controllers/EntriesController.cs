@@ -52,7 +52,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpPost]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided entry.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry added.")]
-        public async Task<ActionResult> Post([FromBody] EventEntryPostDTO entry)
+        public async Task<ActionResult> Post([FromBody] EventEntryEditDTO entry)
         {
             if (entry == null)
                 return BadRequest();
@@ -64,7 +64,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpPut]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided entry.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry updated.")]
-        public async Task<ActionResult> Put([FromBody] EventEntryPostDTO entry)
+        public async Task<ActionResult> Put([FromBody] EventEntryEditDTO entry)
         {
             if (entry == null)
                 return BadRequest();

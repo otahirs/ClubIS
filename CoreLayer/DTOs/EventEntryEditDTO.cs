@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace ClubIS.CoreLayer.DTOs
 {
-    public class EventEntryPostDTO
+    public class EventEntryEditDTO
     {
         
         public int Id { get; set; }

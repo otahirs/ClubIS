@@ -9,8 +9,8 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
     {
         Task<IEnumerable<EventEntryListDTO>> GetAllByEventId(int eventId);
         Task<EventEntryListDTO> GetById(int id);
-        Task Create(EventEntryPostDTO entry);
-        Task Update(EventEntryPostDTO entry);
+        Task Create(EventEntryEditDTO entry);
+        Task Update(EventEntryEditDTO entry);
         Task Delete(int id);
     }
 }

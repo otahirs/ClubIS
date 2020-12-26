@@ -138,7 +138,7 @@
     private UserEntryListDTO Users;
     private EventEntryListDTO[] Entries;
     private EventEntryListDTO CurrentEntry;
-    private EventEntryPostDTO SendEntry = new EventEntryPostDTO();
+    private EventEntryEditDTO SendEntry = new EventEntryEditDTO();
 
     protected override async Task OnInitializedAsync()
     {
@@ -196,7 +196,7 @@
 
     private async void AddEntry()
     {
-        await Http.PostAsJsonAsync<EventEntryPostDTO>("Entries", SendEntry);
+        await Http.PostAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
         Entries = await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{EventId}");
         UpdateData(SendEntry.UserId);
         StateHasChanged();
@@ -205,7 +205,7 @@
     private async void EditEntry()
     {
         SendEntry.Id = CurrentEntry.Id;
-        await Http.PutAsJsonAsync<EventEntryPostDTO>("Entries", SendEntry);
+        await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
         Entries = await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{EventId}");
         StateHasChanged();
     }

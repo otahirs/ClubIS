@@ -19,7 +19,7 @@ namespace ClubIS.BusinessLayer.Services
             _mapper = new Mapper(new MapperConfiguration(AutoMapperConfig.ConfigureMapping));
         }
 
-        public Task Create(EventEntryPostDTO entry)
+        public Task Create(EventEntryEditDTO entry)
         {
             return _unitOfWork.Entry.Add(_mapper.Map<EventEntry>(entry));
         }
@@ -29,7 +29,7 @@ namespace ClubIS.BusinessLayer.Services
             _unitOfWork.Entry.Remove(await _unitOfWork.Entry.GetById(id));
         }
 
-        public async Task Update(EventEntryPostDTO entry)
+        public async Task Update(EventEntryEditDTO entry)
         {
             var entryEntity = await _unitOfWork.Entry.GetById(entry.Id);
             _mapper.Map(entry, entryEntity);

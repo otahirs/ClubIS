@@ -15,7 +15,7 @@ namespace ClubIS.BusinessLayer
                 .ForMember(d => d.Name, opt => opt.MapFrom(s => s.User.Firstname + " " + s.User.Surname))
                 .ForMember(d => d.RegistrationNumber, opt => opt.MapFrom(s => s.User.RegistrationNumber));
             config.CreateMap<EventEntry, EventEntryBasicInfoDTO>().ReverseMap();
-            config.CreateMap<EventEntryPostDTO, EventEntry>().ReverseMap();
+            config.CreateMap<EventEntryEditDTO, EventEntry>().ReverseMap();
             config.CreateMap<Event, EventListDTO>().ReverseMap();
             config.CreateMap<EventStage, EventStageDTO>().ReverseMap();
             // TODO config.CreateMap<Tuple<Event, Payment>, FinanceEventListDTO>().ReverseMap();
