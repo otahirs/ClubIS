@@ -59,7 +59,7 @@
 
                             <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubAccommodation" Label="Accommodation" />
 
-                            <MudSelect T="int" Required="true" Label="SI card number" @bind-Value="@SendEntry.SiCardNumber" Variant="Variant.Outlined">
+                            <MudSelect T="int" Label="SI card number" @bind-Value="@SendEntry.SiCardNumber" Variant="Variant.Outlined">
                                 @foreach (var card in GetSiCards(SendEntry.UserId))
                                 {
                                     <MudSelectItem Value="@card.Number">@card.Number</MudSelectItem>

@@ -24,7 +24,7 @@ namespace ClubIS.CoreLayer.Entities
         [MaxLength(255)]
         public string Note { get; set; }
         public virtual ICollection<EventDeadline> Deadlines { get; set; }
-        public ISet<string> ClassOptions { get; set; }
+        public HashSet<string> ClassOptions { get; set; }
         public string Leader { get; set; }
         public EventType EventType { get; set; }
         public EventState EventState { get; set; }

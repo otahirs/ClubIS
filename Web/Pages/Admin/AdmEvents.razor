@@ -1,9 +1,95 @@
 ﻿@page "/admin/events"
+@attribute [Authorize]
+@using MudBlazor.Components.Table
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
-    <MudText Typo="Typo.h3" GutterBottom="true">Admin events</MudText>
+    <MudText Typo="Typo.h3" GutterBottom="true">Event entries</MudText>
+    @if (Events == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+
+        <MudTable Items="@Events" Filter="new Func<EventListDTO, bool>(FilterFunc)" Hover="true" OnRowClick="@((TableRowClickEventArgs<EventListDTO> e)=>Navigate(e))"  T="EventListDTO">
+            <ToolBarContent>
+                <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                <MudToolBarSpacer />
+                <MudSelect T="string" @bind-Value="searchType" Label="Filter EventType">
+                    @foreach (var type in Types)
+                    {
+                        <MudSelectItem Value="@type" />
+                    }
+                </MudSelect>
+
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>Date</MudTh>
+                <MudTh>Name</MudTh>
+                <MudTh>Place</MudTh>
+                <MudTh>Type</MudTh>
+                <MudTh>Deadlines</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Date">@GetDate(context.StartDate, context.EndDate)</MudTd>
+                <MudTd DataLabel="Name">@context.Name</MudTd>
+                <MudTd DataLabel="Place">@context.Place</MudTd>
+                <MudTd DataLabel="Type">@context.EventType</MudTd>
+                <MudTd DataLabel="Deadlines">@GetDeadlines(context.Deadlines)</MudTd>
+            </RowTemplate>
+        </MudTable>
+        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="Navigate" Class="ml-auto mt-2">Event</MudButton>
+
+    }
 </MudContainer>
 
 @code {
+    private EventListDTO[] Events;
+    private List<string> Types;
+    private string searchString = "";
+    private string searchType = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Events = await Http.GetFromJsonAsync<EventListDTO[]>($"Events");
+        Types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
+        Types.Insert(0, "");
+    }
+
+    bool FilterFunc(EventListDTO e)
+    {
+        if (string.IsNullOrWhiteSpace(searchString) && string.IsNullOrWhiteSpace(searchType))
+            return true;
+        if (string.IsNullOrWhiteSpace(searchType) && $"{GetDate(e.StartDate, e.EndDate)} {e.Name} {e.Place} {e.EventType} {GetDeadlines(e.Deadlines)}".Contains(searchString))
+            return true;
+        if (string.IsNullOrWhiteSpace(searchString) && e.EventType.ToString().Equals(searchType))
+            return true;
+        if (!string.IsNullOrWhiteSpace(searchString) && $"{GetDate(e.StartDate, e.EndDate)} {e.Name} {e.Place} {e.EventType} {GetDeadlines(e.Deadlines)}".Contains(searchString) && e.EventType.ToString().Equals(searchType))
+            return true;
+        return false;
+    }
+
+    private static string GetDate(DateTime start, DateTime end)
+    {
+        return (start.Equals(end)) ? end.ToString("dd.MM.yyyy") : start.ToString("dd.") + '-' + end.ToString("dd.MM.yyyy");
+    }
+
+    private static string GetDeadlines(ICollection<EventDeadline> deadlines)
+    {
+        return (deadlines.Count != 0) ? deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
+    }
+
+    private void Navigate()
+    {
+        NavigationManager.NavigateTo($"/admin/events/edit");
+    }
+
+    private void Navigate(TableRowClickEventArgs<EventListDTO> obj)
+    {
+        Console.WriteLine(obj.Item.Id);
+        NavigationManager.NavigateTo($"/admin/events/edit/{obj.Item.Id}");
+    }
 
 }

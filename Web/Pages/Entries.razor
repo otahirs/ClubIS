@@ -3,7 +3,6 @@
 @using MudBlazor.Components.Table
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
-@inject IdentityAuthenticationStateProvider authState
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Event entries</MudText>
@@ -72,9 +71,9 @@
             return true;
         if (string.IsNullOrWhiteSpace(searchType) && $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {GetClass(e.EntryInfo)}".Contains(searchString))
             return true;
-        if (string.IsNullOrWhiteSpace(searchString) && e.Event.EventType.ToString().Contains(searchType))
+        if (string.IsNullOrWhiteSpace(searchString) && e.Event.EventType.ToString().Equals(searchType))
             return true;
-        if ($"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {GetClass(e.EntryInfo)}".Contains(searchString) && e.Event.EventType.ToString().Contains(searchType))
+        if (!string.IsNullOrWhiteSpace(searchString) && $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {GetClass(e.EntryInfo)}".Contains(searchString) && e.Event.EventType.ToString().Equals(searchType))
             return true;
         return false;
     }
@@ -96,7 +95,6 @@
 
     private void Navigate(TableRowClickEventArgs<EventListWithUserEntryDTO> obj)
     {
-        Console.WriteLine(obj.Item.Event.Id);
         NavigationManager.NavigateTo($"event/{obj.Item.Event.Id}");
     }
 

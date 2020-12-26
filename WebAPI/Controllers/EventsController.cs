@@ -100,6 +100,10 @@ namespace ClubIS.WebAPI.Controllers
                 return BadRequest();
 
             await _eventFacade.Update(e);
+            var et = await _eventFacade.GetById(e.Id);
+            var x = et.ClassOptions;
+            var y = e.ClassOptions;
+            var r = x.Equals(y);
             return Ok();
         }
 

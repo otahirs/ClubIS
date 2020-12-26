@@ -42,7 +42,7 @@ namespace ClubIS.DataAccessLayer
                 .Property(e => e.ClassOptions)
                 .HasConversion(
                     o => JsonConvert.SerializeObject(o),
-                    o => JsonConvert.DeserializeObject<ISet<string>>(o));
+                    o => JsonConvert.DeserializeObject<HashSet<string>>(o));
 
             modelBuilder.Entity<User_EntriesSupervisor>()
                 .HasKey(us => new { us.UserId, us.EntriesSupervisorId });
