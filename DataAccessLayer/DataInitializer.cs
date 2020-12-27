@@ -130,10 +130,6 @@ namespace ClubIS.DataAccessLayer
                 AccommodationOption = ClubEventOption.Optional,
                 TransportOption = ClubEventOption.ClubEnsured,
                 Link = "mcr2020.obopava.cz",
-                ClassOptions = new HashSet<string>() {
-                    "A",
-                    "B"
-                },
                 EventType = EventType.Camp,
                 EventState = EventState.Archived,
                 EventProperties = EventProperty.Championship
@@ -150,11 +146,6 @@ namespace ClubIS.DataAccessLayer
                 AccommodationOption = ClubEventOption.Optional,
                 TransportOption = ClubEventOption.ClubEnsured,
                 Link = "mcr2020.obopava.cz",
-                ClassOptions = new HashSet<string>() {
-                    "A",
-                    "B",
-                    "H20"
-                },
                 EventType = EventType.Race,
                 EventState = EventState.Archived,
                 EventProperties = EventProperty.Championship
@@ -181,6 +172,42 @@ namespace ClubIS.DataAccessLayer
                     Id = 3,
                     EventId = 2,
                     Deadline = new DateTime(2020, 10,  5)
+                }
+            );
+
+            modelBuilder.Entity<EventClassOption>().HasData(
+                new EventClassOption()
+                {
+                    Id = 1,
+                    EventId = 1,
+                    Name = "A"
+                },
+                new EventClassOption()
+                {
+                    Id = 2,
+                    EventId = 1,
+                    Name = "B"
+                }
+            );
+
+            modelBuilder.Entity<EventClassOption>().HasData(
+                new EventClassOption()
+                {
+                    Id = 3,
+                    EventId = 2,
+                    Name = "A"
+                },
+                new EventClassOption()
+                {
+                    Id = 4,
+                    EventId = 2,
+                    Name = "B"
+                },
+                new EventClassOption()
+                {
+                    Id = 5,
+                    EventId = 2,
+                    Name = "H20"
                 }
             );
 

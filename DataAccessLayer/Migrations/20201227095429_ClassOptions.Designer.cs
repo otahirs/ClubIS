@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClubIS.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201225165611_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201227095429_ClassOptions")]
+    partial class ClassOptions
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,9 +78,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("AccommodationOption")
                         .HasColumnType("int");
 
-                    b.Property<string>("ClassOptions")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -131,7 +128,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 1,
                             AccommodationOption = 2,
-                            ClassOptions = "[\"A\",\"B\"]",
                             EndDate = new DateTime(2020, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EventProperties = 16,
                             EventState = 2,
@@ -147,7 +143,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 2,
                             AccommodationOption = 2,
-                            ClassOptions = "[\"A\",\"B\",\"H20\"]",
                             EndDate = new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EventProperties = 16,
                             EventState = 2,
@@ -158,6 +153,58 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Place = "Jilemnice",
                             StartDate = new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransportOption = 1
+                        });
+                });
+
+            modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventClassOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("EventClassOption");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EventId = 1,
+                            Name = "A"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EventId = 1,
+                            Name = "B"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            EventId = 2,
+                            Name = "A"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            EventId = 2,
+                            Name = "B"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            EventId = 2,
+                            Name = "H20"
                         });
                 });
 
@@ -639,6 +686,15 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasOne("ClubIS.CoreLayer.Entities.User", "User")
                         .WithOne("Address")
                         .HasForeignKey("ClubIS.CoreLayer.Entities.Address", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventClassOption", b =>
+                {
+                    b.HasOne("ClubIS.CoreLayer.Entities.Event", null)
+                        .WithMany("ClassOptions")
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

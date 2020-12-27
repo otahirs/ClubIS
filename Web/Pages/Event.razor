@@ -51,7 +51,7 @@
                             <MudSelect Label="Class" Required="true" @bind-Value="@SendEntry.Class" Variant="Variant.Outlined">
                                 @foreach (var c in E.ClassOptions)
                                     {
-                                    <MudSelectItem Value="@c">@c</MudSelectItem>
+                                    <MudSelectItem Value="@c.Name">@c.Name</MudSelectItem>
                                     }
                             </MudSelect>
 
@@ -157,7 +157,7 @@
         CurrentEntry = Entries.FirstOrDefault(e => e.UserId == id);
         if (CurrentEntry == null)
         {
-            SendEntry.Class = E.ClassOptions.ElementAt(0);
+            SendEntry.Class = E.ClassOptions.ElementAt(0).Name;
             SendEntry.HasClubTransport = false;
             SendEntry.HasClubAccommodation = false;
             SendEntry.SiCardNumber = (GetSiCards(id).FirstOrDefault(s => s.IsDefault)).Number;
@@ -235,7 +235,7 @@
 
     private string GetClassOptions()
     {
-        return E.ClassOptions.Aggregate((a, b) => a + ", " + b);
+        return E.ClassOptions.Select(a => a.Name).Aggregate((a, b) => a + ", " + b);
     }
 
     private string GetStages()

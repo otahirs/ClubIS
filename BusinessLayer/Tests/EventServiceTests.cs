@@ -32,10 +32,20 @@ namespace ClubIS.BusinessLayer.Tests
                     EventId = 42,
                 }
             },
-            ClassOptions = new HashSet<string>()
+            ClassOptions = new HashSet<EventClassOption>()
             {
-                "A",
-                "B"
+                new EventClassOption()
+                {
+                    Id = 1,
+                    EventId = 1,
+                    Name = "A"
+                },
+                new EventClassOption()
+                {
+                    Id = 2,
+                    EventId = 1,
+                    Name = "B"
+                }
             },
             EventType = EventType.Race,
             EventState = EventState.Archived,
@@ -130,10 +140,20 @@ namespace ClubIS.BusinessLayer.Tests
                 Link = "mcr2020.obopava.cz",
                 Deadlines = new List<EventDeadline>(),
                 Leader = null,
-                ClassOptions = new HashSet<string>()
+                ClassOptions = new HashSet<EventClassOption>()
                 {
-                    "A",
-                    "B"
+                    new EventClassOption()
+                    {
+                        Id = 1,
+                        EventId = 1,
+                        Name = "A"
+                    },
+                    new EventClassOption()
+                    {
+                        Id = 2,
+                        EventId = 1,
+                        Name = "B"
+                    }
                 },
                 EventType = EventType.Race,
                 EventState = EventState.Archived,

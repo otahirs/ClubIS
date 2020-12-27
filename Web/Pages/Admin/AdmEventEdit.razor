@@ -45,7 +45,7 @@
 
                     @foreach (var c in SendEvent.ClassOptions)
                     {
-                        <MudChip Color="Color.Default" OnClose="(() => RemoveClass(c))">@c</MudChip>
+                        <MudChip Color="Color.Default" OnClose="(() => RemoveClass(c))">@c.Name</MudChip>
                     }
                     <MudTextField Label="Class options" @bind-Value="CurrentOption" Variant="Variant.Outlined" />
                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="AddClass" Class="ml-auto mt-1">Class</MudButton>
@@ -116,7 +116,7 @@
             SendEvent.EndDate = DateTime.Today;
             SendEvent.EventType = GetTypes()[0];
             SendEvent.EventState = GetStates()[0];
-            SendEvent.ClassOptions = new HashSet<string>();
+            SendEvent.ClassOptions = new SortedSet<EventClassOption>();
             SendEvent.Deadlines = new List<EventDeadline>();
             AddDeadline();
             SendEvent.EventStages = new HashSet<EventStageDTO>();
@@ -152,12 +152,14 @@
     private void AddClass()
     {
         if (string.IsNullOrWhiteSpace(CurrentOption)) return;
-        SendEvent.ClassOptions.Add(CurrentOption);
+        var newClass = new EventClassOption();
+        newClass.Name = CurrentOption;
         CurrentOption = "";
+        SendEvent.ClassOptions.Add(newClass);
         StateHasChanged();
     }
 
-    private void RemoveClass(string c)
+    private void RemoveClass(EventClassOption c)
     {
         SendEvent.ClassOptions.Remove(c);
         StateHasChanged();
@@ -206,15 +208,6 @@
         else
         {
             await Http.PutAsJsonAsync<EventEditDTO>("Events", SendEvent);
-        }
-        foreach (var c in SendEvent.ClassOptions)
-        {
-            Console.WriteLine(c);
-        }
-        var e = await Http.GetFromJsonAsync<EventEditDTO>($"Events/{EventId}");
-        foreach (var c in e.ClassOptions)
-        {
-            Console.WriteLine(c);
         }
         NavigationManager.NavigateTo($"/admin/events");
     }

@@ -38,12 +38,6 @@ namespace ClubIS.DataAccessLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Event>()
-                .Property(e => e.ClassOptions)
-                .HasConversion(
-                    o => JsonConvert.SerializeObject(o),
-                    o => JsonConvert.DeserializeObject<HashSet<string>>(o));
-
             modelBuilder.Entity<User_EntriesSupervisor>()
                 .HasKey(us => new { us.UserId, us.EntriesSupervisorId });
 

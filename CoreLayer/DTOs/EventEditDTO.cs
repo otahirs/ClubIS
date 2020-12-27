@@ -21,7 +21,7 @@ namespace ClubIS.CoreLayer.DTOs
         public string Link { get; set; }
         public ICollection<EventDeadline> Deadlines { get; set; }
         public string Leader { get; set; }
-        public ISet<string> ClassOptions { get; set; }
+        public ISet<EventClassOption> ClassOptions { get; set; }
         public EventState EventState { get; set; }
         public EventProperty EventProperties { get; set; }
         public string Note { get; set; }

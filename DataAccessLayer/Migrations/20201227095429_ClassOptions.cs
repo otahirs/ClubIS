@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ClubIS.DataAccessLayer.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class ClassOptions : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,7 +22,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                     TransportOption = table.Column<int>(nullable: false),
                     Link = table.Column<string>(maxLength: 50, nullable: true),
                     Note = table.Column<string>(maxLength: 255, nullable: true),
-                    ClassOptions = table.Column<string>(nullable: true),
                     Leader = table.Column<string>(nullable: true),
                     EventType = table.Column<int>(nullable: false),
                     EventState = table.Column<int>(nullable: false),
@@ -60,6 +59,26 @@ namespace ClubIS.DataAccessLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MemberFees", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EventClassOption",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    EventId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventClassOption", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EventClassOption_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -335,11 +354,11 @@ namespace ClubIS.DataAccessLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "Events",
-                columns: new[] { "Id", "AccommodationOption", "ClassOptions", "EndDate", "EventProperties", "EventState", "EventType", "Leader", "Link", "Name", "Note", "Organizer", "Place", "StartDate", "TransportOption" },
+                columns: new[] { "Id", "AccommodationOption", "EndDate", "EventProperties", "EventState", "EventType", "Leader", "Link", "Name", "Note", "Organizer", "Place", "StartDate", "TransportOption" },
                 values: new object[,]
                 {
-                    { 1, 2, "[\"A\",\"B\"]", new DateTime(2020, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 2, 2, null, "mcr2020.obopava.cz", "Soustředění Vysočina", null, "OB ZAM", "Sklené", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 2, 2, "[\"A\",\"B\",\"H20\"]", new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 2, 0, null, "mcr2020.obopava.cz", "9. JML - klasická trať", null, "OB ZAM", "Jilemnice", new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 }
+                    { 1, 2, new DateTime(2020, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 2, 2, null, "mcr2020.obopava.cz", "Soustředění Vysočina", null, "OB ZAM", "Sklené", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
+                    { 2, 2, new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 2, 0, null, "mcr2020.obopava.cz", "9. JML - klasická trať", null, "OB ZAM", "Jilemnice", new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -358,6 +377,18 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     { 2, 0, "Oddílem jsou placeny veškeré závody. Závodník platí pouze storna.", 4, "All Inclusive" },
                     { 1, 100, "Nikam nejezdím nebo málo - veškeré závody se strhávají z osobního vkladu.", 1, "Základ" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EventClassOption",
+                columns: new[] { "Id", "EventId", "Name" },
+                values: new object[,]
+                {
+                    { 1, 1, "A" },
+                    { 2, 1, "B" },
+                    { 3, 2, "A" },
+                    { 4, 2, "B" },
+                    { 5, 2, "H20" }
                 });
 
             migrationBuilder.InsertData(
@@ -426,6 +457,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                 table: "Address",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventClassOption_EventId",
+                table: "EventClassOption",
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventDeadline_EventId",
@@ -518,6 +554,9 @@ namespace ClubIS.DataAccessLayer.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Address");
+
+            migrationBuilder.DropTable(
+                name: "EventClassOption");
 
             migrationBuilder.DropTable(
                 name: "EventDeadline");
