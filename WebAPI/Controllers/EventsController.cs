@@ -16,10 +16,12 @@ namespace ClubIS.WebAPI.Controllers
     public class EventsController : ControllerBase
     {
         private IEventFacade _eventFacade;
+        private IPaymentFacade _paymentFacade;
 
-        public EventsController(IEventFacade eventFacade)
+        public EventsController(IEventFacade eventFacade, IPaymentFacade paymentFacade)
         {
             _eventFacade = eventFacade;
+            _paymentFacade = paymentFacade;
         }
 
         [HttpGet]
@@ -117,6 +119,11 @@ namespace ClubIS.WebAPI.Controllers
             if (e == null)
             {
                 return NotFound();
+            }
+            var payments = await _paymentFacade.GetAllByEventID(id);
+            foreach (var p in payments)
+            {
+                await _paymentFacade.Delete(p.Id);
             }
             await _eventFacade.Delete(id);
             return Ok();

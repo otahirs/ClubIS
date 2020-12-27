@@ -116,7 +116,7 @@
             SendEvent.EndDate = DateTime.Today;
             SendEvent.EventType = GetTypes()[0];
             SendEvent.EventState = GetStates()[0];
-            SendEvent.ClassOptions = new SortedSet<EventClassOption>();
+            SendEvent.ClassOptions = new HashSet<EventClassOption>();
             SendEvent.Deadlines = new List<EventDeadline>();
             AddDeadline();
             SendEvent.EventStages = new HashSet<EventStageDTO>();
@@ -215,7 +215,7 @@
 
     private async void RemoveEvent()
     {
-        await Http.DeleteAsync($"Entries/{EventId}");
+        await Http.DeleteAsync($"Events/{EventId}");
         NavigationManager.NavigateTo($"/admin/events");
     }
 }

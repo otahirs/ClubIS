@@ -12,6 +12,7 @@ namespace ClubIS.BusinessLayer.Services.Interfaces
         Task<IEnumerable<UserCreditListDTO>> GetAllUSerCreditList();
         Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id);
         Task<int> GetEventPaymentSumByEventId(int id);
+        Task<IEnumerable<PaymentListDTO>> GetAllByEventID(int id);
         Task Delete(int id);
     }
 }

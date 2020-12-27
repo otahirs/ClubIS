@@ -38,6 +38,12 @@ namespace ClubIS.BusinessLayer.Services
             var paymentEntities = await _unitOfWork.Payments.GetAll();
             return _mapper.Map<IEnumerable<PaymentListDTO>>(paymentEntities);
         }
+
+        public async Task<IEnumerable<PaymentListDTO>> GetAllByEventID(int id)
+        {
+            var paymentEntities = await _unitOfWork.Payments.GetAllByEventId(id);
+            return _mapper.Map<IEnumerable<PaymentListDTO>>(paymentEntities);
+        }
         public async Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int userId)
         {
             var user = await _unitOfWork.Users.GetById(userId);
