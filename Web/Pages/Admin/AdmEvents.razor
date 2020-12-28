@@ -12,9 +12,9 @@
     }
     else
     {
-        <MudTable Items="@Events" Filter="new Func<EventListDTO, bool>(FilterFunc)" Hover="true" OnRowClick="@((TableRowClickEventArgs<EventListDTO> e)=>Navigate(e))"  T="EventListDTO">
+        <MudTable Items="@Events" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@((TableRowClickEventArgs<EventListDTO> e)=>Navigate(e))"  T="EventListDTO" Hover="true" Dense="true">
             <ToolBarContent>
-                <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                <MudTextField @bind-Value="searchString" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                 <MudToolBarSpacer />
                 <MudSelect T="string" @bind-Value="searchType" Label="Filter EventType">
                     @foreach (var type in Types)

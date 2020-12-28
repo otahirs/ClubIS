@@ -53,7 +53,7 @@
                             <MudTextField Label="Class options" @bind-Value="CurrentOption" Variant="Variant.Outlined" />
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="AddClass">Class</MudButton>
+                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Filled.Add" OnClick="AddClass">Class</MudButton>
                         </MudCardActions>
                         <ValidationMessage For="@(() => SendEvent.ClassOptions)" class="validation-message" />
                     </MudCard>
@@ -79,7 +79,7 @@
                             }
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="AddDeadline">Deadline</MudButton>
+                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Filled.Add" OnClick="AddDeadline">Deadline</MudButton>
                         </MudCardActions>
                     </MudCard>
 
@@ -104,19 +104,20 @@
 
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="AddStage">Stage</MudButton>
+                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Filled.Add" OnClick="AddStage">Stage</MudButton>
                         </MudCardActions>
                     </MudCard>
 
                 </MudCardContent>
                 <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
                     @if (EventId == null)
                     {
                         <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
                     }
                     else
                     {
-                        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveEvent" Class="ml-auto">Remove</MudButton>
+                        <MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveEvent" Class="ml-auto">Remove</MudButton>
                         <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Edit</MudButton>
                     }
                 </MudCardActions>
@@ -240,6 +241,11 @@
     private async void RemoveEvent()
     {
         await Http.DeleteAsync($"Events/{EventId}");
+        NavigationManager.NavigateTo($"/admin/events");
+    }
+
+    private void Navigate()
+    {
         NavigationManager.NavigateTo($"/admin/events");
     }
 }
