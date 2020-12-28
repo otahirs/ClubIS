@@ -69,7 +69,25 @@
                             <MudTextField Label="Note(intern)" @bind-Value="SendEntry.NoteForClub" For="@(() => SendEntry.NoteForClub)" Variant="Variant.Outlined" />
 
                             <MudTextField Label="Note(organizer)" @bind-Value="SendEntry.NoteForOrganizators" For="@(() => SendEntry.NoteForOrganizators)" Variant="Variant.Outlined" />
-
+                            
+                            @if (E.EventStages.Count != 0)
+                            {
+                                <MudCard Class="mt-1">
+                                    <MudCardContent>
+                                        <MudText Typo="Typo.h6"><b>Event Stages:</b></MudText>
+                                        <MudList Clickable="true">
+                                            @foreach (var s in E.EventStages)
+                                            {
+                                                <MudListItem OnClick="() => StageClicked(s)" Style="@(SendEntry.EnteredStages.Contains(s) ? "background-color:rgb(224, 224, 224);" : "")">
+                                                    <MudText>
+                                                        <b>@s.Name</b>, date: @s.Date.ToString("dd.MM.yyyy")
+                                                    </MudText>
+                                                </MudListItem>
+                                            }
+                                        </MudList>
+                                    </MudCardContent>
+                                </MudCard>
+                            }
                         </MudCardContent>
                         <MudCardActions>
                             @if (CurrentEntry == null)
@@ -163,7 +181,7 @@
             SendEntry.SiCardNumber = (GetSiCards(id).FirstOrDefault(s => s.IsDefault)).Number;
             SendEntry.NoteForClub = "";
             SendEntry.NoteForOrganizators = "";
-            SendEntry.EnteredStages = new List<EventStageDTO>();
+            SendEntry.EnteredStages = new HashSet<EventStageDTO>();
         }
         else
         {
@@ -216,6 +234,18 @@
         Entries = await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{EventId}");
         UpdateData(CurrentEntry.UserId);
         StateHasChanged();
+    }
+
+    private void StageClicked(EventStageDTO stage)
+    {
+        //if (SendEntry.EnteredStages.Contains(stage))
+        //{
+        //    SendEntry.EnteredStages.Remove(stage);
+        //}
+        //else
+        //{
+        //    SendEntry.EnteredStages.Add(stage);
+        //}
     }
 
     private string GetStages(List<EventStageDTO> enteredStages)

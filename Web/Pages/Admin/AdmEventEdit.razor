@@ -43,46 +43,70 @@
                             }
                     </MudSelect>
 
-                    @foreach (var c in SendEvent.ClassOptions)
-                    {
-                        <MudChip Color="Color.Default" OnClose="(() => RemoveClass(c))">@c.Name</MudChip>
-                    }
-                    <MudTextField Label="Class options" @bind-Value="CurrentOption" Variant="Variant.Outlined" />
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="AddClass" Class="ml-auto mt-1">Class</MudButton>
+                    <MudCard Class="mt-1">
+                        <MudCardContent>
+                            @foreach (var c in SendEvent.ClassOptions)
+                            {
+                                <MudChip Color="Color.Default" OnClose="(() => RemoveClass(c))">@c.Name</MudChip>
+                            }
+
+                            <MudTextField Label="Class options" @bind-Value="CurrentOption" Variant="Variant.Outlined" />
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="AddClass">Class</MudButton>
+                        </MudCardActions>
+                        <ValidationMessage For="@(() => SendEvent.ClassOptions)" class="validation-message" />
+                    </MudCard>
 
                     <MudTextField Label="Link" @bind-Value="SendEvent.Link" For="@(() => SendEvent.Link)" Variant="Variant.Outlined" />
 
                     <MudTextField Label="Note" @bind-Value="SendEvent.Note" For="@(() => SendEvent.Note)" Variant="Variant.Outlined" />
 
-                    <MudText Typo="Typo.h5"><b>Deadlines:</b></MudText>
-                    @foreach (var d in SendEvent.Deadlines)
-                    {
-                        <MudGrid>
-                            <MudItem xs="12">
-                                <MudDatePicker Label="Deadline" ValueChanged="@((string s) => UpdateDeadline(s, d))" Value="@d.Deadline.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
-                                @if (SendEvent.Deadlines.Count > 1)
-                                {
-                                    <MudIconButton Icon="@Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="(() => RemoveDeadline(d))"></MudIconButton>
-                                }
-                            </MudItem>
-                        </MudGrid>
+                    <MudCard Class="mt-1">
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6">Deadlines:</MudText>
+                            @foreach (var d in SendEvent.Deadlines)
+                            {
+                                <MudCard Outlined="true">
+                                    <MudCardContent>
+                                        <MudDatePicker Label="Deadline" ValueChanged="@((string s) => UpdateDeadline(s, d))" Value="@d.Deadline.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
+                                        @if (SendEvent.Deadlines.Count > 1)
+                                        {
+                                            <MudIconButton Icon="@Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="(() => RemoveDeadline(d))"></MudIconButton>
+                                        }
+                                    </MudCardContent>
+                                </MudCard>
+                            }
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="AddDeadline">Deadline</MudButton>
+                        </MudCardActions>
+                    </MudCard>
 
-                    }
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="AddDeadline" Class="ml-auto mt-2">Deadline</MudButton>
+                    <MudCard Class="mt-1">
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6"><b>Event Stages:</b></MudText>
+                            @foreach (var s in SendEvent.EventStages)
+                            {
+                                <MudCard>
+                                    <MudCardContent>
+                                        <MudGrid>
+                                            <MudItem xs="6">
+                                                <MudTextField Label="Stage name" @bind-Value="s.Name" For="@(() => s.Name)" Variant="Variant.Outlined" />
+                                            </MudItem>
+                                            <MudDatePicker Label="Stage date" ValueChanged="@((string st) => UpdateStageDate(st, s))" Value="@s.Date.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
 
-                    <MudText Typo="Typo.h5"><b>Event Stage:</b></MudText>
-                    @foreach (var s in SendEvent.EventStages)
-                    {
-                        <MudGrid>
-                            <MudItem xs="6">
-                                <MudTextField Label="Stage name" @bind-Value="s.Name" For="@(() => s.Name)" Variant="Variant.Outlined" />
-                            </MudItem>
-                            <MudDatePicker Label="Stage date" ValueChanged="@((string st) => UpdateStageDate(st, s))" Value="@s.Date.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
+                                            <MudIconButton Icon="@Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="(() => RemoveStage(s))"></MudIconButton>
+                                        </MudGrid>
+                                    </MudCardContent>
+                                </MudCard>
+                            }
 
-                            <MudIconButton Icon="@Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="(() => RemoveStage(s))"></MudIconButton>
-                        </MudGrid>
-                    }
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="AddStage" Class="ml-auto mt-4">Stage</MudButton>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="AddStage">Stage</MudButton>
+                        </MudCardActions>
+                    </MudCard>
 
                 </MudCardContent>
                 <MudCardActions>
