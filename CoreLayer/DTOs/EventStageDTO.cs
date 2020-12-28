@@ -7,5 +7,6 @@ namespace ClubIS.CoreLayer.DTOs
         public int EventId { get; set; }
         public DateTime Date { get; set; }
         public string Name { get; set; }
+        public bool Selected { get; set; } = false;
     }
 }

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
+using ClubIS.CoreLayer.Entities;
 
 namespace ClubIS.CoreLayer.DTOs
 {
@@ -24,7 +25,7 @@ namespace ClubIS.CoreLayer.DTOs
         [Required]
         public int SiCardNumber { get; set; }
         [Required]
-        public ISet<EventStageDTO> EnteredStages { get; set; }
+        public ISet<EventEnteredStage> EnteredStages { get; set; }
 
     }
 }

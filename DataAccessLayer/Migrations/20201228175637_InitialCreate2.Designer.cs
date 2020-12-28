@@ -4,14 +4,16 @@ using ClubIS.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClubIS.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201228175637_InitialCreate2")]
+    partial class InitialCreate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,29 +248,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEnteredStage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("EventEntryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventEntryId");
-
-                    b.ToTable("EventEnteredStage");
-                });
-
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEntry", b =>
                 {
                     b.Property<int>("Id")
@@ -345,6 +324,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasColumnType("datetime2")
                         .HasMaxLength(50);
 
+                    b.Property<int?>("EventEntryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
@@ -352,6 +334,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventEntryId");
 
                     b.HasIndex("EventId");
 
@@ -724,13 +708,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEnteredStage", b =>
-                {
-                    b.HasOne("ClubIS.CoreLayer.Entities.EventEntry", null)
-                        .WithMany("EnteredStages")
-                        .HasForeignKey("EventEntryId");
-                });
-
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEntry", b =>
                 {
                     b.HasOne("ClubIS.CoreLayer.Entities.Event", "Event")
@@ -748,6 +725,10 @@ namespace ClubIS.DataAccessLayer.Migrations
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventStage", b =>
                 {
+                    b.HasOne("ClubIS.CoreLayer.Entities.EventEntry", null)
+                        .WithMany("EnteredStages")
+                        .HasForeignKey("EventEntryId");
+
                     b.HasOne("ClubIS.CoreLayer.Entities.Event", null)
                         .WithMany("EventStages")
                         .HasForeignKey("EventId")

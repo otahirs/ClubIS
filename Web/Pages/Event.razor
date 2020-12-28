@@ -78,7 +78,7 @@
                                         <MudList Clickable="true">
                                             @foreach (var s in E.EventStages)
                                             {
-                                                <MudListItem OnClick="() => StageClicked(s)" Style="@(SendEntry.EnteredStages.Contains(s) ? "background-color:rgb(224, 224, 224);" : "")">
+                                                <MudListItem OnClick="() => StageClicked(s)" Style="@(s.Selected ? "background-color:rgb(224, 224, 224);" : "")">
                                                     <MudText>
                                                         <b>@s.Name</b>, date: @s.Date.ToString("dd.MM.yyyy")
                                                     </MudText>
@@ -141,7 +141,7 @@
                     <MudTd DataLabel="SiNum">@context.SiCardNumber</MudTd>
                     <MudTd DataLabel="Note(i)">@context.NoteForClub</MudTd>
                     <MudTd DataLabel="Note(org)">@context.NoteForOrganizators</MudTd>
-                    <MudTd DataLabel="Stages">@GetStages(context.EnteredStages.ToList())</MudTd>
+                    <MudTd DataLabel="Stages">@GetStages(context.EnteredStages)</MudTd>
                 </RowTemplate>
             </MudTable>
             }
@@ -181,7 +181,9 @@
             SendEntry.SiCardNumber = (GetSiCards(id).FirstOrDefault(s => s.IsDefault)).Number;
             SendEntry.NoteForClub = "";
             SendEntry.NoteForOrganizators = "";
-            SendEntry.EnteredStages = new HashSet<EventStageDTO>();
+            SendEntry.EnteredStages = new HashSet<EventEnteredStage>();
+
+            E.EventStages.ToList().ForEach(s => s.Selected = false);
         }
         else
         {
@@ -192,7 +194,18 @@
             SendEntry.NoteForClub = CurrentEntry.NoteForClub;
             SendEntry.NoteForOrganizators = CurrentEntry.NoteForOrganizators;
             SendEntry.EnteredStages = CurrentEntry.EnteredStages;
+
+            for (int i = 0; i < SendEntry.EnteredStages.Count; i++)
+            {
+                var tmp = E.EventStages.FirstOrDefault(s => s.Name == E.EventStages.ElementAt(i).Name);
+                if (tmp != null)
+                {
+                    E.EventStages.ElementAt(i).Selected = true;
+                }
+            }
         }
+
+        StateHasChanged();
     }
 
     private ISet<SiCardDTO> GetSiCards(int id)
@@ -236,19 +249,23 @@
         StateHasChanged();
     }
 
-    private void StageClicked(EventStageDTO stage)
+    private void StageClicked(EventStageDTO s)
     {
-        //if (SendEntry.EnteredStages.Contains(stage))
-        //{
-        //    SendEntry.EnteredStages.Remove(stage);
-        //}
-        //else
-        //{
-        //    SendEntry.EnteredStages.Add(stage);
-        //}
+        s.Selected = !s.Selected;
+        var stage = new EventEnteredStage();
+        stage.Name = s.Name;
+        if (!s.Selected)
+        {
+            var tmp = SendEntry.EnteredStages.FirstOrDefault(s => s.Name.Equals(stage.Name));
+            SendEntry.EnteredStages.Remove(tmp);
+        }
+        else
+        {
+            SendEntry.EnteredStages.Add(stage);
+        }
     }
 
-    private string GetStages(List<EventStageDTO> enteredStages)
+    private string GetStages(ISet<EventEnteredStage> enteredStages)
     {
         return (enteredStages.Count != 0) ? enteredStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
     }
@@ -271,6 +288,11 @@
     private string GetStages()
     {
         return (E.EventStages.Count != 0) ? E.EventStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
+    }
+
+    private bool Selected(string name)
+    {
+        return SendEntry.EnteredStages.Where(s => s.Name.Equals(name)).ToList().Count != 0;
     }
 
 }

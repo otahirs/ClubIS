@@ -25,7 +25,7 @@ namespace ClubIS.CoreLayer.Entities
         [MaxLength(255)]
         public string NoteForOrganisator { get; set; }
         public int? SiCardNumber { get; set; }
-        public virtual ISet<EventStage> EnteredStages { get; set; }
+        public virtual ISet<EventEnteredStage> EnteredStages { get; set; }
 
     }
 }
