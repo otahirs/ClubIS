@@ -63,8 +63,11 @@ namespace ClubIS.WebAPI.Controllers
             await _entryFacade.Create(entry);
 
             var e = await _eventFacade.GetById(entry.EventId);
-            e.Entries = EntriesExport.Changed;
-            await _eventFacade.Update(e);
+            if (e.Entries != EntriesExport.Changed)
+            {
+                e.Entries = EntriesExport.Changed;
+                await _eventFacade.Update(e);
+            }
 
             return Ok();
         }
@@ -80,8 +83,11 @@ namespace ClubIS.WebAPI.Controllers
             await _entryFacade.Update(entry);
 
             var e = await _eventFacade.GetById(entry.EventId);
-            e.Entries = EntriesExport.Changed;
-            await _eventFacade.Update(e);
+            if (e.Entries != EntriesExport.Changed)
+            {
+                e.Entries = EntriesExport.Changed;
+                await _eventFacade.Update(e);
+            }
 
             return Ok();
         }
