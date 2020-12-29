@@ -1,9 +1,44 @@
 ﻿@page "/users"
 
+@attribute [Authorize]
+
+@inject HttpClient Http
+
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Member list</MudText>
+    @if (users == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+
+        <MudTable Items="users" Hover="true" SortLabel="Sort By">
+            <HeaderContent>
+                <MudTh>FirstName</MudTh>
+                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Surname</MudTableSortLabel></MudTh>
+                <MudTh>RegNum</MudTh>
+                <MudTh>E-mail</MudTh>
+                <MudTh>Phone</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="FirstName">@context.Firstname</MudTd>
+                <MudTd DataLabel="Surname">@context.Surname</MudTd>
+                <MudTd DataLabel="RegNum">@context.RegistrationNumber</MudTd>
+                <MudTd DataLabel="E-mail">@context.Email</MudTd>
+                <MudTd DataLabel="Phone">@context.Phone</MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
 </MudContainer>
 
-@code {
 
+
+@code {
+    private UserListDTO[] users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await Http.GetFromJsonAsync<UserListDTO[]>("Users");
+    }
 }
