@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
+using ClubIS.CoreLayer.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -15,10 +16,12 @@ namespace ClubIS.WebAPI.Controllers
     public class EntriesController : ControllerBase
     {
         private IEntryFacade _entryFacade;
+        private IEventFacade _eventFacade;
 
-        public EntriesController(IEntryFacade entryFacade)
+        public EntriesController(IEntryFacade entryFacade, IEventFacade eventFacade)
         {
             _entryFacade = entryFacade;
+            _eventFacade = eventFacade;
         }
 
         [HttpGet("event/{eventId}")]
@@ -58,6 +61,11 @@ namespace ClubIS.WebAPI.Controllers
                 return BadRequest();
 
             await _entryFacade.Create(entry);
+
+            var e = await _eventFacade.GetById(entry.EventId);
+            e.Entries = EntriesExport.Changed;
+            await _eventFacade.Update(e);
+
             return Ok();
         }
 
@@ -70,6 +78,11 @@ namespace ClubIS.WebAPI.Controllers
                 return BadRequest();
 
             await _entryFacade.Update(entry);
+
+            var e = await _eventFacade.GetById(entry.EventId);
+            e.Entries = EntriesExport.Changed;
+            await _eventFacade.Update(e);
+
             return Ok();
         }
 

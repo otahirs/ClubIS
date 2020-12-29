@@ -30,5 +30,6 @@ namespace ClubIS.CoreLayer.Entities
         public EventState EventState { get; set; }
         public EventProperty EventProperties { get; set; }
         public virtual ISet<EventStage> EventStages { get; set; }
+        public EntriesExport Entries { get; set; }
     }
 }

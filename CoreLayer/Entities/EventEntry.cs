@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ClubIS.CoreLayer.Enums;
 
 namespace ClubIS.CoreLayer.Entities
 {
@@ -26,6 +27,7 @@ namespace ClubIS.CoreLayer.Entities
         public string NoteForOrganisator { get; set; }
         public int? SiCardNumber { get; set; }
         public virtual ISet<EventEnteredStage> EnteredStages { get; set; }
+        public EntryStatus Status { get; set; }
 
     }
 }

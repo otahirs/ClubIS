@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ClubIS.CoreLayer.Entities;
+using ClubIS.CoreLayer.Enums;
 
 namespace ClubIS.CoreLayer.DTOs
 {
@@ -16,6 +17,7 @@ namespace ClubIS.CoreLayer.DTOs
         public string NoteForClub { get; set; }
         public string NoteForOrganizators { get; set; }
         public ISet<EventEnteredStage> EnteredStages { get; set; }
+        public EntryStatus Status { get; set; }
 
     }
 }

@@ -21,11 +21,6 @@ namespace ClubIS.BusinessLayer.Facades
             _paymentService = paymentService;
         }
 
-        public async Task<IEnumerable<EventListWithExportStatusDTO>> GetAllWithExportStatus()
-        {
-            return await _eventService.GetAllWithExportStatus();
-        }
-
         public async Task<EventEditDTO> GetById(int id)
         {
             return await _eventService.GetById(id);

@@ -11,7 +11,6 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
         Task<IEnumerable<EventListDTO>> GetAll();
         Task<IEnumerable<EventListWithUserEntryDTO>> GetAllWithUserEntry(int userId);
         Task<IEnumerable<EventListWithTotalCostsDTO>> GetAllWithTotalCosts();
-        Task<IEnumerable<EventListWithExportStatusDTO>> GetAllWithExportStatus();
         Task<EventEditDTO> GetById(int id);
         Task Update(EventEditDTO e);
         Task Delete(int id);
