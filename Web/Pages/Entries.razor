@@ -40,11 +40,11 @@
                 <MudTd DataLabel="Entries">
                     @if (context.EntryInfo == null)
                     {
-                        <MudChip Label="true">@GetClass(context.EntryInfo)</MudChip>
+                        <MudChip Size="Size.Small" Label="true">@GetClass(context.EntryInfo)</MudChip>
                     }
                     else
                     {
-                        <MudChip Label="true" Color="Color.Primary">@GetClass(context.EntryInfo)</MudChip>
+                        <MudChip Size="Size.Small" Label="true" Color="Color.Primary">@GetClass(context.EntryInfo)</MudChip>
                     }
                 </MudTd>
             </RowTemplate>
@@ -67,15 +67,10 @@
 
     bool FilterFunc(EventListWithUserEntryDTO e)
     {
-        if (string.IsNullOrWhiteSpace(searchString) && string.IsNullOrWhiteSpace(searchType))
-            return true;
-        if (string.IsNullOrWhiteSpace(searchType) && $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {GetClass(e.EntryInfo)}".Contains(searchString))
-            return true;
-        if (string.IsNullOrWhiteSpace(searchString) && e.Event.EventType.ToString().Equals(searchType))
-            return true;
-        if (!string.IsNullOrWhiteSpace(searchString) && $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {GetClass(e.EntryInfo)}".Contains(searchString) && e.Event.EventType.ToString().Equals(searchType))
-            return true;
-        return false;
+        var eventData = $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {GetClass(e.EntryInfo)}";
+        var eventType = e.Event.EventType.ToString();
+
+        return eventType.Contains(searchType) && eventData.Contains(searchString);
     }
 
     private static string GetDate(DateTime start, DateTime end)
