@@ -46,8 +46,7 @@
         }
         else
         {
-            //TODO add deadlines validation here
-            @if (E.EventState != EventState.Canceled)
+            @if (E.EventState != EventState.Canceled && !IsAfterDeadlines())
             {
                 <EditForm Model="@SendEntry" OnValidSubmit="OnValidSubmit">
                     <DataAnnotationsValidator/>
@@ -294,6 +293,12 @@
     private string GetDeadlines()
     {
         return (E.Deadlines.Count != 0) ? E.Deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
+    }
+
+    private bool IsAfterDeadlines()
+    {
+        var maxDate = E.Deadlines.Select(x => x.Deadline).Max();
+        return DateTime.Compare(DateTime.Today, maxDate) >= 0;
     }
 
     private string GetClassOptions()
