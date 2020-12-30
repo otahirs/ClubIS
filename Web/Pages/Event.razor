@@ -248,9 +248,7 @@
     private async void RemoveEntry()
     {
         await Http.DeleteAsync($"Entries/{CurrentEntry.Id}");
-        Entries = await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{EventId}");
-        UpdateData(CurrentEntry.UserId);
-        StateHasChanged();
+        NavigationManager.NavigateTo($"event/{EventId}", true);
     }
 
     private void StageClicked(EventStageDTO s)
