@@ -98,7 +98,7 @@
         Entries = await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{EventId}");
     }
 
-    private string GetStages(ISet<EventEnteredStage> enteredStages)
+    private string GetStages(ISet<EventStageDTO> enteredStages)
     {
         return (enteredStages.Count != 0) ? enteredStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
     }

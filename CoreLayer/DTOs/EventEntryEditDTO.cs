@@ -26,7 +26,7 @@ namespace ClubIS.CoreLayer.DTOs
         [Required]
         public int SiCardNumber { get; set; }
         [Required]
-        public ISet<EventEnteredStage> EnteredStages { get; set; }
+        public ISet<EventStageDTO> EnteredStages { get; set; }
         public EntryStatus Status { get; set; }
 
     }

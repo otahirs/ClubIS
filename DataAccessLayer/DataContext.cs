@@ -55,6 +55,14 @@ namespace ClubIS.DataAccessLayer
                 .HasForeignKey(i => i.EntriesSupervisorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<EventEntry_EventStage>()
+                .HasKey(es => new { es.EventEntryId, es.EventStageId });
+            modelBuilder.Entity<EventEntry_EventStage>()
+               .HasOne(e => e.Entry)
+               .WithMany(s => s.EnteredStages)
+               .HasForeignKey(es => es.EventEntryId)
+               .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<FinanceAccount>()
                 .HasOne(a => a.Owner)
                 .WithOne(u => u.Account)

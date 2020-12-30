@@ -251,29 +251,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEnteredStage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("EventEntryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventEntryId");
-
-                    b.ToTable("EventEnteredStage");
-                });
-
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEntry", b =>
                 {
                     b.Property<int>("Id")
@@ -342,6 +319,21 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Status = 0,
                             UserId = 1
                         });
+                });
+
+            modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEntry_EventStage", b =>
+                {
+                    b.Property<int>("EventEntryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EventStageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EventEntryId", "EventStageId");
+
+                    b.HasIndex("EventStageId");
+
+                    b.ToTable("EventEntry_EventStage");
                 });
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventStage", b =>
@@ -724,13 +716,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEnteredStage", b =>
-                {
-                    b.HasOne("ClubIS.CoreLayer.Entities.EventEntry", null)
-                        .WithMany("EnteredStages")
-                        .HasForeignKey("EventEntryId");
-                });
-
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEntry", b =>
                 {
                     b.HasOne("ClubIS.CoreLayer.Entities.Event", "Event")
@@ -742,6 +727,21 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasOne("ClubIS.CoreLayer.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEntry_EventStage", b =>
+                {
+                    b.HasOne("ClubIS.CoreLayer.Entities.EventEntry", "Entry")
+                        .WithMany("EnteredStages")
+                        .HasForeignKey("EventEntryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ClubIS.CoreLayer.Entities.EventStage", "Stage")
+                        .WithMany("StageEntries")
+                        .HasForeignKey("EventStageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

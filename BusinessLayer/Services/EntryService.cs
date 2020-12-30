@@ -26,12 +26,15 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task Delete(int id)
         {
-            _unitOfWork.Entry.Remove(await _unitOfWork.Entry.GetById(id));
+            var entryEntity = await _unitOfWork.Entry.GetById(id);
+            entryEntity.EnteredStages.Clear();
+            _unitOfWork.Entry.Remove(entryEntity);
         }
 
         public async Task Update(EventEntryEditDTO entry)
         {
             var entryEntity = await _unitOfWork.Entry.GetById(entry.Id);
+            entryEntity.EnteredStages.Clear();
             _mapper.Map(entry, entryEntity);
         }
 

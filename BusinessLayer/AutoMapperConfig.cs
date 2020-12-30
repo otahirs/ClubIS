@@ -9,14 +9,30 @@ namespace ClubIS.BusinessLayer
     {       
         public static void ConfigureMapping(IMapperConfigurationExpression config)
         {
-            config.CreateMap<Event, EventEditDTO>().ReverseMap();
+            config.CreateMap<Event, EventEditDTO>().ReverseMap(); 
+            config.CreateMap<EventEntry, EventEntryBasicInfoDTO>().ReverseMap();
             config.CreateMap<EventEntry, EventEntryListDTO>()
                 .ForMember(d => d.Name, opt => opt.MapFrom(s => s.User.Firstname + " " + s.User.Surname))
-                .ForMember(d => d.RegistrationNumber, opt => opt.MapFrom(s => s.User.RegistrationNumber));
-            config.CreateMap<EventEntry, EventEntryBasicInfoDTO>().ReverseMap();
-            config.CreateMap<EventEntryEditDTO, EventEntry>().ReverseMap();
+                .ForMember(d => d.RegistrationNumber, opt => opt.MapFrom(s => s.User.RegistrationNumber))
+                .ForMember(d => d.EnteredStages, opt => opt.MapFrom(s => s.EnteredStages.Select(entry_stage => entry_stage.Stage)));
+            config.CreateMap<EventEntry, EventEntryEditDTO>()
+                .ForMember(d => d.EnteredStages, opt => opt.MapFrom(s => s.EnteredStages.Select(entry_stage => entry_stage.Stage)));
+            config.CreateMap<EventEntryEditDTO, EventEntry>()
+                .ForMember(d => d.EnteredStages, opt => opt.MapFrom(s => s.EnteredStages.Select(stage =>
+                    new EventEntry_EventStage()
+                    {
+                        EventEntryId = s.EventId,
+                        EventStageId = stage.Id
+                    })));
+            
             config.CreateMap<Event, EventListDTO>().ReverseMap();
             config.CreateMap<EventStage, EventStageDTO>().ReverseMap();
+            //config.CreateMap<EventEntry_EventStage, EventStageDTO>()
+            //    .ConstructUsing((src, ctx) => ctx.Mapper.Map<EventStageDTO>(src.Stage));
+
+            //config.CreateMap<EventStageDTO, EventEntry_EventStage>()
+            //    .ForMember(d => d.Stage, opt => opt.MapFrom(es => es));
+
             // TODO config.CreateMap<Tuple<Event, Payment>, FinanceEventListDTO>().ReverseMap();
             config.CreateMap<MemberFee, MemberFeeDTO>().ReverseMap();
             config.CreateMap<News, NewsEditDTO>().ReverseMap();

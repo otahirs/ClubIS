@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ClubIS.DataAccessLayer.Migrations
 {
-    public partial class ClassOptions : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,7 +25,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                     Leader = table.Column<string>(nullable: true),
                     EventType = table.Column<int>(nullable: false),
                     EventState = table.Column<int>(nullable: false),
-                    EventProperties = table.Column<int>(nullable: false)
+                    EventProperties = table.Column<int>(nullable: false),
+                    Entries = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,6 +96,27 @@ namespace ClubIS.DataAccessLayer.Migrations
                     table.PrimaryKey("PK_EventDeadline", x => x.Id);
                     table.ForeignKey(
                         name: "FK_EventDeadline_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EventStage",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EventId = table.Column<int>(nullable: false),
+                    Date = table.Column<DateTime>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventStage", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EventStage_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
@@ -179,7 +201,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                     HasClubTransport = table.Column<bool>(nullable: false),
                     NoteForClub = table.Column<string>(maxLength: 255, nullable: true),
                     NoteForOrganisator = table.Column<string>(maxLength: 255, nullable: true),
-                    SiCardNumber = table.Column<int>(nullable: true)
+                    SiCardNumber = table.Column<int>(nullable: true),
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -228,9 +251,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ExecutorId = table.Column<int>(nullable: true),
                     SourceAccountId = table.Column<int>(nullable: true),
-                    SourceUserId = table.Column<int>(nullable: true),
                     RecipientAccountId = table.Column<int>(nullable: true),
-                    RecipientUserId = table.Column<int>(nullable: true),
                     EventId = table.Column<int>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
                     CreditAmount = table.Column<int>(nullable: false),
@@ -260,21 +281,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Payments_Users_RecipientUserId",
-                        column: x => x.RecipientUserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Payments_FinanceAccounts_SourceAccountId",
                         column: x => x.SourceAccountId,
                         principalTable: "FinanceAccounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Payments_Users_SourceUserId",
-                        column: x => x.SourceUserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -325,40 +334,36 @@ namespace ClubIS.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EventStage",
+                name: "EventEntry_EventStage",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EventId = table.Column<int>(nullable: false),
-                    Date = table.Column<DateTime>(maxLength: 50, nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    EventEntryId = table.Column<int>(nullable: true)
+                    EventEntryId = table.Column<int>(nullable: false),
+                    EventStageId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventStage", x => x.Id);
+                    table.PrimaryKey("PK_EventEntry_EventStage", x => new { x.EventEntryId, x.EventStageId });
                     table.ForeignKey(
-                        name: "FK_EventStage_EventEntries_EventEntryId",
+                        name: "FK_EventEntry_EventStage_EventEntries_EventEntryId",
                         column: x => x.EventEntryId,
                         principalTable: "EventEntries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_EventStage_Events_EventId",
-                        column: x => x.EventId,
-                        principalTable: "Events",
+                        name: "FK_EventEntry_EventStage_EventStage_EventStageId",
+                        column: x => x.EventStageId,
+                        principalTable: "EventStage",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Events",
-                columns: new[] { "Id", "AccommodationOption", "EndDate", "EventProperties", "EventState", "EventType", "Leader", "Link", "Name", "Note", "Organizer", "Place", "StartDate", "TransportOption" },
+                columns: new[] { "Id", "AccommodationOption", "EndDate", "Entries", "EventProperties", "EventState", "EventType", "Leader", "Link", "Name", "Note", "Organizer", "Place", "StartDate", "TransportOption" },
                 values: new object[,]
                 {
-                    { 1, 2, new DateTime(2020, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 2, 2, null, "mcr2020.obopava.cz", "Soustředění Vysočina", null, "OB ZAM", "Sklené", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 2, 2, new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 2, 0, null, "mcr2020.obopava.cz", "9. JML - klasická trať", null, "OB ZAM", "Jilemnice", new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 }
+                    { 1, 2, new DateTime(2020, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 16, 2, 2, null, "mcr2020.obopava.cz", "Soustředění Vysočina", null, "OB ZAM", "Sklené", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
+                    { 2, 2, new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 16, 2, 0, null, "mcr2020.obopava.cz", "9. JML - klasická trať", null, "OB ZAM", "Jilemnice", new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -421,11 +426,11 @@ namespace ClubIS.DataAccessLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "EventEntries",
-                columns: new[] { "Id", "Class", "EventId", "HasClubAccommodation", "HasClubTransport", "NoteForClub", "NoteForOrganisator", "SiCardNumber", "UserId" },
+                columns: new[] { "Id", "Class", "EventId", "HasClubAccommodation", "HasClubTransport", "NoteForClub", "NoteForOrganisator", "SiCardNumber", "Status", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "A", 1, true, true, null, null, ***REMOVED***, 2 },
-                    { 2, "H20", 2, true, true, null, null, ***REMOVED***, 1 }
+                    { 1, "A", 1, true, true, null, null, ***REMOVED***, 0, 2 },
+                    { 2, "H20", 2, true, true, null, null, ***REMOVED***, 0, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -435,8 +440,8 @@ namespace ClubIS.DataAccessLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "Payments",
-                columns: new[] { "Id", "CreditAmount", "Date", "EventId", "ExecutorId", "Message", "PaymentState", "RecipientAccountId", "RecipientUserId", "SourceAccountId", "SourceUserId", "StornoNote" },
-                values: new object[] { 1, 1000, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, null, 0, 2, null, 1, null, null });
+                columns: new[] { "Id", "CreditAmount", "Date", "EventId", "ExecutorId", "Message", "PaymentState", "RecipientAccountId", "SourceAccountId", "StornoNote" },
+                values: new object[] { 1, 1000, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, null, 0, 2, 1, null });
 
             migrationBuilder.InsertData(
                 table: "SiCard",
@@ -479,9 +484,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventStage_EventEntryId",
-                table: "EventStage",
-                column: "EventEntryId");
+                name: "IX_EventEntry_EventStage_EventStageId",
+                table: "EventEntry_EventStage",
+                column: "EventStageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventStage_EventId",
@@ -509,19 +514,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                 column: "RecipientAccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_RecipientUserId",
-                table: "Payments",
-                column: "RecipientUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Payments_SourceAccountId",
                 table: "Payments",
                 column: "SourceAccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Payments_SourceUserId",
-                table: "Payments",
-                column: "SourceUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SiCard_UserId",
@@ -562,7 +557,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "EventDeadline");
 
             migrationBuilder.DropTable(
-                name: "EventStage");
+                name: "EventEntry_EventStage");
 
             migrationBuilder.DropTable(
                 name: "News");
@@ -580,10 +575,13 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "EventEntries");
 
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "EventStage");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "FinanceAccounts");

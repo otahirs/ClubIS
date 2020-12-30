@@ -16,7 +16,7 @@ namespace ClubIS.CoreLayer.DTOs
         public bool HasClubTransport { get; set; }
         public string NoteForClub { get; set; }
         public string NoteForOrganizators { get; set; }
-        public ISet<EventEnteredStage> EnteredStages { get; set; }
+        public ISet<EventStageDTO> EnteredStages { get; set; }
         public EntryStatus Status { get; set; }
 
     }

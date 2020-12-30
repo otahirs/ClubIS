@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClubIS.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201228161301_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201230194942_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -81,6 +81,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Entries")
+                        .HasColumnType("int");
+
                     b.Property<int>("EventProperties")
                         .HasColumnType("int");
 
@@ -129,6 +132,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Id = 1,
                             AccommodationOption = 2,
                             EndDate = new DateTime(2020, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Entries = 0,
                             EventProperties = 16,
                             EventState = 2,
                             EventType = 2,
@@ -144,6 +148,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Id = 2,
                             AccommodationOption = 2,
                             EndDate = new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Entries = 0,
                             EventProperties = 16,
                             EventState = 2,
                             EventType = 0,
@@ -279,6 +284,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int?>("SiCardNumber")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -299,6 +307,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                             HasClubAccommodation = true,
                             HasClubTransport = true,
                             SiCardNumber = ***REMOVED***,
+                            Status = 0,
                             UserId = 2
                         },
                         new
@@ -309,8 +318,24 @@ namespace ClubIS.DataAccessLayer.Migrations
                             HasClubAccommodation = true,
                             HasClubTransport = true,
                             SiCardNumber = ***REMOVED***,
+                            Status = 0,
                             UserId = 1
                         });
+                });
+
+            modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEntry_EventStage", b =>
+                {
+                    b.Property<int>("EventEntryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EventStageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EventEntryId", "EventStageId");
+
+                    b.HasIndex("EventStageId");
+
+                    b.ToTable("EventEntry_EventStage");
                 });
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventStage", b =>
@@ -324,9 +349,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasColumnType("datetime2")
                         .HasMaxLength(50);
 
-                    b.Property<int?>("EventEntryId")
-                        .HasColumnType("int");
-
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
@@ -334,8 +356,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EventEntryId");
 
                     b.HasIndex("EventId");
 
@@ -480,13 +500,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int?>("RecipientAccountId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RecipientUserId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("SourceAccountId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SourceUserId")
                         .HasColumnType("int");
 
                     b.Property<string>("StornoNote")
@@ -501,11 +515,7 @@ namespace ClubIS.DataAccessLayer.Migrations
 
                     b.HasIndex("RecipientAccountId");
 
-                    b.HasIndex("RecipientUserId");
-
                     b.HasIndex("SourceAccountId");
-
-                    b.HasIndex("SourceUserId");
 
                     b.ToTable("Payments");
 
@@ -723,13 +733,24 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEntry_EventStage", b =>
+                {
+                    b.HasOne("ClubIS.CoreLayer.Entities.EventEntry", "Entry")
+                        .WithMany("EnteredStages")
+                        .HasForeignKey("EventEntryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ClubIS.CoreLayer.Entities.EventStage", "Stage")
+                        .WithMany("StageEntries")
+                        .HasForeignKey("EventStageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventStage", b =>
                 {
-                    b.HasOne("ClubIS.CoreLayer.Entities.EventEntry", null)
-                        .WithMany("EnteredStages")
-                        .HasForeignKey("EventEntryId");
-
-                    b.HasOne("ClubIS.CoreLayer.Entities.Event", "Event")
+                    b.HasOne("ClubIS.CoreLayer.Entities.Event", null)
                         .WithMany("EventStages")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -759,17 +780,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .WithMany()
                         .HasForeignKey("RecipientAccountId");
 
-                    b.HasOne("ClubIS.CoreLayer.Entities.User", "RecipientUser")
-                        .WithMany()
-                        .HasForeignKey("RecipientUserId");
-
                     b.HasOne("ClubIS.CoreLayer.Entities.FinanceAccount", "SourceAccount")
                         .WithMany()
                         .HasForeignKey("SourceAccountId");
-
-                    b.HasOne("ClubIS.CoreLayer.Entities.User", "SourceUser")
-                        .WithMany()
-                        .HasForeignKey("SourceUserId");
                 });
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.SiCard", b =>
