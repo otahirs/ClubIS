@@ -15,7 +15,7 @@ namespace ClubIS.CoreLayer.DTOs
         public int UserId { get; set; }
         [Required]
         public int EventId { get; set; }
-        [Required(ErrorMessage = "Title is required.")]
+        [Required]
         public string Class { get; set; }
         [Required]
         public bool HasClubAccommodation { get; set; }

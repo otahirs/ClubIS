@@ -12,7 +12,15 @@
     }
     else
     {
-        <MudText Typo="Typo.h3" GutterBottom="true">Create event</MudText>
+        @if (EventId == null)
+        {
+            <MudText Typo="Typo.h3" GutterBottom="true">Create event</MudText>
+        }
+        else
+        {
+            <MudText Typo="Typo.h3" GutterBottom="true">Edit event</MudText>
+
+        }
         <EditForm Model="@SendEvent" OnValidSubmit="OnValidSubmit">
             <DataAnnotationsValidator />
             <MudCard Elevation="0">

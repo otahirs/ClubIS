@@ -9,7 +9,6 @@ namespace ClubIS.BusinessLayer
     {       
         public static void ConfigureMapping(IMapperConfigurationExpression config)
         {
-            config.CreateMap<Event, EventDetailDTO>().ReverseMap();
             config.CreateMap<Event, EventEditDTO>().ReverseMap();
             config.CreateMap<EventEntry, EventEntryListDTO>()
                 .ForMember(d => d.Name, opt => opt.MapFrom(s => s.User.Firstname + " " + s.User.Surname))

@@ -15,5 +15,6 @@ namespace ClubIS.CoreLayer.DTOs
         public EventType EventType { get; set; }
         public ICollection<EventDeadline> Deadlines { get; set; }
         public EntriesExport Entries { get; set; }
+        public EventState EventState { get; set; }
     }
 }
