@@ -13,7 +13,16 @@
     {
         <MudExpansionPanel>
             <TitleContent>
+            @if (E.EventState != EventState.Canceled)
+            {
                 <MudText Typo="Typo.h3">@E.Name</MudText>
+            }
+            else
+            {
+            <MudText Typo="Typo.h3" Color="Color.Error">
+                @E.Name - Calceled
+            </MudText>
+            }
             </TitleContent>
             <ChildContent>
                 <MudText><b>Place:</b> @E.Place</MudText>
@@ -37,74 +46,79 @@
         }
         else
         {
-            <EditForm Model="@SendEntry" OnValidSubmit="OnValidSubmit">
-                <DataAnnotationsValidator />
-                <MudCard Elevation="0">
-                    <MudCardContent>
-                        <MudSelect Label="User" Required="true" ValueChanged="@( (int s) => UpdateData(s) )" Value="@SendEntry.UserId" Variant="Variant.Outlined">
-                            <MudSelectItem Value="@Users.User.Id">@Users.User.Name</MudSelectItem>
-                            @foreach (var user in Users.Supervised)
+            //TODO add deadlines validation here
+            @if (E.EventState != EventState.Canceled)
+            {
+                <EditForm Model="@SendEntry" OnValidSubmit="OnValidSubmit">
+                    <DataAnnotationsValidator/>
+                    <MudCard Elevation="0">
+                        <MudCardContent>
+                            <MudSelect Label="User" Required="true" ValueChanged="@((int s) => UpdateData(s))" Value="@SendEntry.UserId" Variant="Variant.Outlined">
+                                <MudSelectItem Value="@Users.User.Id">@Users.User.Name</MudSelectItem>
+                                @foreach (var user in Users.Supervised)
+                                {
+                                    <MudSelectItem Value="@user.Id">@user.Name</MudSelectItem>
+                                }
+                            </MudSelect>
+
+                            <MudSelect Label="Class" Required="true" @bind-Value="@SendEntry.Class" Variant="Variant.Outlined">
+                                @foreach (var c in E.ClassOptions)
+                                {
+                                    <MudSelectItem Value="@c.Name">@c.Name</MudSelectItem>
+                                }
+                            </MudSelect>
+
+                            <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubTransport" Label="Transport"/>
+
+                            <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubAccommodation" Label="Accommodation"/>
+
+                            <MudSelect T="int" Label="SI card number" @bind-Value="@SendEntry.SiCardNumber" Variant="Variant.Outlined">
+                                @foreach (var card in GetSiCards(SendEntry.UserId))
+                                {
+                                    <MudSelectItem Value="@card.Number">@card.Number</MudSelectItem>
+                                }
+                            </MudSelect>
+
+                            <MudTextField Label="Note(intern)" @bind-Value="SendEntry.NoteForClub" For="@(() => SendEntry.NoteForClub)" Variant="Variant.Outlined"/>
+
+                            <MudTextField Label="Note(organizer)" @bind-Value="SendEntry.NoteForOrganizators" For="@(() => SendEntry.NoteForOrganizators)" Variant="Variant.Outlined"/>
+
+                            @if (E.EventStages.Count != 0)
                             {
-                                <MudSelectItem Value="@user.Id">@user.Name</MudSelectItem>
+                                <MudCard Class="mt-1">
+                                    <MudCardContent>
+                                        <MudText Typo="Typo.h6"><b>Event Stages:</b></MudText>
+                                        <MudList Clickable="true">
+                                            @foreach (var s in E.EventStages)
+                                            {
+                                                <MudListItem OnClick="() => StageClicked(s)" Style="@(s.Selected ? "background-color:rgb(224, 224, 224);" : "")">
+                                                    <MudText>
+                                                        <b>@s.Name</b>, date: @s.Date.ToString("dd.MM.yyyy")
+                                                    </MudText>
+                                                </MudListItem>
+                                            }
+                                        </MudList>
+                                    </MudCardContent>
+                                </MudCard>
                             }
-                        </MudSelect>
-
-                        <MudSelect Label="Class" Required="true" @bind-Value="@SendEntry.Class" Variant="Variant.Outlined">
-                            @foreach (var c in E.ClassOptions)
-                                    {
-                                <MudSelectItem Value="@c.Name">@c.Name</MudSelectItem>
-                                    }
-                        </MudSelect>
-
-                        <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubTransport" Label="Transport" />
-
-                        <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubAccommodation" Label="Accommodation" />
-
-                        <MudSelect T="int" Label="SI card number" @bind-Value="@SendEntry.SiCardNumber" Variant="Variant.Outlined">
-                            @foreach (var card in GetSiCards(SendEntry.UserId))
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
+                            @if (CurrentEntry == null)
                             {
-                                <MudSelectItem Value="@card.Number">@card.Number</MudSelectItem>
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Save</MudButton>
                             }
-                        </MudSelect>
-
-                        <MudTextField Label="Note(intern)" @bind-Value="SendEntry.NoteForClub" For="@(() => SendEntry.NoteForClub)" Variant="Variant.Outlined" />
-
-                        <MudTextField Label="Note(organizer)" @bind-Value="SendEntry.NoteForOrganizators" For="@(() => SendEntry.NoteForOrganizators)" Variant="Variant.Outlined" />
-
-                        @if (E.EventStages.Count != 0)
-                        {
-                            <MudCard Class="mt-1">
-                                <MudCardContent>
-                                    <MudText Typo="Typo.h6"><b>Event Stages:</b></MudText>
-                                    <MudList Clickable="true">
-                                        @foreach (var s in E.EventStages)
-                                        {
-                                            <MudListItem OnClick="() => StageClicked(s)" Style="@(s.Selected ? "background-color:rgb(224, 224, 224);" : "")">
-                                                <MudText>
-                                                    <b>@s.Name</b>, date: @s.Date.ToString("dd.MM.yyyy")
-                                                </MudText>
-                                            </MudListItem>
-                                        }
-                                    </MudList>
-                                </MudCardContent>
-                            </MudCard>
-                        }
-                    </MudCardContent>
-                    <MudCardActions>
-                        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
-                        @if (CurrentEntry == null)
-                        {
-                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Save</MudButton>
-                        }
-                        else
-                        {
-                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Filled.Delete" OnClick="RemoveEntry" Class="ml-auto">Remove</MudButton>
-                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
-                        }
-                    </MudCardActions>
-                </MudCard>
-            </EditForm>
-            @*  *@}
+                            else
+                            {
+                                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Filled.Delete" OnClick="RemoveEntry" Class="ml-auto">Remove</MudButton>
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+                            }
+                        </MudCardActions>
+                    </MudCard>
+                </EditForm>
+            @*  *@
+            }
+        }
         <MudText Typo="Typo.h5" GutterBottom="true">Entries</MudText>
         <MudTable Items="@Entries" Dense="true">
             <HeaderContent>
