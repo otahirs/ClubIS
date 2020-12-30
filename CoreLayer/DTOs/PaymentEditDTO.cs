@@ -8,8 +8,6 @@ namespace ClubIS.CoreLayer.DTOs
         public int ExecutorId { get; set; }
         public int? SourceAccountId { get; set; }
         public int? RecipientAccountId { get; set; }
-        public int? SourceUserId { get; set; }
-        public int? RecipientUserId { get; set; }
         public int? EventId { get; set; }
         public int CreditAmount { get; set; }
         public string Message { get; set; }

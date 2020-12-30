@@ -11,7 +11,7 @@ namespace ClubIS.DataAccessLayer
         public IEventRepository Events { get; private set; }
         public INewsRepository News { get; private set; }
         public IPaymentRepository Payments { get; private set; }
-
+        public IAccountRepository Accounts { get; private set; }
         public IEntryRepository Entry { get; private set; }
 
         public UnitOfWork(DataContext context)
@@ -22,6 +22,7 @@ namespace ClubIS.DataAccessLayer
             News = new NewsRepository(_context);
             Entry = new EntryRepository(_context);
             Payments = new PaymentRepository(_context);
+            Accounts = new AccountRepository(_context);
         }
 
         public async Task<int> Save()

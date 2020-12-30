@@ -34,8 +34,8 @@ namespace ClubIS.BusinessLayer.Facades
             var recipientUser = await _userService.GetById(p.RecipientUserId);
             var sourceUser = await _userService.GetById(p.SourceUserId);
 
-            payment.RecipientAccountId = recipientUser.BillingAccountId;
-            payment.SourceAccountId = sourceUser.BillingAccountId;
+            payment.RecipientAccountId = recipientUser.AccountId;
+            payment.SourceAccountId = sourceUser.AccountId;
             payment.ExecutorId = sourceUser.Id;
 
             await _paymentService.Create(payment);

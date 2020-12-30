@@ -20,12 +20,18 @@ namespace ClubIS.BusinessLayer.Services
             _unitOfWork = unitOfWork;
             _mapper = new Mapper(new MapperConfiguration(AutoMapperConfig.ConfigureMapping));
         }
-        public Task Create(PaymentEditDTO p)
+        public async Task Create(PaymentEditDTO p)
         {
             var payment = _mapper.Map<Payment>(p);
             payment.Date = DateTime.Now;
             payment.PaymentState = PaymentState.Ok;
-            return _unitOfWork.Payments.Add(payment);
+            
+            var source = await _unitOfWork.Accounts.GetById((int) p.SourceAccountId);
+            var recipient = await _unitOfWork.Accounts.GetById((int)p.RecipientAccountId);
+            source.CreditBalance -= payment.CreditAmount;
+            recipient.CreditBalance += payment.CreditAmount;
+            
+            await _unitOfWork.Payments.Add(payment);
         }
 
         public async Task Delete(int id)
