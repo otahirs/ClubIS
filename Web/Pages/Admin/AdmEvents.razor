@@ -90,15 +90,11 @@
 
     bool FilterFunc(EventListDTO e)
     {
-        if (string.IsNullOrWhiteSpace(searchString) && string.IsNullOrWhiteSpace(searchType))
-            return true;
-        if (string.IsNullOrWhiteSpace(searchType) && $"{GetDate(e.StartDate, e.EndDate)} {e.Name} {e.Place} {e.EventType} {GetDeadlines(e.Deadlines)}".Contains(searchString))
-            return true;
-        if (string.IsNullOrWhiteSpace(searchString) && e.EventType.ToString().Equals(searchType))
-            return true;
-        if (!string.IsNullOrWhiteSpace(searchString) && $"{GetDate(e.StartDate, e.EndDate)} {e.Name} {e.Place} {e.EventType} {GetDeadlines(e.Deadlines)}".Contains(searchString) && e.EventType.ToString().Equals(searchType))
-            return true;
-        return false;
+        if (searchString == null) searchString = "";
+        var eventData = $"{GetDate(e.StartDate, e.EndDate)} {e.Name} {e.Place} {e.EventType} {GetDeadlines(e.Deadlines)}";
+        var eventType = e.EventType.ToString();
+
+        return eventType.Contains(searchType) && eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
     }
 
     private static string GetDate(DateTime start, DateTime end)
