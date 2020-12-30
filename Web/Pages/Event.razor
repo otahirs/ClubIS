@@ -94,12 +94,12 @@
                         <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
                         @if (CurrentEntry == null)
                         {
-                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Save</MudButton>
                         }
                         else
                         {
                             <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Filled.Delete" OnClick="RemoveEntry" Class="ml-auto">Remove</MudButton>
-                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Default" Class="mx-2">Edit</MudButton>
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
                         }
                     </MudCardActions>
                 </MudCard>
@@ -229,6 +229,7 @@
 
     private async void AddEntry()
     {
+        SendEntry.Status = EntryStatus.NotSent;
         await Http.PostAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
         Entries = await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{EventId}");
         UpdateData(SendEntry.UserId);
@@ -238,6 +239,7 @@
     private async void EditEntry()
     {
         SendEntry.Id = CurrentEntry.Id;
+        SendEntry.Status = EntryStatus.Changed;
         await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
         Entries = await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{EventId}");
         StateHasChanged();
@@ -290,11 +292,6 @@
     private string GetStages()
     {
         return (E.EventStages.Count != 0) ? E.EventStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
-    }
-
-    private bool Selected(string name)
-    {
-        return SendEntry.EnteredStages.Where(s => s.Name.Equals(name)).ToList().Count != 0;
     }
 
     private void Navigate()

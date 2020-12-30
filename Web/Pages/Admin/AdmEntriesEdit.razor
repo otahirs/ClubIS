@@ -1,0 +1,181 @@
+﻿@page "/admin/entries/{eventId:int}"
+@inject HttpClient Http
+@attribute [Authorize]
+@inject IdentityAuthenticationStateProvider authState
+@inject NavigationManager NavigationManager
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+    @if (E == null || Entries == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudCard Elevation="0">
+            <MudCardContent>
+                <MudExpansionPanel>
+                    <TitleContent>
+                        <MudText Typo="Typo.h3">@E.Name</MudText>
+                    </TitleContent>
+                    <ChildContent>
+                        <MudText><b>Place:</b> @E.Place</MudText>
+                        <MudText><b>Organizer:</b> @E.Organizer</MudText>
+                        <MudText><b>Leader:</b> @E.Leader</MudText>
+                        <MudText><b>Start date:</b> @E.StartDate.ToString("dd.MM.yyyy")</MudText>
+                        <MudText><b>End date:</b> @E.EndDate.ToString("dd.MM.yyyy")</MudText>
+                        <MudText><b>Event type:</b> @E.EventType</MudText>
+                        <MudText><b>Link:</b> <MudLink Href="@GetLink()">@E.Link</MudLink></MudText>
+                        <MudText><b>Deadlines:</b> @GetDeadlines()</MudText>
+                        <MudText><b>Class options:</b> @GetClassOptions()</MudText>
+                        <MudText><b>Event state:</b> @E.EventState</MudText>
+                        <MudText><b>Event properties:</b> @E.EventProperties</MudText>
+                        <MudText><b>Event stages:</b> @GetStages()</MudText>
+                        <MudText><b>Note:</b> @E.Note</MudText>
+                    </ChildContent>
+                </MudExpansionPanel>
+                <MudText Typo="Typo.h5" GutterBottom="true">Entries</MudText>
+                <MudTable Items="@Entries" Dense="true">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>Class</MudTh>
+                        <MudTh>SiNum</MudTh>
+                        <MudTh>Note(i)</MudTh>
+                        <MudTh>Note(org)</MudTh>
+                        <MudTh>Stages</MudTh>
+                        <MudTh>Status</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name">@context.Name</MudTd>
+                        <MudTd DataLabel="Class">@context.Class</MudTd>
+                        <MudTd DataLabel="SiNum">@context.SiCardNumber</MudTd>
+                        <MudTd DataLabel="Note(i)">@context.NoteForClub</MudTd>
+                        <MudTd DataLabel="Note(org)">@context.NoteForOrganizators</MudTd>
+                        <MudTd DataLabel="Stages">@GetStages(context.EnteredStages)</MudTd>
+                        <MudTd DataLabel="Status">
+                            @if (context.Status == EntryStatus.Ok)
+                                {
+                                <MudChip Size="Size.Small" Label="true" Color="Color.Success">@context.Status</MudChip>
+
+                                }
+                                else if (context.Status == EntryStatus.Changed)
+                                {
+                                <MudChip Size="Size.Small" Label="true" Color="Color.Warning">@context.Status</MudChip>
+                                }
+                                else
+                                {
+                                <MudChip Size="Size.Small" Label="true" Color="Color.Error">@context.Status</MudChip>
+                                }
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </MudCardContent>
+            <MudCardActions>
+
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Class="ml-auto" OnClick="() => SetAll(EntryStatus.NotSent)">
+                    Set all to
+                    <MudChip Size="Size.Small" Label="true" Color="Color.Error">NotSent</MudChip>
+                </MudButton>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Class="mx-2" OnClick="() => SetAll(EntryStatus.Ok)">
+                    Set all to
+                    <MudChip Size="Size.Small" Label="true" Color="Color.Success">OK</MudChip>
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    }
+
+</MudContainer>
+
+@code {
+    [Parameter]
+    public int EventId { get; set; }
+    private EventEditDTO E;
+    private EventEntryListDTO[] Entries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        E = await Http.GetFromJsonAsync<EventEditDTO>($"Events/{EventId}");
+        Entries = await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{EventId}");
+    }
+
+    private string GetStages(ISet<EventEnteredStage> enteredStages)
+    {
+        return (enteredStages.Count != 0) ? enteredStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
+    }
+
+    private string GetLink()
+    {
+        return "https://" + E.Link;
+    }
+
+    private string GetDeadlines()
+    {
+        return (E.Deadlines.Count != 0) ? E.Deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
+    }
+
+    private string GetClassOptions()
+    {
+        return E.ClassOptions.Select(a => a.Name).Aggregate((a, b) => a + ", " + b);
+    }
+
+    private string GetStages()
+    {
+        return (E.EventStages.Count != 0) ? E.EventStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
+    }
+
+    private async Task SetAll(EntryStatus status)
+    {
+        foreach (var entry in Entries)
+        {
+            if (entry.Status != status)
+            {
+                entry.Status = status;
+                var e = new EventEntryEditDTO
+                {
+                    Id = entry.Id,
+                    UserId = entry.UserId,
+                    EventId = EventId,
+                    Class = entry.Class,
+                    HasClubAccommodation = entry.HasClubAccommodation,
+                    HasClubTransport = entry.HasClubTransport,
+                    NoteForClub = entry.NoteForClub,
+                    NoteForOrganizators = entry.NoteForOrganizators,
+                    SiCardNumber = entry.SiCardNumber,
+                    EnteredStages = entry.EnteredStages,
+                    Status = status
+                };
+                await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", e);
+            }
+        }
+        if (status == EntryStatus.Ok)
+        {
+            var ev = new EventEditDTO
+            {
+                Id = E.Id,
+                StartDate = E.StartDate,
+                EndDate = E.EndDate, 
+                Name = E.Name,
+                Place = E.Place,
+                Organizer = E.Organizer, 
+                EventType = E.EventType,
+                Link = E.Link,
+                Deadlines = E.Deadlines, 
+                Leader = E.Leader,
+                ClassOptions = E.ClassOptions,
+                EventState = E.EventState,
+                EventProperties = E.EventProperties,
+                Note = E.Note,
+                EventStages = E.EventStages,
+                Entries = EntriesExport.OK
+            };
+
+            await Http.PutAsJsonAsync<EventEditDTO>("Events", ev);
+        }
+    }
+
+    private void Navigate()
+    {
+        NavigationManager.NavigateTo($"/admin/entries");
+    }
+
+}

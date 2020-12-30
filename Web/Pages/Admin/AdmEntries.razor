@@ -1,9 +1,93 @@
 ﻿@page "/admin/entries"
+@attribute [Authorize]
+@using MudBlazor.Components.Table
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin entries</MudText>
+    @if (events == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudTable Items="@events" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListDTO" Hover="true" Dense="true">
+            <ToolBarContent>
+                <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                <MudToolBarSpacer />
+                <MudSelect T="string" @bind-Value="searchType" Label="Filter EventType">
+                    @foreach (var type in types)
+                    {
+                        <MudSelectItem Value="@type" />
+                    }
+                </MudSelect>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>Date</MudTh>
+                <MudTh>Name</MudTh>
+                <MudTh>Place</MudTh>
+                <MudTh>Type</MudTh>
+                <MudTh>Deadlines</MudTh>
+                <MudTh>EntriesExport</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Date">@GetDate(context.StartDate, context.EndDate)</MudTd>
+                <MudTd DataLabel="Name">@context.Name</MudTd>
+                <MudTd DataLabel="Place">@context.Place</MudTd>
+                <MudTd DataLabel="Type">@context.EventType</MudTd>
+                <MudTd DataLabel="Deadlines">@GetDeadlines(context.Deadlines)</MudTd>
+                <MudTd DataLabel="EntriesExport">
+                    @if (context.Entries == EntriesExport.OK)
+                    {
+                        <MudChip Size="Size.Small" Label="true" Color="Color.Success">@context.Entries</MudChip>
+                    }
+                    else
+                    {
+                        <MudChip Size="Size.Small" Label="true" Color="Color.Warning">@context.Entries</MudChip>
+                    }
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
 </MudContainer>
 
 @code {
+    private EventListDTO[] events;
+    private List<string> types;
+    private string searchString = "";
+    private string searchType = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await Http.GetFromJsonAsync<EventListDTO[]>($"Events/");
+        types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
+        types.Insert(0, "");
+    }
+
+    bool FilterFunc(EventListDTO e)
+    {
+        if (searchString == null) searchString = "";
+        var eventData = $"{GetDate(e.StartDate, e.EndDate)} {e.Name} {e.Place} {e.EventType} {GetDeadlines(e.Deadlines)}";
+        var eventType = e.EventType.ToString();
+
+        return eventType.Contains(searchType) && eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    private static string GetDate(DateTime start, DateTime end)
+    {
+        return (start.Equals(end)) ? end.ToString("dd.MM.yyyy") : start.ToString("dd.") + '-' + end.ToString("dd.MM.yyyy");
+    }
+
+    private static string GetDeadlines(ICollection<EventDeadline> deadlines)
+    {
+        return (deadlines.Count != 0) ? deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
+    }
+
+
+    private void Navigate(TableRowClickEventArgs<EventListDTO> obj)
+    {
+        NavigationManager.NavigateTo($"/admin/entries/{obj.Item.Id}");
+    }
 
 }

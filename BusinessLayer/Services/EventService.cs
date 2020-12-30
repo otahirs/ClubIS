@@ -57,15 +57,5 @@ namespace ClubIS.BusinessLayer.Services
                 EntryInfo = _mapper.Map<EventEntryBasicInfoDTO>(entries.SingleOrDefault(entry => entry.EventId == e.Id))
             });
         }
-
-        public async Task<IEnumerable<EventListWithExportStatusDTO>> GetAllWithExportStatus()
-        {
-            var events = await _unitOfWork.Events.GetAll();
-            return events.Select(e => new EventListWithExportStatusDTO()
-            {
-                Event = _mapper.Map<EventListDTO>(e),
-                ExportStatus = 0 // TODO
-            });
-        }
     }
 }

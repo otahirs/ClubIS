@@ -27,5 +27,6 @@ namespace ClubIS.CoreLayer.DTOs
         public EventProperty EventProperties { get; set; }
         public string Note { get; set; }
         public ISet<EventStageDTO> EventStages { get; set; }
+        public EntriesExport Entries { get; set; }
     }
 }

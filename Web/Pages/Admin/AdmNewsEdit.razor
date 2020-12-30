@@ -1,0 +1,78 @@
+﻿@page "/admin/news/edit/{newsId:int}"
+@page "/admin/news/create"
+
+@inject HttpClient Http
+
+@using System.ComponentModel.DataAnnotations
+
+@inject NavigationManager NavigationManager
+@inject IdentityAuthenticationStateProvider authStateProvider
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+    @if (SendNews == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <EditForm Model="@SendNews" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <MudCard Elevation="0">
+                <MudCardContent>
+                    <MudTextField Label="Title" @bind-Value="SendNews.Title" For="@(() => SendNews.Title)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Text" @bind-Value="SendNews.Text" For="@(() => SendNews.Text)" Variant="Variant.Outlined" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
+                    @if (NewsId != null)
+                    {<MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveEvent" Class="ml-auto">Remove</MudButton>}
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>}
+</MudContainer>
+
+@code {
+    [Parameter]
+    public int? NewsId { get; set; }
+    private NewsEditDTO SendNews;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (NewsId == null)
+        {
+            SendNews = new NewsEditDTO() { UserId = await authStateProvider.GetUserId() };
+        }
+        else
+        {
+            SendNews = await Http.GetFromJsonAsync<NewsEditDTO>($"News/{NewsId}");
+        }
+    }
+
+    private async void OnValidSubmit(EditContext context)
+    {
+        if (NewsId == null)
+        {
+            SendNews.Date = DateTime.Now;
+            await Http.PostAsJsonAsync<NewsEditDTO>("News", SendNews);
+        }
+        else
+        {
+            await Http.PutAsJsonAsync<NewsEditDTO>("News", SendNews);
+        }
+        Navigate();
+    }
+
+    private async void RemoveEvent()
+    {
+        await Http.DeleteAsync($"News/{NewsId}");
+        Navigate();
+    }
+
+    private void Navigate()
+    {
+        NavigationManager.NavigateTo($"/admin/news");
+    }
+}

@@ -1,9 +1,75 @@
 ﻿@page "/admin/users"
 
+@attribute [Authorize]
+
+@inject HttpClient Http
+
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin users</MudText>
+    <MudToggleIconButton Toggled="@includeArchivedUsers" ToggledChanged="(toggleValue) => ArchivedOptionChanged(toggleValue)"
+                         Icon="@Icons.Material.Block" Color="@Color.Error"
+                         ToggledIcon="@Icons.Custom.AlertSuccess" ToggledColor="@Color.Success" />
+
+    <span>Archived users @(includeArchivedUsers ? "included" : "excluded")</span>
+
+    @if (displayedUsers == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudTable Items="displayedUsers" Hover="true" SortLabel="Sort By">
+            <HeaderContent>
+                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Surname</MudTableSortLabel></MudTh>
+                <MudTh>FirstName</MudTh>
+                <MudTh>RegNum</MudTh>
+                <MudTh>State</MudTh>
+                <MudTh>Permissions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Surname">@context.Surname</MudTd>
+                <MudTd DataLabel="FirstName">@context.Firstname</MudTd>
+                <MudTd DataLabel="RegNum">@context.RegistrationNumber</MudTd>
+                <MudTd DataLabel="State">@context.AccountState</MudTd>
+                <MudTd DataLabel="Permissions"></MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
 </MudContainer>
 
 @code {
+    private UserListDTO[] users;
 
+    private UserListDTO[] displayedUsers;
+
+    private bool includeArchivedUsers = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await Http.GetFromJsonAsync<UserListDTO[]>("Users");
+        DisplayAllUsers();
+    }
+
+    public void ArchivedOptionChanged(bool toggleValue)
+    {
+        includeArchivedUsers = toggleValue;
+        if (includeArchivedUsers)
+        {
+            DisplayAllUsers();
+        }
+        else
+        {
+            DisplayNotArchivedUsers();
+        }
+    }
+
+    private void DisplayAllUsers()
+    {
+        displayedUsers = users;
+    }
+
+    private void DisplayNotArchivedUsers()
+    {
+        displayedUsers = users.Where(user => user.AccountState != AccountState.Archived).ToArray();
+    }
 }

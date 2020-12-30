@@ -4,14 +4,16 @@ using ClubIS.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClubIS.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201229212152_InitialCreate5")]
+    partial class InitialCreate5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -506,7 +508,13 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int?>("RecipientAccountId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("RecipientUserId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("SourceAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SourceUserId")
                         .HasColumnType("int");
 
                     b.Property<string>("StornoNote")
@@ -521,7 +529,11 @@ namespace ClubIS.DataAccessLayer.Migrations
 
                     b.HasIndex("RecipientAccountId");
 
+                    b.HasIndex("RecipientUserId");
+
                     b.HasIndex("SourceAccountId");
+
+                    b.HasIndex("SourceUserId");
 
                     b.ToTable("Payments");
 
@@ -778,9 +790,17 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .WithMany()
                         .HasForeignKey("RecipientAccountId");
 
+                    b.HasOne("ClubIS.CoreLayer.Entities.User", "RecipientUser")
+                        .WithMany()
+                        .HasForeignKey("RecipientUserId");
+
                     b.HasOne("ClubIS.CoreLayer.Entities.FinanceAccount", "SourceAccount")
                         .WithMany()
                         .HasForeignKey("SourceAccountId");
+
+                    b.HasOne("ClubIS.CoreLayer.Entities.User", "SourceUser")
+                        .WithMany()
+                        .HasForeignKey("SourceUserId");
                 });
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.SiCard", b =>

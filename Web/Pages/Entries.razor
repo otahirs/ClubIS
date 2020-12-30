@@ -67,10 +67,11 @@
 
     bool FilterFunc(EventListWithUserEntryDTO e)
     {
+        if (searchString == null) searchString = "";
         var eventData = $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {GetClass(e.EntryInfo)}";
         var eventType = e.Event.EventType.ToString();
 
-        return eventType.Contains(searchType) && eventData.Contains(searchString);
+        return eventType.Contains(searchType) && eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
     }
 
     private static string GetDate(DateTime start, DateTime end)

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
+using ClubIS.CoreLayer.Enums;
 using ClubIS.IdentityStore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,14 +31,6 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<ActionResult<IEnumerable<EventListDTO>>> Get()
         {
             var events = await _eventFacade.GetAll();
-            return Ok(events);
-        }
-
-        [HttpGet("status")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Events retrieved.")]
-        public async Task<ActionResult<IEnumerable<EventListWithExportStatusDTO>>> GetStatus()
-        {
-            var events = await _eventFacade.GetAllWithExportStatus();
             return Ok(events);
         }
 
@@ -89,6 +82,7 @@ namespace ClubIS.WebAPI.Controllers
             if (e == null)
                 return BadRequest();
 
+            e.Entries = EntriesExport.OK;
             await _eventFacade.Create(e);
             return Ok();
         }
@@ -102,10 +96,6 @@ namespace ClubIS.WebAPI.Controllers
                 return BadRequest();
 
             await _eventFacade.Update(e);
-            var et = await _eventFacade.GetById(e.Id);
-            var x = et.ClassOptions;
-            var y = e.ClassOptions;
-            var r = x.Equals(y);
             return Ok();
         }
 

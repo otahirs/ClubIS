@@ -1,21 +1,25 @@
-﻿@page "/"
+﻿@page "/admin/news"
+
+@attribute [Authorize]
 
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
-    <MudText Typo="Typo.h3" GutterBottom="true">News</MudText>
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+    <MudText Typo="Typo.h3" GutterBottom="true">Admin news</MudText>
     @if (news == null)
     {
         <MudProgressCircular Color="Color.Default" Indeterminate="true" />
     }
     else
     {
-        @foreach(var n in news)
+        @foreach (var n in news)
         {
-            <MudCard>
+            <MudCard @onclick="(e => Navigate(n))">
                 <MudCardHeader>
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">@n.Title</MudText>
+                        <MudText Typo="Typo.body1">@n.UserName</MudText>
                         <MudText Typo="Typo.body2">@n.Date.ToString("d. MMMM yyyy HH:mm")</MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
@@ -24,8 +28,10 @@
                 </MudCardContent>
             </MudCard>
         }
+        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="Navigate" Class="ml-auto mt-2">News</MudButton>
     }
 </MudContainer>
+
 
 @code {
     private NewsListDTO[] news;
@@ -34,4 +40,14 @@
     {
         news = await Http.GetFromJsonAsync<NewsListDTO[]>("News");
     }
-}       
+
+    protected void Navigate()
+    {
+        NavigationManager.NavigateTo($"/admin/news/create");
+    }
+
+    protected void Navigate(NewsListDTO n)
+    {
+        NavigationManager.NavigateTo($"/admin/news/edit/{n.Id}");
+    }
+}
