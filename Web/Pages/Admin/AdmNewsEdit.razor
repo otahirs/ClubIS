@@ -55,6 +55,7 @@
     {
         if (NewsId == null)
         {
+            SendNews.Date = DateTime.Now;
             await Http.PostAsJsonAsync<NewsEditDTO>("News", SendNews);
         }
         else
