@@ -2,9 +2,6 @@
 @page "/admin/news/create"
 
 @inject HttpClient Http
-
-@using System.ComponentModel.DataAnnotations
-
 @inject NavigationManager NavigationManager
 @inject IdentityAuthenticationStateProvider authStateProvider
 
@@ -25,7 +22,7 @@
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
                     @if (NewsId != null)
-                    {<MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveEvent" Class="ml-auto">Remove</MudButton>}
+                    {<MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveNews" Class="ml-auto">Remove</MudButton>}
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
                 </MudCardActions>
             </MudCard>
@@ -63,7 +60,7 @@
         Navigate();
     }
 
-    private async void RemoveEvent()
+    private async void RemoveNews()
     {
         await Http.DeleteAsync($"News/{NewsId}");
         Navigate();

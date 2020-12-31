@@ -1,10 +1,18 @@
 ﻿@page "/settings"
 
+@attribute [Authorize]
+
+@using ClubIS.Web.Components
+
+@inject HttpClient Http
+@inject IdentityAuthenticationStateProvider authStateProvider
+
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Settings</MudText>
-    <MudTabs Vertical="true" >
+    <MudTabs Vertical="true">
         <MudTabPanel Text="User">
-            <MudText>User</MudText>
+            @if (CurrentUser != null)
+            {<UserEditForm User="CurrentUser" CanBeRemoved="true" />}
         </MudTabPanel>
         <MudTabPanel Text="SI Cards">
             <MudText>SI Cards</MudText>
@@ -16,5 +24,11 @@
 </MudContainer>
 
 @code {
+    private UserEditDTO CurrentUser;
 
+    protected override async Task OnInitializedAsync()
+    {
+        var currentUserId = await authStateProvider.GetUserId();
+        CurrentUser = await Http.GetFromJsonAsync<UserEditDTO>($"Users/{currentUserId}");
+    }
 }

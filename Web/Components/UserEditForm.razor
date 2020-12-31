@@ -1,0 +1,104 @@
+﻿@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+    <MudText Typo="Typo.h3">User</MudText>
+    @if (User == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <EditForm Model="@DisplayedUser" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <MudCard Elevation="0">
+                <MudCardContent>
+                    <MudCard Elevation="0">
+                        <MudText Typo="Typo.h4" GutterBottom="true">User data</MudText>
+                        <MudCardContent>
+                            <MudTextField Label="Firstname" @bind-Value="DisplayedUser.Firstname" For="@(() => DisplayedUser.Firstname)" Variant="Variant.Outlined" />
+                            <MudTextField Label="Surname" @bind-Value="DisplayedUser.Surname" For="@(() => DisplayedUser.Surname)" Variant="Variant.Outlined" />
+                            <MudTextField Label="Reg. number" @bind-Value="DisplayedUser.RegistrationNumber" For="@(() => DisplayedUser.RegistrationNumber)" Variant="Variant.Outlined" />
+                            <MudDatePicker Label="Date of birth" Editable="true" Value="@DisplayedUser.DateOfBirth.ToString()" ValueChanged="@((string s) => UpdateDateOfBirth(s))" />
+                            <MudSelect Label="Gender" @bind-Value="DisplayedUser.Gender" Variant="Variant.Outlined">
+                                @foreach (var gender in GetGenderTypes())
+                                    {<MudSelectItem Value="@gender" />}
+                            </MudSelect>
+                            <MudTextField Label="Nationality" @bind-Value="DisplayedUser.Nationality" For="@(() => DisplayedUser.Nationality)" Variant="Variant.Outlined" />
+                            <MudSelect Label="Licence" @bind-Value="DisplayedUser.Licence" Variant="Variant.Outlined">
+                                @foreach (var licence in GetLicenceTypes())
+                                    {<MudSelectItem Value="@licence" />}
+                            </MudSelect>
+                        </MudCardContent>
+                    </MudCard>
+                    <MudCard Elevation="0">
+                        <MudText Typo="Typo.h4" GutterBottom="true">Address</MudText>
+                        <MudCardContent>
+                            <MudTextField Label="Street & Num" @bind-Value="DisplayedUser.Address.StreetAndNumber" For="@(() => DisplayedUser.Address.StreetAndNumber)" Variant="Variant.Outlined" />
+                            <MudTextField Label="City" @bind-Value="DisplayedUser.Address.City" For="@(() => DisplayedUser.Address.City)" Variant="Variant.Outlined" />
+                            <MudTextField Label="Postal code" @bind-Value="DisplayedUser.Address.PostalCode" For="@(() => DisplayedUser.Address.PostalCode)" Variant="Variant.Outlined" />
+                        </MudCardContent>
+                    </MudCard>
+                    <MudCard Elevation="0">
+                        <MudText Typo="Typo.h4" GutterBottom="true">Contact</MudText>
+                        <MudCardContent>
+                            <MudTextField Label="E-mail" @bind-Value="DisplayedUser.Email" For="@(() => DisplayedUser.Email)" Variant="Variant.Outlined" />
+                            <MudTextField Label="Phone" @bind-Value="DisplayedUser.Phone" For="@(() => DisplayedUser.Phone)" Variant="Variant.Outlined" />
+                        </MudCardContent>
+                    </MudCard>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="InitializeDisplayedUser" Class="ml-3">Cancel</MudButton>
+                    @if (CanBeRemoved)
+                    {<MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveUser" Class="ml-auto">Remove</MudButton>}
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    }
+</MudContainer>
+
+@code {
+    [Parameter]
+    public UserEditDTO User { get; set; }
+    [Parameter]
+    public bool CanBeRemoved { get; set; }
+    private UserEditDTO DisplayedUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        InitializeDisplayedUser();
+    }
+
+    private static Gender[] GetGenderTypes()
+    {
+        return (Gender[])Enum.GetValues(typeof(Gender));
+    }
+
+    private static Licence[] GetLicenceTypes()
+    {
+        return (Licence[])Enum.GetValues(typeof(Licence));
+    }
+
+    private void InitializeDisplayedUser()
+    {
+        DisplayedUser = User;
+    }
+
+    private void UpdateDateOfBirth(string date)
+    {
+        DisplayedUser.DateOfBirth = DateTime.Parse(date);
+    }
+
+    private async void RemoveUser()
+    {
+        await Http.DeleteAsync($"Users/{User.Id}");
+        NavigationManager.NavigateTo($"/admin/users");
+    }
+
+    private async void OnValidSubmit(EditContext context)
+    {
+        User = DisplayedUser;
+        await Http.PutAsJsonAsync<UserEditDTO>("Users", User);
+    }
+}

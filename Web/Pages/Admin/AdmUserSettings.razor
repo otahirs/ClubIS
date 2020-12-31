@@ -1,12 +1,17 @@
 ﻿@page "/admin/users/settings/{userId:int}"
 
+@attribute [Authorize]
+
+@using ClubIS.Web.Components
+
 @inject HttpClient Http
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Settings</MudText>
     <MudTabs Vertical="true">
         <MudTabPanel Text="User">
-            <MudText>User</MudText>
+            @if (SendUser != null)
+            {<UserEditForm User="SendUser" CanBeRemoved="true" />}
         </MudTabPanel>
         <MudTabPanel Text="SI Cards">
             <MudText>SI Cards</MudText>
