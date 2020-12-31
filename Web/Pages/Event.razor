@@ -219,6 +219,7 @@
 
     private void OnValidSubmit(EditContext context)
     {
+        SendEntry.Id = 0;
         SendEntry.EnteredStages.Clear();
         @foreach (var stage in E.EventStages)
         {
