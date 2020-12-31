@@ -50,7 +50,7 @@ namespace ClubIS.BusinessLayer.Services
             var paymentEntities = await _unitOfWork.Payments.GetAllByEventId(id);
             return _mapper.Map<IEnumerable<PaymentListDTO>>(paymentEntities);
         }
-        public async Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int userId)
+        public async Task<FinanceStatementDTO> GetFinanceStatement(int userId)
         {
             var user = await _unitOfWork.Users.GetById(userId);
             var paymentEntities = await _unitOfWork.Payments.GetAllByAccountId(user.AccountId);
@@ -59,7 +59,14 @@ namespace ClubIS.BusinessLayer.Services
                 if (p.SourceAccountId == user.AccountId)
                     p.CreditAmount *= -1;
             }
-            return _mapper.Map<IEnumerable<PaymentListDTO>>(paymentEntities);
+            return new FinanceStatementDTO()
+            {
+                UserId = user.Id,
+                Name = user.Surname + user.Firstname,
+                AccountId = user.AccountId,
+                CreditBalance = user.Account.CreditBalance,
+                Payments = _mapper.Map<List<PaymentListDTO>>(paymentEntities)
+            };
         }
 
         public async Task<IEnumerable<UserCreditListDTO>> GetAllUSerCreditList()

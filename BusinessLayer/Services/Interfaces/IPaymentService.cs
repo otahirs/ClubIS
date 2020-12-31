@@ -8,7 +8,7 @@ namespace ClubIS.BusinessLayer.Services.Interfaces
     {
         Task Create(PaymentEditDTO p);
         Task<IEnumerable<PaymentListDTO>> GetAll();
-        Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int userId);
+        Task<FinanceStatementDTO> GetFinanceStatement(int userId);
         Task<IEnumerable<UserCreditListDTO>> GetAllUSerCreditList();
         Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id);
         Task<int> GetEventPaymentSumByEventId(int id);

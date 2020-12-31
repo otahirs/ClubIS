@@ -9,6 +9,7 @@ namespace ClubIS.CoreLayer.DTOs
         [Required]
         public int SourceUserId { get; set; }
         [Required]
+        [Range(1, int.MaxValue)]
         public int RecipientUserId { get; set; }
         [Required]
         [Range(1, int.MaxValue)]

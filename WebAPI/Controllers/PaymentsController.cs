@@ -36,21 +36,21 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(payments);
         }
 
-        [HttpGet("user")]
+        [HttpGet("statements")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "News not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "News retrieved.")]
-        public async Task<ActionResult<IEnumerable<PaymentListDTO>>> GetByUserId()
+        public async Task<ActionResult<IEnumerable<FinanceStatementDTO>>> GetByUserId()
         {
             if (!User.Identity.IsAuthenticated) {
                 return Unauthorized();
             }
             var userId = User.Identity.GetUserId();
-            var payments = await _paymentFacade.GetAllByUserId(userId);
-            if (payments == null)
+            var financeStatements = await _paymentFacade.GetAllFinanceStatement(userId);
+            if (financeStatements == null)
             {
                 return NotFound();
             }
-            return Ok(payments);
+            return Ok(financeStatements);
         }
 
         [HttpPost("transfer")]

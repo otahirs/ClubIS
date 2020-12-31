@@ -6,13 +6,19 @@
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Finance</MudText>
 
-    @if (payments == null)
+    @if (currentStatement == null)
     {
         <MudProgressCircular Color="Color.Default" Indeterminate="true" />
     }
     else
     {
-        <MudTable Items="@payments">
+        <MudSelect T="FinanceStatementDTO" Label="Accounts" Variant="Variant.Outlined" ToStringFunc="((s) => s.Name)" @bind-Value="currentStatement">
+            @foreach (var statement in financeStatements)
+            {
+                <MudSelectItem T="FinanceStatementDTO" Value="statement" />
+            }
+        </MudSelect>
+        <MudTable Items="@currentStatement.Payments">
             <HeaderContent>
                 <MudTh>Date</MudTh>
                 <MudTh>Event</MudTh>
@@ -30,52 +36,56 @@
                 <MudTd DataLabel="Status">@context.PaymentState</MudTd>
             </RowTemplate>
         </MudTable>
+        <MudText>Balance: @currentStatement.CreditBalance</MudText>
     }
+    <br />
+    <br />
     <MudGrid>
         <MudItem lg="3" md="6" xs="12">
-            <MudExpansionPanels Class="mt-10">
-                <MudExpansionPanel Text="Credit transfer" IsExpandedChanged="LoadUsers">
-                    @if (users == null)
-                    {
-                        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
-                    }
-                    else
-                    {
-                        <EditForm Model="@sendPayment" OnValidSubmit="OnValidSubmit">
-                            <DataAnnotationsValidator />
-                            <MudCard Elevation="0">
-                                <MudCardContent>
-                                    <MudSelect Label="Recipient" @bind-Value="@sendPayment.RecipientUserId" Variant="Variant.Outlined">
-                                        @foreach (var user in users)
-                                            {
-                                            <MudSelectItem Value="@user.Id">@user.Surname @user.Firstname</MudSelectItem>
-                                            }
-                                    </MudSelect>
-                                    <MudTextField Label="Amount" @bind-Value="sendPayment.CreditAmount" For="@(() => sendPayment.CreditAmount)" Variant="Variant.Outlined" />
-                                    <MudTextField Label="Note" @bind-Value="sendPayment.Message" For="@(() => sendPayment.Message)" Variant="Variant.Outlined" />
-                                </MudCardContent>
-                                <MudCardActions>
-                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
-                                </MudCardActions>
-                            </MudCard>
-                        </EditForm>
-                    }
-                </MudExpansionPanel>
-            </MudExpansionPanels>
+            @*
+        <MudExpansionPanels Class="mt-10"> wait for MudBlazor fix https://github.com/Garderoben/MudBlazor/issues/422
+            <MudExpansionPanel Text="Credit transfer" IsExpandedChanged="LoadUsers">
+                {*@
+            @if (users == null)
+            {
+                <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+            }
+            else {
+
+                <EditForm Model="@sendPayment" OnValidSubmit="OnValidSubmit">
+                    <DataAnnotationsValidator />
+                    <MudCard Elevation="0">
+                        <MudCardContent>
+                            <MudAutocomplete Label="Recipient" T="int"  @bind-Value="sendPayment.RecipientUserId" SearchFunc="@Search" ToStringFunc="@(id=> users.Where(u=> u.Id == id).Select(u =>  $"{u.Surname} {u.Firstname}").First())" For="@(() => sendPayment.RecipientUserId)" Variant="Variant.Outlined" ResetValueOnEmptyText="true" />
+                            <MudTextField Label="Amount" @bind-Value="sendPayment.CreditAmount" For="@(() => sendPayment.CreditAmount)" Variant="Variant.Outlined" />
+                            <MudTextField Label="Note" @bind-Value="sendPayment.Message" For="@(() => sendPayment.Message)" Variant="Variant.Outlined" />
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </EditForm>
+            }@*
+            </MudExpansionPanel>
+        </MudExpansionPanels>*@
         </MudItem>
-    </MudGrid>
-</MudContainer>
+                </MudGrid>
+            </MudContainer>
 
 @code {
-    private PaymentListDTO[] payments;
+
+    private List<FinanceStatementDTO> financeStatements;
+    private FinanceStatementDTO currentStatement;
     private List<UserListDTO> users;
     private PaymentUserTransferDTO sendPayment = new PaymentUserTransferDTO();
     private int UserId;
 
     protected override async Task OnInitializedAsync()
     {
-        payments = await Http.GetFromJsonAsync<PaymentListDTO[]>($"Payments/user");
+        financeStatements = await Http.GetFromJsonAsync<List<FinanceStatementDTO>>($"Payments/statements");
+        currentStatement = financeStatements.FirstOrDefault();
         UserId = await authState.GetUserId();
+        await LoadUsers(true);
     }
 
     private async Task LoadUsers(bool panelIsExpanded)
@@ -87,13 +97,22 @@
         }
     }
 
+
     private async Task OnValidSubmit(EditContext context)
     {
+
         sendPayment.SourceUserId = UserId;
         await Http.PostAsJsonAsync<PaymentUserTransferDTO>("Payments/transfer", sendPayment);
         sendPayment = new PaymentUserTransferDTO();
-        payments = await Http.GetFromJsonAsync<PaymentListDTO[]>($"Payments/user");
+        financeStatements = await Http.GetFromJsonAsync<List<FinanceStatementDTO>>($"Payments/statements");
+        currentStatement = financeStatements.First(s => s.UserId == currentStatement.UserId);
+    }
+
+    private async Task<IEnumerable<int>> Search(string searchValue)
+    {
+        if (string.IsNullOrEmpty(searchValue))
+            return users.Select(u => u.Id);
+        return users.Where(u => $"{u.Surname} ({u.Firstname})".Contains(searchValue, StringComparison.InvariantCultureIgnoreCase)).Select(u => u.Id);
     }
 
 }
-

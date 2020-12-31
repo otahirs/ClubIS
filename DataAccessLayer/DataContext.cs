@@ -69,7 +69,7 @@ namespace ClubIS.DataAccessLayer
                 .HasForeignKey<User>(u => u.AccountId);
 
             modelBuilder.Entity<User>()
-                .HasOne(u => u.BillingAccount)
+                .HasOne(u => u.FinanceSupervisor)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
 

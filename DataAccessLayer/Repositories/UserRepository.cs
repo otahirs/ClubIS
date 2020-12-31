@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using ClubIS.CoreLayer.Entities;
 using ClubIS.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +21,10 @@ namespace ClubIS.DataAccessLayer.Repositories
                     .ThenInclude(u => u.User)
                         .ThenInclude(u => u.SiCards)
                 .FirstOrDefaultAsync(u => u.Id == id);
+        }
+        public async Task<IEnumerable<User>> GetFinanceSupervisored(int userId)
+        {
+            return await _entities.Where(u => u.FinanceSupervisorId == userId).ToListAsync();
         }
     }
 }

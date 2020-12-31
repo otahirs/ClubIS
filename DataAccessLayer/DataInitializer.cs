@@ -55,7 +55,6 @@ namespace ClubIS.DataAccessLayer
             {
                 Id = 1,
                 AccountId = 2,
-                BillingAccountId = 1,
                 Firstname = "Matěj",
                 Surname = "***REMOVED***",
                 RegistrationNumber = "***REMOVED***",
@@ -69,7 +68,7 @@ namespace ClubIS.DataAccessLayer
             {
                 Id = 2,
                 AccountId = 1,
-                BillingAccountId = 1,
+                FinanceSupervisorId = 1,
                 Firstname = "Kateřina",
                 Surname = "***REMOVED***",
                 RegistrationNumber = "***REMOVED***",

@@ -58,9 +58,18 @@ namespace ClubIS.BusinessLayer.Facades
             return await _paymentService.GetAll();
         }
 
-        public async Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int id)
+        public async Task<IEnumerable<FinanceStatementDTO>> GetAllFinanceStatement(int userId)
         {
-            return await _paymentService.GetAllByUserId(id);
+            var result = new List<FinanceStatementDTO>()
+            {
+                await _paymentService.GetFinanceStatement(userId)
+            };
+
+            foreach( var user in await _unitOfWork.Users.GetFinanceSupervisored(userId))
+            {
+                result.Add(await _paymentService.GetFinanceStatement(user.Id));
+            }
+            return result;
         }
         public async Task<IEnumerable<PaymentListDTO>> GetAllByEventID(int id)
         {

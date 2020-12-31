@@ -10,7 +10,7 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
         Task Create(PaymentEditDTO p);
         Task Create(PaymentUserTransferDTO p);
         Task<IEnumerable<PaymentListDTO>> GetAll();
-        Task<IEnumerable<PaymentListDTO>> GetAllByUserId(int id);
+        Task<IEnumerable<FinanceStatementDTO>> GetAllFinanceStatement(int userId);
         Task<IEnumerable<UserCreditListDTO>> GetAllUserCreditList();
         Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id);
         Task<IEnumerable<PaymentListDTO>> GetAllByEventID(int id);

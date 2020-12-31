@@ -18,6 +18,6 @@ namespace ClubIS.CoreLayer.DTOs
         public string Phone { get; set; }
         public Licence Licence { get; set; }
         public int AccountId { get; set; }
-        public int BillingAccountId { get; set; }
+        public int FinanceSupervisorId { get; set; }
     }
 }
