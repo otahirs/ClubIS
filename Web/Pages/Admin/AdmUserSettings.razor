@@ -1,0 +1,41 @@
+﻿@page "/admin/users/settings/{userId:int}"
+
+@inject HttpClient Http
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+    <MudText Typo="Typo.h3" GutterBottom="true">Settings</MudText>
+    <MudTabs Vertical="true">
+        <MudTabPanel Text="User">
+            <MudText>User</MudText>
+        </MudTabPanel>
+        <MudTabPanel Text="SI Cards">
+            <MudText>SI Cards</MudText>
+        </MudTabPanel>
+        <MudTabPanel Text="Login">
+            <MudText>Login</MudText>
+        </MudTabPanel>
+        <MudTabPanel Text="Supervision">
+            <MudText>Supervision</MudText>
+        </MudTabPanel>
+        <MudTabPanel Text="Member Fee">
+            <MudText>Member Fee</MudText>
+        </MudTabPanel>
+        <MudTabPanel Text="Account State">
+            <MudText>Account State</MudText>
+        </MudTabPanel>
+    </MudTabs>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public int? UserId { get; set; }
+    private UserEditDTO SendUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (UserId != null)
+        {
+            SendUser = await Http.GetFromJsonAsync<UserEditDTO>($"Users/{UserId}");
+        }
+    }
+}
