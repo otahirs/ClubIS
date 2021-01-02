@@ -65,9 +65,14 @@
     public bool CanBeRemoved { get; set; }
     private UserEditDTO DisplayedUser;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         InitializeDisplayedUser();
+    }
+
+    private void InitializeDisplayedUser()
+    {
+        DisplayedUser = User;
     }
 
     private static Gender[] GetGenderTypes()
@@ -78,11 +83,6 @@
     private static Licence[] GetLicenceTypes()
     {
         return (Licence[])Enum.GetValues(typeof(Licence));
-    }
-
-    private void InitializeDisplayedUser()
-    {
-        DisplayedUser = User;
     }
 
     private void UpdateDateOfBirth(string date)

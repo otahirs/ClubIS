@@ -1,0 +1,52 @@
+﻿@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+    <MudText Typo="Typo.h3">Account state</MudText>
+    @if (User == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <EditForm Model="@DisplayedUser" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <MudCard Elevation="0">
+                <MudCardContent>
+                    <MudSelect Label="Selected account state" @bind-Value="DisplayedUser.AccountState" Variant="Variant.Outlined">
+                        @foreach (var state in GetAccountStateTypes())
+                            {<MudSelectItem Value="@state" />}
+                    </MudSelect>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    }
+</MudContainer>
+
+@code {
+    [Parameter]
+    public UserEditDTO User { get; set; }
+    [Parameter]
+    public bool CanBeRemoved { get; set; }
+    private UserEditDTO DisplayedUser;
+
+    protected override void OnInitialized()
+    {
+        DisplayedUser = User;
+    }
+
+    private static AccountState[] GetAccountStateTypes()
+    {
+        return (AccountState[])Enum.GetValues(typeof(AccountState));
+    }
+
+    private async void OnValidSubmit(EditContext context)
+    {
+        User = DisplayedUser;
+        await Http.PutAsJsonAsync<UserEditDTO>("Users", User);
+    }
+}
+

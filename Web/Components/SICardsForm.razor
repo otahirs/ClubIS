@@ -1,0 +1,86 @@
+﻿@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+    <MudText Typo="Typo.h3">Si Cards</MudText>
+    @if (User == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <EditForm Model="@DisplayedUser" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <MudCard Elevation="0">
+                <MudCardContent>
+                    @foreach (var siCard in DisplayedUser.SiCards)
+                    {
+                        <MudGrid>
+                            <MudItem xs="4">
+                                <MudTextField  @bind-Value="siCard.Number" For="@(() => siCard.Number)" Variant="Variant.Outlined" />
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSICard(siCard)" Class="mt-4">Delete</MudButton>
+                            </MudItem>
+                            <MudItem xs="4">
+                                @if (siCard.IsDefault)
+                                {
+                                    <MudChip Class="mt-4">Default</MudChip>
+                                }
+                                else
+                                {
+                                    <MudButton Class="mt-4" ButtonType="ButtonType.Button" StartIcon="@Filled.Cached" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => SetSICardAsDefault(siCard)">Set as default</MudButton>
+                                }
+                            </MudItem>
+                        </MudGrid>
+                    }
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="InitializeDisplayedUser" Class="ml-3">Cancel</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="ShowNewSICardLine" Class="ml-3">SI Card</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"Class="ml-3">Save</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    }
+</MudContainer>
+
+@code {
+    [Parameter]
+    public UserEditDTO User { get; set; }
+    [Parameter]
+    public bool CanBeRemoved { get; set; }
+    private UserEditDTO DisplayedUser;
+
+    protected override void OnInitialized()
+    {
+        InitializeDisplayedUser();
+    }
+
+    private void InitializeDisplayedUser()
+    {
+        DisplayedUser = User;
+    }
+
+    private void DeleteSICard(SiCardDTO siCard)
+    {
+        DisplayedUser.SiCards.Remove(siCard);
+    }
+
+    private void SetSICardAsDefault(SiCardDTO siCard)
+    {
+        DisplayedUser.SiCards.FirstOrDefault(s => s.IsDefault).IsDefault = false;
+        siCard.IsDefault = true;
+    }
+
+    private void ShowNewSICardLine()
+    {
+        DisplayedUser.SiCards.Add(new SiCardDTO());
+    }
+
+    private async void OnValidSubmit(EditContext context)
+    {
+        User = DisplayedUser;
+        await Http.PutAsJsonAsync<UserEditDTO>("Users", User);
+    }
+}

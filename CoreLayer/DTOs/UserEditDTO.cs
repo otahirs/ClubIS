@@ -11,7 +11,7 @@ namespace ClubIS.CoreLayer.DTOs
         public string Firstname { get; set; }
         public string Surname { get; set; }
         public string RegistrationNumber { get; set; }
-        public ISet<SiCard> SiCards { get; set; }
+        public ISet<SiCardDTO> SiCards { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string Nationality { get; set; }
         public Address Address { get; set; }
@@ -19,5 +19,7 @@ namespace ClubIS.CoreLayer.DTOs
         public string Phone { get; set; }
         public Gender Gender { get; set; }
         public Licence Licence { get; set; }
+        public MemberFeeDTO MemberFee { get; set; }
+        public AccountState AccountState { get; set; }
     }
 }

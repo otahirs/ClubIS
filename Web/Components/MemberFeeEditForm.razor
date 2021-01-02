@@ -1,0 +1,48 @@
+﻿@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+    <MudText Typo="Typo.h3">MemberFee</MudText>
+    @if (User == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <EditForm Model="@DisplayedUser" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <MudCard Elevation="0">
+                <MudCardContent>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    }
+</MudContainer>
+
+@code {
+    [Parameter]
+    public UserEditDTO User { get; set; }
+    [Parameter]
+    public bool CanBeRemoved { get; set; }
+    private UserEditDTO DisplayedUser;
+
+    protected override void OnInitialized()
+    {
+        InitializeDisplayedUser();
+    }
+
+    private void InitializeDisplayedUser()
+    {
+        DisplayedUser = User;
+    }
+
+    private async void OnValidSubmit(EditContext context)
+    {
+        User = DisplayedUser;
+        await Http.PutAsJsonAsync<UserEditDTO>("Users", User);
+    }
+}
+

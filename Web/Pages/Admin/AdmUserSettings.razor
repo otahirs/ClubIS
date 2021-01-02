@@ -14,7 +14,8 @@
             {<UserEditForm User="SendUser" CanBeRemoved="true" />}
         </MudTabPanel>
         <MudTabPanel Text="SI Cards">
-            <MudText>SI Cards</MudText>
+            @if (SendUser != null)
+            {<SICardsForm User="SendUser" />}
         </MudTabPanel>
         <MudTabPanel Text="Login">
             <MudText>Login</MudText>
@@ -23,10 +24,12 @@
             <MudText>Supervision</MudText>
         </MudTabPanel>
         <MudTabPanel Text="Member Fee">
-            <MudText>Member Fee</MudText>
+            @if (SendUser != null)
+            {<MemberFeeEditForm User="SendUser" />}
         </MudTabPanel>
         <MudTabPanel Text="Account State">
-            <MudText>Account State</MudText>
+            @if (SendUser != null)
+            {<AcountStateEditForm User="SendUser" />}
         </MudTabPanel>
     </MudTabs>
 </MudContainer>
