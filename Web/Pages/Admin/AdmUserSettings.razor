@@ -18,7 +18,8 @@
             {<SICardsForm User="SendUser" />}
         </MudTabPanel>
         <MudTabPanel Text="Login">
-            <MudText>Login</MudText>
+            @if (SendUser != null)
+            {<LoginForm CurrentUserId="SendUser.Id" />}
         </MudTabPanel>
         <MudTabPanel Text="Supervision">
             <MudText>Supervision</MudText>

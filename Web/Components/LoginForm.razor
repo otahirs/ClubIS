@@ -1,0 +1,71 @@
+﻿@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+    <MudText Typo="Typo.h3">Login</MudText>
+    @if (User == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudList Clickable="true" Class="xs-12">
+            <MudListItem Icon="@Icons.Material.Login" Text="Change login">
+                <NestedList>
+                    <EditForm Model="@User" OnValidSubmit="OnValidLoginSubmit">
+                        <DataAnnotationsValidator />
+                        <MudCard Elevation="0">
+                            <MudCardContent>
+                                <MudTextField Label="Login" @bind-Value="User.Login" For="@(() => User.Login)" Variant="Variant.Outlined" />
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </EditForm>
+                </NestedList>
+            </MudListItem>
+            <MudListItem Icon="@Icons.Material.Lock" Text="Change password">
+                <NestedList>
+                    <EditForm Model="@User" OnValidSubmit="OnValidPasswordSubmit">
+                        <DataAnnotationsValidator />
+                        <MudCard Elevation="0">
+                            <MudCardContent>
+                                <MudTextField InputType="InputType.Password" Label="Old password" @bind-Value="OldPassword" For="@(() => OldPassword)" Variant="Variant.Outlined" />
+                                <MudTextField InputType="InputType.Password" Label="New password" @bind-Value="NewPassword" For="@(() => NewPassword)" Variant="Variant.Outlined" />
+                                <MudTextField InputType="InputType.Password" Label="New password again" @bind-Value="NewPasswordAgain" For="@(() => NewPasswordAgain)" Variant="Variant.Outlined" />
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </EditForm>
+                </NestedList>
+            </MudListItem>
+        </MudList>
+    }
+</MudContainer>
+
+@code {
+    [Parameter]
+    public int CurrentUserId { get; set; }
+    private UserCredentialsEditDTO User;
+    private string OldPassword;
+    private string NewPassword;
+    private string NewPasswordAgain;
+
+    protected override async Task OnInitializedAsync()
+    {
+        User = await Http.GetFromJsonAsync<UserCredentialsEditDTO>($"Users/{CurrentUserId}");
+    }
+
+
+    private async void OnValidLoginSubmit(EditContext context)
+    {
+    }
+
+    private async void OnValidPasswordSubmit(EditContext context)
+    {
+    }
+}
+
