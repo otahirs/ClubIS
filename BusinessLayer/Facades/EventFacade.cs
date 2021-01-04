@@ -45,13 +45,13 @@ namespace ClubIS.BusinessLayer.Facades
         public async Task<IEnumerable<EventListWithTotalCostsDTO>> GetAllWithTotalCosts()
         {
             var events = await _eventService.GetAll();
-            return await Task.WhenAll(events
-                .Select(async e => new EventListWithTotalCostsDTO
+            return events
+                .Select(e => new EventListWithTotalCostsDTO
                     {
                         Event = e,
-                        TotalCosts = await _paymentService.GetEventPaymentSumByEventId(e.Id)
+                        TotalCosts = _paymentService.GetEventPaymentSumByEventId(e.Id).GetAwaiter().GetResult()
                     }
-                ));
+                );
         }
 
         public async Task Delete(int id)
