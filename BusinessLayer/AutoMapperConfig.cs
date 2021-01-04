@@ -52,7 +52,6 @@ namespace ClubIS.BusinessLayer
                 .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.RecipientAccount.Owner.Id))
                 .ForMember(d => d.PaymentId, opt => opt.MapFrom(s => s.Id));
             config.CreateMap<User, UserAdministrationDTO>().ReverseMap();
-            config.CreateMap<User, UserCredentialsEditDTO>().ReverseMap();
             config.CreateMap<User, UserCreditListDTO>().ReverseMap();
             config.CreateMap<User, UserDetailDTO>().ReverseMap();
             config.CreateMap<User, UserEditDTO>().ReverseMap();

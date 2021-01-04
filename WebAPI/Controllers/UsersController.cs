@@ -96,18 +96,6 @@ namespace ClubIS.WebAPI.Controllers
             return Ok();
         }
 
-        [HttpPut("login")]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided user.")]
-        [SwaggerResponse(StatusCodes.Status200OK, "User login updated.")]
-        public async Task<ActionResult> PutLogin([FromBody] UserCredentialsEditDTO user)
-        {
-            if (user == null)
-                return BadRequest();
-
-            await _userFacade.UpdateLogin(user);
-            return Ok();
-        }
-
         [HttpDelete("{id}")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "User deleted.")]

@@ -50,12 +50,6 @@ namespace ClubIS.BusinessLayer.Facades
             return await _userService.GetById(id);
         }
 
-        public async Task UpdateLogin(UserCredentialsEditDTO user)
-        {
-            await _userService.UpdateLogin(user);
-            await _unitOfWork.Save();
-        }
-
         public async Task<IEnumerable<UserEntriesSupervisedListDTO>> GetAllEntriesSupervisors()
         {
             return await _userService.GetAllEntriesSupervisors();

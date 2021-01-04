@@ -11,7 +11,6 @@ namespace ClubIS.BusinessLayer.Services.Interfaces
         Task<UserDetailDTO> GetById(int id);
         Task Update(UserEditDTO e);
         Task Delete(int id);
-        Task UpdateLogin(UserCredentialsEditDTO user);
         Task<IEnumerable<UserEntriesSupervisedListDTO>> GetAllEntriesSupervisors();
         Task<UserEntryListDTO> GetAllEntriesSupervisorsById(int id);
     }
