@@ -62,42 +62,47 @@
 
                             <MudSelect Label="Class" Required="true" @bind-Value="@SendEntry.Class" Variant="Variant.Outlined">
                                 @foreach (var c in E.ClassOptions)
-                                {
+                                            {
                                     <MudSelectItem Value="@c.Name">@c.Name</MudSelectItem>
-                                }
+                                            }
                             </MudSelect>
 
-                            <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubTransport" Label="Transport"/>
+                            <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubTransport" Label="Transport" />
 
-                            <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubAccommodation" Label="Accommodation"/>
+                            <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubAccommodation" Label="Accommodation" />
 
-                            <MudSelect T="int" Label="SI card number" @bind-Value="@SendEntry.SiCardNumber" Variant="Variant.Outlined">
+                            <MudSelect T="string" Label="SI card number" @bind-Value="@siCard" Variant="Variant.Outlined">
                                 @foreach (var card in GetSiCards(SendEntry.UserId))
                                 {
-                                    <MudSelectItem Value="@card.Number">@card.Number</MudSelectItem>
+                                    <MudSelectItem Value="@card.Number.ToString()">@card.Number.ToString()</MudSelectItem>
                                 }
+                                <MudSelectItem Value="@custom">@custom</MudSelectItem>
                             </MudSelect>
+                            @if (siCard.Equals(custom))
+                            {
+                                <MudTextField Label="Custom SI card number" @bind-Value="SendEntry.SiCardNumber" For="@(() => SendEntry.SiCardNumber)" Variant="Variant.Outlined" />
+                            }
 
-                            <MudTextField Label="Note(intern)" @bind-Value="SendEntry.NoteForClub" For="@(() => SendEntry.NoteForClub)" Variant="Variant.Outlined"/>
+                            <MudTextField Label="Note(intern)" @bind-Value="SendEntry.NoteForClub" For="@(() => SendEntry.NoteForClub)" Variant="Variant.Outlined" />
 
-                            <MudTextField Label="Note(organizer)" @bind-Value="SendEntry.NoteForOrganizators" For="@(() => SendEntry.NoteForOrganizators)" Variant="Variant.Outlined"/>
+                            <MudTextField Label="Note(organizer)" @bind-Value="SendEntry.NoteForOrganizators" For="@(() => SendEntry.NoteForOrganizators)" Variant="Variant.Outlined" />
 
-                        @if (E.EventStages.Count != 0)
-                        {
-                            <MudCard Class="mt-1">
-                                <MudCardContent>
-                                    <MudText Typo="Typo.h6"><b>Event Stages:</b></MudText>
-                                    @foreach (var s in E.EventStages)
-                                    {
-                                        <MudCheckBox @bind-Checked="s.Selected"></MudCheckBox>
-                                        <MudText>
-                                            <b>@s.Name</b>, date: @s.Date.ToString("dd.MM.yyyy")
-                                        </MudText>
+                            @if (E.EventStages.Count != 0)
+                            {
+                                <MudCard Class="mt-1">
+                                    <MudCardContent>
+                                        <MudText Typo="Typo.h6"><b>Event Stages:</b></MudText>
+                                        @foreach (var s in E.EventStages)
+                                        {
+                                            <MudCheckBox @bind-Checked="s.Selected"></MudCheckBox>
+                                            <MudText>
+                                                <b>@s.Name</b>, date: @s.Date.ToString("dd.MM.yyyy")
+                                            </MudText>
                                         }
-                                </MudCardContent>
-                            </MudCard>
-                        }
-                    </MudCardContent>
+                                    </MudCardContent>
+                                </MudCard>
+                            }
+                        </MudCardContent>
                     <MudCardActions>
                         <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
                         @if (CurrentEntry == null)
@@ -162,6 +167,8 @@
     [Parameter]
     public int EventId { get; set; }
     private int UserId;
+    private string custom { get; set; } = "Custom";
+    private string siCard { get; set; }
 
     private EventEditDTO E;
     private UserEntryListDTO Users;
@@ -182,13 +189,14 @@
     {
         SendEntry.UserId = id;
         SendEntry.EventId = EventId;
+        SendEntry.SiCardNumber = null;
         CurrentEntry = Entries.FirstOrDefault(e => e.UserId == id);
         if (CurrentEntry == null)
         {
             SendEntry.Class = E.ClassOptions.ElementAt(0).Name;
             SendEntry.HasClubTransport = false;
             SendEntry.HasClubAccommodation = false;
-            SendEntry.SiCardNumber = (GetSiCards(id).FirstOrDefault(s => s.IsDefault)).Number;
+            siCard = (GetSiCards(id).Count > 0) ? (GetSiCards(id).FirstOrDefault(s => s.IsDefault)).Number.ToString() : custom;
             SendEntry.NoteForClub = "";
             SendEntry.NoteForOrganizators = "";
             SendEntry.EnteredStages = new HashSet<EventStageDTO>();
@@ -200,7 +208,7 @@
             SendEntry.Class = CurrentEntry.Class;
             SendEntry.HasClubTransport = CurrentEntry.HasClubTransport;
             SendEntry.HasClubAccommodation = CurrentEntry.HasClubAccommodation;
-            SendEntry.SiCardNumber = CurrentEntry.SiCardNumber;
+            siCard = CurrentEntry.SiCardNumber.ToString();
             SendEntry.NoteForClub = CurrentEntry.NoteForClub;
             SendEntry.NoteForOrganizators = CurrentEntry.NoteForOrganizators;
             SendEntry.EnteredStages = CurrentEntry.EnteredStages;
@@ -209,7 +217,7 @@
             {
                 stage.Selected = CurrentEntry.EnteredStages.Any(s => s.Id == stage.Id);
             }
-        }        
+        }
     }
 
     private ISet<SiCardDTO> GetSiCards(int id)
@@ -240,6 +248,10 @@
     private async void AddEntry()
     {
         SendEntry.Status = EntryStatus.NotSent;
+        if(!(siCard.Equals(custom)))
+        {
+            SendEntry.SiCardNumber = Convert.ToInt32(siCard);
+        }
         await Http.PostAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
         Entries = await Http.GetFromJsonAsync<List<EventEntryListDTO>>($"Entries/event/{EventId}");
         UpdateData(SendEntry.UserId);
@@ -249,6 +261,10 @@
     private async void EditEntry()
     {
         SendEntry.Id = CurrentEntry.Id;
+        if (!(siCard.Equals(custom)))
+            {
+            SendEntry.SiCardNumber = Convert.ToInt32(siCard);
+        }
         SendEntry.Status = EntryStatus.Changed;
         await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
         Entries = await Http.GetFromJsonAsync<List<EventEntryListDTO>>($"Entries/event/{EventId}");
@@ -298,5 +314,4 @@
     {
         NavigationManager.NavigateTo($"/events");
     }
-
 }
