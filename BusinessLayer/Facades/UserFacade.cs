@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
@@ -11,8 +12,10 @@ namespace ClubIS.BusinessLayer.Facades
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
-        public UserFacade(IUnitOfWork unitOfWork, IUserService userService)
+        private readonly IMapper _mapper;
+        public UserFacade(IUnitOfWork unitOfWork, IUserService userService, IMapper mapper)
         {
+            _mapper = mapper;
             _unitOfWork = unitOfWork;
             _userService = userService;
         }
@@ -26,6 +29,12 @@ namespace ClubIS.BusinessLayer.Facades
         public async Task Update(UserEditDTO user)
         {
             await _userService.Update(user);
+            await _unitOfWork.Save();
+        }
+
+        public async Task Update(MemberUserEditDTO user)
+        {
+            await _userService.Update(_mapper.Map<UserEditDTO>(user));
             await _unitOfWork.Save();
         }
 

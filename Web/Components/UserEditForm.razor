@@ -99,6 +99,16 @@
     private async void OnValidSubmit(EditContext context)
     {
         User = DisplayedUser;
-        await Http.PutAsJsonAsync<UserEditDTO>("Users", User);
+        if (true) { // admin
+            await Http.PutAsJsonAsync<UserEditDTO>("Users", User);
+        }
+        else
+        {
+            MemberUserEditDTO sendeData = new MemberUserEditDTO()
+            {
+                Address = User.Address
+            };
+            await Http.PutAsJsonAsync<MemberUserEditDTO>("Users/member-edit", sendeData);
+        }
     }
 }
