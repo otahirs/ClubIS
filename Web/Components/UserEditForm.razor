@@ -16,19 +16,32 @@
                     <MudCard Elevation="0">
                         <MudText Typo="Typo.h4" GutterBottom="true">User data</MudText>
                         <MudCardContent>
-                            <MudTextField Label="Firstname" @bind-Value="DisplayedUser.Firstname" For="@(() => DisplayedUser.Firstname)" Variant="Variant.Outlined" />
-                            <MudTextField Label="Surname" @bind-Value="DisplayedUser.Surname" For="@(() => DisplayedUser.Surname)" Variant="Variant.Outlined" />
-                            <MudTextField Label="Reg. number" @bind-Value="DisplayedUser.RegistrationNumber" For="@(() => DisplayedUser.RegistrationNumber)" Variant="Variant.Outlined" />
-                            <MudDatePicker Label="Date of birth" Editable="true" Value="@DisplayedUser.DateOfBirth.ToString()" ValueChanged="@((string s) => UpdateDateOfBirth(s))" />
-                            <MudSelect Label="Gender" @bind-Value="DisplayedUser.Gender" Variant="Variant.Outlined">
-                                @foreach (var gender in GetGenderTypes())
-                                    {<MudSelectItem Value="@gender" />}
-                            </MudSelect>
-                            <MudTextField Label="Nationality" @bind-Value="DisplayedUser.Nationality" For="@(() => DisplayedUser.Nationality)" Variant="Variant.Outlined" />
-                            <MudSelect Label="Licence" @bind-Value="DisplayedUser.Licence" Variant="Variant.Outlined">
-                                @foreach (var licence in GetLicenceTypes())
-                                    {<MudSelectItem Value="@licence" />}
-                            </MudSelect>
+                            @if (IsAdmin)
+                            {
+                                <MudTextField Label="Firstname" @bind-Value="DisplayedUser.Firstname" For="@(() => DisplayedUser.Firstname)" Variant="Variant.Outlined" />
+                                <MudTextField Label="Surname" @bind-Value="DisplayedUser.Surname" For="@(() => DisplayedUser.Surname)" Variant="Variant.Outlined" />
+                                <MudTextField Label="Reg. number" @bind-Value="DisplayedUser.RegistrationNumber" For="@(() => DisplayedUser.RegistrationNumber)" Variant="Variant.Outlined" />
+                                <MudDatePicker Label="Date of birth" Value="@DisplayedUser.DateOfBirth.ToString()" ValueChanged="@((string s) => UpdateDateOfBirth(s))" />
+                                <MudSelect Label="Gender" @bind-Value="DisplayedUser.Gender" Variant="Variant.Outlined">
+                                    @foreach (var gender in GetGenderTypes())
+                                            {<MudSelectItem Value="@gender" />}
+                                </MudSelect>
+                                <MudTextField Label="Nationality" @bind-Value="DisplayedUser.Nationality" For="@(() => DisplayedUser.Nationality)" Variant="Variant.Outlined" />
+                                <MudSelect Label="Licence" @bind-Value="DisplayedUser.Licence" Variant="Variant.Outlined">
+                                    @foreach (var licence in GetLicenceTypes())
+                                            {<MudSelectItem Value="@licence" />}
+                                </MudSelect>
+                            }
+                            else
+                            {
+                                <MudTextField Label="Firstname" Value="DisplayedUser.Firstname" Disabled="true" Variant="Variant.Outlined" />
+                                <MudTextField Label="Surname" Value="DisplayedUser.Surname" Disabled="true" Variant="Variant.Outlined" />
+                                <MudTextField Label="Reg. number" Value="DisplayedUser.RegistrationNumber" Disabled="true" Variant="Variant.Outlined" />
+                                <MudTextField Label="Date of birth" Value="@DisplayedUser.DateOfBirth.ToString()" Disabled="true" Variant="Variant.Outlined" />
+                                <MudTextField Label="Gender" Value="DisplayedUser.Gender" Disabled="true" Variant="Variant.Outlined" />
+                                <MudTextField Label="Nationality" Value="DisplayedUser.Nationality" Disabled="true" Variant="Variant.Outlined" />
+                                <MudTextField Label="Licence" Value="DisplayedUser.Licence" Disabled="true" Variant="Variant.Outlined" />
+                            }
                         </MudCardContent>
                     </MudCard>
                     <MudCard Elevation="0">
@@ -49,7 +62,7 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="InitializeDisplayedUser" Class="ml-3">Cancel</MudButton>
-                    @if (CanBeRemoved)
+                    @if (IsAdmin)
                     {<MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveUser" Class="ml-auto">Remove</MudButton>}
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
                 </MudCardActions>
@@ -62,7 +75,7 @@
     [Parameter]
     public UserEditDTO User { get; set; }
     [Parameter]
-    public bool CanBeRemoved { get; set; }
+    public bool IsAdmin { get; set; }
     private UserEditDTO DisplayedUser;
 
     protected override void OnInitialized()
@@ -99,16 +112,18 @@
     private async void OnValidSubmit(EditContext context)
     {
         User = DisplayedUser;
-        if (true) { // admin
+        if (IsAdmin) {
             await Http.PutAsJsonAsync<UserEditDTO>("Users", User);
         }
         else
         {
-            MemberUserEditDTO sendeData = new MemberUserEditDTO()
+            MemberUserEditDTO sendData = new MemberUserEditDTO()
             {
-                Address = User.Address
+                Address = User.Address,
+                Email = User.Email,
+                Phone = User.Phone
             };
-            await Http.PutAsJsonAsync<MemberUserEditDTO>("Users/member-edit", sendeData);
+            await Http.PutAsJsonAsync<MemberUserEditDTO>("Users/member-edit", sendData);
         }
     }
 }

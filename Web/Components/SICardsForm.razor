@@ -49,7 +49,7 @@
     [Parameter]
     public UserEditDTO User { get; set; }
     [Parameter]
-    public bool CanBeRemoved { get; set; }
+    public bool IsAdmin { get; set; }
     private UserEditDTO DisplayedUser;
 
     protected override void OnInitialized()
@@ -64,6 +64,10 @@
 
     private void DeleteSICard(SiCardDTO siCard)
     {
+        if (siCard.IsDefault && DisplayedUser.SiCards.Count > 1)
+        {
+            DisplayedUser.SiCards.ElementAt(1).IsDefault = true;
+        }
         DisplayedUser.SiCards.Remove(siCard);
     }
 
@@ -75,6 +79,11 @@
 
     private void ShowNewSICardLine()
     {
+        SiCardDTO siCardDTO = new SiCardDTO();
+        if (DisplayedUser.SiCards.Count == 0)
+        {
+            siCardDTO.IsDefault = true;
+        }
         DisplayedUser.SiCards.Add(new SiCardDTO());
     }
 

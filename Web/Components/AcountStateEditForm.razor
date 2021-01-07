@@ -13,9 +13,11 @@
             <DataAnnotationsValidator />
             <MudCard Elevation="0">
                 <MudCardContent>
-                    <MudSelect Label="Selected account state" @bind-Value="DisplayedUser.AccountState" Variant="Variant.Outlined">
+                    <MudSelect T="AccountState" Label="Selected account state" Variant="Variant.Outlined" @bind-Value="DisplayedUser.AccountState">
                         @foreach (var state in GetAccountStateTypes())
-                            {<MudSelectItem Value="@state" />}
+                        {
+                            <MudSelectItem T="AccountState" Value="state" />
+                        }
                     </MudSelect>
                 </MudCardContent>
                 <MudCardActions>
@@ -29,8 +31,6 @@
 @code {
     [Parameter]
     public UserEditDTO User { get; set; }
-    [Parameter]
-    public bool CanBeRemoved { get; set; }
     private UserEditDTO DisplayedUser;
 
     protected override void OnInitialized()

@@ -11,11 +11,11 @@
     <MudTabs Vertical="true">
         <MudTabPanel Text="User">
             @if (SendUser != null)
-            {<UserEditForm User="SendUser" CanBeRemoved="true" />}
+            {<UserEditForm User="SendUser" IsAdmin="true" />}
         </MudTabPanel>
         <MudTabPanel Text="SI Cards">
             @if (SendUser != null)
-            {<SICardsForm User="SendUser" />}
+            {<SICardsForm User="SendUser" IsAdmin="true" />}
         </MudTabPanel>
         <MudTabPanel Text="Login">
             @if (SendUser != null)
