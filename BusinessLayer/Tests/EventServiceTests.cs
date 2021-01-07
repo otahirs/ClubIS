@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using ClubIS.BusinessLayer.Services;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
@@ -14,6 +15,9 @@ namespace ClubIS.BusinessLayer.Tests
 {
     public class EventServiceTests
     {
+        private readonly IMapper _mapper = new MapperConfiguration(c =>
+          c.AddProfile<AutoMapperProfile>()).CreateMapper();
+
         public EventEditDTO origEvent = new EventEditDTO()
         {
             Id = 42,
@@ -67,7 +71,7 @@ namespace ClubIS.BusinessLayer.Tests
             EventEditDTO e;
             using (var uow = TestUoWFactory.Create())
             {
-                var ns = new EventService(uow);
+                var ns = new EventService(uow,_mapper);
                 e = (await ns.GetById(1));
             }
             Assert.NotNull(e);
@@ -79,7 +83,7 @@ namespace ClubIS.BusinessLayer.Tests
             EventEditDTO e;
             using (var uow = TestUoWFactory.Create())
             {
-                var es = new EventService(uow);
+                var es = new EventService(uow, _mapper);
                 await es.Create(origEvent);
                 await uow.Save();
                 e = (await es.GetById(42));
@@ -94,7 +98,7 @@ namespace ClubIS.BusinessLayer.Tests
             var editedOrganizer = "Edited Organizer";
             using (var uow = TestUoWFactory.Create())
             {
-                var es = new EventService(uow);
+                var es = new EventService(uow, _mapper);
                 await es.Create(origEvent);
                 await uow.Save();
                 e = await es.GetById(42);
@@ -112,7 +116,7 @@ namespace ClubIS.BusinessLayer.Tests
             EventEditDTO e;
             using (var uow = TestUoWFactory.Create())
             {
-                var es = new EventService(uow);
+                var es = new EventService(uow, _mapper);
                 await es.Create(origEvent);
                 await uow.Save();
                 await es.Delete(origEvent.Id);
@@ -163,7 +167,7 @@ namespace ClubIS.BusinessLayer.Tests
             List<EventListWithUserEntryDTO> events;
             using (var uow = TestUoWFactory.Create())
             {
-                var es = new EventService(uow);
+                var es = new EventService(uow, _mapper);
                 await es.Create(origEvent);
                 await es.Create(origEvent2);
                 await uow.Save();

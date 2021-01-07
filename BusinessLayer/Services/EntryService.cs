@@ -13,10 +13,10 @@ namespace ClubIS.BusinessLayer.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public EntryService(IUnitOfWork unitOfWork)
+        public EntryService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _mapper = new Mapper(new MapperConfiguration(AutoMapperConfig.ConfigureMapping));
+            _mapper = mapper;
         }
 
         public Task Create(EventEntryEditDTO entry)

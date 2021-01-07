@@ -15,10 +15,10 @@ namespace ClubIS.BusinessLayer.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public PaymentService(IUnitOfWork unitOfWork)
+        public PaymentService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _mapper = new Mapper(new MapperConfiguration(AutoMapperConfig.ConfigureMapping));
+            _mapper = mapper;
         }
         public async Task Create(PaymentEditDTO p)
         {

@@ -14,12 +14,12 @@ namespace ClubIS.BusinessLayer.Facades
         private readonly IPaymentService _paymentService;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        public PaymentFacade(IUnitOfWork unitOfWork, IPaymentService paymentService, IUserService userService)
+        public PaymentFacade(IUnitOfWork unitOfWork, IPaymentService paymentService, IUserService userService, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _paymentService = paymentService;
             _userService = userService;
-            _mapper = new Mapper(new MapperConfiguration(AutoMapperConfig.ConfigureMapping));
+            _mapper = mapper;
         }
 
         public async Task Create(PaymentEditDTO payment)

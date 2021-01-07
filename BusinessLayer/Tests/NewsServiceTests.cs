@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using ClubIS.BusinessLayer.Services;
 using ClubIS.CoreLayer.DTOs;
 using FluentAssertions;
@@ -12,7 +13,8 @@ namespace ClubIS.BusinessLayer.Tests
 {
     public class NewsServiceTests
     {
-        //private readonly IMapper _mapper = new Mapper(new MapperConfiguration(AutoMapperConfig.ConfigureMapping));
+        private readonly IMapper _mapper = new MapperConfiguration(c =>
+          c.AddProfile<AutoMapperProfile>()).CreateMapper();
 
         [Fact]
         public async Task GetById() // db seed dependant
@@ -20,7 +22,7 @@ namespace ClubIS.BusinessLayer.Tests
             NewsEditDTO news;
             using (var uow = TestUoWFactory.Create())
             {
-                var ns = new NewsService(uow);
+                var ns = new NewsService(uow, _mapper);
                 news = (await ns.GetById(1));
             }
             Assert.NotNull(news);
@@ -40,7 +42,7 @@ namespace ClubIS.BusinessLayer.Tests
             NewsEditDTO news;
             using (var uow = TestUoWFactory.Create())
             {
-                var ns = new NewsService(uow);
+                var ns = new NewsService(uow, _mapper);
                 await ns.Create(origNews);
                 await uow.Save();
                 news = (await ns.GetById(42));
@@ -63,7 +65,7 @@ namespace ClubIS.BusinessLayer.Tests
             var editedTitle = "Edited Title";
             using (var uow = TestUoWFactory.Create())
             {
-                var ns = new NewsService(uow);
+                var ns = new NewsService(uow, _mapper);
                 await ns.Create(origNews);
                 await uow.Save();
                 news = await ns.GetById(42);
@@ -89,7 +91,7 @@ namespace ClubIS.BusinessLayer.Tests
             NewsEditDTO news;
             using (var uow = TestUoWFactory.Create())
             {
-                var ns = new NewsService(uow);
+                var ns = new NewsService(uow, _mapper);
                 await ns.Create(origNews);
                 await uow.Save();
                 await ns.Delete(origNews.Id);
@@ -121,7 +123,7 @@ namespace ClubIS.BusinessLayer.Tests
             List<NewsListDTO> news;
             using (var uow = TestUoWFactory.Create())
             {
-                var ns = new NewsService(uow);
+                var ns = new NewsService(uow, _mapper);
                 await ns.Create(origNews1);
                 await ns.Create(origNews2);
                 await uow.Save();

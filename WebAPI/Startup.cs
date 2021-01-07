@@ -1,3 +1,5 @@
+using AutoMapper;
+using ClubIS.BusinessLayer;
 using ClubIS.BusinessLayer.Facades;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services;
@@ -50,6 +52,8 @@ namespace ClubIS.WebAPI
             services.AddIdentity<IdentityStoreUser, IdentityStoreRole>()
                 .AddEntityFrameworkStores<IdentityStoreDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAutoMapper(typeof(AutoMapperProfile));
 
             services.Configure<IdentityOptions>(options =>
             {

@@ -5,19 +5,19 @@ using ClubIS.CoreLayer.Entities;
 
 namespace ClubIS.BusinessLayer
 {
-    public class AutoMapperConfig
+    public class AutoMapperProfile : Profile
     {       
-        public static void ConfigureMapping(IMapperConfigurationExpression config)
+        public AutoMapperProfile()
         {
-            config.CreateMap<Event, EventEditDTO>().ReverseMap(); 
-            config.CreateMap<EventEntry, EventEntryBasicInfoDTO>().ReverseMap();
-            config.CreateMap<EventEntry, EventEntryListDTO>()
+            CreateMap<Event, EventEditDTO>().ReverseMap(); 
+            CreateMap<EventEntry, EventEntryBasicInfoDTO>().ReverseMap();
+            CreateMap<EventEntry, EventEntryListDTO>()
                 .ForMember(d => d.Name, opt => opt.MapFrom(s => s.User.Firstname + " " + s.User.Surname))
                 .ForMember(d => d.RegistrationNumber, opt => opt.MapFrom(s => s.User.RegistrationNumber))
                 .ForMember(d => d.EnteredStages, opt => opt.MapFrom(s => s.EnteredStages.Select(entry_stage => entry_stage.Stage)));
-            config.CreateMap<EventEntry, EventEntryEditDTO>()
+            CreateMap<EventEntry, EventEntryEditDTO>()
                 .ForMember(d => d.EnteredStages, opt => opt.MapFrom(s => s.EnteredStages.Select(entry_stage => entry_stage.Stage)));
-            config.CreateMap<EventEntryEditDTO, EventEntry>()
+            CreateMap<EventEntryEditDTO, EventEntry>()
                 .ForMember(d => d.EnteredStages, opt => opt.MapFrom(s => s.EnteredStages.Select(stage =>
                     new EventEntry_EventStage()
                     {
@@ -25,42 +25,42 @@ namespace ClubIS.BusinessLayer
                         EventStageId = stage.Id
                     })));
             
-            config.CreateMap<Event, EventListDTO>().ReverseMap();
-            config.CreateMap<EventStage, EventStageDTO>().ReverseMap();
-            //config.CreateMap<EventEntry_EventStage, EventStageDTO>()
+            CreateMap<Event, EventListDTO>().ReverseMap();
+            CreateMap<EventStage, EventStageDTO>().ReverseMap();
+            //CreateMap<EventEntry_EventStage, EventStageDTO>()
             //    .ConstructUsing((src, ctx) => ctx.Mapper.Map<EventStageDTO>(src.Stage));
 
-            //config.CreateMap<EventStageDTO, EventEntry_EventStage>()
+            //CreateMap<EventStageDTO, EventEntry_EventStage>()
             //    .ForMember(d => d.Stage, opt => opt.MapFrom(es => es));
 
-            // TODO config.CreateMap<Tuple<Event, Payment>, FinanceEventListDTO>().ReverseMap();
-            config.CreateMap<MemberFee, MemberFeeDTO>().ReverseMap();
-            config.CreateMap<News, NewsEditDTO>().ReverseMap();
-            config.CreateMap<News, NewsListDTO>()
+            // TODO CreateMap<Tuple<Event, Payment>, FinanceEventListDTO>().ReverseMap();
+            CreateMap<MemberFee, MemberFeeDTO>().ReverseMap();
+            CreateMap<News, NewsEditDTO>().ReverseMap();
+            CreateMap<News, NewsListDTO>()
                 .ForMember(d => d.UserName, opt => opt.MapFrom(s => s.User.Firstname + " " + s.User.Surname));
-            config.CreateMap<Payment, PaymentEditDTO>().ReverseMap();
-            config.CreateMap<PaymentUserTransferDTO, PaymentEditDTO>().ReverseMap();
-            config.CreateMap<Payment, PaymentListDTO>()
+            CreateMap<Payment, PaymentEditDTO>().ReverseMap();
+            CreateMap<PaymentUserTransferDTO, PaymentEditDTO>().ReverseMap();
+            CreateMap<Payment, PaymentListDTO>()
                 .ForMember(d => d.ExecutorName, opt => opt.MapFrom(s => s.ExecutorId.HasValue ? $"{s.Executor.Firstname} {s.Executor.Surname}" : ""))
                 .ForMember(d => d.SourceAccountName, opt => opt.MapFrom(s => $"{s.SourceAccount.Owner.Firstname} {s.SourceAccount.Owner.Surname}"))
                 .ForMember(d => d.TargetAccountName, opt => opt.MapFrom(s => $"{s.RecipientAccount.Owner.Firstname} {s.RecipientAccount.Owner.Surname}"))
                 .ForMember(d => d.EventName, opt => opt.MapFrom(s => s.EventId.HasValue ? s.Event.Name : ""));
-            config.CreateMap<Payment, PaymentEntryListDTO>()
+            CreateMap<Payment, PaymentEntryListDTO>()
                 .ForMember(d => d.Firstname, opt => opt.MapFrom(s => s.RecipientAccount.Owner.Firstname))
                 .ForMember(d => d.Surname, opt => opt.MapFrom(s => s.RecipientAccount.Owner.Surname))
                 .ForMember(d => d.RegistrationNumber, opt => opt.MapFrom(s => s.RecipientAccount.Owner.RegistrationNumber))
                 .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.RecipientAccount.Owner.Id))
                 .ForMember(d => d.PaymentId, opt => opt.MapFrom(s => s.Id));
-            config.CreateMap<User, UserAdministrationDTO>().ReverseMap();
-            config.CreateMap<User, UserCreditListDTO>().ReverseMap();
-            config.CreateMap<User, UserDetailDTO>().ReverseMap();
-            config.CreateMap<User, UserEditDTO>().ReverseMap();
-            config.CreateMap<User, UserEntriesSupervisedListDTO>().ReverseMap();
-            config.CreateMap<User, UserListDTO>().ReverseMap();
-            config.CreateMap<User, UserEntryEditDTO>()
+            CreateMap<User, UserAdministrationDTO>().ReverseMap();
+            CreateMap<User, UserCreditListDTO>().ReverseMap();
+            CreateMap<User, UserDetailDTO>().ReverseMap();
+            CreateMap<User, UserEditDTO>().ReverseMap();
+            CreateMap<User, UserEntriesSupervisedListDTO>().ReverseMap();
+            CreateMap<User, UserListDTO>().ReverseMap();
+            CreateMap<User, UserEntryEditDTO>()
                 .ForMember(d => d.SiCardNumbers, opt => opt.MapFrom(s => s.SiCards))
                 .ForMember(d => d.Name, opt => opt.MapFrom(s => $"{s.Firstname} {s.Surname}"));
-            config.CreateMap<SiCard, SiCardDTO>().ReverseMap();
+            CreateMap<SiCard, SiCardDTO>().ReverseMap();
         }
     }
 }
