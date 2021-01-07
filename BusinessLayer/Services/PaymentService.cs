@@ -62,7 +62,7 @@ namespace ClubIS.BusinessLayer.Services
             return new FinanceStatementDTO()
             {
                 UserId = user.Id,
-                Name = user.Surname + user.Firstname,
+                Name = user.Surname + " " + user.Firstname,
                 AccountId = user.AccountId,
                 CreditBalance = user.Account.CreditBalance,
                 Payments = _mapper.Map<List<PaymentListDTO>>(paymentEntities)

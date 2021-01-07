@@ -4,7 +4,7 @@
 
 @inject HttpClient Http
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Member list</MudText>
     @if (users == null)
     {
@@ -12,18 +12,18 @@
     }
     else
     {
-
-        <MudTable Items="users" Hover="true" SortLabel="Sort By">
+        <MudTable Items="users" Filter="new Func<UserListDTO, bool>(FilterFunc)" Hover="true" SortLabel="Sort By">
+            <ToolBarContent>
+                <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium"></MudTextField>
+            </ToolBarContent>
             <HeaderContent>
-                <MudTh>FirstName</MudTh>
-                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Surname</MudTableSortLabel></MudTh>
-                <MudTh>RegNum</MudTh>
+                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Name</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<UserListDTO, object>(x=>x.RegistrationNumber)">RegNum</MudTableSortLabel></MudTh>
                 <MudTh>E-mail</MudTh>
                 <MudTh>Phone</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="FirstName">@context.Firstname</MudTd>
-                <MudTd DataLabel="Surname">@context.Surname</MudTd>
+                <MudTd DataLabel="Naame">@context.Surname @context.Firstname</MudTd>
                 <MudTd DataLabel="RegNum">@context.RegistrationNumber</MudTd>
                 <MudTd DataLabel="E-mail">@context.Email</MudTd>
                 <MudTd DataLabel="Phone">@context.Phone</MudTd>
@@ -36,9 +36,18 @@
 
 @code {
     private UserListDTO[] users;
+    private string searchString = ""; 
 
     protected override async Task OnInitializedAsync()
     {
         users = await Http.GetFromJsonAsync<UserListDTO[]>("Users");
+    }
+    
+    bool FilterFunc(UserListDTO u)
+    {
+        if (searchString == null) searchString = "";
+        var userData = $"{u.Firstname} {u.Surname} {u.RegistrationNumber}";
+
+        return userData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
     }
 }

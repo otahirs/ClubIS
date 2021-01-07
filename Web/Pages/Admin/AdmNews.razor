@@ -5,7 +5,7 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin news</MudText>
     @if (news == null)
     {
@@ -27,6 +27,7 @@
                     <MudText Typo="Typo.body2">@n.Text</MudText>
                 </MudCardContent>
             </MudCard>
+            <br/>
         }
         <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="Navigate" Class="ml-auto mt-2">News</MudButton>
     }

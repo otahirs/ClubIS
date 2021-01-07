@@ -4,7 +4,7 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin entries</MudText>
     @if (events == null)
     {
@@ -12,7 +12,7 @@
     }
     else
     {
-        <MudTable Items="@events" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListDTO" Hover="true" Dense="true">
+        <MudTable Items="@events" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListDTO" Hover="true">
             <ToolBarContent>
                 <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                 <MudToolBarSpacer />

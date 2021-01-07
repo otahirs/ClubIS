@@ -4,7 +4,7 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Events Admin</MudText>
     <MudToggleIconButton Toggled="@includeArchivedEvents" ToggledChanged="(toggleValue) => ArchivedOptionChanged(toggleValue)"
                          Icon="@Icons.Material.Block" Color="@Color.Error"
@@ -17,7 +17,7 @@
     }
     else
     {
-        <MudTable Items="@DisplayedEvents" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@((TableRowClickEventArgs<EventListDTO> e)=>Navigate(e))"  T="EventListDTO" Hover="true" Dense="true">
+        <MudTable Items="@DisplayedEvents" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@((TableRowClickEventArgs<EventListDTO> e)=>Navigate(e))"  T="EventListDTO" Hover="true">
             <ToolBarContent>
                 <MudTextField @bind-Value="SearchString" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                 <MudToolBarSpacer />
