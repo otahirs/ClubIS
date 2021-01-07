@@ -24,10 +24,10 @@
 
 @code {
     [Parameter]
-    public UserEditDTO User { get; set; }
+    public UserDTO User { get; set; }
     [Parameter]
     public bool CanBeRemoved { get; set; }
-    private UserEditDTO DisplayedUser;
+    private UserDTO DisplayedUser;
 
     protected override void OnInitialized()
     {
@@ -42,7 +42,7 @@
     private async void OnValidSubmit(EditContext context)
     {
         User = DisplayedUser;
-        await Http.PutAsJsonAsync<UserEditDTO>("Users", User);
+        await Http.PutAsJsonAsync<UserDTO>("Users", User);
     }
 }
 

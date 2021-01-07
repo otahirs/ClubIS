@@ -53,8 +53,7 @@ namespace ClubIS.BusinessLayer
                 .ForMember(d => d.PaymentId, opt => opt.MapFrom(s => s.Id));
             CreateMap<User, UserAdministrationDTO>().ReverseMap();
             CreateMap<User, UserCreditListDTO>().ReverseMap();
-            CreateMap<User, UserDetailDTO>().ReverseMap();
-            CreateMap<User, UserEditDTO>().ReverseMap();
+            CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<User, UserEntriesSupervisedListDTO>().ReverseMap();
             CreateMap<User, UserListDTO>().ReverseMap();
             CreateMap<User, UserEntryEditDTO>()

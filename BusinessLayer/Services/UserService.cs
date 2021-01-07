@@ -19,7 +19,7 @@ namespace ClubIS.BusinessLayer.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task Create(UserEditDTO user)
+        public async Task Create(UserDTO user)
         {
             User entity = _mapper.Map<User>(user);
             await _unitOfWork.Users.Add(entity);
@@ -54,12 +54,12 @@ namespace ClubIS.BusinessLayer.Services
             };
         }
 
-        public async Task<UserDetailDTO> GetById(int id)
+        public async Task<UserDTO> GetById(int id)
         {
-            return _mapper.Map<UserDetailDTO>(await _unitOfWork.Users.GetById(id));
+            return _mapper.Map<UserDTO>(await _unitOfWork.Users.GetById(id));
         }
 
-        public async Task Update(UserEditDTO user)
+        public async Task Update(UserDTO user)
         {
             User userEntity = await _unitOfWork.Users.GetById(user.Id);
             _mapper.Map(user, userEntity);

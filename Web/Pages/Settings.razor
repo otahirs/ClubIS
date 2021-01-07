@@ -26,11 +26,11 @@
 </MudContainer>
 
 @code {
-    private UserEditDTO CurrentUser;
+    private UserDTO CurrentUser;
 
     protected override async Task OnInitializedAsync()
     {
         var currentUserId = await authStateProvider.GetUserId();
-        CurrentUser = await Http.GetFromJsonAsync<UserEditDTO>($"Users/{currentUserId}");
+        CurrentUser = await Http.GetFromJsonAsync<UserDTO>($"Users/{currentUserId}");
     }
 }

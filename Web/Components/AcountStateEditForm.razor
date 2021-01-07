@@ -30,8 +30,8 @@
 
 @code {
     [Parameter]
-    public UserEditDTO User { get; set; }
-    private UserEditDTO DisplayedUser;
+    public UserDTO User { get; set; }
+    private UserDTO DisplayedUser;
 
     protected override void OnInitialized()
     {
@@ -46,7 +46,7 @@
     private async void OnValidSubmit(EditContext context)
     {
         User = DisplayedUser;
-        await Http.PutAsJsonAsync<UserEditDTO>("Users", User);
+        await Http.PutAsJsonAsync<UserDTO>("Users", User);
     }
 }
 

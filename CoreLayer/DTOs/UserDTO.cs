@@ -5,11 +5,12 @@ using ClubIS.CoreLayer.Enums;
 
 namespace ClubIS.CoreLayer.DTOs
 {
-    public class UserEditDTO
+    public class UserDTO
     {
         public int Id { get; set; }
         public string Firstname { get; set; }
         public string Surname { get; set; }
+        public int AccountId { get; set; }
         public string RegistrationNumber { get; set; }
         public ISet<SiCardDTO> SiCards { get; set; }
         public DateTime? DateOfBirth { get; set; }

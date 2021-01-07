@@ -38,13 +38,13 @@
 @code {
     [Parameter]
     public int? UserId { get; set; }
-    private UserEditDTO SendUser;
+    private UserDTO SendUser;
 
     protected override async Task OnInitializedAsync()
     {
         if (UserId != null)
         {
-            SendUser = await Http.GetFromJsonAsync<UserEditDTO>($"Users/{UserId}");
+            SendUser = await Http.GetFromJsonAsync<UserDTO>($"Users/{UserId}");
         }
     }
 }

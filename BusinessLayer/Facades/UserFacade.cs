@@ -20,13 +20,13 @@ namespace ClubIS.BusinessLayer.Facades
             _userService = userService;
         }
 
-        public async Task Create(UserEditDTO user)
+        public async Task Create(UserDTO user)
         {
             await _userService.Create(user);
             await _unitOfWork.Save();
         }
 
-        public async Task Update(UserEditDTO user)
+        public async Task Update(UserDTO user)
         {
             await _userService.Update(user);
             await _unitOfWork.Save();
@@ -34,7 +34,7 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task Update(MemberUserEditDTO user)
         {
-            await _userService.Update(_mapper.Map<UserEditDTO>(user));
+            await _userService.Update(_mapper.Map<UserDTO>(user));
             await _unitOfWork.Save();
         }
 
@@ -54,7 +54,7 @@ namespace ClubIS.BusinessLayer.Facades
             return await _userService.GetAll();
         }
 
-        public async Task<UserDetailDTO> GetById(int id)
+        public async Task<UserDTO> GetById(int id)
         {
             return await _userService.GetById(id);
         }

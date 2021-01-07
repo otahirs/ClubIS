@@ -61,7 +61,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One user retrieved.")]
-        public async Task<ActionResult<UserDetailDTO>> Get([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult<UserDTO>> Get([Range(1, int.MaxValue)] int id)
         {
             var user = await _userFacade.GetById(id);
 
@@ -75,7 +75,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpPost]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided user.")]
         [SwaggerResponse(StatusCodes.Status200OK, "User added.")]
-        public async Task<ActionResult> Post([FromBody] UserEditDTO user)
+        public async Task<ActionResult> Post([FromBody] UserDTO user)
         {
             if (user == null)
                 return BadRequest();
@@ -87,7 +87,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpPut]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided user.")]
         [SwaggerResponse(StatusCodes.Status200OK, "User updated.")]
-        public async Task<ActionResult> Put([FromBody] UserEditDTO user)
+        public async Task<ActionResult> Put([FromBody] UserDTO user)
         {
             if (user == null)
                 return BadRequest();

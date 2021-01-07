@@ -55,7 +55,7 @@ namespace ClubIS.WebAPI.Controllers
             var result = await _userManager.CreateAsync(userIdentity, parameters.Password);
             if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
 
-            var user = new UserEditDTO()
+            var user = new UserDTO()
             {
                 Id = (await _userManager.FindByNameAsync(userIdentity.UserName)).Id,
                 Firstname = parameters.Firstname,
