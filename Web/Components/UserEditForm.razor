@@ -16,32 +16,19 @@
                     <MudCard Elevation="0">
                         <MudText Typo="Typo.h4" GutterBottom="true">User data</MudText>
                         <MudCardContent>
-                            @if (IsAdmin)
-                            {
-                                <MudTextField Label="Firstname" @bind-Value="DisplayedUser.Firstname" For="@(() => DisplayedUser.Firstname)" Variant="Variant.Outlined" />
-                                <MudTextField Label="Surname" @bind-Value="DisplayedUser.Surname" For="@(() => DisplayedUser.Surname)" Variant="Variant.Outlined" />
-                                <MudTextField Label="Reg. number" @bind-Value="DisplayedUser.RegistrationNumber" For="@(() => DisplayedUser.RegistrationNumber)" Variant="Variant.Outlined" />
-                                <MudDatePicker Label="Date of birth" Value="@DisplayedUser.DateOfBirth.ToString()" ValueChanged="@((string s) => UpdateDateOfBirth(s))" />
-                                <MudSelect Label="Gender" @bind-Value="DisplayedUser.Gender" Variant="Variant.Outlined">
-                                    @foreach (var gender in GetGenderTypes())
-                                            {<MudSelectItem Value="@gender" />}
-                                </MudSelect>
-                                <MudTextField Label="Nationality" @bind-Value="DisplayedUser.Nationality" For="@(() => DisplayedUser.Nationality)" Variant="Variant.Outlined" />
-                                <MudSelect Label="Licence" @bind-Value="DisplayedUser.Licence" Variant="Variant.Outlined">
-                                    @foreach (var licence in GetLicenceTypes())
-                                            {<MudSelectItem Value="@licence" />}
-                                </MudSelect>
-                            }
-                            else
-                            {
-                                <MudTextField Label="Firstname" Value="DisplayedUser.Firstname" Disabled="true" Variant="Variant.Outlined" />
-                                <MudTextField Label="Surname" Value="DisplayedUser.Surname" Disabled="true" Variant="Variant.Outlined" />
-                                <MudTextField Label="Reg. number" Value="DisplayedUser.RegistrationNumber" Disabled="true" Variant="Variant.Outlined" />
-                                <MudTextField Label="Date of birth" Value="@DisplayedUser.DateOfBirth.ToString()" Disabled="true" Variant="Variant.Outlined" />
-                                <MudTextField Label="Gender" Value="DisplayedUser.Gender" Disabled="true" Variant="Variant.Outlined" />
-                                <MudTextField Label="Nationality" Value="DisplayedUser.Nationality" Disabled="true" Variant="Variant.Outlined" />
-                                <MudTextField Label="Licence" Value="DisplayedUser.Licence" Disabled="true" Variant="Variant.Outlined" />
-                            }
+                            <MudTextField Label="Firstname" @bind-Value="DisplayedUser.Firstname" For="@(() => DisplayedUser.Firstname)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
+                            <MudTextField Label="Surname" @bind-Value="DisplayedUser.Surname" For="@(() => DisplayedUser.Surname)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
+                            <MudTextField Label="Reg. number" @bind-Value="DisplayedUser.RegistrationNumber" For="@(() => DisplayedUser.RegistrationNumber)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
+                            <MudDatePicker Label="Date of birth" Value="@DisplayedUser.DateOfBirth.ToString()" ValueChanged="@((string s) => UpdateDateOfBirth(s))" Disabled="!IsAdmin" />
+                            <MudSelect Label="Gender" @bind-Value="DisplayedUser.Gender" Variant="Variant.Outlined" Disabled="!IsAdmin">
+                                @foreach (Gender gender in Enum.GetValues(typeof(Gender)))
+                                        {<MudSelectItem Value="@gender"/>}
+                            </MudSelect>
+                            <MudTextField Label="Nationality" @bind-Value="DisplayedUser.Nationality" For="@(() => DisplayedUser.Nationality)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
+                            <MudSelect Label="Licence" @bind-Value="DisplayedUser.Licence" Variant="Variant.Outlined" Disabled="!IsAdmin">
+                                @foreach (Licence licence in Enum.GetValues(typeof(Licence)))
+                                        {<MudSelectItem Value="@licence" />}
+                            </MudSelect>
                         </MudCardContent>
                     </MudCard>
                     <MudCard Elevation="0">
@@ -76,26 +63,18 @@
     public UserEditDTO User { get; set; }
     [Parameter]
     public bool IsAdmin { get; set; }
-    private UserEditDTO DisplayedUser;
+    private UserEditDTO DisplayedUser = new UserEditDTO();
 
     protected override void OnInitialized()
     {
+        Console.WriteLine(DisplayedUser.Gender);
         InitializeDisplayedUser();
+        Console.WriteLine(DisplayedUser.Gender);
     }
 
     private void InitializeDisplayedUser()
     {
         DisplayedUser = User;
-    }
-
-    private static Gender[] GetGenderTypes()
-    {
-        return (Gender[])Enum.GetValues(typeof(Gender));
-    }
-
-    private static Licence[] GetLicenceTypes()
-    {
-        return (Licence[])Enum.GetValues(typeof(Licence));
     }
 
     private void UpdateDateOfBirth(string date)
