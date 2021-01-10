@@ -18,6 +18,8 @@ namespace ClubIS.CoreLayer.DTOs
         [Required]
         public string Organizer { get; set; }
         public EventType EventType { get; set; }
+        public ClubEventOption AccommodationOption { get; set; }
+        public ClubEventOption TransportOption { get; set; }
         public string Link { get; set; }
         public ICollection<EventDeadline> Deadlines { get; set; }
         public string Leader { get; set; }

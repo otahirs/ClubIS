@@ -69,10 +69,15 @@
                                                 <MudSelectItem Value="@c.Name">@c.Name</MudSelectItem>
                                                         }
                                         </MudSelect>
+                                        @if (E.TransportOption == ClubEventOption.Optional)
+                                        {
+                                            <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubTransport" Label="Transport" />
+                                        }
 
-                                        <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubTransport" Label="Transport" />
-
-                                        <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubAccommodation" Label="Accommodation" />
+                                        @if (E.AccommodationOption == ClubEventOption.Optional)
+                                        {
+                                            <MudCheckBox T="bool" @bind-Checked="@SendEntry.HasClubAccommodation" Label="Accommodation" />
+                                        }
 
                                         <MudSelect T="string" Label="SI card number" @bind-Value="@siCard" Variant="Variant.Outlined">
                                             @foreach (var card in GetSiCards(SendEntry.UserId))
@@ -144,7 +149,7 @@
             <RowTemplate>
                 <MudTd DataLabel="Name">@context.Name</MudTd>
                 <MudTd DataLabel="Class">@context.Class</MudTd>
-                <MudTd DataLabel="ComTram">
+                <MudTd DataLabel="ComTran">
                     @if (context.HasClubTransport)
                         {
                         <MudIcon Icon="@Filled.Check" />
@@ -204,8 +209,8 @@
         if (CurrentEntry == null)
         {
             SendEntry.Class = E.ClassOptions.ElementAt(0).Name;
-            SendEntry.HasClubTransport = false;
-            SendEntry.HasClubAccommodation = false;
+            SendEntry.HasClubAccommodation = E.AccommodationOption == ClubEventOption.ClubEnsured;
+            SendEntry.HasClubTransport = E.TransportOption == ClubEventOption.ClubEnsured;
             siCard = (GetSiCards(id).Count > 0) ? (GetSiCards(id).FirstOrDefault(s => s.IsDefault)).Number.ToString() : custom;
             SendEntry.NoteForClub = "";
             SendEntry.NoteForOrganizators = "";
@@ -248,7 +253,7 @@
                 );
             }
         }
-
+        Console.WriteLine(SendEntry.NoteForOrganizators);
         if (CurrentEntry == null)
             AddEntry();
         else
@@ -258,10 +263,7 @@
     private async void AddEntry()
     {
         SendEntry.Status = EntryStatus.NotSent;
-        if(!(siCard.Equals(custom)))
-        {
-            SendEntry.SiCardNumber = Convert.ToInt32(siCard);
-        }
+        SetSiCard();
         await Http.PostAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
         Entries = await Http.GetFromJsonAsync<List<EventEntryListDTO>>($"Entries/event/{EventId}");
         UpdateData(SendEntry.UserId);
@@ -271,14 +273,19 @@
     private async void EditEntry()
     {
         SendEntry.Id = CurrentEntry.Id;
-        if (!(siCard.Equals(custom)))
-            {
-            SendEntry.SiCardNumber = Convert.ToInt32(siCard);
-        }
+        SetSiCard();
         SendEntry.Status = EntryStatus.Changed;
         await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
         Entries = await Http.GetFromJsonAsync<List<EventEntryListDTO>>($"Entries/event/{EventId}");
         StateHasChanged();
+    }
+
+    private void SetSiCard()
+    {
+        if (!(siCard.Equals(custom)))
+        {
+            SendEntry.SiCardNumber = Convert.ToInt32(siCard);
+        }
     }
 
     private async void RemoveEntry()

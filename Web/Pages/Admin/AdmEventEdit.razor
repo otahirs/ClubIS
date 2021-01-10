@@ -44,6 +44,20 @@
                             }
                     </MudSelect>
 
+                    <MudSelect @bind-Value="SendEvent.AccommodationOption" Label="Accommodation Option" Variant="Variant.Outlined">
+                        @foreach (var type in GetOptions())
+                            {
+                            <MudSelectItem Value="@type" />
+                            }
+                    </MudSelect>
+
+                    <MudSelect @bind-Value="SendEvent.TransportOption" Label="Transport Option" Variant="Variant.Outlined">
+                        @foreach (var type in GetOptions())
+                            {
+                            <MudSelectItem Value="@type" />
+                            }
+                    </MudSelect>
+
                     <MudSelect @bind-Value="SendEvent.EventState" Label="Event state" Variant="Variant.Outlined">
                         @foreach (var state in GetStates())
                             {
@@ -149,6 +163,8 @@
             SendEvent.EndDate = DateTime.Today;
             SendEvent.EventType = GetTypes()[0];
             SendEvent.EventState = GetStates()[0];
+            SendEvent.TransportOption = GetOptions()[0];
+            SendEvent.AccommodationOption = GetOptions()[0];
             SendEvent.ClassOptions = new HashSet<EventClassOption>();
             SendEvent.Deadlines = new List<EventDeadline>();
             AddDeadline();
@@ -175,6 +191,11 @@
     private static EventType[] GetTypes()
     {
         return (EventType[])Enum.GetValues(typeof(EventType));
+    }
+
+    private static ClubEventOption[] GetOptions()
+    {
+        return (ClubEventOption[])Enum.GetValues(typeof(ClubEventOption));
     }
 
     private static EventState[] GetStates()
