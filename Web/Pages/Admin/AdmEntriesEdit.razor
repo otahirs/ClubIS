@@ -49,7 +49,7 @@
                         <MudTd DataLabel="Class">@context.Class</MudTd>
                         <MudTd DataLabel="SiNum">@context.SiCardNumber</MudTd>
                         <MudTd DataLabel="Note(i)">@context.NoteForClub</MudTd>
-                        <MudTd DataLabel="Note(org)">@context.NoteForOrganizators</MudTd>
+                        <MudTd DataLabel="Note(org)">@context.NoteForOrganisator</MudTd>
                         <MudTd DataLabel="Stages">@GetStages(context.EnteredStages)</MudTd>
                         <MudTd DataLabel="Status">
                             @if (context.Status == EntryStatus.Ok)
@@ -139,7 +139,7 @@
                     HasClubAccommodation = entry.HasClubAccommodation,
                     HasClubTransport = entry.HasClubTransport,
                     NoteForClub = entry.NoteForClub,
-                    NoteForOrganizators = entry.NoteForOrganizators,
+                    NoteForOrganisator = entry.NoteForOrganisator,
                     SiCardNumber = entry.SiCardNumber,
                     EnteredStages = entry.EnteredStages,
                     Status = status
