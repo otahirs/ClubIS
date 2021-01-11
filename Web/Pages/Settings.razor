@@ -13,14 +13,20 @@
         <MudTabPanel Text="User">
             @if (CurrentUser != null)
             {<UserEditForm User="CurrentUser" />}
+            else
+            { <MudProgressCircular Color="Color.Default" Indeterminate="true" /> }
         </MudTabPanel>
         <MudTabPanel Text="SI Cards">
             @if (CurrentUser != null)
             {<SICardsForm User="CurrentUser" />}
+            else
+            { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
         </MudTabPanel>
         <MudTabPanel Text="Login">
             @if (CurrentUser != null)
             {<LoginForm CurrentUserId="CurrentUser.Id" />}
+            else
+            { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
         </MudTabPanel>
     </MudTabs>
 </MudContainer>

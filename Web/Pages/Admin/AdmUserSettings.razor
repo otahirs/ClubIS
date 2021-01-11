@@ -12,14 +12,20 @@
         <MudTabPanel Text="User">
             @if (SendUser != null)
             {<UserEditForm User="SendUser" IsAdmin="true" />}
+            else
+            { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
         </MudTabPanel>
         <MudTabPanel Text="SI Cards">
             @if (SendUser != null)
             {<SICardsForm User="SendUser" IsAdmin="true" />}
+            else
+            { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
         </MudTabPanel>
         <MudTabPanel Text="Login">
             @if (SendUser != null)
             {<LoginForm CurrentUserId="SendUser.Id" />}
+            else
+            { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
         </MudTabPanel>
         <MudTabPanel Text="Supervision">
             <MudText>Supervision</MudText>
@@ -27,10 +33,14 @@
         <MudTabPanel Text="Member Fee">
             @if (SendUser != null)
             {<MemberFeeEditForm User="SendUser" />}
+            else
+            { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
         </MudTabPanel>
         <MudTabPanel Text="Account State">
             @if (SendUser != null)
             {<AcountStateEditForm User="SendUser" />}
+            else
+            { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
         </MudTabPanel>
     </MudTabs>
 </MudContainer>

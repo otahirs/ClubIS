@@ -9,15 +9,15 @@
     }
     else
     {
-        <EditForm Model="@DisplayedUser" OnValidSubmit="OnValidSubmit">
+        <EditForm Model="@User" OnValidSubmit="OnValidSubmit">
             <DataAnnotationsValidator />
             <MudCard Elevation="0">
                 <MudCardContent>
-                    @foreach (var siCard in DisplayedUser.SiCards)
+                    @foreach (var siCard in User.SiCards)
                     {
                         <MudGrid>
                             <MudItem xs="4">
-                                <MudTextField  @bind-Value="siCard.Number" For="@(() => siCard.Number)" Variant="Variant.Outlined" />
+                                <MudTextField @bind-Value="siCard.Number" For="@(() => siCard.Number)" Variant="Variant.Outlined" />
                             </MudItem>
                             <MudItem xs="4">
                                 <MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSICard(siCard)" Class="mt-4">Delete</MudButton>
@@ -36,9 +36,9 @@
                     }
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="InitializeDisplayedUser" Class="ml-3">Cancel</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="RedoChanges" Class="ml-3">Cancel</MudButton>
                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="ShowNewSICardLine" Class="ml-3">SI Card</MudButton>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"Class="ml-3">Save</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-3">Save</MudButton>
                 </MudCardActions>
             </MudCard>
         </EditForm>
@@ -50,46 +50,52 @@
     public UserDTO User { get; set; }
     [Parameter]
     public bool IsAdmin { get; set; }
-    private UserDTO DisplayedUser;
 
-    protected override void OnInitialized()
-    {
-        InitializeDisplayedUser();
-    }
-
-    private void InitializeDisplayedUser()
-    {
-        DisplayedUser = User;
-    }
 
     private void DeleteSICard(SiCardDTO siCard)
     {
-        if (siCard.IsDefault && DisplayedUser.SiCards.Count > 1)
+        bool setNewDefaultCard = siCard.IsDefault && User.SiCards.Count > 1;
+        User.SiCards.Remove(siCard);
+        if (setNewDefaultCard)
         {
-            DisplayedUser.SiCards.ElementAt(1).IsDefault = true;
+            User.SiCards.First().IsDefault = true;
         }
-        DisplayedUser.SiCards.Remove(siCard);
     }
 
     private void SetSICardAsDefault(SiCardDTO siCard)
     {
-        DisplayedUser.SiCards.FirstOrDefault(s => s.IsDefault).IsDefault = false;
+        User.SiCards.FirstOrDefault(s => s.IsDefault).IsDefault = false;
         siCard.IsDefault = true;
     }
 
     private void ShowNewSICardLine()
     {
         SiCardDTO siCardDTO = new SiCardDTO();
-        if (DisplayedUser.SiCards.Count == 0)
+        if (User.SiCards.Count == 0)
         {
             siCardDTO.IsDefault = true;
         }
-        DisplayedUser.SiCards.Add(new SiCardDTO());
+        User.SiCards.Add(siCardDTO);
+    }
+
+    private async Task RedoChanges()
+    {
+        User = await Http.GetFromJsonAsync<UserDTO>($"Users/{User.Id}");
     }
 
     private async void OnValidSubmit(EditContext context)
     {
-        User = DisplayedUser;
-        await Http.PutAsJsonAsync<UserDTO>("Users", User);
+        if (IsAdmin)
+        {
+            await Http.PutAsJsonAsync<UserDTO>("Users", User);
+        }
+        else
+        {
+            MemberUserEditDTO sendData = new MemberUserEditDTO()
+            {
+                SiCards = User.SiCards
+            };
+            await Http.PutAsJsonAsync<MemberUserEditDTO>("Users/member-edit", sendData);
+        }
     }
 }
