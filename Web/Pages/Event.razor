@@ -273,7 +273,6 @@
         }
         else
         {
-            Console.WriteLine("ssssssdd");
             EditEntry();
         }
     }
@@ -302,7 +301,6 @@
         {
             await Http.DeleteAsync($"Entries/{CurrentEntry.Id}");
             Entries.RemoveAll(e => e.UserId == CurrentEntry.UserId);
-            UpdateData(UserId);
         }
         else
         {
@@ -313,6 +311,7 @@
             await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
             await LoadEntries();
         }
+        UpdateData(UserId);
         StateHasChanged();
     }
 
