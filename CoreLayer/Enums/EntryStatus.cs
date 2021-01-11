@@ -8,6 +8,7 @@ namespace ClubIS.CoreLayer.Enums
     {
         Ok,
         NotSent,
-        Changed
+        Changed,
+        Removed
     }
 }

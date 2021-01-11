@@ -116,7 +116,7 @@
                             <MudCardActions>
                                 <MudGrid>
                                     <MudItem md="6">
-                                    @if (CurrentEntry == null)
+                                    @if (CurrentEntry == null || CurrentEntry.Status == EntryStatus.Removed)
                                     {
                                         <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Save</MudButton>
                                     }
@@ -188,6 +188,7 @@
     private EventEditDTO E;
     private UserEntryListDTO Users;
     private List<EventEntryListDTO> Entries;
+    private List<EventEntryListDTO> AllEntries;
     private EventEntryListDTO CurrentEntry;
     private EventEntryEditDTO SendEntry = new EventEntryEditDTO();
 
@@ -196,7 +197,7 @@
         UserId = await authState.GetUserId();
         E = await Http.GetFromJsonAsync<EventEditDTO>($"Events/{EventId}");
         Users = await Http.GetFromJsonAsync<UserEntryListDTO>($"Users/entriesSupervisor/{UserId}");
-        Entries = await Http.GetFromJsonAsync<List<EventEntryListDTO>>($"Entries/event/{EventId}");
+        await LoadEntries();
         UpdateData(UserId);
     }
 
@@ -205,7 +206,7 @@
         SendEntry.UserId = id;
         SendEntry.EventId = EventId;
         SendEntry.SiCardNumber = null;
-        CurrentEntry = Entries.FirstOrDefault(e => e.UserId == id);
+        CurrentEntry = AllEntries.FirstOrDefault(e => e.UserId == id);
         if (CurrentEntry == null)
         {
             SendEntry.Class = E.ClassOptions.ElementAt(0).Name;
@@ -261,12 +262,20 @@
 
     private async void AddEntry()
     {
-        SendEntry.Status = EntryStatus.NotSent;
-        SetSiCard();
-        await Http.PostAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
-        Entries = await Http.GetFromJsonAsync<List<EventEntryListDTO>>($"Entries/event/{EventId}");
-        UpdateData(SendEntry.UserId);
-        StateHasChanged();
+        if (CurrentEntry == null)
+        {
+            SendEntry.Status = EntryStatus.NotSent;
+            SetSiCard();
+            await Http.PostAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
+            await LoadEntries();
+            UpdateData(SendEntry.UserId);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine("ssssssdd");
+            EditEntry();
+        }
     }
 
     private async void EditEntry()
@@ -275,7 +284,7 @@
         SetSiCard();
         SendEntry.Status = EntryStatus.Changed;
         await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
-        Entries = await Http.GetFromJsonAsync<List<EventEntryListDTO>>($"Entries/event/{EventId}");
+        await LoadEntries();
         StateHasChanged();
     }
 
@@ -289,10 +298,28 @@
 
     private async void RemoveEntry()
     {
-        await Http.DeleteAsync($"Entries/{CurrentEntry.Id}");
-        Entries.RemoveAll(e => e.UserId == CurrentEntry.UserId);
-        UpdateData(UserId);
+        if (CurrentEntry.Status == EntryStatus.NotSent)
+        {
+            await Http.DeleteAsync($"Entries/{CurrentEntry.Id}");
+            Entries.RemoveAll(e => e.UserId == CurrentEntry.UserId);
+            UpdateData(UserId);
+        }
+        else
+        {
+            UpdateData(CurrentEntry.UserId);
+            SendEntry.Id = CurrentEntry.Id;
+            SetSiCard();
+            SendEntry.Status = EntryStatus.Removed;
+            await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", SendEntry);
+            await LoadEntries();
+        }
         StateHasChanged();
+    }
+
+    private async Task LoadEntries()
+    {
+        AllEntries = await Http.GetFromJsonAsync<List<EventEntryListDTO>>($"Entries/event/{EventId}");
+        Entries = AllEntries.Where(e => e.Status != EntryStatus.Removed).ToList();
     }
 
     private string GetStages(ISet<EventStageDTO> enteredStages)
