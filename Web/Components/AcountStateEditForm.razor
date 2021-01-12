@@ -9,11 +9,11 @@
     }
     else
     {
-        <EditForm Model="@DisplayedUser" OnValidSubmit="OnValidSubmit">
+        <EditForm Model="@User" OnValidSubmit="OnValidSubmit">
             <DataAnnotationsValidator />
             <MudCard Elevation="0">
                 <MudCardContent>
-                    <MudSelect T="AccountState" Label="Selected account state" Variant="Variant.Outlined" @bind-Value="DisplayedUser.AccountState">
+                    <MudSelect T="AccountState" Label="Selected account state" Variant="Variant.Outlined" @bind-Value="User.AccountState">
                         @foreach (var state in GetAccountStateTypes())
                         {
                             <MudSelectItem T="AccountState" Value="state" />
@@ -31,12 +31,6 @@
 @code {
     [Parameter]
     public UserDTO User { get; set; }
-    private UserDTO DisplayedUser;
-
-    protected override void OnInitialized()
-    {
-        DisplayedUser = User;
-    }
 
     private static AccountState[] GetAccountStateTypes()
     {
@@ -45,7 +39,6 @@
 
     private async void OnValidSubmit(EditContext context)
     {
-        User = DisplayedUser;
         await Http.PutAsJsonAsync<UserDTO>("Users", User);
     }
 }

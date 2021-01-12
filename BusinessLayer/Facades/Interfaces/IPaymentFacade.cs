@@ -15,5 +15,6 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
         Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id);
         Task<IEnumerable<PaymentListDTO>> GetAllByEventID(int id);
         Task Delete(int id);
+        Task<IEnumerable<MemberFeeDTO>> GetAllMemberFeeTypes();
     }
 }
