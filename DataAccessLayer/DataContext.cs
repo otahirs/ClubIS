@@ -39,6 +39,8 @@ namespace ClubIS.DataAccessLayer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
+            modelBuilder.Entity<User>()
+                .Property(u => u.Id).ValueGeneratedNever();
 
             modelBuilder.Entity<User_EntriesSupervisor>()
                 .HasKey(us => new { us.UserId, us.EntriesSupervisorId });

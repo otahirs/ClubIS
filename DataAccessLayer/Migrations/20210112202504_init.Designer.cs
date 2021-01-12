@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClubIS.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201230194942_init")]
+    [Migration("20210112202504_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -575,17 +575,12 @@ namespace ClubIS.DataAccessLayer.Migrations
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.User", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
 
                     b.Property<int>("AccountState")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BillingAccountId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateOfBirth")
@@ -594,6 +589,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
+
+                    b.Property<int?>("FinanceSupervisorId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Firstname")
                         .IsRequired()
@@ -632,7 +630,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasIndex("AccountId")
                         .IsUnique();
 
-                    b.HasIndex("BillingAccountId");
+                    b.HasIndex("FinanceSupervisorId");
 
                     b.HasIndex("MemberFeeId");
 
@@ -644,7 +642,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Id = 1,
                             AccountId = 2,
                             AccountState = 3,
-                            BillingAccountId = 1,
                             Email = "tst2@eof.cz",
                             Firstname = "Matěj",
                             Gender = 0,
@@ -658,8 +655,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Id = 2,
                             AccountId = 1,
                             AccountState = 0,
-                            BillingAccountId = 1,
                             Email = "tst2@eob.cz",
+                            FinanceSupervisorId = 1,
                             Firstname = "Kateřina",
                             Gender = 1,
                             Licence = 2,
@@ -802,11 +799,10 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ClubIS.CoreLayer.Entities.FinanceAccount", "BillingAccount")
+                    b.HasOne("ClubIS.CoreLayer.Entities.User", "FinanceSupervisor")
                         .WithMany()
-                        .HasForeignKey("BillingAccountId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("FinanceSupervisorId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ClubIS.CoreLayer.Entities.MemberFee", "MemberFee")
                         .WithMany()

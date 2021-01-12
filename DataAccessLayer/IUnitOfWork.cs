@@ -13,6 +13,7 @@ namespace ClubIS.DataAccessLayer
         IAccountRepository Accounts { get; }
         IEntryRepository Entry { get; }
         IMemberFeeRepository MemberFees { get; }
+        IAddressRepository Adresses { get; }
         Task<int> Save();
     }
 }
