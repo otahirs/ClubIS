@@ -50,8 +50,8 @@ namespace ClubIS.IdentityStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -1,
-                            ConcurrencyStamp = "963ffb9d-77a0-46bc-a283-5e06c2e9d470",
+                            Id = 1,
+                            ConcurrencyStamp = "6d617b3c-6b33-48da-abee-46479b7f27cd",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -126,13 +126,13 @@ namespace ClubIS.IdentityStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -1,
+                            Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4dc6608d-5576-40a6-af18-1e3bdb28878a",
+                            ConcurrencyStamp = "2025e489-79e8-474d-969c-47d4afd7a184",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "MATEJ",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE+7rHAI9dos4SDfSEqHc4vbFCcrvYdjSwpRVyFw7eRVZFiI45d+SX75hIPnuXNyRQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOrAV6bfIbVsj9z8WnvF4f99vZ/Mv9M3Bsg71c6ewiXb7rSDdzmfDFs5x7RnXFQucA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -140,13 +140,13 @@ namespace ClubIS.IdentityStore.Migrations
                         },
                         new
                         {
-                            Id = -2,
+                            Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7ce0f918-de19-4d90-bfd9-8f11d295d541",
+                            ConcurrencyStamp = "b6e743fe-ee67-4cbd-85c1-847c5e444913",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "KATKA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOge75LDuZfKaL2M2JFr63CSTwK+x7n2UfxM3qhBfdKJ4602fNvrGgXNBTUk5zRKzg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECPTTh5VR+xTSsVR2HEt5/OcCztnPjMySKweua2a9Ekfo46LHweXqOfj2UHUltrAQg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -238,8 +238,8 @@ namespace ClubIS.IdentityStore.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = -1,
-                            RoleId = -1
+                            UserId = 1,
+                            RoleId = 1
                         });
                 });
 

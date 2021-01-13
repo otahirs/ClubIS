@@ -157,17 +157,17 @@ namespace ClubIS.IdentityStore.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "963ffb9d-77a0-46bc-a283-5e06c2e9d470", "admin", "ADMIN" });
+                values: new object[] { 1, "6d617b3c-6b33-48da-abee-46479b7f27cd", "admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "4dc6608d-5576-40a6-af18-1e3bdb28878a", null, false, false, null, null, "matej", "AQAAAAEAACcQAAAAEE+7rHAI9dos4SDfSEqHc4vbFCcrvYdjSwpRVyFw7eRVZFiI45d+SX75hIPnuXNyRQ==", null, false, "", false, "matej" });
+                values: new object[] { 1, 0, "2025e489-79e8-474d-969c-47d4afd7a184", null, false, false, null, null, "MATEJ", "AQAAAAEAACcQAAAAEOrAV6bfIbVsj9z8WnvF4f99vZ/Mv9M3Bsg71c6ewiXb7rSDdzmfDFs5x7RnXFQucA==", null, false, "", false, "matej" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 2, 0, "7ce0f918-de19-4d90-bfd9-8f11d295d541", null, false, false, null, null, "katka", "AQAAAAEAACcQAAAAEOge75LDuZfKaL2M2JFr63CSTwK+x7n2UfxM3qhBfdKJ4602fNvrGgXNBTUk5zRKzg==", null, false, "", false, "katka" });
+                values: new object[] { 2, 0, "b6e743fe-ee67-4cbd-85c1-847c5e444913", null, false, false, null, null, "KATKA", "AQAAAAEAACcQAAAAECPTTh5VR+xTSsVR2HEt5/OcCztnPjMySKweua2a9Ekfo46LHweXqOfj2UHUltrAQg==", null, false, "", false, "katka" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
