@@ -36,7 +36,7 @@ namespace ClubIS.IdentityStore
                 {
                     Id = -1,
                     UserName = "matej",
-                    NormalizedUserName = "matej",
+                    NormalizedUserName = "MATEJ",
                     PasswordHash = hasher.HashPassword(null, "matej"),
                     SecurityStamp = string.Empty
                 },
@@ -44,7 +44,7 @@ namespace ClubIS.IdentityStore
                 {
                     Id = -2,
                     UserName = "katka",
-                    NormalizedUserName = "katka",
+                    NormalizedUserName = "KATKA",
                     PasswordHash = hasher.HashPassword(null, "katka"),
                     SecurityStamp = string.Empty
                 }
@@ -53,7 +53,7 @@ namespace ClubIS.IdentityStore
                 new IdentityStoreRole { 
                     Id = -1,
                     Name = "admin", 
-                    NormalizedName = "admin".ToUpper() 
+                    NormalizedName = "ADMIN"
                 }
             );
 
