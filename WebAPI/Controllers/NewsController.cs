@@ -37,7 +37,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "News not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One news retrieved.")]
-        public async Task<ActionResult<NewsEditDTO>> Get([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult<NewsEditDTO>> Get(int id)
         {
             var news = await _newsFacade.GetById(id);
 
@@ -75,7 +75,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpDelete("{id}")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "News not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "News deleted.")]
-        public async Task<ActionResult> Delete([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var news = await _newsFacade.GetById(id);
 

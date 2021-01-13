@@ -27,7 +27,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpGet("event/{eventId}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entries retrieved.")]
-        public async Task<ActionResult<IEnumerable<EventEntryListDTO>>> GetByEventId([Range(1, int.MaxValue)] int eventId)
+        public async Task<ActionResult<IEnumerable<EventEntryListDTO>>> GetByEventId(int eventId)
         {
             var entries = await _entryFacade.GetAllByEventId(eventId);
             if (entries == null)
@@ -41,7 +41,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One entry retrieved.")]
-        public async Task<ActionResult<EventEntryListDTO>> Get([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult<EventEntryListDTO>> Get(int id)
         {
             var entry = await _entryFacade.GetById(id);
 
@@ -95,7 +95,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpDelete("{id}")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry deleted.")]
-        public async Task<ActionResult> Delete([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var entry = await _entryFacade.GetById(id);
 
