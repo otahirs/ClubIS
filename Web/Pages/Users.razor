@@ -4,6 +4,10 @@
 
 @inject HttpClient Http
 
+@using MudBlazor.Components.Table
+
+@inject NavigationManager NavigationManager
+
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Member list</MudText>
     @if (users == null)
@@ -12,7 +16,7 @@
     }
     else
     {
-        <MudTable Items="users" Filter="new Func<UserListDTO, bool>(FilterFunc)" Hover="true" SortLabel="Sort By">
+        <MudTable Items="users" Filter="new Func<UserListDTO, bool>(FilterFunc)" Hover="true" SortLabel="Sort By" OnRowClick="@((TableRowClickEventArgs<UserListDTO> e)=> Navigate(e.Item))">
             <ToolBarContent>
                 <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium"></MudTextField>
             </ToolBarContent>
@@ -36,18 +40,23 @@
 
 @code {
     private UserListDTO[] users;
-    private string searchString = ""; 
+    private string searchString = "";
 
     protected override async Task OnInitializedAsync()
     {
         users = await Http.GetFromJsonAsync<UserListDTO[]>("Users");
     }
-    
+
     bool FilterFunc(UserListDTO u)
     {
         if (searchString == null) searchString = "";
         var userData = $"{u.Firstname} {u.Surname} {u.RegistrationNumber}";
 
         return userData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    protected void Navigate(UserListDTO u)
+    {
+        NavigationManager.NavigateTo($"/users/userDetail/{u.Id}");
     }
 }

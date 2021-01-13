@@ -3,16 +3,22 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
     <MudText Typo="Typo.h3">MemberFee</MudText>
-    @if (User == null)
+    @if (User == null || memberFeeTypes == null)
     {
         <MudProgressCircular Color="Color.Default" Indeterminate="true" />
     }
     else
     {
-        <EditForm Model="@DisplayedUser" OnValidSubmit="OnValidSubmit">
+        <EditForm Model="@User" OnValidSubmit="OnValidSubmit">
             <DataAnnotationsValidator />
             <MudCard Elevation="0">
                 <MudCardContent>
+                    <MudSelect T="MemberFeeDTO" Label="Selected member fee" Variant="Variant.Outlined" ToStringFunc="((m) => m.Name)" @bind-Value="User.MemberFee">
+                        @foreach (var memberFeeType in memberFeeTypes)
+                        {
+                            <MudSelectItem T="MemberFeeDTO" Value="memberFeeType" />
+                        }
+                    </MudSelect>
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
@@ -25,23 +31,15 @@
 @code {
     [Parameter]
     public UserDTO User { get; set; }
-    [Parameter]
-    public bool CanBeRemoved { get; set; }
-    private UserDTO DisplayedUser;
+    private List<MemberFeeDTO> memberFeeTypes;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        InitializeDisplayedUser();
-    }
-
-    private void InitializeDisplayedUser()
-    {
-        DisplayedUser = User;
+        memberFeeTypes = await Http.GetFromJsonAsync<List<MemberFeeDTO>>($"Payments/member-fee-types");
     }
 
     private async void OnValidSubmit(EditContext context)
     {
-        User = DisplayedUser;
         await Http.PutAsJsonAsync<UserDTO>("Users", User);
     }
 }

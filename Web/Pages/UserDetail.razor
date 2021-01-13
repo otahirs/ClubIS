@@ -1,0 +1,46 @@
+﻿@page "/users/userDetail/{userId:int}"
+
+@inject HttpClient Http
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
+    @if (SendUser == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudText Typo="Typo.h3" GutterBottom="true">User Detail</MudText>
+        <MudText Typo="Typo.h4">@SendUser.Firstname @SendUser.Surname</MudText>
+        <MudList Clickable="false">
+            <MudListItem><b>Licence:</b> @SendUser.Licence</MudListItem>
+            <MudDivider />
+            <MudListItem><b>Address:</b></MudListItem>
+            <MudList Clickable="false">
+                <MudListItem><b>Street & Num:</b> @SendUser.Address.StreetAndNumber</MudListItem>
+                <MudListItem><b>City:</b> @SendUser.Address.City</MudListItem>
+                <MudListItem><b>Postal code:</b> @SendUser.Address.PostalCode</MudListItem>
+            </MudList>
+            <MudDivider />
+            <MudListItem><b>Contact:</b></MudListItem>
+            <MudList Clickable="false">
+                <MudListItem><b>E-mail:</b> @SendUser.Email</MudListItem>
+                <MudListItem><b>Phone:</b> @SendUser.Phone</MudListItem>
+            </MudList>
+        </MudList>
+    }
+    </MudContainer>
+
+@code {
+    [Parameter]
+    public int? UserId { get; set; }
+    private UserDTO SendUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (UserId != null)
+        {
+            SendUser = await Http.GetFromJsonAsync<UserDTO>($"Users/{UserId}");
+        }
+    }
+
+}

@@ -64,5 +64,18 @@ namespace ClubIS.WebAPI.Controllers
             await _paymentFacade.Create(payment);
             return Ok();
         }
+
+        [HttpGet("member-fee-types")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Member fee types not found.")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Member fee types retrieved.")]
+        public async Task<ActionResult<IEnumerable<MemberFeeDTO>>> GetAllMemberFeeTypes()
+        {
+            var memberFeeTypes = await _paymentFacade.GetAllMemberFeeTypes();
+            if (memberFeeTypes == null)
+            {
+                return NotFound();
+            }
+            return Ok(memberFeeTypes);
+        }
     }
 }

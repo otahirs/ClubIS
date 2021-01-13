@@ -127,10 +127,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false),
                     AccountId = table.Column<int>(nullable: false),
-                    BillingAccountId = table.Column<int>(nullable: false),
+                    FinanceSupervisorId = table.Column<int>(nullable: true),
                     MemberFeeId = table.Column<int>(nullable: true),
                     Firstname = table.Column<string>(maxLength: 20, nullable: false),
                     Surname = table.Column<string>(maxLength: 30, nullable: false),
@@ -153,9 +152,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Users_FinanceAccounts_BillingAccountId",
-                        column: x => x.BillingAccountId,
-                        principalTable: "FinanceAccounts",
+                        name: "FK_Users_Users_FinanceSupervisorId",
+                        column: x => x.FinanceSupervisorId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -408,30 +407,18 @@ namespace ClubIS.DataAccessLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "AccountId", "AccountState", "BillingAccountId", "DateOfBirth", "Email", "Firstname", "Gender", "Licence", "MemberFeeId", "Nationality", "Phone", "RegistrationNumber", "Surname" },
-                values: new object[,]
-                {
-                    { 2, 1, 0, 1, null, "tst2@eob.cz", "Kateřina", 1, 2, null, "Česká republika", null, "***REMOVED***", "***REMOVED***" },
-                    { 1, 2, 3, 1, null, "tst2@eof.cz", "Matěj", 0, 0, null, "Česká republika", null, "***REMOVED***", "***REMOVED***" }
-                });
+                columns: new[] { "Id", "AccountId", "AccountState", "DateOfBirth", "Email", "FinanceSupervisorId", "Firstname", "Gender", "Licence", "MemberFeeId", "Nationality", "Phone", "RegistrationNumber", "Surname" },
+                values: new object[] { 1, 2, 3, null, "tst2@eof.cz", null, "Matěj", 0, 0, null, "Česká republika", null, "***REMOVED***", "***REMOVED***" });
 
             migrationBuilder.InsertData(
                 table: "Address",
                 columns: new[] { "Id", "City", "PostalCode", "StreetAndNumber", "UserId" },
-                values: new object[,]
-                {
-                    { 2, "Brno - Horní Heršpice", "***REMOVED***", null, 2 },
-                    { 1, "Brno", "***REMOVED***", "***REMOVED***", 1 }
-                });
+                values: new object[] { 1, "Brno", "***REMOVED***", "***REMOVED***", 1 });
 
             migrationBuilder.InsertData(
                 table: "EventEntries",
                 columns: new[] { "Id", "Class", "EventId", "HasClubAccommodation", "HasClubTransport", "NoteForClub", "NoteForOrganisator", "SiCardNumber", "Status", "UserId" },
-                values: new object[,]
-                {
-                    { 1, "A", 1, true, true, null, null, ***REMOVED***, 0, 2 },
-                    { 2, "H20", 2, true, true, null, null, ***REMOVED***, 0, 1 }
-                });
+                values: new object[] { 2, "H20", 2, true, true, null, null, ***REMOVED***, 0, 1 });
 
             migrationBuilder.InsertData(
                 table: "News",
@@ -446,11 +433,27 @@ namespace ClubIS.DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "SiCard",
                 columns: new[] { "Id", "IsDefault", "Number", "UserId" },
-                values: new object[,]
-                {
-                    { 2, true, ***REMOVED***, 2 },
-                    { 1, true, ***REMOVED***, 1 }
-                });
+                values: new object[] { 1, true, ***REMOVED***, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "AccountId", "AccountState", "DateOfBirth", "Email", "FinanceSupervisorId", "Firstname", "Gender", "Licence", "MemberFeeId", "Nationality", "Phone", "RegistrationNumber", "Surname" },
+                values: new object[] { 2, 1, 0, null, "tst2@eob.cz", 1, "Kateřina", 1, 2, null, "Česká republika", null, "***REMOVED***", "***REMOVED***" });
+
+            migrationBuilder.InsertData(
+                table: "Address",
+                columns: new[] { "Id", "City", "PostalCode", "StreetAndNumber", "UserId" },
+                values: new object[] { 2, "Brno - Horní Heršpice", "***REMOVED***", null, 2 });
+
+            migrationBuilder.InsertData(
+                table: "EventEntries",
+                columns: new[] { "Id", "Class", "EventId", "HasClubAccommodation", "HasClubTransport", "NoteForClub", "NoteForOrganisator", "SiCardNumber", "Status", "UserId" },
+                values: new object[] { 1, "A", 1, true, true, null, null, ***REMOVED***, 0, 2 });
+
+            migrationBuilder.InsertData(
+                table: "SiCard",
+                columns: new[] { "Id", "IsDefault", "Number", "UserId" },
+                values: new object[] { 2, true, ***REMOVED***, 2 });
 
             migrationBuilder.InsertData(
                 table: "User_EntriesSupervisor",
@@ -535,9 +538,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_BillingAccountId",
+                name: "IX_Users_FinanceSupervisorId",
                 table: "Users",
-                column: "BillingAccountId");
+                column: "FinanceSupervisorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_MemberFeeId",

@@ -85,5 +85,10 @@ namespace ClubIS.BusinessLayer.Facades
         {
             return await _paymentService.GetPaymentEntryListByEventId(id);
         }
+
+        public async Task<IEnumerable<MemberFeeDTO>> GetAllMemberFeeTypes()
+        {
+            return await _paymentService.GetAllMemberFeeTypes();
+        }
     }
 }

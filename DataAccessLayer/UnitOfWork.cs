@@ -13,6 +13,8 @@ namespace ClubIS.DataAccessLayer
         public IPaymentRepository Payments { get; private set; }
         public IAccountRepository Accounts { get; private set; }
         public IEntryRepository Entry { get; private set; }
+        public IMemberFeeRepository MemberFees { get; private set; }
+        public IAddressRepository Adresses { get; private set; }
 
         public UnitOfWork(DataContext context)
         {
@@ -23,6 +25,8 @@ namespace ClubIS.DataAccessLayer
             Entry = new EntryRepository(_context);
             Payments = new PaymentRepository(_context);
             Accounts = new AccountRepository(_context);
+            MemberFees = new MemberFeeRepository(_context);
+            Adresses = new AddressRepository(_context);
         }
 
         public async Task<int> Save()

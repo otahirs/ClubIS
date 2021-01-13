@@ -72,13 +72,13 @@
             <MudCardActions>
 
                 <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
-                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Class="ml-auto" OnClick="() => SetAll(EntryStatus.NotSent)">
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Class="ml-auto" OnClick="() => SetAllNotSend()">
                     Set all to
                     <MudChip Size="Size.Small" Label="true" Color="Color.Error">NotSent</MudChip>
                 </MudButton>
-                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Class="mx-2" OnClick="() => SetAll(EntryStatus.Ok)">
-                    Set all to
-                    <MudChip Size="Size.Small" Label="true" Color="Color.Success">OK</MudChip>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Class="mx-2" OnClick="() => SetAllResolved()">
+                    Set all as
+                    <MudChip Size="Size.Small" Label="true" Color="Color.Success">resolved</MudChip>
                 </MudButton>
             </MudCardActions>
         </MudCard>
@@ -95,7 +95,7 @@
     protected override async Task OnInitializedAsync()
     {
         E = await Http.GetFromJsonAsync<EventEditDTO>($"Events/{EventId}");
-        Entries = await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{EventId}");
+        Entries = await GetEntries();
     }
 
     private string GetStages(ISet<EventStageDTO> enteredStages)
@@ -123,13 +123,12 @@
         return (E.EventStages.Count != 0) ? E.EventStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
     }
 
-    private async Task SetAll(EntryStatus status)
+    private async Task SetAllNotSend()
     {
         foreach (var entry in Entries)
         {
-            if (entry.Status != status)
+            if (entry.Status == EntryStatus.Ok)
             {
-                entry.Status = status;
                 var e = new EventEntryEditDTO
                 {
                     Id = entry.Id,
@@ -142,35 +141,75 @@
                     NoteForOrganisator = entry.NoteForOrganisator,
                     SiCardNumber = entry.SiCardNumber,
                     EnteredStages = entry.EnteredStages,
-                    Status = status
+                    Status = EntryStatus.NotSent
                 };
                 await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", e);
             }
         }
-        if (status == EntryStatus.Ok)
-        {
-            var ev = new EventEditDTO
-            {
-                Id = E.Id,
-                StartDate = E.StartDate,
-                EndDate = E.EndDate, 
-                Name = E.Name,
-                Place = E.Place,
-                Organizer = E.Organizer, 
-                EventType = E.EventType,
-                Link = E.Link,
-                Deadlines = E.Deadlines, 
-                Leader = E.Leader,
-                ClassOptions = E.ClassOptions,
-                EventState = E.EventState,
-                EventProperties = E.EventProperties,
-                Note = E.Note,
-                EventStages = E.EventStages,
-                Entries = EntriesExport.OK
-            };
+        Entries = await GetEntries();
+    }
 
-            await Http.PutAsJsonAsync<EventEditDTO>("Events", ev);
+    private async Task SetAllResolved()
+    {
+        foreach (var entry in Entries)
+        {
+            if (entry.Status != EntryStatus.Ok)
+            {
+                if (entry.Status == EntryStatus.Removed)
+                {
+                    await Http.DeleteAsync($"Entries/{entry.Id}");
+                }
+                else
+                {
+                    entry.Status = EntryStatus.Ok;
+                    var e = new EventEntryEditDTO
+                    {
+                        Id = entry.Id,
+                        UserId = entry.UserId,
+                        EventId = EventId,
+                        Class = entry.Class,
+                        HasClubAccommodation = entry.HasClubAccommodation,
+                        HasClubTransport = entry.HasClubTransport,
+                        NoteForClub = entry.NoteForClub,
+                        NoteForOrganisator = entry.NoteForOrganisator,
+                        SiCardNumber = entry.SiCardNumber,
+                        EnteredStages = entry.EnteredStages,
+                        Status = EntryStatus.Ok
+                    };
+                    await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", e);
+                }
+            }
         }
+        Entries = await GetEntries();
+        await SetAll();
+    }
+    private async Task<EventEntryListDTO[]> GetEntries()
+    {
+        return (await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{EventId}")).OrderBy(e => e.Status).ToArray();
+    }
+
+    private async Task SetAll()
+    {
+        var ev = new EventEditDTO
+        {
+            Id = E.Id,
+            StartDate = E.StartDate,
+            EndDate = E.EndDate,
+            Name = E.Name,
+            Place = E.Place,
+            Organizer = E.Organizer,
+            EventType = E.EventType,
+            Link = E.Link,
+            Deadlines = E.Deadlines,
+            Leader = E.Leader,
+            ClassOptions = E.ClassOptions,
+            EventState = E.EventState,
+            EventProperties = E.EventProperties,
+            Note = E.Note,
+            EventStages = E.EventStages,
+            Entries = EntriesExport.OK
+        };
+        await Http.PutAsJsonAsync<EventEditDTO>("Events", ev);
     }
 
     private void Navigate()

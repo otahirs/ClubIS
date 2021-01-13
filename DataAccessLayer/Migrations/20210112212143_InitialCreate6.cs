@@ -2,7 +2,7 @@
 
 namespace ClubIS.DataAccessLayer.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreate6 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

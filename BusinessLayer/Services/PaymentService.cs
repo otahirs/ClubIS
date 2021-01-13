@@ -84,5 +84,10 @@ namespace ClubIS.BusinessLayer.Services
         {
             return await _unitOfWork.Payments.GetEventPaymentSumByEventId(id);
         }
+
+        public async Task<IEnumerable<MemberFeeDTO>> GetAllMemberFeeTypes()
+        {
+            return _mapper.Map<IEnumerable<MemberFeeDTO>>(await _unitOfWork.MemberFees.GetAll());
+        }
     }
 }

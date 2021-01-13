@@ -14,12 +14,11 @@
     <MudNavLink Href="/admin/users" Match="NavLinkMatch.All" Icon="@Icons.Material.SupervisorAccount">Users</MudNavLink>
     <MudNavLink Href="/admin/finance" Match="NavLinkMatch.All" Icon="@Icons.Material.AccountBalance">Finance</MudNavLink>
     <br />
-    <MudDivider DividerType="DividerType.Middle" Class="mb-10" />
-
-    <MudNavLink Href="/counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Add">Counter</MudNavLink>
+    <MudDivider DividerType="DividerType.Middle" Class="mb-5" />
+    
     <AuthorizeView>
         <Authorized>
-            <MudText>@context.User.Identity.Name</MudText>
+            <MudText Class="mx-2">@context.User.Identity.Name</MudText>
             <MudButton OnClick="@(async ()=> await authStateProvider.Logout())">Logout</MudButton>
         </Authorized>
         <NotAuthorized>

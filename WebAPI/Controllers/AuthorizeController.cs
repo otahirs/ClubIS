@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using ClubIS.IdentityStore;
 using System.Linq;
 using System.Security.Claims;
+using System;
 
 namespace ClubIS.WebAPI.Controllers
 {
@@ -55,15 +56,26 @@ namespace ClubIS.WebAPI.Controllers
             var result = await _userManager.CreateAsync(userIdentity, parameters.Password);
             if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
 
+            var identityUser = await _userManager.FindByNameAsync(userIdentity.UserName);
             var user = new UserDTO()
             {
-                Id = (await _userManager.FindByNameAsync(userIdentity.UserName)).Id,
+                Id = identityUser.Id,
                 Firstname = parameters.Firstname,
                 Surname = parameters.Surname,
                 RegistrationNumber = parameters.RegistrationNumber
             };
-            await _userFacade.Create(user);
 
+            try
+            {
+                await _userFacade.Create(user);
+            }
+            catch (Exception ex)
+            {
+                // remove Identity if user creation failed
+                await _userManager.DeleteAsync(identityUser);
+                throw ex;
+            }
+            
             return await Login(new LoginParametersDTO
             {
                 UserName = parameters.UserName,
