@@ -301,6 +301,7 @@
         {
             await Http.DeleteAsync($"Entries/{CurrentEntry.Id}");
             Entries.RemoveAll(e => e.UserId == CurrentEntry.UserId);
+            AllEntries.RemoveAll(e => e.UserId == CurrentEntry.UserId);
         }
         else
         {
