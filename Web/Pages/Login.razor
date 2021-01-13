@@ -1,4 +1,4 @@
-﻿@page "/login"
+﻿@page "/login/{returnUrl}"
 @layout LoginLayout
 @inject NavigationManager navigationManager
 @inject IdentityAuthenticationStateProvider authStateProvider
@@ -36,6 +36,8 @@
 </EditForm>
 
 @code{
+    [Parameter]
+    public string returnUrl { get; set; }
     LoginParametersDTO loginParameters { get; set; } = new LoginParametersDTO();
     string error { get; set; }
 
@@ -45,7 +47,7 @@
         try
         {
             await authStateProvider.Login(loginParameters);
-            navigationManager.NavigateTo("");
+            navigationManager.NavigateTo("/" + returnUrl);
         }
         catch (Exception ex)
         {

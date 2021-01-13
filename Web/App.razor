@@ -1,3 +1,4 @@
+@inject NavigationManager navigationManager
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(Program).Assembly">
         <Found Context="routeData">
@@ -6,7 +7,7 @@
                     Authorizing...
                 </Authorizing>
                 <NotAuthorized>
-                    <RedirectToLogin />
+                    <RedirectToLogin ReturnUrl="@navigationManager.Uri" />
                 </NotAuthorized>
             </AuthorizeRouteView>
         </Found>
