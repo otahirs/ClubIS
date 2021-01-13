@@ -34,7 +34,7 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task Update(MemberUserEditDTO user)
         {
-            await _userService.Update(_mapper.Map<UserDTO>(user));
+            await _userService.Update(user);
             await _unitOfWork.Save();
         }
 

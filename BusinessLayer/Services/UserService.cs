@@ -69,5 +69,11 @@ namespace ClubIS.BusinessLayer.Services
             User userEntity = await _unitOfWork.Users.GetById(user.Id);
             _mapper.Map(user, userEntity);
         }
+
+        public async Task Update(MemberUserEditDTO user)
+        {
+            User userEntity = await _unitOfWork.Users.GetById(user.Id);
+            _mapper.Map(user, userEntity);
+        }
     }
 }

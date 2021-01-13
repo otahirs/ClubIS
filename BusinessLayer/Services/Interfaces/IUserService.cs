@@ -10,6 +10,7 @@ namespace ClubIS.BusinessLayer.Services.Interfaces
         Task<IEnumerable<UserListDTO>> GetAll();
         Task<UserDTO> GetById(int id);
         Task Update(UserDTO e);
+        Task Update(MemberUserEditDTO e);
         Task Delete(int id);
         Task<IEnumerable<UserEntriesSupervisedListDTO>> GetAllEntriesSupervisors();
         Task<UserEntryListDTO> GetAllEntriesSupervisorsById(int id);
