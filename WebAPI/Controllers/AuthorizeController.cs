@@ -104,7 +104,7 @@ namespace ClubIS.WebAPI.Controllers
             {
                 IsAuthenticated = User.Identity.IsAuthenticated,
                 UserName = User.Identity.Name,
-                UserId = User.Identity.GetUserId(),
+                UserId = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : 0,
                 ExposedClaims = User.Claims
                     //Optionally: filter the claims you want to expose to the client
                     //.Where(c => c.Type == "test-claim")

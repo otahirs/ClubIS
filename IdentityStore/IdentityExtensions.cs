@@ -11,7 +11,10 @@ namespace ClubIS.IdentityStore
         public static int GetUserId(this IIdentity identity)
         {
             var claim = ((ClaimsIdentity)identity).FindFirst(ClaimTypes.NameIdentifier);
-            // Test for null to avoid issues during local testing
+            if (claim == null)
+            {
+                throw new ArgumentException("Cannot get UserId for Unauthenticated user");
+            }
             return int.Parse(claim.Value);
         }
     }
