@@ -12,7 +12,7 @@ namespace ClubIS.IdentityStore
         {
             var claim = ((ClaimsIdentity)identity).FindFirst(ClaimTypes.NameIdentifier);
             // Test for null to avoid issues during local testing
-            return (claim != null) ? int.Parse(claim.Value) : -1;
+            return int.Parse(claim.Value);
         }
     }
 }

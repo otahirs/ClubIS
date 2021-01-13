@@ -63,7 +63,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Event not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]
-        public async Task<ActionResult<EventEditDTO>> Get([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult<EventEditDTO>> Get(int id)
         {
             var e = await _eventFacade.GetById(id);
 
@@ -102,7 +102,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpDelete("{id}")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Event not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Event deleted.")]
-        public async Task<ActionResult> Delete([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var e = await _eventFacade.GetById(id);
 

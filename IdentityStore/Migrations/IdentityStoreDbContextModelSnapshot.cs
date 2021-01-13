@@ -50,7 +50,7 @@ namespace ClubIS.IdentityStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             ConcurrencyStamp = "963ffb9d-77a0-46bc-a283-5e06c2e9d470",
                             Name = "admin",
                             NormalizedName = "ADMIN"
@@ -126,12 +126,12 @@ namespace ClubIS.IdentityStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "4dc6608d-5576-40a6-af18-1e3bdb28878a",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedUserName = "matej",
+                            NormalizedUserName = "MATEJ",
                             PasswordHash = "AQAAAAEAACcQAAAAEE+7rHAI9dos4SDfSEqHc4vbFCcrvYdjSwpRVyFw7eRVZFiI45d+SX75hIPnuXNyRQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -140,12 +140,12 @@ namespace ClubIS.IdentityStore.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            Id = -2,
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "7ce0f918-de19-4d90-bfd9-8f11d295d541",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedUserName = "katka",
+                            NormalizedUserName = "KATKA",
                             PasswordHash = "AQAAAAEAACcQAAAAEOge75LDuZfKaL2M2JFr63CSTwK+x7n2UfxM3qhBfdKJ4602fNvrGgXNBTUk5zRKzg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -238,8 +238,8 @@ namespace ClubIS.IdentityStore.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = 1,
-                            RoleId = 1
+                            UserId = -1,
+                            RoleId = -1
                         });
                 });
 

@@ -48,7 +48,7 @@ namespace ClubIS.WebAPI.Controllers
 
         [HttpGet("entriesSupervisor/{id}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Supervisors retrieved.")]
-        public async Task<ActionResult<UserEntryListDTO>> GetEntriesSupervisors([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult<UserEntryListDTO>> GetEntriesSupervisors(int id)
         {
             var users = await _userFacade.GetAllEntriesSupervisorsById(id);
             if (users == null)
@@ -61,7 +61,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One user retrieved.")]
-        public async Task<ActionResult<UserDTO>> Get([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult<UserDTO>> Get(int id)
         {
             var user = await _userFacade.GetById(id);
 
@@ -111,7 +111,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpDelete("{id}")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "User deleted.")]
-        public async Task<ActionResult> Delete([Range(1, int.MaxValue)] int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var user = await _userFacade.GetById(id);
 
