@@ -11,23 +11,22 @@
                          ToggledIcon="@Icons.Custom.AlertSuccess" ToggledColor="@Color.Success" />
 
     <span>Archived Events @(includeArchivedEvents ? "included" : "excluded")</span>
-    @if (DisplayedEvents == null)
+    @if (displayedEvents == null)
     {
         <MudProgressCircular Color="Color.Default" Indeterminate="true" />
     }
     else
     {
-        <MudTable Items="@DisplayedEvents" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@((TableRowClickEventArgs<EventListDTO> e)=>Navigate(e))"  T="EventListDTO" Hover="true">
+        <MudTable Items="@displayedEvents" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@((TableRowClickEventArgs<EventListDTO> e)=>Navigate(e))"  T="EventListDTO" Hover="true" Dense="true">
             <ToolBarContent>
-                <MudTextField @bind-Value="SearchString" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium"></MudTextField>
                 <MudToolBarSpacer />
-                <MudSelect T="string" @bind-Value="SearchType" Label="Filter EventType">
-                    @foreach (var type in Types)
+                <MudSelect @bind-Value="searchType" Label="Filter EventType" Class="ml-3">
+                    @foreach (var type in types)
                     {
                         <MudSelectItem Value="@type" />
                     }
                 </MudSelect>
-
             </ToolBarContent>
             <HeaderContent>
                 <MudTh>Date</MudTh>
@@ -50,18 +49,18 @@
 </MudContainer>
 
 @code {
-    private EventListDTO[] Events;
-    private EventListDTO[] DisplayedEvents;
-    private List<string> Types;
-    private string SearchString = "";
-    private string SearchType = "";
+    private EventListDTO[] events;
+    private EventListDTO[] displayedEvents;
+    private List<string> types;
+    private string searchString = "";
+    private string searchType = "";
     private bool includeArchivedEvents = true;
 
     protected override async Task OnInitializedAsync()
     {
-        Events = await Http.GetFromJsonAsync<EventListDTO[]>($"Events");
-        Types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
-        Types.Insert(0, "");
+        events = await Http.GetFromJsonAsync<EventListDTO[]>($"Events");
+        types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
+        types.Insert(0, "");
         DisplayAllEvents();
     }
 
@@ -80,21 +79,21 @@
 
     private void DisplayAllEvents()
     {
-        DisplayedEvents = Events;
+        displayedEvents = events;
     }
 
     private void DisplayNotArchivedEvents()
     {
-        DisplayedEvents = Events.Where(e => e.EventState != EventState.Archived).ToArray();
+        displayedEvents = events.Where(e => e.EventState != EventState.Archived).ToArray();
     }
 
     bool FilterFunc(EventListDTO e)
     {
-        if (SearchString == null) SearchString = "";
+        if (searchString == null) searchString = "";
         var eventData = $"{GetDate(e.StartDate, e.EndDate)} {e.Name} {e.Place} {e.EventType} {GetDeadlines(e.Deadlines)}";
         var eventType = e.EventType.ToString();
 
-        return eventType.Contains(SearchType) && eventData.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase);
+        return eventType.Contains(searchType) && eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
     }
 
     private static string GetDate(DateTime start, DateTime end)

@@ -5,7 +5,7 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
-    @if (E == null || Entries == null)
+    @if (e == null || entries == null)
     {
         <MudProgressCircular Color="Color.Default" Indeterminate="true" />
     }
@@ -15,26 +15,26 @@
             <MudCardContent>
                 <MudExpansionPanel>
                     <TitleContent>
-                        <MudText Typo="Typo.h3">@E.Name</MudText>
+                        <MudText Typo="Typo.h3">@e.Name</MudText>
                     </TitleContent>
                     <ChildContent>
-                        <MudText><b>Place:</b> @E.Place</MudText>
-                        <MudText><b>Organizer:</b> @E.Organizer</MudText>
-                        <MudText><b>Leader:</b> @E.Leader</MudText>
-                        <MudText><b>Start date:</b> @E.StartDate.ToString("dd.MM.yyyy")</MudText>
-                        <MudText><b>End date:</b> @E.EndDate.ToString("dd.MM.yyyy")</MudText>
-                        <MudText><b>Event type:</b> @E.EventType</MudText>
-                        <MudText><b>Link:</b> <MudLink Href="@GetLink()">@E.Link</MudLink></MudText>
+                        <MudText><b>Place:</b> @e.Place</MudText>
+                        <MudText><b>Organizer:</b> @e.Organizer</MudText>
+                        <MudText><b>Leader:</b> @e.Leader</MudText>
+                        <MudText><b>Start date:</b> @e.StartDate.ToString("dd.MM.yyyy")</MudText>
+                        <MudText><b>End date:</b> @e.EndDate.ToString("dd.MM.yyyy")</MudText>
+                        <MudText><b>Event type:</b> @e.EventType</MudText>
+                        <MudText><b>Link:</b> <MudLink Href="@GetLink()">@e.Link</MudLink></MudText>
                         <MudText><b>Deadlines:</b> @GetDeadlines()</MudText>
                         <MudText><b>Class options:</b> @GetClassOptions()</MudText>
-                        <MudText><b>Event state:</b> @E.EventState</MudText>
-                        <MudText><b>Event properties:</b> @E.EventProperties</MudText>
+                        <MudText><b>Event state:</b> @e.EventState</MudText>
+                        <MudText><b>Event properties:</b> @e.EventProperties</MudText>
                         <MudText><b>Event stages:</b> @GetStages()</MudText>
-                        <MudText><b>Note:</b> @E.Note</MudText>
+                        <MudText><b>Note:</b> @e.Note</MudText>
                     </ChildContent>
                 </MudExpansionPanel>
                 <MudText Typo="Typo.h5" GutterBottom="true">Entries</MudText>
-                <MudTable Items="@Entries" Dense="true">
+                <MudTable Items="@entries" Dense="true">
                     <HeaderContent>
                         <MudTh>Name</MudTh>
                         <MudTh>Class</MudTh>
@@ -72,13 +72,11 @@
             <MudCardActions>
 
                 <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
-                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Class="ml-auto" OnClick="() => SetAllNotSend()">
-                    Set all to
-                    <MudChip Size="Size.Small" Label="true" Color="Color.Error">NotSent</MudChip>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Error" Class="ml-auto" OnClick="() => SetAllNotSend()">
+                    Not Sent
                 </MudButton>
-                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Class="mx-2" OnClick="() => SetAllResolved()">
-                    Set all as
-                    <MudChip Size="Size.Small" Label="true" Color="Color.Success">resolved</MudChip>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Success" Class="mx-2" OnClick="() => SetAllResolved()">
+                    Resolved
                 </MudButton>
             </MudCardActions>
         </MudCard>
@@ -88,14 +86,14 @@
 
 @code {
     [Parameter]
-    public int EventId { get; set; }
-    private EventEditDTO E;
-    private EventEntryListDTO[] Entries;
+    public int eventId { get; set; }
+    private EventEditDTO e;
+    private EventEntryListDTO[] entries;
 
     protected override async Task OnInitializedAsync()
     {
-        E = await Http.GetFromJsonAsync<EventEditDTO>($"Events/{EventId}");
-        Entries = await GetEntries();
+        e = await Http.GetFromJsonAsync<EventEditDTO>($"Events/{eventId}");
+        entries = await GetEntries();
     }
 
     private string GetStages(ISet<EventStageDTO> enteredStages)
@@ -105,53 +103,39 @@
 
     private string GetLink()
     {
-        return "https://" + E.Link;
+        return "https://" + e.Link;
     }
 
     private string GetDeadlines()
     {
-        return (E.Deadlines.Count != 0) ? E.Deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
+        return (e.Deadlines.Count != 0) ? e.Deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
     }
 
     private string GetClassOptions()
     {
-        return E.ClassOptions.Select(a => a.Name).Aggregate((a, b) => a + ", " + b);
+        return e.ClassOptions.Select(a => a.Name).Aggregate((a, b) => a + ", " + b);
     }
 
     private string GetStages()
     {
-        return (E.EventStages.Count != 0) ? E.EventStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
+        return (e.EventStages.Count != 0) ? e.EventStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
     }
 
     private async Task SetAllNotSend()
     {
-        foreach (var entry in Entries)
+        foreach (var entry in entries)
         {
             if (entry.Status == EntryStatus.Ok)
             {
-                var e = new EventEntryEditDTO
-                {
-                    Id = entry.Id,
-                    UserId = entry.UserId,
-                    EventId = EventId,
-                    Class = entry.Class,
-                    HasClubAccommodation = entry.HasClubAccommodation,
-                    HasClubTransport = entry.HasClubTransport,
-                    NoteForClub = entry.NoteForClub,
-                    NoteForOrganisator = entry.NoteForOrganisator,
-                    SiCardNumber = entry.SiCardNumber,
-                    EnteredStages = entry.EnteredStages,
-                    Status = EntryStatus.NotSent
-                };
-                await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", e);
+                await UpdateStatus(entry, EntryStatus.NotSent);
             }
         }
-        Entries = await GetEntries();
+        entries = await GetEntries();
     }
 
     private async Task SetAllResolved()
     {
-        foreach (var entry in Entries)
+        foreach (var entry in entries)
         {
             if (entry.Status != EntryStatus.Ok)
             {
@@ -161,52 +145,56 @@
                 }
                 else
                 {
-                    entry.Status = EntryStatus.Ok;
-                    var e = new EventEntryEditDTO
-                    {
-                        Id = entry.Id,
-                        UserId = entry.UserId,
-                        EventId = EventId,
-                        Class = entry.Class,
-                        HasClubAccommodation = entry.HasClubAccommodation,
-                        HasClubTransport = entry.HasClubTransport,
-                        NoteForClub = entry.NoteForClub,
-                        NoteForOrganisator = entry.NoteForOrganisator,
-                        SiCardNumber = entry.SiCardNumber,
-                        EnteredStages = entry.EnteredStages,
-                        Status = EntryStatus.Ok
-                    };
-                    await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", e);
+                    await UpdateStatus(entry, EntryStatus.Ok);
                 }
             }
         }
-        Entries = await GetEntries();
-        await SetAll();
+        entries = await GetEntries();
+        await SetEvent();
     }
     private async Task<EventEntryListDTO[]> GetEntries()
     {
-        return (await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{EventId}")).OrderBy(e => e.Status).ToArray();
+        return (await Http.GetFromJsonAsync<EventEntryListDTO[]>($"Entries/event/{eventId}")).OrderBy(e => e.Status).ToArray();
     }
 
-    private async Task SetAll()
+    private async Task UpdateStatus(EventEntryListDTO entry, EntryStatus status)
+    {
+        var tmp = new EventEntryEditDTO
+        {
+            Id = entry.Id,
+            UserId = entry.UserId,
+            EventId = eventId,
+            Class = entry.Class,
+            HasClubAccommodation = entry.HasClubAccommodation,
+            HasClubTransport = entry.HasClubTransport,
+            NoteForClub = entry.NoteForClub,
+            NoteForOrganisator = entry.NoteForOrganisator,
+            SiCardNumber = entry.SiCardNumber,
+            EnteredStages = entry.EnteredStages,
+            Status = status
+        };
+        await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", tmp);
+    }
+
+    private async Task SetEvent()
     {
         var ev = new EventEditDTO
         {
-            Id = E.Id,
-            StartDate = E.StartDate,
-            EndDate = E.EndDate,
-            Name = E.Name,
-            Place = E.Place,
-            Organizer = E.Organizer,
-            EventType = E.EventType,
-            Link = E.Link,
-            Deadlines = E.Deadlines,
-            Leader = E.Leader,
-            ClassOptions = E.ClassOptions,
-            EventState = E.EventState,
-            EventProperties = E.EventProperties,
-            Note = E.Note,
-            EventStages = E.EventStages,
+            Id = e.Id,
+            StartDate = e.StartDate,
+            EndDate = e.EndDate,
+            Name = e.Name,
+            Place = e.Place,
+            Organizer = e.Organizer,
+            EventType = e.EventType,
+            Link = e.Link,
+            Deadlines = e.Deadlines,
+            Leader = e.Leader,
+            ClassOptions = e.ClassOptions,
+            EventState = e.EventState,
+            EventProperties = e.EventProperties,
+            Note = e.Note,
+            EventStages = e.EventStages,
             Entries = EntriesExport.OK
         };
         await Http.PutAsJsonAsync<EventEditDTO>("Events", ev);

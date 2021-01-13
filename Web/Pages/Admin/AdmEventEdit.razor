@@ -6,13 +6,13 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
-    @if (SendEvent == null)
+    @if (sendEvent == null)
     {
         <MudProgressCircular Color="Color.Default" Indeterminate="true" />
     }
     else
     {
-        @if (EventId == null)
+        @if (eventId == null)
         {
             <MudText Typo="Typo.h3" GutterBottom="true">Create event</MudText>
         }
@@ -21,44 +21,44 @@
             <MudText Typo="Typo.h3" GutterBottom="true">Edit event</MudText>
 
         }
-        <EditForm Model="@SendEvent" OnValidSubmit="OnValidSubmit">
+        <EditForm Model="@sendEvent" OnValidSubmit="OnValidSubmit">
             <DataAnnotationsValidator />
             <MudCard Elevation="0">
                 <MudCardContent>
-                    <MudTextField Label="Name" @bind-Value="SendEvent.Name" For="@(() => SendEvent.Name)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Name" @bind-Value="sendEvent.Name" For="@(() => sendEvent.Name)" Variant="Variant.Outlined" />
 
-                    <MudTextField Label="Place" @bind-Value="SendEvent.Place" For="@(() => SendEvent.Place)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Place" @bind-Value="sendEvent.Place" For="@(() => sendEvent.Place)" Variant="Variant.Outlined" />
 
-                    <MudDatePicker Label="Start date" ValueChanged="@((string s) => UpdateStartDate(s))" Value="@SendEvent.StartDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
+                    <MudDatePicker Label="Start date" ValueChanged="@((string s) => UpdateStartDate(s))" Value="@sendEvent.StartDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
 
-                    <MudDatePicker Label="End date" ValueChanged="@((string s) => UpdateEndDate(s))" Value="@SendEvent.EndDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
+                    <MudDatePicker Label="End date" ValueChanged="@((string s) => UpdateEndDate(s))" Value="@sendEvent.EndDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
 
-                    <MudTextField Label="Organizer" @bind-Value="SendEvent.Organizer" For="@(() => SendEvent.Organizer)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Organizer" @bind-Value="sendEvent.Organizer" For="@(() => sendEvent.Organizer)" Variant="Variant.Outlined" />
 
-                    <MudTextField Label="Leader" @bind-Value="SendEvent.Leader" For="@(() => SendEvent.Leader)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Leader" @bind-Value="sendEvent.Leader" For="@(() => sendEvent.Leader)" Variant="Variant.Outlined" />
 
-                    <MudSelect @bind-Value="SendEvent.EventType" Label="Event type" Variant="Variant.Outlined">
+                    <MudSelect @bind-Value="sendEvent.EventType" Label="Event type" Variant="Variant.Outlined">
                         @foreach (var type in GetTypes())
                             {
                             <MudSelectItem Value="@type" />
                             }
                     </MudSelect>
 
-                    <MudSelect @bind-Value="SendEvent.AccommodationOption" Label="Accommodation Option" Variant="Variant.Outlined">
+                    <MudSelect @bind-Value="sendEvent.AccommodationOption" Label="Accommodation Option" Variant="Variant.Outlined">
                         @foreach (var type in GetOptions())
                             {
                             <MudSelectItem Value="@type" />
                             }
                     </MudSelect>
 
-                    <MudSelect @bind-Value="SendEvent.TransportOption" Label="Transport Option" Variant="Variant.Outlined">
+                    <MudSelect @bind-Value="sendEvent.TransportOption" Label="Transport Option" Variant="Variant.Outlined">
                         @foreach (var type in GetOptions())
                             {
                             <MudSelectItem Value="@type" />
                             }
                     </MudSelect>
 
-                    <MudSelect @bind-Value="SendEvent.EventState" Label="Event state" Variant="Variant.Outlined">
+                    <MudSelect @bind-Value="sendEvent.EventState" Label="Event state" Variant="Variant.Outlined">
                         @foreach (var state in GetStates())
                             {
                             <MudSelectItem Value="@state" />
@@ -67,32 +67,32 @@
 
                     <MudCard Class="mt-1">
                         <MudCardContent>
-                            @foreach (var c in SendEvent.ClassOptions)
+                            @foreach (var c in sendEvent.ClassOptions)
                             {
                                 <MudChip Color="Color.Default" OnClose="(() => RemoveClass(c))">@c.Name</MudChip>
                             }
 
-                            <MudTextField Label="Class options" @bind-Value="CurrentOption" Variant="Variant.Outlined" />
+                            <MudTextField Label="Class options" @bind-Value="currentOption" Variant="Variant.Outlined" />
                         </MudCardContent>
                         <MudCardActions>
                             <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Filled.Add" OnClick="AddClass">Class</MudButton>
                         </MudCardActions>
-                        <ValidationMessage For="@(() => SendEvent.ClassOptions)" class="validation-message" />
+                        <ValidationMessage For="@(() => sendEvent.ClassOptions)" class="validation-message" />
                     </MudCard>
 
-                    <MudTextField Label="Link" @bind-Value="SendEvent.Link" For="@(() => SendEvent.Link)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Link" @bind-Value="sendEvent.Link" For="@(() => sendEvent.Link)" Variant="Variant.Outlined" />
 
-                    <MudTextField Label="Note" @bind-Value="SendEvent.Note" For="@(() => SendEvent.Note)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Note" @bind-Value="sendEvent.Note" For="@(() => sendEvent.Note)" Variant="Variant.Outlined" />
 
                     <MudCard Class="mt-1">
                         <MudCardContent>
                             <MudText Typo="Typo.h6">Deadlines:</MudText>
-                            @foreach (var d in SendEvent.Deadlines)
+                            @foreach (var d in sendEvent.Deadlines)
                             {
                                 <MudCard Outlined="true">
                                     <MudCardContent>
                                         <MudDatePicker Label="Deadline" ValueChanged="@((string s) => UpdateDeadline(s, d))" Value="@d.Deadline.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
-                                        @if (SendEvent.Deadlines.Count > 1)
+                                        @if (sendEvent.Deadlines.Count > 1)
                                         {
                                             <MudIconButton Icon="@Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="(() => RemoveDeadline(d))"></MudIconButton>
                                         }
@@ -108,7 +108,7 @@
                     <MudCard Class="mt-1">
                         <MudCardContent>
                             <MudText Typo="Typo.h6"><b>Event Stages:</b></MudText>
-                            @foreach (var s in SendEvent.EventStages)
+                            @foreach (var s in sendEvent.EventStages)
                             {
                                 <MudCard>
                                     <MudCardContent>
@@ -133,7 +133,7 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
-                    @if (EventId == null)
+                    @if (eventId == null)
                     {
                         <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Save</MudButton>
                     }
@@ -150,42 +150,42 @@
 
 @code {
     [Parameter]
-    public int? EventId { get; set; }
-    private EventEditDTO SendEvent;
-    private string CurrentOption;
+    public int? eventId { get; set; }
+    private EventEditDTO sendEvent;
+    private string currentOption;
 
     protected override async Task OnInitializedAsync()
     {
-        if (EventId == null)
+        if (eventId == null)
         {
-            SendEvent = new EventEditDTO();
-            SendEvent.StartDate = DateTime.Today;
-            SendEvent.EndDate = DateTime.Today;
-            SendEvent.EventType = GetTypes()[0];
-            SendEvent.EventState = GetStates()[0];
-            SendEvent.TransportOption = GetOptions()[0];
-            SendEvent.AccommodationOption = GetOptions()[0];
-            SendEvent.ClassOptions = new HashSet<EventClassOption>();
-            SendEvent.Deadlines = new List<EventDeadline>();
+            sendEvent = new EventEditDTO();
+            sendEvent.StartDate = DateTime.Today;
+            sendEvent.EndDate = DateTime.Today;
+            sendEvent.EventType = GetTypes()[0];
+            sendEvent.EventState = GetStates()[0];
+            sendEvent.TransportOption = GetOptions()[0];
+            sendEvent.AccommodationOption = GetOptions()[0];
+            sendEvent.ClassOptions = new HashSet<EventClassOption>();
+            sendEvent.Deadlines = new List<EventDeadline>();
             AddDeadline();
-            SendEvent.EventStages = new HashSet<EventStageDTO>();
+            sendEvent.EventStages = new HashSet<EventStageDTO>();
         }
         else
         {
-            SendEvent = await Http.GetFromJsonAsync<EventEditDTO>($"Events/{EventId}");
+            sendEvent = await Http.GetFromJsonAsync<EventEditDTO>($"Events/{eventId}");
         }
 
     }
 
     private void UpdateStartDate(string date)
     {
-        SendEvent.StartDate = DateTime.Parse(date);
-        SendEvent.EndDate = DateTime.Parse(date);
+        sendEvent.StartDate = DateTime.Parse(date);
+        sendEvent.EndDate = DateTime.Parse(date);
     }
 
     private void UpdateEndDate(string date)
     {
-        SendEvent.EndDate = DateTime.Parse(date);
+        sendEvent.EndDate = DateTime.Parse(date);
     }
 
     private static EventType[] GetTypes()
@@ -205,17 +205,17 @@
 
     private void AddClass()
     {
-        if (string.IsNullOrWhiteSpace(CurrentOption)) return;
+        if (string.IsNullOrWhiteSpace(currentOption)) return;
         var newClass = new EventClassOption();
-        newClass.Name = CurrentOption;
-        CurrentOption = "";
-        SendEvent.ClassOptions.Add(newClass);
+        newClass.Name = currentOption;
+        currentOption = "";
+        sendEvent.ClassOptions.Add(newClass);
         StateHasChanged();
     }
 
     private void RemoveClass(EventClassOption c)
     {
-        SendEvent.ClassOptions.Remove(c);
+        sendEvent.ClassOptions.Remove(c);
         StateHasChanged();
     }
 
@@ -223,7 +223,7 @@
     {
         var newDeadline = new EventDeadline();
         newDeadline.Deadline = DateTime.Today;
-        SendEvent.Deadlines.Add(newDeadline);
+        sendEvent.Deadlines.Add(newDeadline);
     }
 
     private void UpdateDeadline(string date, EventDeadline d)
@@ -233,14 +233,14 @@
 
     private void RemoveDeadline(EventDeadline d)
     {
-        SendEvent.Deadlines.Remove(d);
+        sendEvent.Deadlines.Remove(d);
     }
 
     private void AddStage()
     {
         var newStage = new EventStageDTO();
         newStage.Date = DateTime.Today;
-        SendEvent.EventStages.Add(newStage);
+        sendEvent.EventStages.Add(newStage);
     }
 
     private void UpdateStageDate(string date, EventStageDTO s)
@@ -250,18 +250,18 @@
 
     private void RemoveStage(EventStageDTO s)
     {
-        SendEvent.EventStages.Remove(s);
+        sendEvent.EventStages.Remove(s);
     }
 
     private async void OnValidSubmit(EditContext context)
     {
-        if (EventId == null)
+        if (eventId == null)
         {
-            await Http.PostAsJsonAsync<EventEditDTO>("Events", SendEvent);
+            await Http.PostAsJsonAsync<EventEditDTO>("Events", sendEvent);
         }
         else
         {
-            await Http.PutAsJsonAsync<EventEditDTO>("Events", SendEvent);
+            await Http.PutAsJsonAsync<EventEditDTO>("Events", sendEvent);
         }
         NavigationManager.NavigateTo($"/admin/events");
     }
@@ -269,7 +269,7 @@
 
     private async void RemoveEvent()
     {
-        await Http.DeleteAsync($"Events/{EventId}");
+        await Http.DeleteAsync($"Events/{eventId}");
         NavigationManager.NavigateTo($"/admin/events");
     }
 

@@ -6,18 +6,18 @@
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Event entries</MudText>
-    @if (Events == null)
+    @if (events == null)
     {
         <MudProgressCircular Color="Color.Default" Indeterminate="true" />
     }
     else
     {
-<MudTable Items="@Events" Filter="new Func<EventListWithUserEntryDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListWithUserEntryDTO" Hover="true" Dense="true">
+<MudTable Items="@events" Filter="new Func<EventListWithUserEntryDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListWithUserEntryDTO" Hover="true" Dense="true">
     <ToolBarContent>
-        <MudTextField @bind-Value="SearchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium"></MudTextField>
         <MudToolBarSpacer />
-        <MudSelect T="string" @bind-Value="SearchType" Label="Filter EventType">
-            @foreach (var type in Types)
+        <MudSelect @bind-Value="searchType" Label="Filter EventType" Class="ml-3">
+            @foreach (var type in types)
             {
                 <MudSelectItem Value="@type" />
             }
@@ -53,26 +53,26 @@
 </MudContainer>
 
 @code {
-    private EventListWithUserEntryDTO[] Events;
-    private List<string> Types;
-    private string SearchString = "";
-    private string SearchType = "";
+    private EventListWithUserEntryDTO[] events;
+    private List<string> types;
+    private string searchString = "";
+    private string searchType = "";
 
     protected override async Task OnInitializedAsync()
     {
-        Events = (await Http.GetFromJsonAsync<EventListWithUserEntryDTO[]>($"Events/user/"))
+        events = (await Http.GetFromJsonAsync<EventListWithUserEntryDTO[]>($"Events/user/"))
             .Where(e => e.Event.EventState != EventState.Archived).ToArray();
-        Types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
-        Types.Insert(0, "");
+        types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
+        types.Insert(0, "");
     }
 
     bool FilterFunc(EventListWithUserEntryDTO e)
     {
-        if (SearchString == null) SearchString = "";
+        if (searchString == null) searchString = "";
         var eventData = $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {GetClass(e.EntryInfo)}";
         var eventType = e.Event.EventType.ToString();
 
-        return eventType.Contains(SearchType) && eventData.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase);
+        return eventType.Contains(searchType) && eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
     }
 
     private static string GetDate(DateTime start, DateTime end)
