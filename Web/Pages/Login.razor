@@ -1,4 +1,5 @@
-﻿@page "/login/{returnUrl}"
+﻿@page "/login"
+@page "/login/{returnUrl}"
 @layout LoginLayout
 @inject NavigationManager navigationManager
 @inject IdentityAuthenticationStateProvider authStateProvider
@@ -47,6 +48,10 @@
         try
         {
             await authStateProvider.Login(loginParameters);
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                navigationManager.NavigateTo("/");
+            }
             navigationManager.NavigateTo("/" + returnUrl.Replace("&", "/"));
         }
         catch (Exception ex)
