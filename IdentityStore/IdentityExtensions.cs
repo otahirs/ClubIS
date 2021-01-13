@@ -13,7 +13,7 @@ namespace ClubIS.IdentityStore
             var claim = ((ClaimsIdentity)identity).FindFirst(ClaimTypes.NameIdentifier);
             if (claim == null)
             {
-                throw new ArgumentException("Cannot get UserId for Authenticated user");
+                throw new ArgumentException("Cannot get UserId for Unauthenticated user");
             }
             return int.Parse(claim.Value);
         }
