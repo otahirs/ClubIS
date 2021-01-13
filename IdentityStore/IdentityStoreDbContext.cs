@@ -34,7 +34,7 @@ namespace ClubIS.IdentityStore
             builder.Entity<IdentityStoreUser>().HasData(
                 new IdentityStoreUser
                 {
-                    Id = 1,
+                    Id = -1,
                     UserName = "matej",
                     NormalizedUserName = "matej",
                     PasswordHash = hasher.HashPassword(null, "matej"),
@@ -42,7 +42,7 @@ namespace ClubIS.IdentityStore
                 },
                 new IdentityStoreUser
                 {
-                    Id = 2,
+                    Id = -2,
                     UserName = "katka",
                     NormalizedUserName = "katka",
                     PasswordHash = hasher.HashPassword(null, "katka"),
@@ -51,7 +51,7 @@ namespace ClubIS.IdentityStore
             );
             builder.Entity<IdentityStoreRole>().HasData(
                 new IdentityStoreRole { 
-                    Id = 1,
+                    Id = -1,
                     Name = "admin", 
                     NormalizedName = "admin".ToUpper() 
                 }
@@ -60,8 +60,8 @@ namespace ClubIS.IdentityStore
             // make matej admin
             builder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int>
             {
-                RoleId = 1,
-                UserId = 1
+                RoleId = -1,
+                UserId = -1
             });
         }
 

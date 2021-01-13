@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClubIS.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210112202504_init")]
+    [Migration("20210113181754_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,18 +53,18 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             City = "Brno",
                             PostalCode = "***REMOVED***",
                             StreetAndNumber = "***REMOVED***",
-                            UserId = 1
+                            UserId = -1
                         },
                         new
                         {
-                            Id = 2,
+                            Id = -2,
                             City = "Brno - Horní Heršpice",
                             PostalCode = "***REMOVED***",
-                            UserId = 2
+                            UserId = -2
                         });
                 });
 
@@ -129,34 +129,34 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             AccommodationOption = 2,
-                            EndDate = new DateTime(2020, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2021, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Entries = 0,
                             EventProperties = 16,
-                            EventState = 2,
+                            EventState = 0,
                             EventType = 2,
                             Link = "mcr2020.obopava.cz",
                             Name = "Soustředění Vysočina",
                             Organizer = "OB ZAM",
                             Place = "Sklené",
-                            StartDate = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2021, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransportOption = 1
                         },
                         new
                         {
-                            Id = 2,
+                            Id = -2,
                             AccommodationOption = 2,
-                            EndDate = new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2021, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Entries = 0,
                             EventProperties = 16,
-                            EventState = 2,
+                            EventState = 0,
                             EventType = 0,
                             Link = "mcr2020.obopava.cz",
                             Name = "9. JML - klasická trať",
                             Organizer = "OB ZAM",
                             Place = "Jilemnice",
-                            StartDate = new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2021, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransportOption = 1
                         });
                 });
@@ -183,32 +183,32 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            EventId = 1,
+                            Id = -1,
+                            EventId = -1,
                             Name = "A"
                         },
                         new
                         {
-                            Id = 2,
-                            EventId = 1,
+                            Id = -2,
+                            EventId = -1,
                             Name = "B"
                         },
                         new
                         {
-                            Id = 3,
-                            EventId = 2,
+                            Id = -3,
+                            EventId = -2,
                             Name = "A"
                         },
                         new
                         {
-                            Id = 4,
-                            EventId = 2,
+                            Id = -4,
+                            EventId = -2,
                             Name = "B"
                         },
                         new
                         {
-                            Id = 5,
-                            EventId = 2,
+                            Id = -5,
+                            EventId = -2,
                             Name = "H20"
                         });
                 });
@@ -235,21 +235,21 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            Deadline = new DateTime(2020, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 1
+                            Id = -1,
+                            Deadline = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventId = -1
                         },
                         new
                         {
-                            Id = 2,
-                            Deadline = new DateTime(2020, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 2
+                            Id = -2,
+                            Deadline = new DateTime(2021, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventId = -2
                         },
                         new
                         {
-                            Id = 3,
-                            Deadline = new DateTime(2020, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 2
+                            Id = -3,
+                            Deadline = new DateTime(2021, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventId = -2
                         });
                 });
 
@@ -301,25 +301,25 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             Class = "A",
-                            EventId = 1,
+                            EventId = -1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
                             SiCardNumber = ***REMOVED***,
                             Status = 0,
-                            UserId = 2
+                            UserId = -2
                         },
                         new
                         {
-                            Id = 2,
+                            Id = -2,
                             Class = "H20",
-                            EventId = 2,
+                            EventId = -2,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
                             SiCardNumber = ***REMOVED***,
                             Status = 0,
-                            UserId = 1
+                            UserId = -1
                         });
                 });
 
@@ -379,12 +379,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             CreditBalance = 0
                         },
                         new
                         {
-                            Id = 2,
+                            Id = -2,
                             CreditBalance = 0
                         });
                 });
@@ -417,7 +417,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2,
+                            Id = -2,
                             Amount = 0,
                             Description = "Oddílem jsou placeny veškeré závody. Závodník platí pouze storna.",
                             MemberFeeType = 4,
@@ -425,7 +425,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             Amount = 100,
                             Description = "Nikam nejezdím nebo málo - veškeré závody se strhávají z osobního vkladu.",
                             MemberFeeType = 1,
@@ -463,11 +463,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             Date = new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111",
                             Title = "test nadpisu",
-                            UserId = 1
+                            UserId = -1
                         });
                 });
 
@@ -522,14 +522,14 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             CreditAmount = 1000,
                             Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 1,
-                            ExecutorId = 1,
+                            EventId = -1,
+                            ExecutorId = -1,
                             PaymentState = 0,
-                            RecipientAccountId = 2,
-                            SourceAccountId = 1
+                            RecipientAccountId = -2,
+                            SourceAccountId = -1
                         });
                 });
 
@@ -558,17 +558,17 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             IsDefault = true,
                             Number = ***REMOVED***,
-                            UserId = 1
+                            UserId = -1
                         },
                         new
                         {
-                            Id = 2,
+                            Id = -2,
                             IsDefault = true,
                             Number = ***REMOVED***,
-                            UserId = 2
+                            UserId = -2
                         });
                 });
 
@@ -639,8 +639,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            AccountId = 2,
+                            Id = -1,
+                            AccountId = -2,
                             AccountState = 3,
                             Email = "tst2@eof.cz",
                             Firstname = "Matěj",
@@ -652,11 +652,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = 2,
-                            AccountId = 1,
+                            Id = -2,
+                            AccountId = -1,
                             AccountState = 0,
                             Email = "tst2@eob.cz",
-                            FinanceSupervisorId = 1,
+                            FinanceSupervisorId = -1,
                             Firstname = "Kateřina",
                             Gender = 1,
                             Licence = 2,
@@ -683,14 +683,14 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = 2,
-                            EntriesSupervisorId = 1
+                            UserId = -2,
+                            EntriesSupervisorId = -1
                         });
                 });
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.Address", b =>
                 {
-                    b.HasOne("ClubIS.CoreLayer.Entities.User", "User")
+                    b.HasOne("ClubIS.CoreLayer.Entities.User", null)
                         .WithOne("Address")
                         .HasForeignKey("ClubIS.CoreLayer.Entities.Address", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
