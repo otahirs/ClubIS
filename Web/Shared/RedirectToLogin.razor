@@ -6,7 +6,7 @@
 
     protected override void OnInitialized()
     {
-        returnUrl = returnUrl.Substring(navigationManager.BaseUri.Length);
+        returnUrl = returnUrl.Substring(navigationManager.BaseUri.Length).Replace("/", "&");
         navigationManager.NavigateTo($"/login/{returnUrl}");
     }
 }

@@ -47,7 +47,7 @@
         try
         {
             await authStateProvider.Login(loginParameters);
-            navigationManager.NavigateTo("/" + returnUrl);
+            navigationManager.NavigateTo("/" + returnUrl.Replace("&", "/"));
         }
         catch (Exception ex)
         {
