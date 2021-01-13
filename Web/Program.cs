@@ -24,7 +24,14 @@ namespace ClubIS.Web
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddOptions();
-            builder.Services.AddAuthorizationCore();
+            builder.Services.AddAuthorizationCore(options =>
+            {
+                options.AddPolicy("News", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("news")));
+                options.AddPolicy("Entries", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Entries")));
+                options.AddPolicy("Events", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Events")));
+                options.AddPolicy("Users", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Users")));
+                options.AddPolicy("Finance", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Finace")));
+            });
             builder.Services.AddScoped<IdentityAuthenticationStateProvider>();
             builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<IdentityAuthenticationStateProvider>());
             builder.Services.AddScoped<IAuthorizeApi, AuthorizeApi>();

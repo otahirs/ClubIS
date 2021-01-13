@@ -121,6 +121,15 @@ namespace ClubIS.WebAPI
                 o.GroupNameFormat = "'v'V";
                 o.SubstituteApiVersionInUrl = true;
             });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("News", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("news")));
+                options.AddPolicy("Entries", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Entries")));
+                options.AddPolicy("Events", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Events")));
+                options.AddPolicy("Users", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Users")));
+                options.AddPolicy("Finance", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Finace")));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

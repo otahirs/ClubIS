@@ -8,14 +8,16 @@
     <MudNavLink Href="/settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Settings">Settings</MudNavLink>
     <MudDivider DividerType="DividerType.Middle" Class="mt-10" />
     <br />
-    <MudNavLink Href="/admin/news" Match="NavLinkMatch.All" Icon="@Icons.Material.Message">News</MudNavLink>
+    <AuthorizeView Policy="News">
+        <MudNavLink Href="/admin/news" Match="NavLinkMatch.All" Icon="@Icons.Material.Message">News</MudNavLink>
+    </AuthorizeView>
     <MudNavLink Href="/admin/entries" Match="NavLinkMatch.All" Icon="@Icons.Material.StickyNote2">Entries</MudNavLink>
     <MudNavLink Href="/admin/events" Match="NavLinkMatch.All" Icon="@Icons.Material.RunCircle">Events</MudNavLink>
     <MudNavLink Href="/admin/users" Match="NavLinkMatch.All" Icon="@Icons.Material.SupervisorAccount">Users</MudNavLink>
     <MudNavLink Href="/admin/finance" Match="NavLinkMatch.All" Icon="@Icons.Material.AccountBalance">Finance</MudNavLink>
     <br />
     <MudDivider DividerType="DividerType.Middle" Class="mb-5" />
-    
+
     <AuthorizeView>
         <Authorized>
             <MudText Class="mx-2">@context.User.Identity.Name</MudText>

@@ -1,6 +1,6 @@
 ﻿@page "/admin/news"
 
-@attribute [Authorize]
+@attribute [Authorize(Policy = "News")]
 
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
