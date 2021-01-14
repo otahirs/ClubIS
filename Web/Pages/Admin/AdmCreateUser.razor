@@ -1,0 +1,56 @@
+﻿@page "/admin/users/create"
+
+@inject NavigationManager NavigationManager
+@inject IdentityAuthenticationStateProvider authStateProvider
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudText Typo="Typo.h3">Create User</MudText>
+
+    <EditForm Model="@RegisterParameters" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator />
+        <MudCard Elevation="0">
+            <MudCardContent>
+                <MudCard Elevation="0">
+                    <MudText Typo="Typo.h4" GutterBottom="true">User data</MudText>
+                    <MudCardContent>
+                        <MudTextField Label="Firstname" @bind-Value="RegisterParameters.Firstname" For="@(() => RegisterParameters.Firstname)" Variant="Variant.Outlined" />
+                        <MudTextField Label="Surname" @bind-Value="RegisterParameters.Surname" For="@(() => RegisterParameters.Surname)" Variant="Variant.Outlined" />
+                        <MudTextField Label="Reg. number" @bind-Value="RegisterParameters.RegistrationNumber" For="@(() => RegisterParameters.RegistrationNumber)" Variant="Variant.Outlined" />
+                    </MudCardContent>
+                </MudCard>
+                <MudCard Elevation="0">
+                    <MudText Typo="Typo.h4" GutterBottom="true">User credentials</MudText>
+                    <MudCardContent>
+                        <MudTextField Label="Username" @bind-Value="RegisterParameters.UserName" For="@(() => RegisterParameters.UserName)" Variant="Variant.Outlined" />
+                        <MudTextField Label="Password" InputType="InputType.Password" @bind-Value="RegisterParameters.Password" For="@(() => RegisterParameters.Password)" Variant="Variant.Outlined" />
+                        <MudTextField Label="Password Confirmation" InputType="InputType.Password" @bind-Value="RegisterParameters.PasswordConfirm" For="@(() => RegisterParameters.PasswordConfirm)" Variant="Variant.Outlined" />
+                    </MudCardContent>
+                </MudCard>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+</MudContainer>
+
+@code {
+    private RegisterParametersDTO RegisterParameters = new RegisterParametersDTO();
+
+    private void Navigate()
+    {
+        NavigationManager.NavigateTo($"/admin/users");
+    }
+
+    private async void OnValidSubmit(EditContext context)
+    {
+        try
+        {
+            await authStateProvider.Register(RegisterParameters);
+        } catch(Exception e)
+        {
+
+        }
+    }
+}
