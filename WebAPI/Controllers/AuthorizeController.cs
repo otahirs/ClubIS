@@ -111,5 +111,39 @@ namespace ClubIS.WebAPI.Controllers
                     .ToDictionary(c => c.Type, c => c.Value)
             };
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeLogin(ChangeLoginDTO parameters)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+            var user = await _userManager.GetUserAsync(User);
+            if (!await _userManager.CheckPasswordAsync(user, parameters.AprovalPassword))
+            {
+                return BadRequest("Invalid password");
+            }
+            var result = await _userManager.SetUserNameAsync(user, parameters.NewUserName);
+            if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDTO parameters)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+            var user = await _userManager.GetUserAsync(User);
+            if (!await _userManager.CheckPasswordAsync(user, parameters.OldPassword))
+            {
+                return BadRequest("Invalid password");
+            }
+            var result = await _userManager.ChangePasswordAsync(user, parameters.OldPassword, parameters.NewPassword);
+            if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            return Ok();
+        }
     }
 }

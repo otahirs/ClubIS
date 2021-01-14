@@ -55,6 +55,12 @@ namespace ClubIS.Web.Services.Implementations
             return userInfo.UserId;
         }
 
+        public async Task<string> GetUserName()
+        {
+            var userInfo = await GetUserInfo();
+            return userInfo.UserName;
+        }
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var identity = new ClaimsIdentity();
@@ -73,6 +79,18 @@ namespace ClubIS.Web.Services.Implementations
             }
 
             return new AuthenticationState(new ClaimsPrincipal(identity));
+        }
+
+        public async Task ChangeLogin(ChangeLoginDTO parameters)
+        {
+            await _authorizeApi.ChangeLogin(parameters);
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        }
+
+        public async Task ChangePassword(ChangePasswordDTO parameters)
+        {
+            await _authorizeApi.ChangePassword(parameters);
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
     }
 }

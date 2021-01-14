@@ -22,10 +22,7 @@
             { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
         </MudTabPanel>
         <MudTabPanel Text="Login">
-            @if (SendUser != null)
-            {<LoginForm CurrentUserId="SendUser.Id" />}
-            else
-            { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+            <LoginEditForm />
         </MudTabPanel>
         <MudTabPanel Text="Supervision">
             <MudText>Supervision</MudText>

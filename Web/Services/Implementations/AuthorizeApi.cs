@@ -50,5 +50,19 @@ namespace ClubIS.Web.Services.Implementations
             var result = await _httpClient.GetFromJsonAsync<UserInfoDTO>("Authorize/UserInfo");
             return result;
         }
+
+        public async Task ChangeLogin(ChangeLoginDTO parameters)
+        {
+            var result = await _httpClient.PostAsJsonAsync("Authorize/ChangeLogin", parameters);
+            if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
+            result.EnsureSuccessStatusCode();
+        }
+
+        public async Task ChangePassword(ChangePasswordDTO parameters)
+        {
+            var result = await _httpClient.PostAsJsonAsync("Authorize/ChangePassword", parameters);
+            if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
+            result.EnsureSuccessStatusCode();
+        }
     }
 }

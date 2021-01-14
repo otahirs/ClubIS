@@ -1,0 +1,82 @@
+﻿@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IdentityAuthenticationStateProvider authStateProvider
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudText Typo="Typo.h3">Login</MudText>
+        <MudList Clickable="true" Class="xs-12">
+            <MudListItem Icon="@Icons.Material.Login" Text="Change login">
+                <NestedList>
+                    @if (ChangeLoginDTO == null)
+                    {<MudProgressCircular Color="Color.Default" Indeterminate="true" /> }
+                    else
+                    {
+                        <EditForm Model="@ChangeLoginDTO" OnValidSubmit="OnValidLoginSubmit">
+                            <DataAnnotationsValidator />
+                            <MudCard Elevation="0">
+                                <MudCardContent>
+                                    <MudTextField Label="Login" @bind-Value="ChangeLoginDTO.NewUserName" For="@(() => ChangeLoginDTO.NewUserName)" Variant="Variant.Outlined" />
+                                    <MudTextField InputType="InputType.Password" Label="Your password" @bind-Value="ChangeLoginDTO.AprovalPassword" For="@(() => ChangeLoginDTO.AprovalPassword)" Variant="Variant.Outlined" />
+                                </MudCardContent>
+                                <MudCardActions>
+                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+                                </MudCardActions>
+                            </MudCard>
+                        </EditForm>
+                    }
+                </NestedList>
+            </MudListItem>
+            <MudListItem Icon="@Icons.Material.Lock" Text="Change password">
+                <NestedList>
+                    @if (ChangePasswordDTO == null)
+                    {<MudProgressCircular Color="Color.Default" Indeterminate="true" /> }
+                    else
+                    {
+                        <EditForm Model="@ChangePasswordDTO" OnValidSubmit="OnValidPasswordSubmit">
+                            <DataAnnotationsValidator />
+                            <MudCard Elevation="0">
+                                <MudCardContent>
+                                    <MudTextField InputType="InputType.Password" Label="Old password" @bind-Value="ChangePasswordDTO.OldPassword" For="@(() => ChangePasswordDTO.OldPassword)" Variant="Variant.Outlined" />
+                                    <MudTextField InputType="InputType.Password" Label="New password" @bind-Value="ChangePasswordDTO.NewPassword" For="@(() => ChangePasswordDTO.NewPassword)" Variant="Variant.Outlined" />
+                                    <MudTextField InputType="InputType.Password" Label="New password again" @bind-Value="NewPasswordAgain" For="@(() => NewPasswordAgain)" Variant="Variant.Outlined" />
+                                </MudCardContent>
+                                <MudCardActions>
+                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+                                </MudCardActions>
+                            </MudCard>
+                        </EditForm>
+                    }
+                    </NestedList>
+            </MudListItem>
+        </MudList>
+</MudContainer>
+
+@code {
+    private ChangeLoginDTO ChangeLoginDTO;
+    private ChangePasswordDTO ChangePasswordDTO;
+
+    private string NewPasswordAgain;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var currentUserName = await authStateProvider.GetUserName();
+        ChangeLoginDTO = new ChangeLoginDTO() { NewUserName = currentUserName };
+        ChangePasswordDTO = new ChangePasswordDTO();
+    }
+
+
+    private async void OnValidLoginSubmit(EditContext context)
+    {
+        await authStateProvider.ChangeLogin(ChangeLoginDTO);
+    }
+
+    private async void OnValidPasswordSubmit(EditContext context)
+    {
+        if (ChangePasswordDTO.NewPassword == NewPasswordAgain)
+        {
+            await authStateProvider.ChangePassword(ChangePasswordDTO);
+        }
+    }
+}
+

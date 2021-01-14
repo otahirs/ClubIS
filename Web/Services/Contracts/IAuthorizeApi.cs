@@ -12,5 +12,7 @@ namespace ClubIS.Web.Services.Contracts
         Task Register(RegisterParametersDTO registerParameters);
         Task Logout();
         Task<UserInfoDTO> GetUserInfo();
+        Task ChangeLogin(ChangeLoginDTO parameters);
+        Task ChangePassword(ChangePasswordDTO parameters);
     }
 }
