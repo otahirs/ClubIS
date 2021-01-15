@@ -88,8 +88,8 @@ namespace ClubIS.BusinessLayer.Services
             var financeSupervisedUsers = await _unitOfWork.Users.GetFinanceSupervisored(id);
             return new UserSupervisionsDTO()
             {
-                EntriesSupervisors = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisors),
-                EntriesSupervisedUsers = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisors),
+                EntriesSupervisors = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisors.Select(u => u.EntriesSupervisor)),
+                EntriesSupervisedUsers = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisedUsers.Select(u => u.User)),
                 FinanceSupervisor = _mapper.Map<UserListDTO>(user.FinanceSupervisor),
                 FinanceSupervisedUsers = _mapper.Map<ISet<UserListDTO>>(financeSupervisedUsers)
             };
