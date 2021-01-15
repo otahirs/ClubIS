@@ -8,7 +8,7 @@
     <MudNavLink Href="/settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Settings">Settings</MudNavLink>
     <MudDivider DividerType="DividerType.Middle" Class="mt-10" />
     <br />
-    <AuthorizeView Policy="News">
+    <AuthorizeView Policy=@Policy.News>
         <MudNavLink Href="/admin/news" Match="NavLinkMatch.All" Icon="@Icons.Material.Message">News</MudNavLink>
     </AuthorizeView>
     <MudNavLink Href="/admin/entries" Match="NavLinkMatch.All" Icon="@Icons.Material.StickyNote2">Entries</MudNavLink>

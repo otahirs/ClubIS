@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
+using ClubIS.CoreLayer.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "News not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One news retrieved.")]
-        [Authorize(Policy = "News")]
+        [Authorize(Policy = Policy.News)]
         public async Task<ActionResult<NewsEditDTO>> Get(int id)
         {
             var news = await _newsFacade.GetById(id);
@@ -53,7 +54,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpPost]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided news.")]
         [SwaggerResponse(StatusCodes.Status200OK, "News added.")]
-        [Authorize(Policy = "News")]
+        [Authorize(Policy = Policy.News)]
         public async Task<ActionResult> Post([FromBody] NewsEditDTO news)
         {
             if (news == null)
@@ -66,7 +67,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpPut]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided news.")]
         [SwaggerResponse(StatusCodes.Status200OK, "News updated.")]
-        [Authorize(Policy = "News")]
+        [Authorize(Policy = Policy.News)]
         public async Task<ActionResult> Put([FromBody] NewsEditDTO news)
         {
             if (news == null)
@@ -79,7 +80,7 @@ namespace ClubIS.WebAPI.Controllers
         [HttpDelete("{id}")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "News not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "News deleted.")]
-        [Authorize(Policy = "News")]
+        [Authorize(Policy = Policy.News)]
         public async Task<ActionResult> Delete(int id)
         {
             var news = await _newsFacade.GetById(id);

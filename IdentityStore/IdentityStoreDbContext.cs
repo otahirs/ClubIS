@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClubIS.CoreLayer.Enums;
 
 namespace ClubIS.IdentityStore
 {
@@ -52,8 +53,8 @@ namespace ClubIS.IdentityStore
             builder.Entity<IdentityStoreRole>().HasData(
                 new IdentityStoreRole { 
                     Id = 1,
-                    Name = "admin", 
-                    NormalizedName = "ADMIN"
+                    Name = Role.Admin, 
+                    NormalizedName = Role.Admin.ToUpper()
                 }
             );
 

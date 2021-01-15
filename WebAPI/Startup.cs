@@ -4,6 +4,7 @@ using ClubIS.BusinessLayer.Facades;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services;
 using ClubIS.BusinessLayer.Services.Interfaces;
+using ClubIS.CoreLayer.Enums;
 using ClubIS.DataAccessLayer;
 using ClubIS.DataAccessLayer.Repositories;
 using ClubIS.DataAccessLayer.Repositories.Interfaces;
@@ -124,11 +125,11 @@ namespace ClubIS.WebAPI
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("News", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("news")));
-                options.AddPolicy("Entries", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Entries")));
-                options.AddPolicy("Events", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Events")));
-                options.AddPolicy("Users", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Users")));
-                options.AddPolicy("Finance", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Finace")));
+                options.AddPolicy(Policy.News, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.News)));
+                options.AddPolicy(Policy.Entries, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Entries)));
+                options.AddPolicy(Policy.Events, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Events)));
+                options.AddPolicy(Policy.Users, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Users)));
+                options.AddPolicy(Policy.Finance, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Finance)));
             });
         }
 

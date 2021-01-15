@@ -13,6 +13,7 @@ using MudBlazor.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using ClubIS.Web.Services.Implementations;
 using ClubIS.Web.Services.Contracts;
+using ClubIS.CoreLayer.Enums;
 
 namespace ClubIS.Web
 {
@@ -26,11 +27,11 @@ namespace ClubIS.Web
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore(options =>
             {
-                options.AddPolicy("News", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("news")));
-                options.AddPolicy("Entries", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Entries")));
-                options.AddPolicy("Events", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Events")));
-                options.AddPolicy("Users", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Users")));
-                options.AddPolicy("Finance", policy => policy.RequireAssertion(ctx => ctx.User.IsInRole("admin") || ctx.User.IsInRole("Finace")));
+                options.AddPolicy(Policy.News, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.News)));
+                options.AddPolicy(Policy.Entries, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Entries)));
+                options.AddPolicy(Policy.Events, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Events)));
+                options.AddPolicy(Policy.Users, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Users)));
+                options.AddPolicy(Policy.Finance, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Finance)));
             });
             builder.Services.AddScoped<IdentityAuthenticationStateProvider>();
             builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<IdentityAuthenticationStateProvider>());

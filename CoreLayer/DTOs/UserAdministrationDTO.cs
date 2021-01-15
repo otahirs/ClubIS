@@ -1,4 +1,5 @@
 ﻿using ClubIS.CoreLayer.Enums;
+using System.Collections.Generic;
 
 namespace ClubIS.CoreLayer.DTOs
 {
@@ -9,6 +10,6 @@ namespace ClubIS.CoreLayer.DTOs
         public string Surname { get; set; }
         public string RegistrationNumber { get; set; }
         public AccountState AccountState { get; set; }
-        public Role Roles { get; set; }
+        public IEnumerable<Role> Roles { get; set; }
     }
 }
