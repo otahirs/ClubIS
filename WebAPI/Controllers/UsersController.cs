@@ -123,5 +123,20 @@ namespace ClubIS.WebAPI.Controllers
             return Ok();
         }
 
+
+        [HttpGet("supervision/{id}")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Member fee types not found.")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Member fee types retrieved.")]
+        public async Task<ActionResult<UserSupervisionsDTO>> UserSupervisions(int id)
+        {
+
+            var userSupervisions = await _userFacade.GetUserSupervisions(id);
+            if (userSupervisions == null)
+            {
+                return NotFound();
+            }
+            return Ok(userSupervisions);
+        }
+
     }
 }

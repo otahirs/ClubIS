@@ -75,5 +75,24 @@ namespace ClubIS.BusinessLayer.Services
             User userEntity = await _unitOfWork.Users.GetById(user.Id);
             _mapper.Map(user, userEntity);
         }
+
+        public async Task Update(UserSupervisionsDTO user)
+        {
+            User userEntity = await _unitOfWork.Users.GetById(user.UserId);
+            _mapper.Map(user, userEntity);
+        }
+
+        public async Task<UserSupervisionsDTO> GetUserSupervisions(int id)
+        {
+            var user = await _unitOfWork.Users.GetById(id);
+            var financeSupervisedUsers = await _unitOfWork.Users.GetFinanceSupervisored(id);
+            return new UserSupervisionsDTO()
+            {
+                EntriesSupervisors = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisors),
+                EntriesSupervisedUsers = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisors),
+                FinanceSupervisor = _mapper.Map<UserListDTO>(user.FinanceSupervisor),
+                FinanceSupervisedUsers = _mapper.Map<ISet<UserListDTO>>(financeSupervisedUsers)
+            };
+        }
     }
 }

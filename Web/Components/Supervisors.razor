@@ -1,0 +1,80 @@
+﻿@inject HttpClient Http
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudText Typo="Typo.h3">Login</MudText>
+    <MudList Clickable="true" Class="xs-12">
+        <MudListItem Icon="@Icons.Material.StickyNote2" Text="Entries supervision">
+            <NestedList>
+                @if (UserSupervisions == null)
+                {<MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+                else
+                {
+                    <MudGrid>
+                        <MudItem xs="6">
+                            <MudText Typo="Typo.h4" GutterBottom="true">Supervising users</MudText>
+                            <MudTable Items="UserSupervisions.EntriesSupervisors" Hover="true" SortLabel="Sort By">
+                                <HeaderContent>
+                                    <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Name</MudTableSortLabel></MudTh>
+                                    <MudTh>Permissions</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="Name">@context.Surname @context.Firstname</MudTd>
+                                </RowTemplate>
+                            </MudTable>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudText Typo="Typo.h4" GutterBottom="true">Supervised users</MudText>
+                            <MudTable Items="UserSupervisions.EntriesSupervisedUsers" Hover="true" SortLabel="Sort By">
+                                <HeaderContent>
+                                    <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Name</MudTableSortLabel></MudTh>
+                                    <MudTh>Permissions</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="Name">@context.Surname @context.Firstname</MudTd>
+                                </RowTemplate>
+                            </MudTable>
+                        </MudItem>
+                    </MudGrid>
+                }
+            </NestedList>
+        </MudListItem>
+        <MudListItem Icon="@Icons.Material.AccountBalanceWallet" Text="Finance supervision">
+            <NestedList>
+                @if (UserSupervisions == null)
+                {<MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+                else
+                {
+                    <MudGrid>
+                        <MudItem xs="6">
+                            <MudText Typo="Typo.h4" GutterBottom="true">Supervising user</MudText>
+                            @*<MudTable Items="UserSupervisions.FinanceSupervisor" Hover="true" SortLabel="Sort By">
+                                <HeaderContent>
+                                    <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Name</MudTableSortLabel></MudTh>
+                                    <MudTh>Permissions</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="Name">@context.Surname @context.Firstname</MudTd>
+                                </RowTemplate>
+                            </MudTable>*@
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudText Typo="Typo.h4" GutterBottom="true">Supervised users</MudText>
+                        </MudItem>
+                    </MudGrid>
+                }
+            </NestedList>
+        </MudListItem>
+    </MudList>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public int UserId { get; set; }
+    private UserSupervisionsDTO UserSupervisions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        UserSupervisions = await Http.GetFromJsonAsync<UserSupervisionsDTO>($"Users/supervision/{UserId}");
+    }
+
+}

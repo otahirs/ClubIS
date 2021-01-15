@@ -38,6 +38,12 @@ namespace ClubIS.BusinessLayer.Facades
             await _unitOfWork.Save();
         }
 
+        public async Task Update(UserSupervisionsDTO user)
+        {
+            await _userService.Update(user);
+            await _unitOfWork.Save();
+        }
+
         public async Task Delete(int id)
         {
             await _userService.Delete(id);
@@ -70,6 +76,11 @@ namespace ClubIS.BusinessLayer.Facades
 
 
         }
-        
+
+
+        public async Task<UserSupervisionsDTO> GetUserSupervisions(int id)
+        {
+            return await _userService.GetUserSupervisions(id);
+        }
     }
 }
