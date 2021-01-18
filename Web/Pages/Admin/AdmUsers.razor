@@ -30,7 +30,6 @@
                 <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Name</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<UserListDTO, object>(x=>x.RegistrationNumber)">RegNum</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<UserListDTO, object>(x=>x.AccountState)">State</MudTableSortLabel></MudTh>
-                <MudTh>Permissions</MudTh>
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Name">@context.Surname @context.Firstname</MudTd>

@@ -10,30 +10,8 @@
                 else
                 {
                     <MudGrid>
-                        <MudItem xs="6">
-                            <MudText Typo="Typo.h4" GutterBottom="true">Supervising users</MudText>
-                            <MudTable Items="UserSupervisions.EntriesSupervisors" Hover="true" SortLabel="Sort By">
-                                <HeaderContent>
-                                    <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Name</MudTableSortLabel></MudTh>
-                                    <MudTh>Permissions</MudTh>
-                                </HeaderContent>
-                                <RowTemplate>
-                                    <MudTd DataLabel="Name">@context.Surname @context.Firstname</MudTd>
-                                </RowTemplate>
-                            </MudTable>
-                        </MudItem>
-                        <MudItem xs="6">
-                            <MudText Typo="Typo.h4" GutterBottom="true">Supervised users</MudText>
-                            <MudTable Items="UserSupervisions.EntriesSupervisedUsers" Hover="true" SortLabel="Sort By">
-                                <HeaderContent>
-                                    <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Name</MudTableSortLabel></MudTh>
-                                    <MudTh>Permissions</MudTh>
-                                </HeaderContent>
-                                <RowTemplate>
-                                    <MudTd DataLabel="Name">@context.Surname @context.Firstname</MudTd>
-                                </RowTemplate>
-                            </MudTable>
-                        </MudItem>
+                        @RenderSepervisionTable(UserSupervisions.EntriesSupervisors, true, false)
+                        @RenderSepervisionTable(UserSupervisions.EntriesSupervisedUsers, false, false)
                     </MudGrid>
                 }
             </NestedList>
@@ -45,21 +23,8 @@
                 else
                 {
                     <MudGrid>
-                        <MudItem xs="6">
-                            <MudText Typo="Typo.h4" GutterBottom="true">Supervising user</MudText>
-                            @*<MudTable Items="UserSupervisions.FinanceSupervisor" Hover="true" SortLabel="Sort By">
-                                <HeaderContent>
-                                    <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Name</MudTableSortLabel></MudTh>
-                                    <MudTh>Permissions</MudTh>
-                                </HeaderContent>
-                                <RowTemplate>
-                                    <MudTd DataLabel="Name">@context.Surname @context.Firstname</MudTd>
-                                </RowTemplate>
-                            </MudTable>*@
-                        </MudItem>
-                        <MudItem xs="6">
-                            <MudText Typo="Typo.h4" GutterBottom="true">Supervised users</MudText>
-                        </MudItem>
+                        @RenderSepervisionTable(FinanceSupervisorToCollection, true, true)
+                        @RenderSepervisionTable(UserSupervisions.FinanceSupervisedUsers, false, false)
                     </MudGrid>
                 }
             </NestedList>
@@ -70,11 +35,61 @@
 @code {
     [Parameter]
     public int UserId { get; set; }
+    [Parameter]
+    public bool isAdmin { get; set; }
     private UserSupervisionsDTO UserSupervisions;
+    private List<UserListDTO> FinanceSupervisorToCollection;
 
     protected override async Task OnInitializedAsync()
     {
         UserSupervisions = await Http.GetFromJsonAsync<UserSupervisionsDTO>($"Users/supervision/{UserId}");
+        FinanceSupervisorToCollection = new List<UserListDTO> { UserSupervisions.FinanceSupervisor };
+        f();
+    }
+
+    private RenderFragment f()
+    {
+        return @<MudText Typo="Typo.h4" GutterBottom="true">Supervising users</MudText>;
+    }
+    
+    private RenderFragment RenderSepervisionTable(ICollection<UserListDTO> supervisionCollection,
+        bool IsSupervisor, bool isFinanceSupervisor)
+    {
+        return @<MudItem xs="6">
+    @if (IsSupervisor)
+    {
+        <MudText Typo="Typo.h6" GutterBottom="true">Supervising users</MudText>
+    }
+    else
+    {
+        <MudText Typo="Typo.h6" GutterBottom="true">Supervised users</MudText>
+    }
+    @foreach (var item in supervisionCollection)
+    {
+        <MudGrid>
+            <MudItem xs="4" Class="mt-2">
+                <b>@item.Surname @item.Firstname</b>
+            </MudItem>
+            <MudItem xs="2">
+                <MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSupervision(item, supervisionCollection)">Delete</MudButton>
+            </MudItem>
+        </MudGrid>
+    }
+    @if (isAdmin)
+    {
+        @*<MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="" Disabled="additionDisabled" Class="ml-3">Supervisor</MudButton>*@
+    }
+</MudItem>;
+    }
+
+    private string RenderUserName(UserListDTO user)
+    {
+        return user.Surname + " " + user.Firstname;
+    }
+
+    private void DeleteSupervision(UserListDTO user, ICollection<UserListDTO> collection)
+    {
+        collection.Remove(user);
     }
 
 }
