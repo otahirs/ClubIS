@@ -27,11 +27,9 @@
         </MudTabPanel>
         <MudTabPanel Text="Supervision">
             @if (CurrentUser != null)
-            {<Supervisors UserId="CurrentUser.Id" /> }
+            { <Supervisors UserId="CurrentUser.Id" isAdmin="false" /> }
             else
-            {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
-            }
+            { <MudProgressCircular Color="Color.Default" Indeterminate="true" /> }
         </MudTabPanel>
     </MudTabs>
 </MudContainer>

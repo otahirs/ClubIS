@@ -138,5 +138,16 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(userSupervisions);
         }
 
+        [HttpPut("supervision")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided user.")]
+        [SwaggerResponse(StatusCodes.Status200OK, "User updated.")]
+        public async Task<ActionResult> Put([FromBody] UserSupervisionsDTO user)
+        {
+            if (user == null)
+                return BadRequest();
+
+            await _userFacade.Update(user);
+            return Ok();
+        }
     }
 }

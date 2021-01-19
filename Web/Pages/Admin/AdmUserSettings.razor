@@ -25,7 +25,10 @@
             <LoginEditForm />
         </MudTabPanel>
         <MudTabPanel Text="Supervision">
-            <MudText>Supervision</MudText>
+            @if (SendUser != null)
+            {<Supervisors UserId="SendUser.Id" isAdmin="true" /> }
+            else
+            { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
         </MudTabPanel>
         <MudTabPanel Text="Member Fee">
             @if (SendUser != null)
