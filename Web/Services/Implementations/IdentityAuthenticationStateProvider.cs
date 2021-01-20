@@ -61,6 +61,11 @@ namespace ClubIS.Web.Services.Implementations
             return userInfo.UserName;
         }
 
+        public async Task<UserRolesDTO> GetUserRolesById(int userId)
+        {
+            return await _authorizeApi.GetUserRolesById(userId);
+        }
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var identity = new ClaimsIdentity();
@@ -90,6 +95,12 @@ namespace ClubIS.Web.Services.Implementations
         public async Task ChangePassword(ChangePasswordDTO parameters)
         {
             await _authorizeApi.ChangePassword(parameters);
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        }
+
+        public async Task ChangeUserRoles(UserRolesDTO userRoles)
+        {
+            await _authorizeApi.ChangeUserRoles(userRoles);
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
     }

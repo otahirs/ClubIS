@@ -145,5 +145,47 @@ namespace ClubIS.WebAPI.Controllers
             if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
             return Ok();
         }
+
+        [HttpGet("{id}")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
+        [SwaggerResponse(StatusCodes.Status200OK, "User retrieved.")]
+        public async Task<ActionResult<UserRolesDTO>> GetUserRolesById(int userId)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+            var user = await GetUserById(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var rolesList = await _userManager.GetRolesAsync(user);
+            var roles = new UserRolesDTO() { UserId = userId, Roles = rolesList };
+            return Ok(roles);
+        }
+
+        // TOTO
+        private async Task<IdentityStoreUser> GetUserById(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeUserRoles(UserRolesDTO userRoles)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+            var user = await GetUserById(userRoles.UserId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var result = await _userManager.AddToRolesAsync(user, userRoles.Roles);
+            if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            return Ok();
+        }
     }
 }

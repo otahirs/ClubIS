@@ -1,0 +1,67 @@
+﻿@inject IdentityAuthenticationStateProvider authStateProvider
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudText Typo="Typo.h3">Roles</MudText>
+    @if (roles == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudCard Elevation="0">
+                <MudCardContent>
+                    @foreach (var key in RolesAndPermissions.Keys)
+                    {
+                        <MudGrid>
+                            <MudItem xs="8">
+                                <b>@key</b>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudCheckBox @bind-Checked="@RolesAndPermissions[key]"></MudCheckBox>
+                            </MudItem>
+                        </MudGrid>
+                    }
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveChanges" Class="ml-3">Save</MudButton>
+                </MudCardActions>
+            </MudCard>
+    }
+</MudContainer>
+
+@code {
+    [Parameter]
+    public int UserId { get; set; }
+    private Dictionary<string, bool> RolesAndPermissions;
+    private UserRolesDTO roles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        roles = await authStateProvider.GetUserRolesById(UserId);
+        foreach (var r in Role.GetAll())
+        {
+            RolesAndPermissions.Add(r, roles.Roles.Contains(r));
+        }
+    }
+
+    private async Task SaveChanges()
+    {
+        foreach(var item in RolesAndPermissions)
+        {
+            if (item.Value)
+            {
+                if (!roles.Roles.Contains(item.Key))
+                {
+                    roles.Roles.Add(item.Key);
+                }
+            } else
+            {
+                if (roles.Roles.Contains(item.Key))
+                {
+                    roles.Roles.Remove(item.Key);
+                }
+            }
+        }
+        await authStateProvider.ChangeUserRoles(roles);
+    }
+}

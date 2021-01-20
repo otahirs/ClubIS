@@ -42,6 +42,12 @@
             else
             { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
         </MudTabPanel>
+        <MudTabPanel Text="Roles">
+            @if (SendUser != null)
+            {<RolesForm UserId="SendUser.Id" /> }
+            else
+            { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+        </MudTabPanel>
     </MudTabs>
 </MudContainer>
 
