@@ -33,6 +33,7 @@ namespace ClubIS.Web
                 options.AddPolicy(Policy.Users, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Users)));
                 options.AddPolicy(Policy.Finance, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Finance)));
             });
+            builder.Services.AddScoped<Searching>();
             builder.Services.AddScoped<IdentityAuthenticationStateProvider>();
             builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<IdentityAuthenticationStateProvider>());
             builder.Services.AddScoped<IAuthorizeApi, AuthorizeApi>();

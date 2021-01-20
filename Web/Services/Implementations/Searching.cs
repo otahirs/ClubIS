@@ -14,5 +14,12 @@ namespace ClubIS.Web.Services.Implementations
                 return users.Select(u => u.Id);
             return users.Where(u => $"{u.Surname} ({u.Firstname})".Contains(searchValue, StringComparison.InvariantCultureIgnoreCase)).Select(u => u.Id);
         }
+
+        public bool FilterFunc(string searchData, string searchValue)
+        {
+            if (string.IsNullOrWhiteSpace(searchValue))
+                return true;
+            return searchData.Contains(searchValue, StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

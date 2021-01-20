@@ -7,6 +7,7 @@
 @using MudBlazor.Components.Table
 
 @inject NavigationManager NavigationManager
+@inject Searching Searching
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin users</MudText>
@@ -22,7 +23,7 @@
     }
     else
     {
-        <MudTable Items="displayedUsers" Hover="true" SortLabel="Sort By" OnRowClick="@((TableRowClickEventArgs<UserListDTO> e)=> Navigate(e.Item))">
+        <MudTable Items="displayedUsers" Filter="new Func<UserListDTO, bool>(FilterFunc)" Hover="true" SortLabel="Sort By" OnRowClick="@((TableRowClickEventArgs<UserListDTO> e)=> Navigate(e.Item))">
             <ToolBarContent>
                 <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium"></MudTextField>
             </ToolBarContent>
@@ -87,10 +88,7 @@
 
     bool FilterFunc(UserListDTO u)
     {
-        if (searchString == null) searchString = "";
-        var userData = $"{u.Firstname} {u.Surname} {u.RegistrationNumber}";
-
-        return userData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
+        return Searching.FilterFunc($"{u.Firstname} {u.Surname} {u.RegistrationNumber} {u.AccountState}", searchString);
     }
 
     protected void Navigate()

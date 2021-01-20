@@ -7,6 +7,7 @@
 @using MudBlazor.Components.Table
 
 @inject NavigationManager NavigationManager
+@inject Searching Searching
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Member list</MudText>
@@ -49,10 +50,7 @@
 
     bool FilterFunc(UserListDTO u)
     {
-        if (searchString == null) searchString = "";
-        var userData = $"{u.Firstname} {u.Surname} {u.RegistrationNumber}";
-
-        return userData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
+        return Searching.FilterFunc($"{u.Firstname} {u.Surname} {u.RegistrationNumber}", searchString);
     }
 
     protected void Navigate(UserListDTO u)
