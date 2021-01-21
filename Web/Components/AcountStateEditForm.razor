@@ -37,7 +37,7 @@
         return (AccountState[])Enum.GetValues(typeof(AccountState));
     }
 
-    private async void OnValidSubmit(EditContext context)
+    private async Task OnValidSubmit(EditContext context)
     {
         await Http.PutAsJsonAsync<UserDTO>("Users", User);
     }

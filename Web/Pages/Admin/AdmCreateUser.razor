@@ -26,6 +26,10 @@
                         <MudTextField Label="Password Confirmation" InputType="InputType.Password" @bind-Value="RegisterParameters.PasswordConfirm" For="@(() => RegisterParameters.PasswordConfirm)" Variant="Variant.Outlined" />
                     </MudCardContent>
                 </MudCard>
+                @if (errorMessage != null)
+                {
+                    <MudAlert Severity="Severity.Error">@errorMessage</MudAlert>
+                }
             </MudCardContent>
             <MudCardActions>
                 <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
@@ -37,20 +41,23 @@
 
 @code {
     private RegisterParametersDTO RegisterParameters = new RegisterParametersDTO();
+    private string errorMessage;
 
     private void Navigate()
     {
         NavigationManager.NavigateTo($"/admin/users");
     }
 
-    private async void OnValidSubmit(EditContext context)
+    private async Task OnValidSubmit(EditContext context)
     {
+        errorMessage = null;
         try
         {
             await authStateProvider.Register(RegisterParameters);
+            Navigate();
         } catch(Exception e)
         {
-
+            errorMessage = e.Message;
         }
     }
 }

@@ -124,7 +124,8 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return BadRequest("Invalid password");
             }
-            var result = await _userManager.SetUserNameAsync(user, parameters.NewUserName);
+            var editedUser = await GetUserById(parameters.EditedUserId);
+            var result = await _userManager.SetUserNameAsync(editedUser, parameters.NewUserName);
             if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
             return Ok();
         }
@@ -141,14 +142,15 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return BadRequest("Invalid password");
             }
-            var result = await _userManager.ChangePasswordAsync(user, parameters.OldPassword, parameters.NewPassword);
+            var editedUser = await GetUserById(parameters.EditedUserId);
+            var result = await _userManager.ChangePasswordAsync(editedUser, parameters.OldPassword, parameters.NewPassword);
             if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
             return Ok();
         }
 
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
-        [SwaggerResponse(StatusCodes.Status200OK, "User retrieved.")]
+        [SwaggerResponse(StatusCodes.Status200OK, "User roles retrieved.")]
         public async Task<ActionResult<UserRolesDTO>> GetUserRolesById(int userId)
         {
             if (!User.Identity.IsAuthenticated)
@@ -169,6 +171,19 @@ namespace ClubIS.WebAPI.Controllers
         private async Task<IdentityStoreUser> GetUserById(int userId)
         {
             throw new NotImplementedException();
+        }
+
+        [HttpGet("{id}")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Username retrieved.")]
+        public async Task<ActionResult<string>> GetUserNameById(int userId)
+        {
+            var user = await GetUserById(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user.UserName);
         }
 
         [HttpPost]

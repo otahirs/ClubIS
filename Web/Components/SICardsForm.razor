@@ -83,7 +83,7 @@
         User = await Http.GetFromJsonAsync<UserDTO>($"Users/{User.Id}");
     }
 
-    private async void OnValidSubmit(EditContext context)
+    private async Task OnValidSubmit(EditContext context)
     {
         if (IsAdmin)
         {

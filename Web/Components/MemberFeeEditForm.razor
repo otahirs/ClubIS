@@ -38,7 +38,7 @@
         memberFeeTypes = await Http.GetFromJsonAsync<List<MemberFeeDTO>>($"Payments/member-fee-types");
     }
 
-    private async void OnValidSubmit(EditContext context)
+    private async Task OnValidSubmit(EditContext context)
     {
         await Http.PutAsJsonAsync<UserDTO>("Users", User);
     }

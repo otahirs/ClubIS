@@ -67,8 +67,7 @@ namespace ClubIS.Web.Services.Implementations
 
         public async Task<UserRolesDTO> GetUserRolesById(int userId)
         {
-            var result = await _httpClient.GetFromJsonAsync<UserRolesDTO>($"Authorize/GetUserRolesById/{userId}");
-            return result;
+            return await _httpClient.GetFromJsonAsync<UserRolesDTO>($"Authorize/GetUserRolesById/{userId}");
         }
 
         public async Task ChangeUserRoles(UserRolesDTO userRoles)
@@ -76,6 +75,11 @@ namespace ClubIS.Web.Services.Implementations
             var result = await _httpClient.PostAsJsonAsync("Authorize/ChangeUserRoles", userRoles);
             if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
             result.EnsureSuccessStatusCode();
+        }
+
+        public async Task<string> GetUserNameById(int userId)
+        {
+            return await _httpClient.GetFromJsonAsync<string>($"Authorize/GetUserNameById/{userId}");
         }
     }
 }

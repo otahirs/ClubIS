@@ -47,7 +47,7 @@
         }
     }
 
-    private async void OnValidSubmit(EditContext context)
+    private async Task OnValidSubmit(EditContext context)
     {
         if (NewsId == null)
         {
@@ -61,7 +61,7 @@
         Navigate();
     }
 
-    private async void RemoveNews()
+    private async Task RemoveNews()
     {
         await Http.DeleteAsync($"News/{NewsId}");
         Navigate();

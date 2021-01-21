@@ -69,7 +69,7 @@
         User.DateOfBirth = DateTime.Parse(date);
     }
 
-    private async void RemoveUser()
+    private async Task RemoveUser()
     {
         await Http.DeleteAsync($"Users/{User.Id}");
         NavigationManager.NavigateTo($"/admin/users");
@@ -80,7 +80,7 @@
         User = await Http.GetFromJsonAsync<UserDTO>($"Users/{User.Id}");
     }
 
-    private async void OnValidSubmit(EditContext context)
+    private async Task OnValidSubmit(EditContext context)
     {
         if (IsAdmin) {
             await Http.PutAsJsonAsync<UserDTO>("Users", User);

@@ -55,10 +55,9 @@ namespace ClubIS.Web.Services.Implementations
             return userInfo.UserId;
         }
 
-        public async Task<string> GetUserName()
+        public async Task<string> GetUserNameById(int userId)
         {
-            var userInfo = await GetUserInfo();
-            return userInfo.UserName;
+            return await _authorizeApi.GetUserNameById(userId);
         }
 
         public async Task<UserRolesDTO> GetUserRolesById(int userId)
