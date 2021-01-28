@@ -51,7 +51,6 @@ namespace ClubIS.BusinessLayer.Services
             var user = await _unitOfWork.Users.GetEntriesSupervisorsById(id);
             var supervised = new List<User_EntriesSupervisor>(user.EntriesSupervisedUsers)
                 .Select(s => s.User).ToList();
-            var x = _mapper.Map<IEnumerable<UserEntryEditDTO>>(supervised);
             return new UserEntryListDTO
             {
                 Supervised = _mapper.Map<IEnumerable<UserEntryEditDTO>>(supervised),
