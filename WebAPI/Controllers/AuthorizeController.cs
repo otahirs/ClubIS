@@ -13,12 +13,13 @@ using ClubIS.IdentityStore;
 using System.Linq;
 using System.Security.Claims;
 using System;
+using ClubIS.CoreLayer.Enums;
 
 namespace ClubIS.WebAPI.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]/[action]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class AuthorizeController : ControllerBase
     {
         private readonly UserManager<IdentityStoreUser> _userManager;
@@ -32,7 +33,7 @@ namespace ClubIS.WebAPI.Controllers
             _userFacade = userFacade;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(LoginParametersDTO parameters)
         {
             var user = await _userManager.FindByNameAsync(parameters.UserName);
@@ -46,7 +47,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterParametersDTO parameters)
         {
             var userIdentity = new IdentityStoreUser
@@ -84,14 +85,14 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("user-info")]
         public UserInfoDTO UserInfo()
         {
             //var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -112,7 +113,7 @@ namespace ClubIS.WebAPI.Controllers
             };
         }
 
-        [HttpPost]
+        [HttpPut("login")]
         public async Task<IActionResult> ChangeLogin(ChangeLoginDTO parameters)
         {
             if (!User.Identity.IsAuthenticated)
@@ -130,7 +131,7 @@ namespace ClubIS.WebAPI.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPut("password")]
         public async Task<IActionResult> ChangePassword(ChangePasswordDTO parameters)
         {
             if (!User.Identity.IsAuthenticated)
@@ -148,10 +149,10 @@ namespace ClubIS.WebAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("roles/{userId}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "User roles retrieved.")]
-        public async Task<ActionResult<UserRolesDTO>> GetUserRolesById(int userId)
+        public async Task<ActionResult<UserRolesDTO>> Get(int userId)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -172,7 +173,7 @@ namespace ClubIS.WebAPI.Controllers
             return _userManager.FindByIdAsync(userId.ToString());
         } 
 
-        [HttpGet("{id}")]
+        [HttpGet("username/{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Username retrieved.")]
         public async Task<ActionResult<string>> GetUserNameById(int userId)
@@ -185,7 +186,7 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(user.UserName);
         }
 
-        [HttpPost]
+        [HttpPut("roles")]
         public async Task<IActionResult> ChangeUserRoles(UserRolesDTO userRoles)
         {
             if (!User.Identity.IsAuthenticated)
