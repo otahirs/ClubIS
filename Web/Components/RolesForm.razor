@@ -32,8 +32,8 @@
 @code {
     [Parameter]
     public int UserId { get; set; }
-    private Dictionary<string, bool> RolesAndPermissions;
-    private UserRolesDTO roles;
+    private Dictionary<string, bool> RolesAndPermissions = new Dictionary<string, bool>();
+    private UserRolesDTO roles = new UserRolesDTO();
 
     protected override async Task OnInitializedAsync()
     {
