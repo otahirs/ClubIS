@@ -37,9 +37,11 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<IActionResult> Login(LoginParametersDTO parameters)
         {
             var user = await _userManager.FindByNameAsync(parameters.UserName);
-            if (user == null) return BadRequest("User does not exist");
+            if (user == null) 
+                return BadRequest("User does not exist");
             var singInResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
-            if (!singInResult.Succeeded) return BadRequest("Invalid password");
+            if (!singInResult.Succeeded) 
+                return BadRequest("Invalid password");
 
             await _signInManager.SignInAsync(user, parameters.RememberMe);
 
@@ -55,7 +57,8 @@ namespace ClubIS.WebAPI.Controllers
                 UserName = parameters.UserName
             };
             var result = await _userManager.CreateAsync(userIdentity, parameters.Password);
-            if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            if (!result.Succeeded) 
+                return BadRequest(result.Errors.FirstOrDefault()?.Description);
 
             var identityUser = await _userManager.FindByNameAsync(userIdentity.UserName);
             var user = new UserDTO()
@@ -127,7 +130,8 @@ namespace ClubIS.WebAPI.Controllers
             }
             var editedUser = await GetUserIdentityById(parameters.EditedUserId);
             var result = await _userManager.SetUserNameAsync(editedUser, parameters.NewUserName);
-            if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            if (!result.Succeeded) 
+                return BadRequest(result.Errors.FirstOrDefault()?.Description);
             return Ok();
         }
 
@@ -145,7 +149,8 @@ namespace ClubIS.WebAPI.Controllers
             }
             var editedUser = await GetUserIdentityById(parameters.EditedUserId);
             var result = await _userManager.ChangePasswordAsync(editedUser, parameters.OldPassword, parameters.NewPassword);
-            if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            if (!result.Succeeded) 
+                return BadRequest(result.Errors.FirstOrDefault()?.Description);
             return Ok();
         }
 
@@ -201,7 +206,8 @@ namespace ClubIS.WebAPI.Controllers
             var oldRoles = await _userManager.GetRolesAsync(user);
             await _userManager.RemoveFromRolesAsync(user, oldRoles);
             var result = await _userManager.AddToRolesAsync(user, userRoles.Roles);
-            if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            if (!result.Succeeded) 
+                return BadRequest(result.Errors.FirstOrDefault()?.Description);
             return Ok();
         }
     }
