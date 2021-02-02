@@ -124,7 +124,7 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return BadRequest("Invalid password");
             }
-            var editedUser = await GetUserById(parameters.EditedUserId);
+            var editedUser = await GetUserIdentityById(parameters.EditedUserId);
             var result = await _userManager.SetUserNameAsync(editedUser, parameters.NewUserName);
             if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
             return Ok();
@@ -142,7 +142,7 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return BadRequest("Invalid password");
             }
-            var editedUser = await GetUserById(parameters.EditedUserId);
+            var editedUser = await GetUserIdentityById(parameters.EditedUserId);
             var result = await _userManager.ChangePasswordAsync(editedUser, parameters.OldPassword, parameters.NewPassword);
             if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
             return Ok();
@@ -157,7 +157,7 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return Unauthorized();
             }
-            var user = await GetUserById(userId);
+            var user = await GetUserIdentityById(userId);
             if (user == null)
             {
                 return NotFound();
@@ -167,18 +167,17 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(roles);
         }
 
-        // TOTO
-        private async Task<IdentityStoreUser> GetUserById(int userId)
+        private Task<IdentityStoreUser> GetUserIdentityById(int userId)
         {
-            throw new NotImplementedException();
-        }
+            return _userManager.FindByIdAsync(userId.ToString());
+        } 
 
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Username retrieved.")]
         public async Task<ActionResult<string>> GetUserNameById(int userId)
         {
-            var user = await GetUserById(userId);
+            var user = await GetUserIdentityById(userId);
             if (user == null)
             {
                 return NotFound();
@@ -193,7 +192,7 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return Unauthorized();
             }
-            var user = await GetUserById(userRoles.UserId);
+            var user = await GetUserIdentityById(userRoles.UserId);
             if (user == null)
             {
                 return NotFound();
