@@ -38,9 +38,9 @@ namespace ClubIS.BusinessLayer.Facades
             await _unitOfWork.Save();
         }
 
-        public async Task Update(UserSupervisionsDTO user)
+        public async Task UpdateSupervisions(UserSupervisionsDTO user)
         {
-            await _userService.Update(user);
+            await _userService.UpdateSupervisions(user);
             await _unitOfWork.Save();
         }
 

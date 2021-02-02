@@ -75,10 +75,33 @@ namespace ClubIS.BusinessLayer.Services
             _mapper.Map(user, userEntity);
         }
 
-        public async Task Update(UserSupervisionsDTO user)
+        public async Task UpdateSupervisions(UserSupervisionsDTO user)
         {
             User userEntity = await _unitOfWork.Users.GetById(user.UserId);
-            _mapper.Map(user, userEntity);
+            userEntity.EntriesSupervisors.Clear();
+            userEntity.EntriesSupervisors = user.EntriesSupervisors
+                .Select(es => new User_EntriesSupervisor() 
+                    { 
+                        UserId=user.UserId, 
+                        EntriesSupervisorId=es.Id 
+                    })
+                .ToHashSet();
+            userEntity.EntriesSupervisedUsers.Clear();
+            userEntity.EntriesSupervisedUsers = user.EntriesSupervisedUsers
+                .Select(esd => new User_EntriesSupervisor()
+                    {
+                        UserId = esd.Id,
+                        EntriesSupervisorId = user.UserId
+                    })
+                .ToHashSet();
+            userEntity.FinanceSupervisorId = user.FinanceSupervisor?.Id;
+
+            _unitOfWork.Users.RemoveFinanceSupervisor(user.UserId);
+            foreach(var u in user.FinanceSupervisedUsers)
+            {
+                var finSupervisedUser = await _unitOfWork.Users.GetById(u.Id);
+                finSupervisedUser.FinanceSupervisorId = user.UserId;
+            }
         }
 
         public async Task<UserSupervisionsDTO> GetUserSupervisions(int id)
@@ -87,6 +110,7 @@ namespace ClubIS.BusinessLayer.Services
             var financeSupervisedUsers = await _unitOfWork.Users.GetFinanceSupervisored(id);
             return new UserSupervisionsDTO()
             {
+                UserId = id,
                 EntriesSupervisors = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisors.Select(u => u.EntriesSupervisor)),
                 EntriesSupervisedUsers = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisedUsers.Select(u => u.User)),
                 FinanceSupervisor = _mapper.Map<UserListDTO>(user.FinanceSupervisor),

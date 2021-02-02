@@ -41,7 +41,7 @@
     [Parameter]
     public bool isAdmin { get; set; }
     private UserSupervisionsDTO UserSupervisions;
-    private List<UserListDTO> FinanceSupervisorToCollection;
+    private List<UserListDTO> FinanceSupervisorToCollection = new List<UserListDTO>();
     private UserListDTO[] AllUsers;
 
     private Form EntriesSupervisingForm = new Form();
@@ -52,7 +52,8 @@
     protected override async Task OnInitializedAsync()
     {
         UserSupervisions = await Http.GetFromJsonAsync<UserSupervisionsDTO>($"Users/supervision/{UserId}");
-        FinanceSupervisorToCollection = new List<UserListDTO> { UserSupervisions.FinanceSupervisor };
+        if(UserSupervisions.FinanceSupervisor != null)
+            FinanceSupervisorToCollection.Add(UserSupervisions.FinanceSupervisor);
         AllUsers = await Http.GetFromJsonAsync<UserListDTO[]>("Users");
     }
 
@@ -155,6 +156,6 @@
         {
             UserSupervisions.FinanceSupervisor = FinanceSupervisorToCollection.First();
         }
-        await Http.PutAsJsonAsync<UserSupervisionsDTO>("supervisions", UserSupervisions);
+        await Http.PutAsJsonAsync<UserSupervisionsDTO>("Users/supervision", UserSupervisions);
     }
 }

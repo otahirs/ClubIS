@@ -26,5 +26,14 @@ namespace ClubIS.DataAccessLayer.Repositories
         {
             return await _entities.Where(u => u.FinanceSupervisorId == userId).ToListAsync();
         }
+
+        public void RemoveFinanceSupervisor(int supervisorUserId)
+        {
+            var users = _entities.Where(u => u.FinanceSupervisorId == supervisorUserId);
+            foreach(var u in users)
+            {
+                u.FinanceSupervisorId = null;
+            }
+        }
     }
 }

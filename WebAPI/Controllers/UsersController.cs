@@ -146,7 +146,7 @@ namespace ClubIS.WebAPI.Controllers
             if (user == null)
                 return BadRequest();
 
-            await _userFacade.Update(user);
+            await _userFacade.UpdateSupervisions(user);
             return Ok();
         }
     }

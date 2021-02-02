@@ -8,5 +8,6 @@ namespace ClubIS.DataAccessLayer.Repositories.Interfaces
     {
         Task<User> GetEntriesSupervisorsById(int id);
         Task<IEnumerable<User>> GetFinanceSupervisored(int userId);
+        public void RemoveFinanceSupervisor(int supervisorUserId);
     }
 }

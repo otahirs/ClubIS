@@ -12,7 +12,7 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
         Task<UserDTO> GetById(int id);
         Task Update(UserDTO e);
         Task Update(MemberUserEditDTO e);
-        Task Update(UserSupervisionsDTO user);
+        Task UpdateSupervisions(UserSupervisionsDTO user);
         Task Delete(int id);
         Task<IEnumerable<UserEntriesSupervisedListDTO>> GetAllEntriesSupervisors();
         Task<UserEntryListDTO> GetAllEntriesSupervisorsById(int id);
