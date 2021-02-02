@@ -173,7 +173,7 @@ namespace ClubIS.WebAPI.Controllers
             return _userManager.FindByIdAsync(userId.ToString());
         } 
 
-        [HttpGet("username/{id}")]
+        [HttpGet("username/{userId}")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Username retrieved.")]
         public async Task<ActionResult<string>> GetUserNameById(int userId)
@@ -183,7 +183,7 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(user.UserName);
+            return new JsonResult(user.UserName);
         }
 
         [HttpPut("roles")]
