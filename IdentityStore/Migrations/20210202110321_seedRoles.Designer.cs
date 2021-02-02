@@ -4,14 +4,16 @@ using ClubIS.IdentityStore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClubIS.IdentityStore.Migrations
 {
     [DbContext(typeof(IdentityStoreDbContext))]
-    partial class IdentityStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210202110321_seedRoles")]
+    partial class seedRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
