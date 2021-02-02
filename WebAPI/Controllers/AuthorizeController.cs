@@ -24,7 +24,7 @@ namespace ClubIS.WebAPI.Controllers
     {
         private readonly UserManager<IdentityStoreUser> _userManager;
         private readonly SignInManager<IdentityStoreUser> _signInManager;
-        private IUserFacade _userFacade;
+        private readonly IUserFacade _userFacade;
 
         public AuthorizeController(UserManager<IdentityStoreUser> userManager, SignInManager<IdentityStoreUser> signInManager, IUserFacade userFacade)
         {
