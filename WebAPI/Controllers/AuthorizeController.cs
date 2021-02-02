@@ -197,6 +197,7 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return NotFound();
             }
+            await _userManager.RemoveFromRolesAsync(user, Role.GetAll());
             var result = await _userManager.AddToRolesAsync(user, userRoles.Roles);
             if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
             return Ok();
