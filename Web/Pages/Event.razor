@@ -103,9 +103,10 @@
                                                     <MudText Typo="Typo.h6"><b>Event Stages:</b></MudText>
                                                     @foreach (var s in e.EventStages)
                                                     {
-                                                        <MudCheckBox @bind-Checked="s.Selected">
-                                                            <b>@s.Name</b>, date: @s.Date.ToString("dd.MM.yyyy")
-                                                        </MudCheckBox>
+                                                <MudCheckBox @bind-Checked="s.Selected">
+                                                    @s.Date.ToString("dd.MM.yyyy"), <b>@s.Name</b>
+                                                </MudCheckBox>
+                                                        <br>
                                                     }
                                                 </MudCardContent>
                                             </MudCard>
