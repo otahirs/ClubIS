@@ -112,7 +112,9 @@ namespace ClubIS.WebAPI.Controllers
                 ExposedClaims = User.Claims
                     //Optionally: filter the claims you want to expose to the client
                     //.Where(c => c.Type == "test-claim")
-                    .ToDictionary(c => c.Type, c => c.Value)
+                    .GroupBy(c => c.Type)
+                    .ToDictionary(grp => grp.Key, grp => grp.Last().Value)
+                    //.ToDictionary(c => c.Type, c => c.Value) can lead to errors if claims are altered
             };
         }
 
