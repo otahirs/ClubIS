@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using ClubIS.IdentityStore;
 
 namespace ClubIS.WebAPI.Controllers
 {
@@ -25,6 +27,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet("event/{eventId}")]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entries retrieved.")]
         public async Task<ActionResult<IEnumerable<EventEntryListDTO>>> GetByEventId(int eventId)
@@ -39,6 +42,7 @@ namespace ClubIS.WebAPI.Controllers
 
 
         [HttpGet("{id}")]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One entry retrieved.")]
         public async Task<ActionResult<EventEntryListDTO>> Get(int id)
@@ -53,10 +57,18 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided entry.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry added.")]
         public async Task<ActionResult> Post([FromBody] EventEntryEditDTO entry)
         {
+            if (User.Identity.GetUserId() != entry.UserId ||
+                !User.IsInRole(Role.Entries) ||
+                !User.IsInRole(Role.Admin))
+            {
+                return Unauthorized();
+            }
+
             if (entry == null)
                 return BadRequest();
 
@@ -73,10 +85,18 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided entry.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry updated.")]
         public async Task<ActionResult> Put([FromBody] EventEntryEditDTO entry)
         {
+            if (User.Identity.GetUserId() != entry.UserId ||
+                !User.IsInRole(Role.Entries) ||
+                !User.IsInRole(Role.Admin))
+            {
+                return Unauthorized();
+            }
+
             if (entry == null)
                 return BadRequest();
 
@@ -93,17 +113,25 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry deleted.")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(EventEntryDeleteDTO e)
         {
-            var entry = await _entryFacade.GetById(id);
+            if (User.Identity.GetUserId() != e.UserId ||
+                !User.IsInRole(Role.Entries) ||
+                !User.IsInRole(Role.Admin))
+            {
+                return Unauthorized();
+            }
+
+            var entry = await _entryFacade.GetById(e.Id);
 
             if (entry == null)
             {
                 return NotFound();
             }
-            await _entryFacade.Delete(id);
+            await _entryFacade.Delete(e.Id);
             return Ok();
         }
     }

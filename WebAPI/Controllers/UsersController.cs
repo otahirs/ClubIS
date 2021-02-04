@@ -3,9 +3,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
+using ClubIS.CoreLayer.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using ClubIS.IdentityStore;
 
 namespace ClubIS.WebAPI.Controllers
 {
@@ -22,6 +25,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Users not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Users retrieved.")]
         public async Task<ActionResult<IEnumerable<UserListDTO>>> Get()
@@ -35,6 +39,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet("entriesSupervisor")]
+        [Authorize(Policy = Policy.Users)]
         [SwaggerResponse(StatusCodes.Status200OK, "Users retrieved.")]
         public async Task<ActionResult<IEnumerable<UserEntriesSupervisedListDTO>>> GetEntriesSupervisors()
         {
@@ -47,9 +52,16 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet("entriesSupervisor/{id}")]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status200OK, "Supervisors retrieved.")]
         public async Task<ActionResult<UserEntryListDTO>> GetEntriesSupervisors(int id)
         {
+            if (User.Identity.GetUserId() != id ||
+               !User.IsInRole(Role.Users) ||
+               !User.IsInRole(Role.Admin))
+            {
+                return Unauthorized();
+            }
             var users = await _userFacade.GetAllEntriesSupervisorsById(id);
             if (users == null)
             {
@@ -59,6 +71,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One user retrieved.")]
         public async Task<ActionResult<UserDTO>> Get(int id)
@@ -72,19 +85,21 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided user.")]
-        [SwaggerResponse(StatusCodes.Status200OK, "User added.")]
-        public async Task<ActionResult> Post([FromBody] UserDTO user)
-        {
-            if (user == null)
-                return BadRequest();
+        //[HttpPost]
+        //[Authorize(Policy = Policy.Users)]
+        //[SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided user.")]
+        //[SwaggerResponse(StatusCodes.Status200OK, "User added.")]
+        //public async Task<ActionResult> Post([FromBody] UserDTO user)
+        //{
+        //    if (user == null)
+        //        return BadRequest();
 
-            await _userFacade.Create(user);
-            return Ok();
-        }
+        //    await _userFacade.Create(user);
+        //    return Ok();
+        //}
 
         [HttpPut]
+        [Authorize(Policy = Policy.Users)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided user.")]
         [SwaggerResponse(StatusCodes.Status200OK, "User updated.")]
         public async Task<ActionResult> Put([FromBody] UserDTO user)
@@ -97,10 +112,18 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpPut("member-edit")]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided user.")]
         [SwaggerResponse(StatusCodes.Status200OK, "User updated.")]
         public async Task<ActionResult> Put([FromBody] MemberUserEditDTO user)
         {
+            if (User.Identity.GetUserId() != user.Id ||
+              !User.IsInRole(Role.Users) ||
+              !User.IsInRole(Role.Admin))
+            {
+                return Unauthorized();
+            }
+
             if (user == null)
                 return BadRequest();
 
@@ -109,6 +132,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policy.Users)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "User deleted.")]
         public async Task<ActionResult> Delete(int id)
@@ -125,10 +149,17 @@ namespace ClubIS.WebAPI.Controllers
 
 
         [HttpGet("supervision/{id}")]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "Member fee types not found.")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Member fee types retrieved.")]
+        [Authorize]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Supervisions not found.")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Supervisions retrieved.")]
         public async Task<ActionResult<UserSupervisionsDTO>> UserSupervisions(int id)
         {
+            if (User.Identity.GetUserId() != id ||
+              !User.IsInRole(Role.Users) ||
+              !User.IsInRole(Role.Admin))
+            {
+                return Unauthorized();
+            }
 
             var userSupervisions = await _userFacade.GetUserSupervisions(id);
             if (userSupervisions == null)
@@ -139,8 +170,9 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpPut("supervision")]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided user.")]
-        [SwaggerResponse(StatusCodes.Status200OK, "User updated.")]
+        [Authorize(Policy = Policy.Users)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided Supervisions.")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Supervisions updated.")]
         public async Task<ActionResult> Put([FromBody] UserSupervisionsDTO user)
         {
             if (user == null)

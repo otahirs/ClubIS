@@ -50,6 +50,7 @@ namespace ClubIS.WebAPI.Controllers
 
 
         [HttpPost("register")]
+        [Authorize(Policy = Policy.Users)]
         public async Task<IActionResult> Register(RegisterParametersDTO parameters)
         {
             var userIdentity = new IdentityStoreUser
@@ -119,9 +120,12 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpPut("login")]
+        [Authorize]
         public async Task<IActionResult> ChangeLogin(ChangeLoginDTO parameters)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity.GetUserId() != parameters.EditedUserId ||
+                !User.IsInRole(Role.Users) || 
+                !User.IsInRole(Role.Admin))
             {
                 return Unauthorized();
             }
@@ -138,9 +142,12 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpPut("password")]
+        [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordDTO parameters)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity.GetUserId() != parameters.EditedUserId ||
+               !User.IsInRole(Role.Users) ||
+               !User.IsInRole(Role.Admin))
             {
                 return Unauthorized();
             }
@@ -157,14 +164,11 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet("roles/{userId}")]
+        [Authorize(Policy = Policy.Users)]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "User roles retrieved.")]
         public async Task<ActionResult<UserRolesDTO>> Get(int userId)
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Unauthorized();
-            }
             var user = await GetUserIdentityById(userId);
             if (user == null)
             {
@@ -181,6 +185,7 @@ namespace ClubIS.WebAPI.Controllers
         } 
 
         [HttpGet("username/{userId}")]
+        [Authorize(Policy = Policy.Users)]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Username retrieved.")]
         public async Task<ActionResult<string>> GetUserNameById(int userId)
@@ -194,12 +199,9 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpPut("roles")]
+        [Authorize(Policy = Policy.Users)]
         public async Task<IActionResult> ChangeUserRoles(UserRolesDTO userRoles)
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Unauthorized();
-            }
             var user = await GetUserIdentityById(userRoles.UserId);
             if (user == null)
             {

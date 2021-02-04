@@ -37,9 +37,9 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Policy = Policy.News)]
         [SwaggerResponse(StatusCodes.Status404NotFound, "News not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One news retrieved.")]
-        [Authorize(Policy = Policy.News)]
         public async Task<ActionResult<NewsEditDTO>> Get(int id)
         {
             var news = await _newsFacade.GetById(id);
@@ -52,9 +52,9 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = Policy.News)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided news.")]
         [SwaggerResponse(StatusCodes.Status200OK, "News added.")]
-        [Authorize(Policy = Policy.News)]
         public async Task<ActionResult> Post([FromBody] NewsEditDTO news)
         {
             if (news == null)
@@ -65,9 +65,9 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize(Policy = Policy.News)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided news.")]
         [SwaggerResponse(StatusCodes.Status200OK, "News updated.")]
-        [Authorize(Policy = Policy.News)]
         public async Task<ActionResult> Put([FromBody] NewsEditDTO news)
         {
             if (news == null)
@@ -78,9 +78,9 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policy.News)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "News not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "News deleted.")]
-        [Authorize(Policy = Policy.News)]
         public async Task<ActionResult> Delete(int id)
         {
             var news = await _newsFacade.GetById(id);

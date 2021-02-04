@@ -5,6 +5,7 @@ using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Enums;
 using ClubIS.IdentityStore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -26,6 +27,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Events not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Events retrieved.")]
         public async Task<ActionResult<IEnumerable<EventListDTO>>> Get()
@@ -35,6 +37,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet("costs")]
+        [Authorize(Policy = Policy.Finance)]
         [SwaggerResponse(StatusCodes.Status200OK, "Events retrieved.")]
         public async Task<ActionResult<IEnumerable<EventListWithTotalCostsDTO>>> GetCosts()
         {
@@ -43,6 +46,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet("user")]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Event not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]
         public async Task<ActionResult<IEnumerable<EventListWithUserEntryDTO>>> GetWithEntryInfo()
@@ -61,6 +65,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Event not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]
         public async Task<ActionResult<EventEditDTO>> Get(int id)
@@ -75,6 +80,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = Policy.Events)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided event.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Event added.")]
         public async Task<ActionResult> Post([FromBody] EventEditDTO e)
@@ -88,6 +94,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize(Policy = Policy.Events)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided event.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Event updated.")]
         public async Task<ActionResult> Put([FromBody] EventEditDTO e)
@@ -100,6 +107,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policy.Events)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Event not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Event deleted.")]
         public async Task<ActionResult> Delete(int id)
