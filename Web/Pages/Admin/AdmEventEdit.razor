@@ -1,6 +1,6 @@
 ﻿@page "/admin/events/edit"
 @page "/admin/events/edit/{eventId:int}"
-@attribute [Authorize]
+@attribute [Authorize(Policy = Policy.Events)]
 @using MudBlazor.Components.Table
 @inject HttpClient Http
 @inject NavigationManager NavigationManager

@@ -1,5 +1,6 @@
 ﻿@page "/admin/users/create"
 
+@attribute [Authorize(Policy = Policy.Users)]
 @inject NavigationManager NavigationManager
 @inject IdentityAuthenticationStateProvider authStateProvider
 
@@ -55,7 +56,8 @@
         {
             await authStateProvider.Register(RegisterParameters);
             Navigate();
-        } catch(Exception e)
+        }
+        catch (Exception e)
         {
             errorMessage = e.Message;
         }

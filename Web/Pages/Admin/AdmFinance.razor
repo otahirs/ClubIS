@@ -1,41 +1,42 @@
 @page "/admin/finance"
 @inject HttpClient Http
+@attribute [Authorize(Policy = Policy.Finance)]
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin finance</MudText>
     <MudTabs Vertical="true">
         <MudTabPanel Text="Events">
             @*<MudContainer MaxWidth="MaxWidth.Large">
-                @if (events == null)
-                {
-                <MudProgressCircular Color="Color.Default" Indeterminate="true" />
-                }
-                else
-                {
-                <MudTable Items="@events" Hover="true" Filter="new Func<EventListWithTotalCostsDTO,bool>(FilterFunc)" @bind-SelectedItem="selected_item">
-                    <ToolBarContent>
-                        <MudTextField @bind-Value="search_string" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium"></MudTextField>
-                    </ToolBarContent>
-                    <HeaderContent>
-                        <MudTh>Date</MudTh>
-                        <MudTh>Name</MudTh>
-                        <MudTh>Place</MudTh>
-                        <MudTh>Type</MudTh>
-                        <MudTh>Deadlines</MudTh>
-                        <MudTh>Cost</MudTh>
-                    </HeaderContent>
-                    <RowTemplate>
-                        <MudTd DataLabel="Date">@context.Event.StartDate</MudTd>
-                        <MudTd DataLabel="Name">@context.Event.Name</MudTd>
-                        <MudTd DataLabel="Place">@context.Event.Place</MudTd>
-                        <MudTd DataLabel="Type">@context.Event.EventType</MudTd>
-                        <MudTd DataLabel="Deadlines">@context.Event.Deadlines</MudTd>
-                        <MudTd DataLabel="Cost">@context.TotalCosts</MudTd>
-                    </RowTemplate>
-                </MudTable>
-                <MudText>Selected: @selected_item?.Event.Name</MudText>
-                }
-            </MudContainer>*@
+                    @if (events == null)
+                    {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+                    }
+                    else
+                    {
+                    <MudTable Items="@events" Hover="true" Filter="new Func<EventListWithTotalCostsDTO,bool>(FilterFunc)" @bind-SelectedItem="selected_item">
+                        <ToolBarContent>
+                            <MudTextField @bind-Value="search_string" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium"></MudTextField>
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Date</MudTh>
+                            <MudTh>Name</MudTh>
+                            <MudTh>Place</MudTh>
+                            <MudTh>Type</MudTh>
+                            <MudTh>Deadlines</MudTh>
+                            <MudTh>Cost</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Date">@context.Event.StartDate</MudTd>
+                            <MudTd DataLabel="Name">@context.Event.Name</MudTd>
+                            <MudTd DataLabel="Place">@context.Event.Place</MudTd>
+                            <MudTd DataLabel="Type">@context.Event.EventType</MudTd>
+                            <MudTd DataLabel="Deadlines">@context.Event.Deadlines</MudTd>
+                            <MudTd DataLabel="Cost">@context.TotalCosts</MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                    <MudText>Selected: @selected_item?.Event.Name</MudText>
+                    }
+                </MudContainer>*@
             <MudText>TODO</MudText>
         </MudTabPanel>
         <MudTabPanel Text="Users">

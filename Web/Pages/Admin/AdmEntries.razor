@@ -1,5 +1,5 @@
 ﻿@page "/admin/entries"
-@attribute [Authorize]
+@attribute [Authorize(Policy = Policy.Entries)]
 @using MudBlazor.Components.Table
 @inject HttpClient Http
 @inject NavigationManager NavigationManager

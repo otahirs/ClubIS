@@ -1,6 +1,6 @@
 ﻿@page "/admin/entries/{eventId:int}"
 @inject HttpClient Http
-@attribute [Authorize]
+@attribute [Authorize(Policy = Policy.Entries)]
 @inject IdentityAuthenticationStateProvider authState
 @inject NavigationManager NavigationManager
 

@@ -1,5 +1,5 @@
 ﻿@page "/admin/events"
-@attribute [Authorize]
+@attribute [Authorize(Policy = Policy.Events)]
 @using MudBlazor.Components.Table
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
@@ -17,15 +17,15 @@
     }
     else
     {
-        <MudTable Items="@displayedEvents" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@((TableRowClickEventArgs<EventListDTO> e)=>Navigate(e))"  T="EventListDTO" Hover="true" Dense="true">
+        <MudTable Items="@displayedEvents" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@((TableRowClickEventArgs<EventListDTO> e)=>Navigate(e))" T="EventListDTO" Hover="true" Dense="true">
             <ToolBarContent>
                 <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium"></MudTextField>
                 <MudToolBarSpacer />
                 <MudSelect @bind-Value="searchType" Label="Filter EventType" Class="ml-3">
                     @foreach (var type in types)
-                    {
+                        {
                         <MudSelectItem Value="@type" />
-                    }
+                        }
                 </MudSelect>
             </ToolBarContent>
             <HeaderContent>
