@@ -31,7 +31,7 @@ namespace ClubIS.BusinessLayer.Tests
             {
                 new EventDeadline
                 {
-                    Id = 69,
+                    Id = 40,
                     Deadline = DateTime.Now,
                     EventId = 42,
                 }
@@ -40,14 +40,14 @@ namespace ClubIS.BusinessLayer.Tests
             {
                 new EventClassOption()
                 {
-                    Id = 1,
-                    EventId = 1,
+                    Id = 40,
+                    EventId = 42,
                     Name = "A"
                 },
                 new EventClassOption()
                 {
-                    Id = 2,
-                    EventId = 1,
+                    Id = 41,
+                    EventId = 42,
                     Name = "B"
                 }
             },
@@ -55,14 +55,6 @@ namespace ClubIS.BusinessLayer.Tests
             EventState = EventState.Archived,
             EventProperties = EventProperty.Championship,
             EventStages = new HashSet<EventStageDTO>()
-            {
-                new EventStageDTO
-                {
-                    EventId = 42,
-                    Date = DateTime.Now,
-                    Name = "null"
-                }
-            }
         };
 
         [Fact]
@@ -148,14 +140,14 @@ namespace ClubIS.BusinessLayer.Tests
                 {
                     new EventClassOption()
                     {
-                        Id = 1,
-                        EventId = 1,
+                        Id = 42,
+                        EventId = 43,
                         Name = "A"
                     },
                     new EventClassOption()
                     {
-                        Id = 2,
-                        EventId = 1,
+                        Id = 43,
+                        EventId = 43,
                         Name = "B"
                     }
                 },
