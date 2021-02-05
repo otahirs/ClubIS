@@ -164,7 +164,7 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet("roles/{userId}")]
-        [Authorize(Policy = Policy.Users)]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "User roles retrieved.")]
         public async Task<ActionResult<UserRolesDTO>> Get(int userId)
@@ -185,11 +185,18 @@ namespace ClubIS.WebAPI.Controllers
         } 
 
         [HttpGet("username/{userId}")]
-        [Authorize(Policy = Policy.Users)]
+        [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Username retrieved.")]
         public async Task<ActionResult<string>> GetUserNameById(int userId)
         {
+            if (User.Identity.GetUserId() != userId &&
+               !User.IsInRole(Role.Users) &&
+               !User.IsInRole(Role.Admin))
+            {
+                return Unauthorized();
+            }
+
             var user = await GetUserIdentityById(userId);
             if (user == null)
             {
