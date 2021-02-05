@@ -25,6 +25,7 @@ namespace ClubIS.CoreLayer.DTOs
         public string Nationality { get; set; }
         public Address Address { get; set; }
         [MaxLength(50)]
+        [RegularExpression(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "The e-mail format is incorrect.")]
         public string Email { get; set; }
         [MaxLength(25)]
         public string Phone { get; set; }
