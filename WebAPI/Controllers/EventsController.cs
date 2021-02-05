@@ -51,10 +51,6 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]
         public async Task<ActionResult<IEnumerable<EventListWithUserEntryDTO>>> GetWithEntryInfo()
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Unauthorized();
-            }
             var userId = User.Identity.GetUserId();
             var events = await _eventFacade.GetAllWithUserEntry(userId);
             if (events == null)

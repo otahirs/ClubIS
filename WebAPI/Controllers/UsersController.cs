@@ -56,8 +56,8 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Supervisors retrieved.")]
         public async Task<ActionResult<UserEntryListDTO>> GetEntriesSupervisors(int id)
         {
-            if (User.Identity.GetUserId() != id ||
-               !User.IsInRole(Role.Users) ||
+            if (User.Identity.GetUserId() != id &&
+               !User.IsInRole(Role.Users) &&
                !User.IsInRole(Role.Admin))
             {
                 return Unauthorized();
@@ -117,8 +117,8 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "User updated.")]
         public async Task<ActionResult> Put([FromBody] MemberUserEditDTO user)
         {
-            if (User.Identity.GetUserId() != user.Id ||
-              !User.IsInRole(Role.Users) ||
+            if (User.Identity.GetUserId() != user.Id &&
+              !User.IsInRole(Role.Users) &&
               !User.IsInRole(Role.Admin))
             {
                 return Unauthorized();
@@ -154,8 +154,8 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Supervisions retrieved.")]
         public async Task<ActionResult<UserSupervisionsDTO>> UserSupervisions(int id)
         {
-            if (User.Identity.GetUserId() != id ||
-              !User.IsInRole(Role.Users) ||
+            if (User.Identity.GetUserId() != id &&
+              !User.IsInRole(Role.Users) &&
               !User.IsInRole(Role.Admin))
             {
                 return Unauthorized();

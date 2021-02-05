@@ -123,8 +123,8 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> ChangeLogin(ChangeLoginDTO parameters)
         {
-            if (User.Identity.GetUserId() != parameters.EditedUserId ||
-                !User.IsInRole(Role.Users) || 
+            if (User.Identity.GetUserId() != parameters.EditedUserId &&
+                !User.IsInRole(Role.Users) &&
                 !User.IsInRole(Role.Admin))
             {
                 return Unauthorized();
@@ -145,8 +145,8 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordDTO parameters)
         {
-            if (User.Identity.GetUserId() != parameters.EditedUserId ||
-               !User.IsInRole(Role.Users) ||
+            if (User.Identity.GetUserId() != parameters.EditedUserId &&
+               !User.IsInRole(Role.Users) &&
                !User.IsInRole(Role.Admin))
             {
                 return Unauthorized();

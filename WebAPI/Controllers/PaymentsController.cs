@@ -60,8 +60,8 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Payment added.")]
         public async Task<ActionResult> Post([FromBody] PaymentUserTransferDTO payment)
         {
-            if (User.Identity.GetUserId() != payment.SourceUserId || //TODO allow transfers from supervised accounts
-               !User.IsInRole(Role.Finance) ||
+            if (User.Identity.GetUserId() != payment.SourceUserId && //TODO allow transfers from supervised accounts
+               !User.IsInRole(Role.Finance) &&
                !User.IsInRole(Role.Admin))
             {
                 return Unauthorized();

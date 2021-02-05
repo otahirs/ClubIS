@@ -62,8 +62,8 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Entry added.")]
         public async Task<ActionResult> Post([FromBody] EventEntryEditDTO entry)
         {
-            if (User.Identity.GetUserId() != entry.UserId ||
-                !User.IsInRole(Role.Entries) ||
+            if (User.Identity.GetUserId() != entry.UserId &&
+                !User.IsInRole(Role.Entries) &&
                 !User.IsInRole(Role.Admin))
             {
                 return Unauthorized();
@@ -90,8 +90,8 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Entry updated.")]
         public async Task<ActionResult> Put([FromBody] EventEntryEditDTO entry)
         {
-            if (User.Identity.GetUserId() != entry.UserId ||
-                !User.IsInRole(Role.Entries) ||
+            if (User.Identity.GetUserId() != entry.UserId &&
+                !User.IsInRole(Role.Entries) &&
                 !User.IsInRole(Role.Admin))
             {
                 return Unauthorized();
@@ -118,8 +118,8 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Entry deleted.")]
         public async Task<ActionResult> Delete(EventEntryDeleteDTO e)
         {
-            if (User.Identity.GetUserId() != e.UserId ||
-                !User.IsInRole(Role.Entries) ||
+            if (User.Identity.GetUserId() != e.UserId &&
+                !User.IsInRole(Role.Entries) &&
                 !User.IsInRole(Role.Admin))
             {
                 return Unauthorized();
