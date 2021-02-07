@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.DataAccessLayer;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Facades
 {
@@ -30,9 +30,9 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task Create(PaymentUserTransferDTO p)
         {
-            var payment = _mapper.Map<PaymentEditDTO>(p);
-            var recipientUser = await _userService.GetById(p.RecipientUserId);
-            var sourceUser = await _userService.GetById(p.SourceUserId);
+            PaymentEditDTO payment = _mapper.Map<PaymentEditDTO>(p);
+            UserDTO recipientUser = await _userService.GetById(p.RecipientUserId);
+            UserDTO sourceUser = await _userService.GetById(p.SourceUserId);
 
             payment.RecipientAccountId = recipientUser.AccountId;
             payment.SourceAccountId = sourceUser.AccountId;
@@ -60,12 +60,12 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task<IEnumerable<FinanceStatementDTO>> GetAllFinanceStatement(int userId)
         {
-            var result = new List<FinanceStatementDTO>()
+            List<FinanceStatementDTO> result = new List<FinanceStatementDTO>()
             {
                 await _paymentService.GetFinanceStatement(userId)
             };
 
-            foreach( var user in await _unitOfWork.Users.GetFinanceSupervisored(userId))
+            foreach (CoreLayer.Entities.User user in await _unitOfWork.Users.GetFinanceSupervisored(userId))
             {
                 result.Add(await _paymentService.GetFinanceStatement(user.Id));
             }

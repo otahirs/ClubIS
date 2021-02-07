@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using ClubIS.CoreLayer.Entities;
+﻿using System.Collections.Generic;
 
 namespace ClubIS.CoreLayer.DTOs
 {

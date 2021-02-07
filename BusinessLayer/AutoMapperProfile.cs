@@ -1,15 +1,15 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
+using System.Linq;
 
 namespace ClubIS.BusinessLayer
 {
     public class AutoMapperProfile : Profile
-    {       
+    {
         public AutoMapperProfile()
         {
-            CreateMap<Event, EventEditDTO>().ReverseMap(); 
+            CreateMap<Event, EventEditDTO>().ReverseMap();
             CreateMap<EventEntry, EventEntryBasicInfoDTO>().ReverseMap();
             CreateMap<EventEntry, EventEntryListDTO>()
                 .ForMember(d => d.Name, opt => opt.MapFrom(s => s.User.Firstname + " " + s.User.Surname))
@@ -24,7 +24,7 @@ namespace ClubIS.BusinessLayer
                         EventEntryId = s.EventId,
                         EventStageId = stage.Id
                     })));
-            
+
             CreateMap<Event, EventListDTO>().ReverseMap();
             CreateMap<EventStage, EventStageDTO>().ReverseMap();
             //CreateMap<EventEntry_EventStage, EventStageDTO>()

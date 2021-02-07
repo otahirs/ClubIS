@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ClubIS.CoreLayer.Enums;
+﻿using ClubIS.CoreLayer.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClubIS.CoreLayer.Entities
 {

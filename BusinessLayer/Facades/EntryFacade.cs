@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using ClubIS.BusinessLayer.Facades.Interfaces;
+﻿using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.DataAccessLayer;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Facades
 {

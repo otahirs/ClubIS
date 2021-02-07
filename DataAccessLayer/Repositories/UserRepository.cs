@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ClubIS.CoreLayer.Entities;
+﻿using ClubIS.CoreLayer.Entities;
 using ClubIS.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ClubIS.DataAccessLayer.Repositories
 {
@@ -29,8 +29,8 @@ namespace ClubIS.DataAccessLayer.Repositories
 
         public void RemoveFinanceSupervisor(int supervisorUserId)
         {
-            var users = _entities.Where(u => u.FinanceSupervisorId == supervisorUserId);
-            foreach(var u in users)
+            IQueryable<User> users = _entities.Where(u => u.FinanceSupervisorId == supervisorUserId);
+            foreach (User u in users)
             {
                 u.FinanceSupervisorId = null;
             }

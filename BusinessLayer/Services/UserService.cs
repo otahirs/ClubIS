@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
 using ClubIS.DataAccessLayer;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Services
 {
@@ -21,7 +21,7 @@ namespace ClubIS.BusinessLayer.Services
         }
         public async Task Create(UserDTO user)
         {
-            var account = new FinanceAccount();
+            FinanceAccount account = new FinanceAccount();
             await _unitOfWork.Accounts.Add(account);
             await _unitOfWork.Save();
             user.AccountId = account.Id;
@@ -37,7 +37,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task<IEnumerable<UserListDTO>> GetAll()
         {
-            var list = await _unitOfWork.Users.GetAll();
+            IEnumerable<User> list = await _unitOfWork.Users.GetAll();
             return _mapper.Map<IEnumerable<UserListDTO>>(list);
         }
 
@@ -48,8 +48,8 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task<UserEntryListDTO> GetAllEntriesSupervisorsById(int id)
         {
-            var user = await _unitOfWork.Users.GetEntriesSupervisorsById(id);
-            var supervised = new List<User_EntriesSupervisor>(user.EntriesSupervisedUsers)
+            User user = await _unitOfWork.Users.GetEntriesSupervisorsById(id);
+            List<User> supervised = new List<User_EntriesSupervisor>(user.EntriesSupervisedUsers)
                 .Select(s => s.User).ToList();
             return new UserEntryListDTO
             {
@@ -80,34 +80,34 @@ namespace ClubIS.BusinessLayer.Services
             User userEntity = await _unitOfWork.Users.GetById(user.UserId);
             userEntity.EntriesSupervisors.Clear();
             userEntity.EntriesSupervisors = user.EntriesSupervisors
-                .Select(es => new User_EntriesSupervisor() 
-                    { 
-                        UserId=user.UserId, 
-                        EntriesSupervisorId=es.Id 
-                    })
+                .Select(es => new User_EntriesSupervisor()
+                {
+                    UserId = user.UserId,
+                    EntriesSupervisorId = es.Id
+                })
                 .ToHashSet();
             userEntity.EntriesSupervisedUsers.Clear();
             userEntity.EntriesSupervisedUsers = user.EntriesSupervisedUsers
                 .Select(esd => new User_EntriesSupervisor()
-                    {
-                        UserId = esd.Id,
-                        EntriesSupervisorId = user.UserId
-                    })
+                {
+                    UserId = esd.Id,
+                    EntriesSupervisorId = user.UserId
+                })
                 .ToHashSet();
             userEntity.FinanceSupervisorId = user.FinanceSupervisor?.Id;
 
             _unitOfWork.Users.RemoveFinanceSupervisor(user.UserId);
-            foreach(var u in user.FinanceSupervisedUsers)
+            foreach (UserListDTO u in user.FinanceSupervisedUsers)
             {
-                var finSupervisedUser = await _unitOfWork.Users.GetById(u.Id);
+                User finSupervisedUser = await _unitOfWork.Users.GetById(u.Id);
                 finSupervisedUser.FinanceSupervisorId = user.UserId;
             }
         }
 
         public async Task<UserSupervisionsDTO> GetUserSupervisions(int id)
         {
-            var user = await _unitOfWork.Users.GetById(id);
-            var financeSupervisedUsers = await _unitOfWork.Users.GetFinanceSupervisored(id);
+            User user = await _unitOfWork.Users.GetById(id);
+            IEnumerable<User> financeSupervisedUsers = await _unitOfWork.Users.GetFinanceSupervisored(id);
             return new UserSupervisionsDTO()
             {
                 UserId = id,

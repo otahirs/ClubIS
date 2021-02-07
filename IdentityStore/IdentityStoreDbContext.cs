@@ -1,12 +1,7 @@
-﻿using ClubIS.IdentityStore;
+﻿using ClubIS.CoreLayer.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ClubIS.CoreLayer.Enums;
 
 namespace ClubIS.IdentityStore
 {
@@ -31,7 +26,7 @@ namespace ClubIS.IdentityStore
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
-            var hasher = new PasswordHasher<IdentityStoreUser>();
+            PasswordHasher<IdentityStoreUser> hasher = new PasswordHasher<IdentityStoreUser>();
             builder.Entity<IdentityStoreUser>().HasData(
                 new IdentityStoreUser
                 {
@@ -51,12 +46,14 @@ namespace ClubIS.IdentityStore
                 }
             );
             builder.Entity<IdentityStoreRole>().HasData(
-                new IdentityStoreRole {
+                new IdentityStoreRole
+                {
                     Id = 1,
                     Name = Role.Admin,
                     NormalizedName = Role.Admin.ToUpper()
                 },
-                new IdentityStoreRole {
+                new IdentityStoreRole
+                {
                     Id = 2,
                     Name = Role.Entries,
                     NormalizedName = Role.Entries.ToUpper()

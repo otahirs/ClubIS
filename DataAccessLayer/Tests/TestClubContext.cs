@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ClubIS.DataAccessLayer.Tests
 {
-    class TestClubContext : DataContext
+    internal class TestClubContext : DataContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

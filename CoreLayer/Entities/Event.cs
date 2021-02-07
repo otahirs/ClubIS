@@ -1,7 +1,7 @@
+using ClubIS.CoreLayer.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ClubIS.CoreLayer.Enums;
 
 namespace ClubIS.CoreLayer.Entities
 {

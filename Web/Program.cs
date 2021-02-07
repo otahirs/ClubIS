@@ -1,19 +1,14 @@
+using ClubIS.CoreLayer.Enums;
+using ClubIS.Web.Services.Contracts;
+using ClubIS.Web.Services.Implementations;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using MudBlazor;
+using MudBlazor.Services;
 using System;
 using System.Net.Http;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using MudBlazor;
-using MudBlazor.Dialog;
-using MudBlazor.Services;
-using Microsoft.AspNetCore.Components.Authorization;
-using ClubIS.Web.Services.Implementations;
-using ClubIS.Web.Services.Contracts;
-using ClubIS.CoreLayer.Enums;
 
 namespace ClubIS.Web
 {
@@ -21,7 +16,7 @@ namespace ClubIS.Web
     {
         public static async Task Main(string[] args)
         {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddOptions();

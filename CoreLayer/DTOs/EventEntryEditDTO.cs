@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using ClubIS.CoreLayer.Enums;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices;
-using ClubIS.CoreLayer.Entities;
-using ClubIS.CoreLayer.Enums;
 
 namespace ClubIS.CoreLayer.DTOs
 {
     public class EventEntryEditDTO
     {
-        
+
         public int Id { get; set; }
         [Required]
         public int UserId { get; set; }

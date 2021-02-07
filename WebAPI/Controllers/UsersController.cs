@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using ClubIS.BusinessLayer.Facades.Interfaces;
+﻿using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Enums;
+using ClubIS.IdentityStore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using ClubIS.IdentityStore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ClubIS.WebAPI.Controllers
 {
@@ -17,7 +16,7 @@ namespace ClubIS.WebAPI.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class UsersController : ControllerBase
     {
-        private IUserFacade _userFacade;
+        private readonly IUserFacade _userFacade;
 
         public UsersController(IUserFacade userFacade)
         {
@@ -30,7 +29,7 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Users retrieved.")]
         public async Task<ActionResult<IEnumerable<UserListDTO>>> Get()
         {
-            var users = await _userFacade.GetAll();
+            IEnumerable<UserListDTO> users = await _userFacade.GetAll();
             if (users == null)
             {
                 return NotFound();
@@ -43,7 +42,7 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Users retrieved.")]
         public async Task<ActionResult<IEnumerable<UserEntriesSupervisedListDTO>>> GetEntriesSupervisors()
         {
-            var users = await _userFacade.GetAllEntriesSupervisors();
+            IEnumerable<UserEntriesSupervisedListDTO> users = await _userFacade.GetAllEntriesSupervisors();
             if (users == null)
             {
                 return NotFound();
@@ -62,7 +61,7 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return Unauthorized();
             }
-            var users = await _userFacade.GetAllEntriesSupervisorsById(id);
+            UserEntryListDTO users = await _userFacade.GetAllEntriesSupervisorsById(id);
             if (users == null)
             {
                 return NotFound();
@@ -76,7 +75,7 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "One user retrieved.")]
         public async Task<ActionResult<UserDTO>> Get(int id)
         {
-            var user = await _userFacade.GetById(id);
+            UserDTO user = await _userFacade.GetById(id);
 
             if (user == null)
             {
@@ -92,7 +91,9 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<ActionResult> Put([FromBody] UserDTO user)
         {
             if (user == null)
+            {
                 return BadRequest();
+            }
 
             await _userFacade.Update(user);
             return Ok();
@@ -112,7 +113,9 @@ namespace ClubIS.WebAPI.Controllers
             }
 
             if (user == null)
+            {
                 return BadRequest();
+            }
 
             await _userFacade.Update(user);
             return Ok();
@@ -124,7 +127,7 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "User deleted.")]
         public async Task<ActionResult> Delete(int id)
         {
-            var user = await _userFacade.GetById(id);
+            UserDTO user = await _userFacade.GetById(id);
 
             if (user == null)
             {
@@ -148,7 +151,7 @@ namespace ClubIS.WebAPI.Controllers
                 return Unauthorized();
             }
 
-            var userSupervisions = await _userFacade.GetUserSupervisions(id);
+            UserSupervisionsDTO userSupervisions = await _userFacade.GetUserSupervisions(id);
             if (userSupervisions == null)
             {
                 return NotFound();
@@ -163,7 +166,9 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<ActionResult> Put([FromBody] UserSupervisionsDTO user)
         {
             if (user == null)
+            {
                 return BadRequest();
+            }
 
             await _userFacade.UpdateSupervisions(user);
             return Ok();

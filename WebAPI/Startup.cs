@@ -11,18 +11,14 @@ using ClubIS.DataAccessLayer.Repositories.Interfaces;
 using ClubIS.IdentityStore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Net.Http.Headers;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ClubIS.WebAPI
@@ -42,7 +38,8 @@ namespace ClubIS.WebAPI
             services.AddOptions();
             services.AddSwaggerGen();
 
-            services.AddDbContext<DataContext>(options => {
+            services.AddDbContext<DataContext>(options =>
+            {
                 options.UseSqlServer(Configuration.GetConnectionString("ApplicationData"));
                 options.EnableSensitiveDataLogging();
             });
@@ -160,9 +157,9 @@ namespace ClubIS.WebAPI
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                for (var i = provider.ApiVersionDescriptions.Count - 1; i >= 0; i--)
+                for (int i = provider.ApiVersionDescriptions.Count - 1; i >= 0; i--)
                 {
-                    var description = provider.ApiVersionDescriptions[i];
+                    ApiVersionDescription description = provider.ApiVersionDescriptions[i];
                     c.SwaggerEndpoint($"{description.GroupName}/swagger.json", $"Demo ClubIS API {description.GroupName}");
                 }
             });

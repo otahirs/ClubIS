@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
 using ClubIS.DataAccessLayer;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Services
 {
@@ -26,14 +26,14 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task Delete(int id)
         {
-            var entryEntity = await _unitOfWork.Entry.GetById(id);
+            EventEntry entryEntity = await _unitOfWork.Entry.GetById(id);
             entryEntity.EnteredStages.Clear();
             _unitOfWork.Entry.Remove(entryEntity);
         }
 
         public async Task Update(EventEntryEditDTO entry)
         {
-            var entryEntity = await _unitOfWork.Entry.GetById(entry.Id);
+            EventEntry entryEntity = await _unitOfWork.Entry.GetById(entry.Id);
             entryEntity.EnteredStages.Clear();
             _mapper.Map(entry, entryEntity);
         }
@@ -45,7 +45,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task<IEnumerable<EventEntryListDTO>> GetAllByEventId(int eventId)
         {
-            var list = await _unitOfWork.Entry.GetAllByEventId(eventId);
+            IEnumerable<EventEntry> list = await _unitOfWork.Entry.GetAllByEventId(eventId);
             return _mapper.Map<IEnumerable<EventEntryListDTO>>(list);
         }
 

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ClubIS.BusinessLayer.Services;
 using ClubIS.CoreLayer.DTOs;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using ClubIS.DataAccessLayer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ClubIS.BusinessLayer.Tests
@@ -20,9 +21,9 @@ namespace ClubIS.BusinessLayer.Tests
         public async Task GetById() // db seed dependant
         {
             NewsEditDTO news;
-            using (var uow = TestUoWFactory.Create())
+            using (UnitOfWork uow = TestUoWFactory.Create())
             {
-                var ns = new NewsService(uow, _mapper);
+                NewsService ns = new NewsService(uow, _mapper);
                 news = (await ns.GetById(1));
             }
             Assert.NotNull(news);
@@ -31,7 +32,7 @@ namespace ClubIS.BusinessLayer.Tests
         [Fact]
         public async Task Create()
         {
-            var origNews = new NewsEditDTO()
+            NewsEditDTO origNews = new NewsEditDTO()
             {
                 Id = 42,
                 UserId = 1,
@@ -40,9 +41,9 @@ namespace ClubIS.BusinessLayer.Tests
                 Text = "V sobotu 30. února rozdáváme 5kg kyblíky nutely zdarma :O "
             };
             NewsEditDTO news;
-            using (var uow = TestUoWFactory.Create())
+            using (UnitOfWork uow = TestUoWFactory.Create())
             {
-                var ns = new NewsService(uow, _mapper);
+                NewsService ns = new NewsService(uow, _mapper);
                 await ns.Create(origNews);
                 await uow.Save();
                 news = (await ns.GetById(42));
@@ -53,7 +54,7 @@ namespace ClubIS.BusinessLayer.Tests
         [Fact]
         public async Task Update()
         {
-            var origNews = new NewsEditDTO()
+            NewsEditDTO origNews = new NewsEditDTO()
             {
                 Id = 42,
                 UserId = 1,
@@ -62,10 +63,10 @@ namespace ClubIS.BusinessLayer.Tests
                 Text = "V sobotu 30. února rozdáváme 5kg kyblíky nutely zdarma :O "
             };
             NewsEditDTO news;
-            var editedTitle = "Edited Title";
-            using (var uow = TestUoWFactory.Create())
+            string editedTitle = "Edited Title";
+            using (UnitOfWork uow = TestUoWFactory.Create())
             {
-                var ns = new NewsService(uow, _mapper);
+                NewsService ns = new NewsService(uow, _mapper);
                 await ns.Create(origNews);
                 await uow.Save();
                 news = await ns.GetById(42);
@@ -80,7 +81,7 @@ namespace ClubIS.BusinessLayer.Tests
         [Fact]
         public async Task Delete()
         {
-            var origNews = new NewsEditDTO()
+            NewsEditDTO origNews = new NewsEditDTO()
             {
                 Id = 42,
                 UserId = 1,
@@ -89,9 +90,9 @@ namespace ClubIS.BusinessLayer.Tests
                 Text = "V sobotu 30. února rozdáváme 5kg kyblíky nutely zdarma :O "
             };
             NewsEditDTO news;
-            using (var uow = TestUoWFactory.Create())
+            using (UnitOfWork uow = TestUoWFactory.Create())
             {
-                var ns = new NewsService(uow, _mapper);
+                NewsService ns = new NewsService(uow, _mapper);
                 await ns.Create(origNews);
                 await uow.Save();
                 await ns.Delete(origNews.Id);
@@ -104,7 +105,7 @@ namespace ClubIS.BusinessLayer.Tests
         [Fact]
         public async Task GetAll() // db seed dependant
         {
-            var origNews1 = new NewsEditDTO()
+            NewsEditDTO origNews1 = new NewsEditDTO()
             {
                 Id = 42,
                 UserId = 1,
@@ -112,7 +113,7 @@ namespace ClubIS.BusinessLayer.Tests
                 Title = "Super novinka!",
                 Text = "V sobotu 30. února rozdáváme 5kg kyblíky nutely zdarma :O "
             };
-            var origNews2 = new NewsEditDTO()
+            NewsEditDTO origNews2 = new NewsEditDTO()
             {
                 Id = 43,
                 UserId = 1,
@@ -121,9 +122,9 @@ namespace ClubIS.BusinessLayer.Tests
                 Text = "V sobotu 30. února rozdáváme 5kg kyblíky nutely zdarma :O "
             };
             List<NewsListDTO> news;
-            using (var uow = TestUoWFactory.Create())
+            using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
             {
-                var ns = new NewsService(uow, _mapper);
+                NewsService ns = new NewsService(uow, _mapper);
                 await ns.Create(origNews1);
                 await ns.Create(origNews2);
                 await uow.Save();
@@ -132,7 +133,7 @@ namespace ClubIS.BusinessLayer.Tests
             using (new AssertionScope())
             {
                 news.Count().Should().BeGreaterThan(1);
-                var news1 = news.First(n => n.Id == 42);
+                NewsListDTO news1 = news.First(n => n.Id == 42);
                 news1.Date.Should().Be(origNews1.Date);
                 news1.UserId.Should().Be(origNews1.UserId);
                 news1.Title.Should().Be(origNews1.Title);
@@ -140,7 +141,7 @@ namespace ClubIS.BusinessLayer.Tests
                 news1.UserName.Should().NotBeNullOrEmpty();
             }
         }
-        
+
 
     }
 }

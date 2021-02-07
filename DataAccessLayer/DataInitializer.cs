@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using ClubIS.CoreLayer.Entities;
+﻿using ClubIS.CoreLayer.Entities;
 using ClubIS.CoreLayer.Enums;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ClubIS.DataAccessLayer
 {
@@ -170,7 +169,7 @@ namespace ClubIS.DataAccessLayer
                 {
                     Id = 3,
                     EventId = 2,
-                    Deadline = new DateTime(2021, 10,  5)
+                    Deadline = new DateTime(2021, 10, 5)
                 }
             );
 

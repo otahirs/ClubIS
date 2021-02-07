@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
 using ClubIS.DataAccessLayer;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Services
 {
@@ -33,7 +33,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task Update(EventEditDTO e)
         {
-            var entity = await _unitOfWork.Events.GetById(e.Id);
+            Event entity = await _unitOfWork.Events.GetById(e.Id);
             _mapper.Map(e, entity);
         }
 
@@ -49,8 +49,8 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task<IEnumerable<EventListWithUserEntryDTO>> GetAllWithUserEntry(int userId)
         {
-            var entries = await _unitOfWork.Entry.GetAllByUserId(userId);
-            var events = await _unitOfWork.Events.GetAll();
+            IEnumerable<EventEntry> entries = await _unitOfWork.Entry.GetAllByUserId(userId);
+            IEnumerable<Event> events = await _unitOfWork.Events.GetAll();
             return events.Select(e => new EventListWithUserEntryDTO()
             {
                 Event = _mapper.Map<EventListDTO>(e),

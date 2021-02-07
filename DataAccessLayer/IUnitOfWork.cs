@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ClubIS.DataAccessLayer.Repositories.Interfaces;
+using System;
 using System.Threading.Tasks;
-using ClubIS.DataAccessLayer.Repositories.Interfaces;
 
 namespace ClubIS.DataAccessLayer
 {

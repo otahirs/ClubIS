@@ -1,19 +1,16 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using ClubIS.BusinessLayer.Facades.Interfaces;
+﻿using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
-using Microsoft.AspNetCore.Http;
-using Swashbuckle.AspNetCore.Annotations;
-
+using ClubIS.CoreLayer.Enums;
+using ClubIS.IdentityStore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ClubIS.IdentityStore;
-using System.Linq;
-using System.Security.Claims;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
-using ClubIS.CoreLayer.Enums;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ClubIS.WebAPI.Controllers
 {
@@ -36,12 +33,17 @@ namespace ClubIS.WebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginParametersDTO parameters)
         {
-            var user = await _userManager.FindByNameAsync(parameters.UserName);
-            if (user == null) 
+            IdentityStoreUser user = await _userManager.FindByNameAsync(parameters.UserName);
+            if (user == null)
+            {
                 return BadRequest("User does not exist");
-            var singInResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
-            if (!singInResult.Succeeded) 
+            }
+
+            Microsoft.AspNetCore.Identity.SignInResult singInResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
+            if (!singInResult.Succeeded)
+            {
                 return BadRequest("Invalid password");
+            }
 
             await _signInManager.SignInAsync(user, parameters.RememberMe);
 
@@ -53,16 +55,18 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize(Policy = Policy.Users)]
         public async Task<IActionResult> Register(RegisterParametersDTO parameters)
         {
-            var userIdentity = new IdentityStoreUser
+            IdentityStoreUser userIdentity = new IdentityStoreUser
             {
                 UserName = parameters.UserName
             };
-            var result = await _userManager.CreateAsync(userIdentity, parameters.Password);
-            if (!result.Succeeded) 
+            IdentityResult result = await _userManager.CreateAsync(userIdentity, parameters.Password);
+            if (!result.Succeeded)
+            {
                 return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            }
 
-            var identityUser = await _userManager.FindByNameAsync(userIdentity.UserName);
-            var user = new UserDTO()
+            IdentityStoreUser identityUser = await _userManager.FindByNameAsync(userIdentity.UserName);
+            UserDTO user = new UserDTO()
             {
                 Id = identityUser.Id,
                 Firstname = parameters.Firstname,
@@ -80,7 +84,7 @@ namespace ClubIS.WebAPI.Controllers
                 await _userManager.DeleteAsync(identityUser);
                 throw ex;
             }
-            
+
             return await Login(new LoginParametersDTO
             {
                 UserName = parameters.UserName,
@@ -115,7 +119,7 @@ namespace ClubIS.WebAPI.Controllers
                     //.Where(c => c.Type == "test-claim")
                     .GroupBy(c => c.Type)
                     .ToDictionary(grp => grp.Key, grp => grp.Last().Value)
-                    //.ToDictionary(c => c.Type, c => c.Value) can lead to errors if claims are altered
+                //.ToDictionary(c => c.Type, c => c.Value) can lead to errors if claims are altered
             };
         }
 
@@ -129,15 +133,18 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return Unauthorized();
             }
-            var user = await _userManager.GetUserAsync(User);
+            IdentityStoreUser user = await _userManager.GetUserAsync(User);
             if (!await _userManager.CheckPasswordAsync(user, parameters.AprovalPassword))
             {
                 return BadRequest("Invalid password");
             }
-            var editedUser = await GetUserIdentityById(parameters.EditedUserId);
-            var result = await _userManager.SetUserNameAsync(editedUser, parameters.NewUserName);
-            if (!result.Succeeded) 
+            IdentityStoreUser editedUser = await GetUserIdentityById(parameters.EditedUserId);
+            IdentityResult result = await _userManager.SetUserNameAsync(editedUser, parameters.NewUserName);
+            if (!result.Succeeded)
+            {
                 return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            }
+
             return Ok();
         }
 
@@ -151,15 +158,18 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return Unauthorized();
             }
-            var user = await _userManager.GetUserAsync(User);
+            IdentityStoreUser user = await _userManager.GetUserAsync(User);
             if (!await _userManager.CheckPasswordAsync(user, parameters.OldPassword))
             {
                 return BadRequest("Invalid password");
             }
-            var editedUser = await GetUserIdentityById(parameters.EditedUserId);
-            var result = await _userManager.ChangePasswordAsync(editedUser, parameters.OldPassword, parameters.NewPassword);
-            if (!result.Succeeded) 
+            IdentityStoreUser editedUser = await GetUserIdentityById(parameters.EditedUserId);
+            IdentityResult result = await _userManager.ChangePasswordAsync(editedUser, parameters.OldPassword, parameters.NewPassword);
+            if (!result.Succeeded)
+            {
                 return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            }
+
             return Ok();
         }
 
@@ -169,20 +179,20 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "User roles retrieved.")]
         public async Task<ActionResult<UserRolesDTO>> Get(int userId)
         {
-            var user = await GetUserIdentityById(userId);
+            IdentityStoreUser user = await GetUserIdentityById(userId);
             if (user == null)
             {
                 return NotFound();
             }
-            var rolesList = await _userManager.GetRolesAsync(user);
-            var roles = new UserRolesDTO() { UserId = userId, Roles = rolesList };
+            IList<string> rolesList = await _userManager.GetRolesAsync(user);
+            UserRolesDTO roles = new UserRolesDTO() { UserId = userId, Roles = rolesList };
             return Ok(roles);
         }
 
         private Task<IdentityStoreUser> GetUserIdentityById(int userId)
         {
             return _userManager.FindByIdAsync(userId.ToString());
-        } 
+        }
 
         [HttpGet("username/{userId}")]
         [Authorize]
@@ -197,7 +207,7 @@ namespace ClubIS.WebAPI.Controllers
                 return Unauthorized();
             }
 
-            var user = await GetUserIdentityById(userId);
+            IdentityStoreUser user = await GetUserIdentityById(userId);
             if (user == null)
             {
                 return NotFound();
@@ -209,16 +219,19 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize(Policy = Policy.Users)]
         public async Task<IActionResult> ChangeUserRoles(UserRolesDTO userRoles)
         {
-            var user = await GetUserIdentityById(userRoles.UserId);
+            IdentityStoreUser user = await GetUserIdentityById(userRoles.UserId);
             if (user == null)
             {
                 return NotFound();
             }
-            var oldRoles = await _userManager.GetRolesAsync(user);
+            IList<string> oldRoles = await _userManager.GetRolesAsync(user);
             await _userManager.RemoveFromRolesAsync(user, oldRoles);
-            var result = await _userManager.AddToRolesAsync(user, userRoles.Roles);
-            if (!result.Succeeded) 
+            IdentityResult result = await _userManager.AddToRolesAsync(user, userRoles.Roles);
+            if (!result.Succeeded)
+            {
                 return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            }
+
             return Ok();
         }
     }

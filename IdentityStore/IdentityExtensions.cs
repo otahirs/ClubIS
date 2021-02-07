@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
 
 namespace ClubIS.IdentityStore
 {
@@ -10,7 +8,7 @@ namespace ClubIS.IdentityStore
     {
         public static int GetUserId(this IIdentity identity)
         {
-            var claim = ((ClaimsIdentity)identity).FindFirst(ClaimTypes.NameIdentifier);
+            Claim claim = ((ClaimsIdentity)identity).FindFirst(ClaimTypes.NameIdentifier);
             if (claim == null)
             {
                 throw new ArgumentException("Cannot get UserId for Unauthenticated user");

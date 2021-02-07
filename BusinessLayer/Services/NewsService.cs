@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
 using ClubIS.DataAccessLayer;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Services
 {
@@ -31,7 +31,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task<IEnumerable<NewsListDTO>> GetAll()
         {
-            var list = await _unitOfWork.News.GetAll();
+            IEnumerable<News> list = await _unitOfWork.News.GetAll();
             return _mapper.Map<IEnumerable<NewsListDTO>>(list);
         }
 

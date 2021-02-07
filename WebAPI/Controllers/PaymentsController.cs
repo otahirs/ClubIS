@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using ClubIS.BusinessLayer.Facades.Interfaces;
+﻿using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Enums;
 using ClubIS.IdentityStore;
@@ -10,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ClubIS.WebAPI.Controllers
 {
@@ -18,7 +16,7 @@ namespace ClubIS.WebAPI.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class PaymentsController : ControllerBase
     {
-        private IPaymentFacade _paymentFacade;
+        private readonly IPaymentFacade _paymentFacade;
 
         public PaymentsController(IPaymentFacade paymentFacade)
         {
@@ -31,7 +29,7 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Payments retrieved.")]
         public async Task<ActionResult<IEnumerable<PaymentListDTO>>> Get()
         {
-            var payments = await _paymentFacade.GetAll();
+            IEnumerable<PaymentListDTO> payments = await _paymentFacade.GetAll();
             if (payments == null)
             {
                 return NotFound();
@@ -45,8 +43,8 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Statements retrieved.")]
         public async Task<ActionResult<IEnumerable<FinanceStatementDTO>>> GetByUserId()
         {
-            var userId = User.Identity.GetUserId();
-            var financeStatements = await _paymentFacade.GetAllFinanceStatement(userId);
+            int userId = User.Identity.GetUserId();
+            IEnumerable<FinanceStatementDTO> financeStatements = await _paymentFacade.GetAllFinanceStatement(userId);
             if (financeStatements == null)
             {
                 return NotFound();
@@ -68,7 +66,9 @@ namespace ClubIS.WebAPI.Controllers
             }
 
             if (payment == null)
+            {
                 return BadRequest();
+            }
 
             await _paymentFacade.Create(payment);
             return Ok();
@@ -80,7 +80,7 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Member fee types retrieved.")]
         public async Task<ActionResult<IEnumerable<MemberFeeDTO>>> GetAllMemberFeeTypes()
         {
-            var memberFeeTypes = await _paymentFacade.GetAllMemberFeeTypes();
+            IEnumerable<MemberFeeDTO> memberFeeTypes = await _paymentFacade.GetAllMemberFeeTypes();
             if (memberFeeTypes == null)
             {
                 return NotFound();

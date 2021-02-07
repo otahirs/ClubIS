@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ClubIS.CoreLayer.Entities;
+using System;
 using System.Linq;
-using ClubIS.CoreLayer.Entities;
 using Xunit;
 
 namespace ClubIS.DataAccessLayer.Tests
@@ -9,7 +9,7 @@ namespace ClubIS.DataAccessLayer.Tests
     {
         private readonly Func<TestClubContext> _createContext = () =>
         {
-            var context = new TestClubContext();
+            TestClubContext context = new TestClubContext();
             context.Database.EnsureCreated();
             return context;
         };
@@ -18,9 +18,9 @@ namespace ClubIS.DataAccessLayer.Tests
         public void GetReturnsCorrectNews()
         {
             DateTime actualDate;
-            var expectedDate = new DateTime(2020, 10, 24);
+            DateTime expectedDate = new DateTime(2020, 10, 24);
             const int id = 2;
-            using (var context = _createContext())
+            using (TestClubContext context = _createContext())
             {
                 context.News.Add(new News()
                 {
@@ -29,7 +29,7 @@ namespace ClubIS.DataAccessLayer.Tests
                     Title = "Hello",
                 });
                 context.SaveChanges();
-                var item = context.News.FirstOrDefault(e => e.Id == id);
+                News item = context.News.FirstOrDefault(e => e.Id == id);
                 actualDate = item.Date;
             }
 

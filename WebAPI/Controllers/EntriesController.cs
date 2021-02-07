@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using ClubIS.BusinessLayer.Facades.Interfaces;
+﻿using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Enums;
+using ClubIS.IdentityStore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using ClubIS.IdentityStore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ClubIS.WebAPI.Controllers
 {
@@ -17,8 +16,8 @@ namespace ClubIS.WebAPI.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class EntriesController : ControllerBase
     {
-        private IEntryFacade _entryFacade;
-        private IEventFacade _eventFacade;
+        private readonly IEntryFacade _entryFacade;
+        private readonly IEventFacade _eventFacade;
 
         public EntriesController(IEntryFacade entryFacade, IEventFacade eventFacade)
         {
@@ -32,7 +31,7 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Entries retrieved.")]
         public async Task<ActionResult<IEnumerable<EventEntryListDTO>>> GetByEventId(int eventId)
         {
-            var entries = await _entryFacade.GetAllByEventId(eventId);
+            IEnumerable<EventEntryListDTO> entries = await _entryFacade.GetAllByEventId(eventId);
             if (entries == null)
             {
                 return NotFound();
@@ -47,7 +46,7 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "One entry retrieved.")]
         public async Task<ActionResult<EventEntryListDTO>> Get(int id)
         {
-            var entry = await _entryFacade.GetById(id);
+            EventEntryListDTO entry = await _entryFacade.GetById(id);
 
             if (entry == null)
             {
@@ -70,11 +69,13 @@ namespace ClubIS.WebAPI.Controllers
             }
 
             if (entry == null)
+            {
                 return BadRequest();
+            }
 
             await _entryFacade.Create(entry);
 
-            var e = await _eventFacade.GetById(entry.EventId);
+            EventEditDTO e = await _eventFacade.GetById(entry.EventId);
             if (e.Entries != EntriesExport.Changed)
             {
                 e.Entries = EntriesExport.Changed;
@@ -98,11 +99,13 @@ namespace ClubIS.WebAPI.Controllers
             }
 
             if (entry == null)
+            {
                 return BadRequest();
+            }
 
             await _entryFacade.Update(entry);
 
-            var e = await _eventFacade.GetById(entry.EventId);
+            EventEditDTO e = await _eventFacade.GetById(entry.EventId);
             if (e.Entries != EntriesExport.Changed)
             {
                 e.Entries = EntriesExport.Changed;
@@ -125,7 +128,7 @@ namespace ClubIS.WebAPI.Controllers
                 return Unauthorized();
             }
 
-            var entry = await _entryFacade.GetById(e.Id);
+            EventEntryListDTO entry = await _entryFacade.GetById(e.Id);
 
             if (entry == null)
             {

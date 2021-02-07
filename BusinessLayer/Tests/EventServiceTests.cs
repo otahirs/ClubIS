@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ClubIS.BusinessLayer.Services;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
 using ClubIS.CoreLayer.Enums;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ClubIS.BusinessLayer.Tests
@@ -61,9 +61,9 @@ namespace ClubIS.BusinessLayer.Tests
         public async Task GetById() // db seed dependant
         {
             EventEditDTO e;
-            using (var uow = TestUoWFactory.Create())
+            using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
             {
-                var ns = new EventService(uow,_mapper);
+                EventService ns = new EventService(uow, _mapper);
                 e = (await ns.GetById(1));
             }
             Assert.NotNull(e);
@@ -73,9 +73,9 @@ namespace ClubIS.BusinessLayer.Tests
         public async Task Create()
         {
             EventEditDTO e;
-            using (var uow = TestUoWFactory.Create())
+            using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
             {
-                var es = new EventService(uow, _mapper);
+                EventService es = new EventService(uow, _mapper);
                 await es.Create(origEvent);
                 await uow.Save();
                 e = (await es.GetById(42));
@@ -87,10 +87,10 @@ namespace ClubIS.BusinessLayer.Tests
         public async Task Update()
         {
             EventEditDTO e;
-            var editedOrganizer = "Edited Organizer";
-            using (var uow = TestUoWFactory.Create())
+            string editedOrganizer = "Edited Organizer";
+            using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
             {
-                var es = new EventService(uow, _mapper);
+                EventService es = new EventService(uow, _mapper);
                 await es.Create(origEvent);
                 await uow.Save();
                 e = await es.GetById(42);
@@ -106,9 +106,9 @@ namespace ClubIS.BusinessLayer.Tests
         public async Task Delete()
         {
             EventEditDTO e;
-            using (var uow = TestUoWFactory.Create())
+            using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
             {
-                var es = new EventService(uow, _mapper);
+                EventService es = new EventService(uow, _mapper);
                 await es.Create(origEvent);
                 await uow.Save();
                 await es.Delete(origEvent.Id);
@@ -121,7 +121,7 @@ namespace ClubIS.BusinessLayer.Tests
         [Fact]
         public async Task GetAllWithUserEntry() // db seed dependant
         {
-            var origEvent2 = new EventEditDTO
+            EventEditDTO origEvent2 = new EventEditDTO
             {
                 Id = 43,
                 StartDate = new DateTime(2020,
@@ -157,9 +157,9 @@ namespace ClubIS.BusinessLayer.Tests
                 EventStages = new HashSet<EventStageDTO>()
             };
             List<EventListWithUserEntryDTO> events;
-            using (var uow = TestUoWFactory.Create())
+            using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
             {
-                var es = new EventService(uow, _mapper);
+                EventService es = new EventService(uow, _mapper);
                 await es.Create(origEvent);
                 await es.Create(origEvent2);
                 await uow.Save();
@@ -168,7 +168,7 @@ namespace ClubIS.BusinessLayer.Tests
             using (new AssertionScope())
             {
                 events.Count().Should().BeGreaterThan(1);
-                var event1 = events.First(n => n.Event.Id == 42);
+                EventListWithUserEntryDTO event1 = events.First(n => n.Event.Id == 42);
                 event1.Event.StartDate.Should().Be(origEvent.StartDate);
                 event1.Event.EndDate.Should().Be(origEvent.EndDate);
                 event1.Event.Name.Should().Be(origEvent.Name);

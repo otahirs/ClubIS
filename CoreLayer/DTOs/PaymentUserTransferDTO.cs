@@ -1,5 +1,4 @@
-﻿using ClubIS.CoreLayer.Enums;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ClubIS.CoreLayer.DTOs

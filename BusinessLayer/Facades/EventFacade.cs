@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ClubIS.BusinessLayer.Facades.Interfaces;
+﻿using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.DataAccessLayer;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Facades
 {
@@ -44,13 +44,13 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task<IEnumerable<EventListWithTotalCostsDTO>> GetAllWithTotalCosts()
         {
-            var events = await _eventService.GetAll();
+            IEnumerable<EventListDTO> events = await _eventService.GetAll();
             return events
                 .Select(e => new EventListWithTotalCostsDTO
-                    {
-                        Event = e,
-                        TotalCosts = _paymentService.GetEventPaymentSumByEventId(e.Id).GetAwaiter().GetResult()
-                    }
+                {
+                    Event = e,
+                    TotalCosts = _paymentService.GetEventPaymentSumByEventId(e.Id).GetAwaiter().GetResult()
+                }
                 );
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ClubIS.CoreLayer.Entities;
+﻿using ClubIS.CoreLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClubIS.DataAccessLayer
