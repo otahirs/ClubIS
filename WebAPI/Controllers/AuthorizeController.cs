@@ -101,19 +101,23 @@ namespace ClubIS.WebAPI.Controllers
         }
 
         [HttpGet("user-info")]
-        public UserInfoDTO UserInfo()
+        public async Task<UserInfoDTO> UserInfo()
         {
-            //var user = await _userManager.GetUserAsync(HttpContext.User);
-            return BuildUserInfo();
+            if(!User.Identity.IsAuthenticated)
+            {
+                return new UserInfoDTO();
+            }
+            return await BuildUserInfo();
         }
 
-        private UserInfoDTO BuildUserInfo()
+        private async Task<UserInfoDTO> BuildUserInfo()
         {
+            UserDTO user = await _userFacade.GetById(User.Identity.GetUserId());
             return new UserInfoDTO
             {
                 IsAuthenticated = User.Identity.IsAuthenticated,
-                UserName = User.Identity.Name,
-                UserId = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : 0,
+                UserName = user.Firstname + " " + user.Surname,
+                UserId = user.Id,
                 ExposedClaims = User.Claims
                     //Optionally: filter the claims you want to expose to the client
                     //.Where(c => c.Type == "test-claim")
