@@ -119,22 +119,20 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry deleted.")]
-        public async Task<ActionResult> Delete(EventEntryDeleteDTO e)
+        public async Task<ActionResult> Delete(int id)
         {
-            if (User.Identity.GetUserId() != e.UserId &&
+            EventEntryListDTO entry = await _entryFacade.GetById(id);
+            if (entry == null)
+            {
+                return NotFound();
+            }
+            if (User.Identity.GetUserId() != entry.UserId &&
                 !User.IsInRole(Role.Entries) &&
                 !User.IsInRole(Role.Admin))
             {
                 return Unauthorized();
             }
-
-            EventEntryListDTO entry = await _entryFacade.GetById(e.Id);
-
-            if (entry == null)
-            {
-                return NotFound();
-            }
-            await _entryFacade.Delete(e.Id);
+            await _entryFacade.Delete(id);
             return Ok();
         }
     }
