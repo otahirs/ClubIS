@@ -85,19 +85,6 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(user);
         }
 
-        //[HttpPost]
-        //[Authorize(Policy = Policy.Users)]
-        //[SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided user.")]
-        //[SwaggerResponse(StatusCodes.Status200OK, "User added.")]
-        //public async Task<ActionResult> Post([FromBody] UserDTO user)
-        //{
-        //    if (user == null)
-        //        return BadRequest();
-
-        //    await _userFacade.Create(user);
-        //    return Ok();
-        //}
-
         [HttpPut]
         [Authorize(Policy = Policy.Users)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided user.")]
