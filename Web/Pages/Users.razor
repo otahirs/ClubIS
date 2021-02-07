@@ -4,8 +4,6 @@
 
 @inject HttpClient Http
 
-@using MudBlazor.Components.Table
-
 @inject NavigationManager NavigationManager
 @inject Searching Searching
 
@@ -19,7 +17,7 @@
     {
         <MudTable Items="users" Filter="new Func<UserListDTO, bool>(FilterFunc)" Hover="true" SortLabel="Sort By" OnRowClick="@((TableRowClickEventArgs<UserListDTO> e)=> Navigate(e.Item))">
             <ToolBarContent>
-                <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium"></MudTextField>
+                <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
             </ToolBarContent>
             <HeaderContent>
                 <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Name</MudTableSortLabel></MudTh>

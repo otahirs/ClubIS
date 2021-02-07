@@ -1,14 +1,13 @@
 ﻿@page "/admin/events"
 @attribute [Authorize(Policy = Policy.Events)]
-@using MudBlazor.Components.Table
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Events Admin</MudText>
     <MudToggleIconButton Toggled="@includeArchivedEvents" ToggledChanged="(toggleValue) => ArchivedOptionChanged(toggleValue)"
-                         Icon="@Icons.Material.Block" Color="@Color.Error"
-                         ToggledIcon="@Icons.Custom.AlertSuccess" ToggledColor="@Color.Success" />
+                         Icon="@Icons.Material.Filled.Block" Color="@Color.Error"
+                         ToggledIcon="@Icons.Custom.Uncategorized.AlertSuccess" ToggledColor="@Color.Success" />
 
     <span>Archived Events @(includeArchivedEvents ? "included" : "excluded")</span>
     @if (displayedEvents == null)
@@ -19,7 +18,7 @@
     {
         <MudTable Items="@displayedEvents" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@((TableRowClickEventArgs<EventListDTO> e)=>Navigate(e))" T="EventListDTO" Hover="true" Dense="true">
             <ToolBarContent>
-                <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium"></MudTextField>
+                <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
                 <MudToolBarSpacer />
                 <MudSelect @bind-Value="searchType" Label="Filter EventType" Class="ml-3">
                     @foreach (var type in types)
@@ -43,7 +42,7 @@
                 <MudTd DataLabel="Deadlines">@GetDeadlines(context.Deadlines)</MudTd>
             </RowTemplate>
         </MudTable>
-        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="Navigate" Class="ml-auto mt-2">Event</MudButton>
+        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="Navigate" Class="ml-auto mt-2">Event</MudButton>
 
     }
 </MudContainer>

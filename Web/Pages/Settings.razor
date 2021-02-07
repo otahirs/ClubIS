@@ -9,7 +9,7 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Settings</MudText>
-    <MudTabs Vertical="true">
+    <MudTabs Position="Position.Left">
         <MudTabPanel Text="User">
             @if (CurrentUser != null)
             {<UserEditForm User="CurrentUser" />}

@@ -65,19 +65,19 @@ namespace ClubIS.BusinessLayer.Tests
                 UserSupervisionsDTO result1 = await userService.GetUserSupervisions(1);
                 UserSupervisionsDTO result2 = await userService.GetUserSupervisions(2);
 
-                Assert.True(result1.EntriesSupervisors.Count() == 0);
-                Assert.True(result1.EntriesSupervisedUsers.Count() == 1);
+                Assert.True(result1.EntriesSupervisors.Count == 0);
+                Assert.True(result1.EntriesSupervisedUsers.Count == 1);
                 Assert.True(result1.EntriesSupervisedUsers.First().Id == 2);
                 Assert.Null(result1.FinanceSupervisor);
-                Assert.True(result1.FinanceSupervisedUsers.Count() == 1);
+                Assert.True(result1.FinanceSupervisedUsers.Count == 1);
                 Assert.True(result1.FinanceSupervisedUsers.First().Id == 2);
 
-                Assert.True(result2.EntriesSupervisors.Count() == 1);
+                Assert.True(result2.EntriesSupervisors.Count == 1);
                 Assert.True(result2.EntriesSupervisors.First().Id == 1);
-                Assert.True(result2.EntriesSupervisedUsers.Count() == 0);
+                Assert.True(result2.EntriesSupervisedUsers.Count == 0);
                 Assert.NotNull(result2.FinanceSupervisor);
                 Assert.True(result2.FinanceSupervisor.Id == 1);
-                Assert.True(result2.FinanceSupervisedUsers.Count() == 0);
+                Assert.True(result2.FinanceSupervisedUsers.Count == 0);
             }
         }
     }

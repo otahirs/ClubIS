@@ -17,7 +17,7 @@ namespace ClubIS.Web
         public static async Task Main(string[] args)
         {
             WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
+            builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore(options =>
@@ -34,6 +34,7 @@ namespace ClubIS.Web
             builder.Services.AddScoped<IAuthorizeApi, AuthorizeApi>();
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress + "api/v1/") });
+            builder.Services.AddMudBlazorDom();
             builder.Services.AddMudBlazorDialog();
             builder.Services.AddMudBlazorSnackbar();
             builder.Services.AddMudBlazorResizeListener();

@@ -5,7 +5,7 @@
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
     <MudText Typo="Typo.h3">Login</MudText>
         <MudList Clickable="true" Class="xs-12">
-            <MudListItem Icon="@Icons.Material.Login" Text="Change login">
+            <MudListItem Icon="@Icons.Material.Filled.Login" Text="Change login">
                 <NestedList>
                     @if (ChangeLogin == null)
                     {<MudProgressCircular Color="Color.Default" Indeterminate="true" /> }
@@ -30,7 +30,7 @@
                     }
                 </NestedList>
             </MudListItem>
-            <MudListItem Icon="@Icons.Material.Lock" Text="Change password">
+            <MudListItem Icon="@Icons.Material.Filled.Lock" Text="Change password">
                 <NestedList>
                     @if (ChangePassword == null)
                     {<MudProgressCircular Color="Color.Default" Indeterminate="true" /> }

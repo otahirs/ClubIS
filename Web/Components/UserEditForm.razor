@@ -19,7 +19,7 @@
                             <MudTextField Label="Firstname" @bind-Value="User.Firstname" For="@(() => User.Firstname)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
                             <MudTextField Label="Surname" @bind-Value="User.Surname" For="@(() => User.Surname)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
                             <MudTextField Label="Reg. number" @bind-Value="User.RegistrationNumber" For="@(() => User.RegistrationNumber)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
-                            <MudDatePicker Label="Date of birth" Value="@User.DateOfBirth.ToString()" ValueChanged="@((string s) => UpdateDateOfBirth(s))" Disabled="!IsAdmin" />
+                            <MudDatePicker Label="Date of birth" Text="@User.DateOfBirth.ToString()" TextChanged="@((string s) => UpdateDateOfBirth(s))" Disabled="!IsAdmin" />
                             <MudSelect Label="Gender" @bind-Value="User.Gender" Variant="Variant.Outlined" Disabled="!IsAdmin">
                                 @foreach (Gender gender in Enum.GetValues(typeof(Gender)))
                                         {<MudSelectItem Value="@gender"/>}
@@ -48,9 +48,9 @@
                     </MudCard>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="RedoChanges" Class="ml-3">Cancel</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Close" OnClick="RedoChanges" Class="ml-3">Cancel</MudButton>
                     @if (IsAdmin)
-                    {<MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveUser" Class="ml-auto">Remove</MudButton>}
+                    {<MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveUser" Class="ml-auto">Remove</MudButton>}
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
                 </MudCardActions>
             </MudCard>

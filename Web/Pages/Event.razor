@@ -11,7 +11,7 @@
     }
     else
     {
-        <MudButton StartIcon="@Filled.ArrowBack" OnClick="@(()=>NavigationManager.NavigateTo("/events"))" Class="ml-3">back to events</MudButton>
+        <MudButton StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="@(()=>NavigationManager.NavigateTo("/events"))" Class="ml-3">back to events</MudButton>
         <MudExpansionPanel>
             <TitleContent>
                 @if (e.EventState != EventState.Canceled)
@@ -123,7 +123,7 @@
                                     }
                                     else
                                     {
-                                        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Filled.Delete" OnClick="RemoveEntry" Class="ml-auto">Remove</MudButton>
+                                        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveEntry" Class="ml-auto">Remove</MudButton>
                                         <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
                                     }
                                     </MudItem>
@@ -153,21 +153,21 @@
                 <MudTd DataLabel="ComTran">
                     @if (context.HasClubTransport)
                         {
-                        <MudIcon Icon="@Filled.Check" />
+                        <MudIcon Icon="@Icons.Material.Filled.Check" />
                         }
                         else
                         {
-                        <MudIcon Icon="@Filled.Close" />
+                        <MudIcon Icon="@Icons.Material.Filled.Close" />
                         }
                 </MudTd>
                 <MudTd DataLabel="ComAcco">
                     @if (context.HasClubAccommodation)
                         {
-                        <MudIcon Icon="@Filled.Check" />
+                        <MudIcon Icon="@Icons.Material.Filled.Check" />
                         }
                         else
                         {
-                        <MudIcon Icon="@Filled.Close" />
+                        <MudIcon Icon="@Icons.Material.Filled.Close" />
                         }
                 </MudTd>
                 <MudTd DataLabel="SiNum">@context.SiCardNumber</MudTd>

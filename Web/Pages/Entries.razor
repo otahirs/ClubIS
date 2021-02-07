@@ -1,6 +1,5 @@
 ﻿@page "/events"
 @attribute [Authorize]
-@using MudBlazor.Components.Table
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
@@ -14,7 +13,7 @@
     {
 <MudTable Items="@events" Filter="new Func<EventListWithUserEntryDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListWithUserEntryDTO" Hover="true" Dense="true">
     <ToolBarContent>
-        <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Search" IconSize="Size.Medium"></MudTextField>
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
         <MudToolBarSpacer />
         <MudSelect @bind-Value="searchType" Label="Filter EventType" Class="ml-3">
             @foreach (var type in types)

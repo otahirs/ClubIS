@@ -167,7 +167,7 @@ namespace ClubIS.BusinessLayer.Tests
             }
             using (new AssertionScope())
             {
-                events.Count().Should().BeGreaterThan(1);
+                events.Count.Should().BeGreaterThan(1);
                 EventListWithUserEntryDTO event1 = events.First(n => n.Event.Id == 42);
                 event1.Event.StartDate.Should().Be(origEvent.StartDate);
                 event1.Event.EndDate.Should().Be(origEvent.EndDate);

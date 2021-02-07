@@ -5,7 +5,7 @@
     <MudText Typo="Typo.h3">Supervisors</MudText>
 
     <MudList Clickable="true" Class="xs-12">
-        <MudListItem Icon="@Icons.Material.StickyNote2" Text="Entries supervision">
+        <MudListItem Icon="@Icons.Material.Filled.StickyNote2" Text="Entries supervision">
             <NestedList>
                 @if (UserSupervisions == null)
                 {<MudProgressCircular Color="Color.Default" Indeterminate="true" />}
@@ -18,7 +18,7 @@
                 }
             </NestedList>
         </MudListItem>
-        <MudListItem Icon="@Icons.Material.AccountBalanceWallet" Text="Finance supervision">
+        <MudListItem Icon="@Icons.Material.Filled.AccountBalanceWallet" Text="Finance supervision">
             <NestedList>
                 @if (UserSupervisions == null)
                 {<MudProgressCircular Color="Color.Default" Indeterminate="true" />}
@@ -71,7 +71,7 @@
                 <MudItem xs="5">
                     @if (isAdmin)
                     {
-                        <MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSupervision(item, supervisionCollection)">Delete</MudButton>
+                        <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSupervision(item, supervisionCollection)">Delete</MudButton>
                     }
                 </MudItem>
             </MudGrid>
@@ -79,7 +79,7 @@
         @form.RenderedForm
         @if (isAdmin)
         {
-            <MudButton Class="my-2" ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="e => AddSupervisionForm(form, supervisionCollection)" Disabled="DisableSupervisionAddition(enableAddition, form, supervisionCollection)">Supervision</MudButton>
+            <MudButton Class="my-2" ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="e => AddSupervisionForm(form, supervisionCollection)" Disabled="DisableSupervisionAddition(enableAddition, form, supervisionCollection)">Supervision</MudButton>
         }
         </MudItem>;
     }
@@ -102,7 +102,7 @@
         </MudItem>
         <MudItem xs="5" Class="mt-4">
             <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="e => AddSupervision(form, supervisionCollection)">Add</MudButton>
-            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="e => CancelForm(form)">Cancel</MudButton>
+            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Close" OnClick="e => CancelForm(form)">Cancel</MudButton>
         </MudItem>
         </MudGrid>;
     }

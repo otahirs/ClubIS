@@ -20,7 +20,7 @@
                                 <MudTextField @bind-Value="siCard.Number" For="@(() => siCard.Number)" Variant="Variant.Outlined" />
                             </MudItem>
                             <MudItem xs="4">
-                                <MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSICard(siCard)" Class="mt-4">Delete</MudButton>
+                                <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSICard(siCard)" Class="mt-4">Delete</MudButton>
                             </MudItem>
                             <MudItem xs="4">
                                 @if (siCard.IsDefault)
@@ -29,15 +29,15 @@
                                 }
                                 else
                                 {
-                                    <MudButton Class="mt-4" ButtonType="ButtonType.Button" StartIcon="@Filled.Cached" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => SetSICardAsDefault(siCard)">Set as default</MudButton>
+                                    <MudButton Class="mt-4" ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Cached" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => SetSICardAsDefault(siCard)">Set as default</MudButton>
                                 }
                             </MudItem>
                         </MudGrid>
                     }
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="RedoChanges" Class="ml-3">Cancel</MudButton>
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Add" OnClick="ShowNewSICardLine" Class="ml-3">SI Card</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Close" OnClick="RedoChanges" Class="ml-3">Cancel</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="ShowNewSICardLine" Class="ml-3">SI Card</MudButton>
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-3">Save</MudButton>
                 </MudCardActions>
             </MudCard>

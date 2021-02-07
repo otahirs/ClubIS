@@ -132,7 +132,7 @@ namespace ClubIS.BusinessLayer.Tests
             }
             using (new AssertionScope())
             {
-                news.Count().Should().BeGreaterThan(1);
+                news.Count.Should().BeGreaterThan(1);
                 NewsListDTO news1 = news.First(n => n.Id == 42);
                 news1.Date.Should().Be(origNews1.Date);
                 news1.UserId.Should().Be(origNews1.UserId);

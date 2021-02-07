@@ -82,7 +82,7 @@ namespace ClubIS.WebAPI.Controllers
             {
                 // remove Identity if user creation failed
                 await _userManager.DeleteAsync(identityUser);
-                throw ex;
+                throw new ApplicationException("User creation failed", ex);
             }
 
             return await Login(new LoginParametersDTO

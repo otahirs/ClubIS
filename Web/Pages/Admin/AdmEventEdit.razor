@@ -1,7 +1,6 @@
 ﻿@page "/admin/events/edit"
 @page "/admin/events/edit/{eventId:int}"
 @attribute [Authorize(Policy = Policy.Events)]
-@using MudBlazor.Components.Table
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
@@ -29,9 +28,9 @@
 
                     <MudTextField Label="Place" @bind-Value="sendEvent.Place" For="@(() => sendEvent.Place)" Variant="Variant.Outlined" />
 
-                    <MudDatePicker Label="Start date" ValueChanged="@((string s) => UpdateStartDate(s))" Value="@sendEvent.StartDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
+                    <MudDatePicker Label="Start date"  TextChanged="@((string s) => UpdateStartDate(s))" Text="@sendEvent.StartDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
 
-                    <MudDatePicker Label="End date" ValueChanged="@((string s) => UpdateEndDate(s))" Value="@sendEvent.EndDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
+                    <MudDatePicker Label="End date" TextChanged="@((string s) => UpdateEndDate(s))" Text="@sendEvent.EndDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
 
                     <MudTextField Label="Organizer" @bind-Value="sendEvent.Organizer" For="@(() => sendEvent.Organizer)" Variant="Variant.Outlined" />
 
@@ -75,7 +74,7 @@
                             <MudTextField Label="Class options" @bind-Value="currentOption" Variant="Variant.Outlined" />
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Filled.Add" OnClick="AddClass">Class</MudButton>
+                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Filled.Add" OnClick="AddClass">Class</MudButton>
                         </MudCardActions>
                         <ValidationMessage For="@(() => sendEvent.ClassOptions)" class="validation-message" />
                     </MudCard>
@@ -91,17 +90,17 @@
                             {
                                 <MudCard Outlined="true">
                                     <MudCardContent>
-                                        <MudDatePicker Label="Deadline" ValueChanged="@((string s) => UpdateDeadline(s, d))" Value="@d.Deadline.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
+                                        <MudDatePicker Label="Deadline" TextChanged="@((string s) => UpdateDeadline(s, d))" Text="@d.Deadline.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
                                         @if (sendEvent.Deadlines.Count > 1)
                                         {
-                                            <MudIconButton Icon="@Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="(() => RemoveDeadline(d))"></MudIconButton>
+                                            <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="(() => RemoveDeadline(d))"></MudIconButton>
                                         }
                                     </MudCardContent>
                                 </MudCard>
                             }
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Filled.Add" OnClick="AddDeadline">Deadline</MudButton>
+                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Filled.Add" OnClick="AddDeadline">Deadline</MudButton>
                         </MudCardActions>
                     </MudCard>
 
@@ -116,9 +115,9 @@
                                             <MudItem xs="6">
                                                 <MudTextField Label="Stage name" @bind-Value="s.Name" For="@(() => s.Name)" Variant="Variant.Outlined" />
                                             </MudItem>
-                                            <MudDatePicker Label="Stage date" ValueChanged="@((string st) => UpdateStageDate(st, s))" Value="@s.Date.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
+                                            <MudDatePicker Label="Stage date" TextChanged="@((string st) => UpdateStageDate(st, s))" Text="@s.Date.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
 
-                                            <MudIconButton Icon="@Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="(() => RemoveStage(s))"></MudIconButton>
+                                            <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="(() => RemoveStage(s))"></MudIconButton>
                                         </MudGrid>
                                     </MudCardContent>
                                 </MudCard>
@@ -126,20 +125,20 @@
 
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Filled.Add" OnClick="AddStage">Stage</MudButton>
+                            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Filled.Add" OnClick="AddStage">Stage</MudButton>
                         </MudCardActions>
                     </MudCard>
 
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
                     @if (eventId == null)
                     {
                         <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Save</MudButton>
                     }
                     else
                     {
-                        <MudButton ButtonType="ButtonType.Button" StartIcon="@Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveEvent" Class="ml-auto">Remove</MudButton>
+                        <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveEvent" Class="ml-auto">Remove</MudButton>
                         <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
                     }
                 </MudCardActions>

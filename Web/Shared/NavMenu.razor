@@ -1,27 +1,27 @@
 ﻿@inject NavigationManager navigationManager
 @inject IdentityAuthenticationStateProvider authStateProvider
 <MudNavMenu Class="mt-10">
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Home">Home</MudNavLink>
-    <MudNavLink Href="/events" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.DirectionsRun">Event Entries</MudNavLink>
-    <MudNavLink Href="/users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.People">Member list</MudNavLink>
-    <MudNavLink Href="/finance" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.AccountBalanceWallet">Finance</MudNavLink>
-    <MudNavLink Href="/settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Settings">Settings</MudNavLink>
+    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+    <MudNavLink Href="/events" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.DirectionsRun">Event Entries</MudNavLink>
+    <MudNavLink Href="/users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.People">Member list</MudNavLink>
+    <MudNavLink Href="/finance" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AccountBalanceWallet">Finance</MudNavLink>
+    <MudNavLink Href="/settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">Settings</MudNavLink>
     <MudDivider DividerType="DividerType.Middle" Class="mt-10" />
     <br />
     <AuthorizeView Policy=@Policy.News>
-        <MudNavLink Href="/admin/news" Match="NavLinkMatch.All" Icon="@Icons.Material.Message">News</MudNavLink>
+        <MudNavLink Href="/admin/news" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Message">News</MudNavLink>
     </AuthorizeView>
     <AuthorizeView Policy=@Policy.Entries>
-        <MudNavLink Href="/admin/entries" Match="NavLinkMatch.All" Icon="@Icons.Material.StickyNote2">Entries</MudNavLink>
+        <MudNavLink Href="/admin/entries" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.StickyNote2">Entries</MudNavLink>
     </AuthorizeView>
     <AuthorizeView Policy=@Policy.Entries>
-        <MudNavLink Href="/admin/events" Match="NavLinkMatch.All" Icon="@Icons.Material.RunCircle">Events</MudNavLink>
+        <MudNavLink Href="/admin/events" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.RunCircle">Events</MudNavLink>
     </AuthorizeView>
     <AuthorizeView Policy=@Policy.Users>
-        <MudNavLink Href="/admin/users" Match="NavLinkMatch.All" Icon="@Icons.Material.SupervisorAccount">Users</MudNavLink>
+        <MudNavLink Href="/admin/users" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.SupervisorAccount">Users</MudNavLink>
     </AuthorizeView>
     <AuthorizeView Policy=@Policy.Finance>
-        <MudNavLink Href="/admin/finance" Match="NavLinkMatch.All" Icon="@Icons.Material.AccountBalance">Finance</MudNavLink>
+        <MudNavLink Href="/admin/finance" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AccountBalance">Finance</MudNavLink>
     </AuthorizeView>
     <br />
     <MudDivider DividerType="DividerType.Middle" Class="mb-5" />
