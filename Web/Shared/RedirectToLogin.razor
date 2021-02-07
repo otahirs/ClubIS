@@ -2,11 +2,11 @@
 <div class="loader loader-bouncing"><span>Redirecting...</span></div>
 @code{
     [Parameter]
-    public string returnUrl {get; set;}
+    public string ReturnUrl {get; set;}
 
     protected override void OnInitialized()
     {
-        returnUrl = returnUrl.Substring(navigationManager.BaseUri.Length).Replace("/", "&");
-        navigationManager.NavigateTo($"/login/{returnUrl}");
+        ReturnUrl = ReturnUrl.Substring(navigationManager.BaseUri.Length).Replace("/", "&");
+        navigationManager.NavigateTo($"/login/{ReturnUrl}");
     }
 }
