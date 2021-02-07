@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using ClubIS.CoreLayer.Entities;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace ClubIS.DataAccessLayer
 {
