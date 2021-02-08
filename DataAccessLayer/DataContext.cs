@@ -1,5 +1,6 @@
 ﻿using ClubIS.CoreLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace ClubIS.DataAccessLayer
 {
@@ -40,28 +41,22 @@ namespace ClubIS.DataAccessLayer
             modelBuilder.Entity<User>()
                 .Property(u => u.Id).ValueGeneratedNever();
 
-            modelBuilder.Entity<User_EntriesSupervisor>()
-                .HasKey(us => new { us.UserId, us.EntriesSupervisorId });
+            modelBuilder.Entity<User>()
+                .HasMany(left => left.EntriesSupervisedUsers)
+                .WithMany(right => right.EntriesSupervisors)
+                .UsingEntity<Dictionary<string, object>>(
+                    "User_EntriesSupervisor",
+                    b => b.HasOne<User>().WithMany().HasForeignKey("UserId"),
+                    b => b.HasOne<User>().WithMany().HasForeignKey("EntriesSupervisorId"));
 
-            modelBuilder.Entity<User_EntriesSupervisor>()
-                .HasOne(i => i.User)
-                .WithMany(i => i.EntriesSupervisors)
-                .HasForeignKey(i => i.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<User_EntriesSupervisor>()
-                .HasOne(i => i.EntriesSupervisor)
-                .WithMany(i => i.EntriesSupervisedUsers)
-                .HasForeignKey(i => i.EntriesSupervisorId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<EventEntry_EventStage>()
-                .HasKey(es => new { es.EventEntryId, es.EventStageId });
-            modelBuilder.Entity<EventEntry_EventStage>()
-               .HasOne(e => e.Entry)
-               .WithMany(s => s.EnteredStages)
-               .HasForeignKey(es => es.EventEntryId)
-               .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<EventEntry>()
+                .HasMany(left => left.EnteredStages)
+                .WithMany(right => right.StageEntries)
+                .UsingEntity<Dictionary<string, object>>(
+                    "EvenEntry_EventStage",
+                    b => b.HasOne<EventStage>().WithMany().HasForeignKey("EventStageId").OnDelete(DeleteBehavior.NoAction),
+                    b => b.HasOne<EventEntry>().WithMany().HasForeignKey("EventEntryId").OnDelete(DeleteBehavior.NoAction));
+                
 
             modelBuilder.Entity<FinanceAccount>()
                 .HasOne(a => a.Owner)

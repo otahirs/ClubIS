@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ClubIS.DataAccessLayer.Migrations
 {
@@ -11,22 +11,22 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "Events",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StartDate = table.Column<DateTime>(nullable: false),
-                    EndDate = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: true),
-                    Place = table.Column<string>(maxLength: 50, nullable: true),
-                    Organizer = table.Column<string>(maxLength: 50, nullable: true),
-                    AccommodationOption = table.Column<int>(nullable: false),
-                    TransportOption = table.Column<int>(nullable: false),
-                    Link = table.Column<string>(maxLength: 50, nullable: true),
-                    Note = table.Column<string>(maxLength: 255, nullable: true),
-                    Leader = table.Column<string>(nullable: true),
-                    EventType = table.Column<int>(nullable: false),
-                    EventState = table.Column<int>(nullable: false),
-                    EventProperties = table.Column<int>(nullable: false),
-                    Entries = table.Column<int>(nullable: false)
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Place = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Organizer = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    AccommodationOption = table.Column<int>(type: "int", nullable: false),
+                    TransportOption = table.Column<int>(type: "int", nullable: false),
+                    Link = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Leader = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EventType = table.Column<int>(type: "int", nullable: false),
+                    EventState = table.Column<int>(type: "int", nullable: false),
+                    EventProperties = table.Column<int>(type: "int", nullable: false),
+                    Entries = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,9 +37,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "FinanceAccounts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreditBalance = table.Column<int>(nullable: false)
+                    CreditBalance = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,12 +50,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "MemberFees",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 20, nullable: true),
-                    Description = table.Column<string>(maxLength: 255, nullable: true),
-                    Amount = table.Column<int>(nullable: false),
-                    MemberFeeType = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    MemberFeeType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,10 +66,10 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "EventClassOption",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    EventId = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EventId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,10 +86,10 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "EventDeadline",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Deadline = table.Column<DateTime>(nullable: false),
-                    EventId = table.Column<int>(nullable: false)
+                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EventId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,11 +106,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "EventStage",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EventId = table.Column<int>(nullable: false),
-                    Date = table.Column<DateTime>(maxLength: 50, nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    EventId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -127,20 +127,20 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
-                    AccountId = table.Column<int>(nullable: false),
-                    FinanceSupervisorId = table.Column<int>(nullable: true),
-                    MemberFeeId = table.Column<int>(nullable: true),
-                    Firstname = table.Column<string>(maxLength: 20, nullable: false),
-                    Surname = table.Column<string>(maxLength: 30, nullable: false),
-                    RegistrationNumber = table.Column<string>(maxLength: 7, nullable: false),
-                    DateOfBirth = table.Column<DateTime>(nullable: true),
-                    Nationality = table.Column<string>(maxLength: 50, nullable: true),
-                    Email = table.Column<string>(maxLength: 50, nullable: true),
-                    Phone = table.Column<string>(maxLength: 25, nullable: true),
-                    Gender = table.Column<int>(nullable: false),
-                    Licence = table.Column<int>(nullable: false),
-                    AccountState = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    AccountId = table.Column<int>(type: "int", nullable: false),
+                    FinanceSupervisorId = table.Column<int>(type: "int", nullable: true),
+                    MemberFeeId = table.Column<int>(type: "int", nullable: true),
+                    Firstname = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    RegistrationNumber = table.Column<string>(type: "nvarchar(7)", maxLength: 7, nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Nationality = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    Licence = table.Column<int>(type: "int", nullable: false),
+                    AccountState = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -152,15 +152,15 @@ namespace ClubIS.DataAccessLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Users_Users_FinanceSupervisorId",
-                        column: x => x.FinanceSupervisorId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Users_MemberFees_MemberFeeId",
                         column: x => x.MemberFeeId,
                         principalTable: "MemberFees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Users_Users_FinanceSupervisorId",
+                        column: x => x.FinanceSupervisorId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -169,12 +169,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "Address",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    StreetAndNumber = table.Column<string>(maxLength: 50, nullable: true),
-                    City = table.Column<string>(maxLength: 25, nullable: true),
-                    PostalCode = table.Column<string>(maxLength: 6, nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    StreetAndNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    PostalCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -191,17 +191,17 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "EventEntries",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    EventId = table.Column<int>(nullable: false),
-                    Class = table.Column<string>(maxLength: 10, nullable: true),
-                    HasClubAccommodation = table.Column<bool>(nullable: false),
-                    HasClubTransport = table.Column<bool>(nullable: false),
-                    NoteForClub = table.Column<string>(maxLength: 255, nullable: true),
-                    NoteForOrganisator = table.Column<string>(maxLength: 255, nullable: true),
-                    SiCardNumber = table.Column<int>(nullable: true),
-                    Status = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    EventId = table.Column<int>(type: "int", nullable: false),
+                    Class = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    HasClubAccommodation = table.Column<bool>(type: "bit", nullable: false),
+                    HasClubTransport = table.Column<bool>(type: "bit", nullable: false),
+                    NoteForClub = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    NoteForOrganisator = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    SiCardNumber = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -224,12 +224,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "News",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
-                    Title = table.Column<string>(maxLength: 50, nullable: true),
-                    Text = table.Column<string>(maxLength: 255, nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Text = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -246,17 +246,17 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "Payments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ExecutorId = table.Column<int>(nullable: true),
-                    SourceAccountId = table.Column<int>(nullable: true),
-                    RecipientAccountId = table.Column<int>(nullable: true),
-                    EventId = table.Column<int>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false),
-                    CreditAmount = table.Column<int>(nullable: false),
-                    Message = table.Column<string>(maxLength: 255, nullable: true),
-                    PaymentState = table.Column<int>(nullable: false),
-                    StornoNote = table.Column<string>(maxLength: 255, nullable: true)
+                    ExecutorId = table.Column<int>(type: "int", nullable: true),
+                    SourceAccountId = table.Column<int>(type: "int", nullable: true),
+                    RecipientAccountId = table.Column<int>(type: "int", nullable: true),
+                    EventId = table.Column<int>(type: "int", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreditAmount = table.Column<int>(type: "int", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    PaymentState = table.Column<int>(type: "int", nullable: false),
+                    StornoNote = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -265,12 +265,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                         name: "FK_Payments_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Payments_Users_ExecutorId",
-                        column: x => x.ExecutorId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -285,17 +279,23 @@ namespace ClubIS.DataAccessLayer.Migrations
                         principalTable: "FinanceAccounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Payments_Users_ExecutorId",
+                        column: x => x.ExecutorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "SiCard",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    Number = table.Column<int>(nullable: false),
-                    IsDefault = table.Column<bool>(nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -312,12 +312,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "User_EntriesSupervisor",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
-                    EntriesSupervisorId = table.Column<int>(nullable: false)
+                    EntriesSupervisorId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User_EntriesSupervisor", x => new { x.UserId, x.EntriesSupervisorId });
+                    table.PrimaryKey("PK_User_EntriesSupervisor", x => new { x.EntriesSupervisorId, x.UserId });
                     table.ForeignKey(
                         name: "FK_User_EntriesSupervisor_Users_EntriesSupervisorId",
                         column: x => x.EntriesSupervisorId,
@@ -329,31 +329,29 @@ namespace ClubIS.DataAccessLayer.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "EventEntry_EventStage",
+                name: "EvenEntry_EventStage",
                 columns: table => new
                 {
-                    EventEntryId = table.Column<int>(nullable: false),
-                    EventStageId = table.Column<int>(nullable: false)
+                    EventEntryId = table.Column<int>(type: "int", nullable: false),
+                    EventStageId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventEntry_EventStage", x => new { x.EventEntryId, x.EventStageId });
+                    table.PrimaryKey("PK_EvenEntry_EventStage", x => new { x.EventEntryId, x.EventStageId });
                     table.ForeignKey(
-                        name: "FK_EventEntry_EventStage_EventEntries_EventEntryId",
+                        name: "FK_EvenEntry_EventStage_EventEntries_EventEntryId",
                         column: x => x.EventEntryId,
                         principalTable: "EventEntries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_EventEntry_EventStage_EventStage_EventStageId",
+                        name: "FK_EvenEntry_EventStage_EventStage_EventStageId",
                         column: x => x.EventStageId,
                         principalTable: "EventStage",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
@@ -457,7 +455,7 @@ namespace ClubIS.DataAccessLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "User_EntriesSupervisor",
-                columns: new[] { "UserId", "EntriesSupervisorId" },
+                columns: new[] { "EntriesSupervisorId", "UserId" },
                 values: new object[] { 2, 1 });
 
             migrationBuilder.CreateIndex(
@@ -465,6 +463,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                 table: "Address",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EvenEntry_EventStage_EventStageId",
+                table: "EvenEntry_EventStage",
+                column: "EventStageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventClassOption_EventId",
@@ -485,11 +488,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "IX_EventEntries_UserId",
                 table: "EventEntries",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EventEntry_EventStage_EventStageId",
-                table: "EventEntry_EventStage",
-                column: "EventStageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventStage_EventId",
@@ -527,9 +525,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_EntriesSupervisor_EntriesSupervisorId",
+                name: "IX_User_EntriesSupervisor_UserId",
                 table: "User_EntriesSupervisor",
-                column: "EntriesSupervisorId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_AccountId",
@@ -554,13 +552,13 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "Address");
 
             migrationBuilder.DropTable(
+                name: "EvenEntry_EventStage");
+
+            migrationBuilder.DropTable(
                 name: "EventClassOption");
 
             migrationBuilder.DropTable(
                 name: "EventDeadline");
-
-            migrationBuilder.DropTable(
-                name: "EventEntry_EventStage");
 
             migrationBuilder.DropTable(
                 name: "News");

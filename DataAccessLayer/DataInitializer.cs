@@ -2,6 +2,7 @@
 using ClubIS.CoreLayer.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace ClubIS.DataAccessLayer
 {
@@ -42,14 +43,6 @@ namespace ClubIS.DataAccessLayer
                 MemberFeeType = MemberFeeType.Basic
             });
 
-            User_EntriesSupervisor ues = new User_EntriesSupervisor()
-            {
-                UserId = 2,
-                EntriesSupervisorId = 1
-
-            };
-            modelBuilder.Entity<User_EntriesSupervisor>().HasData(ues);
-
             User supervisor = new User
             {
                 Id = 1,
@@ -76,8 +69,13 @@ namespace ClubIS.DataAccessLayer
                 Gender = Gender.Female,
                 Licence = Licence.A,
                 AccountState = AccountState.Active
+               
             };
             modelBuilder.Entity<User>().HasData(supervisor, supervised);
+
+            modelBuilder.Entity("User_EntriesSupervisor").HasData(
+              new Dictionary<string, object> { ["UserId"] = 2, ["EntriesSupervisorId"] = 1 }
+            );
 
             modelBuilder.Entity<FinanceAccount>().HasData(new FinanceAccount()
             {

@@ -8,6 +8,7 @@ namespace ClubIS.DataAccessLayer
     {
         IUserRepository Users { get; }
         IEventRepository Events { get; }
+        IStageRepository Stages { get; }
         INewsRepository News { get; }
         IPaymentRepository Payments { get; }
         IAccountRepository Accounts { get; }

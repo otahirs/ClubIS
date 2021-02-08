@@ -49,11 +49,9 @@ namespace ClubIS.BusinessLayer.Services
         public async Task<UserEntryListDTO> GetAllEntriesSupervisorsById(int id)
         {
             User user = await _unitOfWork.Users.GetEntriesSupervisorsById(id);
-            List<User> supervised = new List<User_EntriesSupervisor>(user.EntriesSupervisedUsers)
-                .Select(s => s.User).ToList();
             return new UserEntryListDTO
             {
-                Supervised = _mapper.Map<IEnumerable<UserEntryEditDTO>>(supervised),
+                Supervised = _mapper.Map<IEnumerable<UserEntryEditDTO>>(user.EntriesSupervisedUsers),
                 User = _mapper.Map<UserEntryEditDTO>(user)
             };
         }
@@ -79,21 +77,13 @@ namespace ClubIS.BusinessLayer.Services
         {
             User userEntity = await _unitOfWork.Users.GetById(user.UserId);
             userEntity.EntriesSupervisors.Clear();
-            userEntity.EntriesSupervisors = user.EntriesSupervisors
-                .Select(es => new User_EntriesSupervisor()
-                {
-                    UserId = user.UserId,
-                    EntriesSupervisorId = es.Id
-                })
-                .ToHashSet();
+            userEntity.EntriesSupervisors = _mapper.Map<ISet<User>>(
+                    await _unitOfWork.Users.GetAllById(user.EntriesSupervisors.Select(u => u.Id))
+                );
             userEntity.EntriesSupervisedUsers.Clear();
-            userEntity.EntriesSupervisedUsers = user.EntriesSupervisedUsers
-                .Select(esd => new User_EntriesSupervisor()
-                {
-                    UserId = esd.Id,
-                    EntriesSupervisorId = user.UserId
-                })
-                .ToHashSet();
+            userEntity.EntriesSupervisedUsers = _mapper.Map<ISet<User>>(
+                    await _unitOfWork.Users.GetAllById(user.EntriesSupervisedUsers.Select(u => u.Id))
+                );
             userEntity.FinanceSupervisorId = user.FinanceSupervisor?.Id;
 
             _unitOfWork.Users.RemoveFinanceSupervisor(user.UserId);
@@ -111,8 +101,8 @@ namespace ClubIS.BusinessLayer.Services
             return new UserSupervisionsDTO()
             {
                 UserId = id,
-                EntriesSupervisors = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisors.Select(u => u.EntriesSupervisor)),
-                EntriesSupervisedUsers = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisedUsers.Select(u => u.User)),
+                EntriesSupervisors = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisors),
+                EntriesSupervisedUsers = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisedUsers),
                 FinanceSupervisor = _mapper.Map<UserListDTO>(user.FinanceSupervisor),
                 FinanceSupervisedUsers = _mapper.Map<ISet<UserListDTO>>(financeSupervisedUsers)
             };

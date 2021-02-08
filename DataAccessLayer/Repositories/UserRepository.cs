@@ -13,13 +13,14 @@ namespace ClubIS.DataAccessLayer.Repositories
         {
         }
 
+        public async Task<IEnumerable<User>> GetAllById(IEnumerable<int> ids)
+        {
+            return await _entities.Where(u => ids.Contains(u.Id)).ToListAsync();
+        }
+
         public async Task<User> GetEntriesSupervisorsById(int id)
         {
             return await _entities
-                .Include(u => u.SiCards)
-                .Include(u => u.EntriesSupervisedUsers)
-                    .ThenInclude(u => u.User)
-                        .ThenInclude(u => u.SiCards)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
         public async Task<IEnumerable<User>> GetFinanceSupervisored(int userId)

@@ -15,28 +15,28 @@ namespace ClubIS.DataAccessLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.10")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.2");
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(25)")
-                        .HasMaxLength(25);
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(6)")
-                        .HasMaxLength(6);
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("StreetAndNumber")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -71,7 +71,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("AccommodationOption")
                         .HasColumnType("int");
@@ -95,24 +95,24 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Link")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Organizer")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Place")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -164,7 +164,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
@@ -216,7 +216,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("datetime2");
@@ -256,11 +256,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Class")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
@@ -272,12 +272,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("NoteForClub")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("NoteForOrganisator")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int?>("SiCardNumber")
                         .HasColumnType("int");
@@ -321,31 +321,16 @@ namespace ClubIS.DataAccessLayer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEntry_EventStage", b =>
-                {
-                    b.Property<int>("EventEntryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EventStageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EventEntryId", "EventStageId");
-
-                    b.HasIndex("EventStageId");
-
-                    b.ToTable("EventEntry_EventStage");
-                });
-
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventStage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
@@ -365,7 +350,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("CreditBalance")
                         .HasColumnType("int");
@@ -392,21 +377,21 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("MemberFeeType")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -436,18 +421,18 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Text")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -474,7 +459,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("CreditAmount")
                         .HasColumnType("int");
@@ -489,8 +474,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Message")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("PaymentState")
                         .HasColumnType("int");
@@ -502,8 +487,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("StornoNote")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -536,7 +521,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
@@ -585,16 +570,16 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("FinanceSupervisorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Firstname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
@@ -606,22 +591,22 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Nationality")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(25)")
-                        .HasMaxLength(25);
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("RegistrationNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(7)")
-                        .HasMaxLength(7);
+                        .HasMaxLength(7)
+                        .HasColumnType("nvarchar(7)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -664,25 +649,40 @@ namespace ClubIS.DataAccessLayer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ClubIS.CoreLayer.Entities.User_EntriesSupervisor", b =>
+            modelBuilder.Entity("EvenEntry_EventStage", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("EventEntryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("EventStageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EventEntryId", "EventStageId");
+
+                    b.HasIndex("EventStageId");
+
+                    b.ToTable("EvenEntry_EventStage");
+                });
+
+            modelBuilder.Entity("User_EntriesSupervisor", b =>
+                {
                     b.Property<int>("EntriesSupervisorId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "EntriesSupervisorId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("EntriesSupervisorId");
+                    b.HasKey("EntriesSupervisorId", "UserId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("User_EntriesSupervisor");
 
                     b.HasData(
                         new
                         {
-                            UserId = 2,
-                            EntriesSupervisorId = 1
+                            EntriesSupervisorId = 2,
+                            UserId = 1
                         });
                 });
 
@@ -726,21 +726,10 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventEntry_EventStage", b =>
-                {
-                    b.HasOne("ClubIS.CoreLayer.Entities.EventEntry", "Entry")
-                        .WithMany("EnteredStages")
-                        .HasForeignKey("EventEntryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Navigation("Event");
 
-                    b.HasOne("ClubIS.CoreLayer.Entities.EventStage", "Stage")
-                        .WithMany("StageEntries")
-                        .HasForeignKey("EventStageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.EventStage", b =>
@@ -759,6 +748,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.Payment", b =>
@@ -778,6 +769,14 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasOne("ClubIS.CoreLayer.Entities.FinanceAccount", "SourceAccount")
                         .WithMany()
                         .HasForeignKey("SourceAccountId");
+
+                    b.Navigation("Event");
+
+                    b.Navigation("Executor");
+
+                    b.Navigation("RecipientAccount");
+
+                    b.Navigation("SourceAccount");
                 });
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.SiCard", b =>
@@ -787,6 +786,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.User", b =>
@@ -805,21 +806,63 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasOne("ClubIS.CoreLayer.Entities.MemberFee", "MemberFee")
                         .WithMany()
                         .HasForeignKey("MemberFeeId");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("FinanceSupervisor");
+
+                    b.Navigation("MemberFee");
                 });
 
-            modelBuilder.Entity("ClubIS.CoreLayer.Entities.User_EntriesSupervisor", b =>
+            modelBuilder.Entity("EvenEntry_EventStage", b =>
                 {
-                    b.HasOne("ClubIS.CoreLayer.Entities.User", "EntriesSupervisor")
-                        .WithMany("EntriesSupervisedUsers")
-                        .HasForeignKey("EntriesSupervisorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("ClubIS.CoreLayer.Entities.EventEntry", null)
+                        .WithMany()
+                        .HasForeignKey("EventEntryId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("ClubIS.CoreLayer.Entities.User", "User")
-                        .WithMany("EntriesSupervisors")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("ClubIS.CoreLayer.Entities.EventStage", null)
+                        .WithMany()
+                        .HasForeignKey("EventStageId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("User_EntriesSupervisor", b =>
+                {
+                    b.HasOne("ClubIS.CoreLayer.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("EntriesSupervisorId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("ClubIS.CoreLayer.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ClubIS.CoreLayer.Entities.Event", b =>
+                {
+                    b.Navigation("ClassOptions");
+
+                    b.Navigation("Deadlines");
+
+                    b.Navigation("EventStages");
+                });
+
+            modelBuilder.Entity("ClubIS.CoreLayer.Entities.FinanceAccount", b =>
+                {
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("ClubIS.CoreLayer.Entities.User", b =>
+                {
+                    b.Navigation("Address");
+
+                    b.Navigation("SiCards");
                 });
 #pragma warning restore 612, 618
         }

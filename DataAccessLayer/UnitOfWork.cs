@@ -9,6 +9,7 @@ namespace ClubIS.DataAccessLayer
         private readonly DataContext _context;
         public IUserRepository Users { get; private set; }
         public IEventRepository Events { get; private set; }
+        public IStageRepository Stages { get; private set; }
         public INewsRepository News { get; private set; }
         public IPaymentRepository Payments { get; private set; }
         public IAccountRepository Accounts { get; private set; }
@@ -21,6 +22,7 @@ namespace ClubIS.DataAccessLayer
             _context = context;
             Users = new UserRepository(_context);
             Events = new EventRepository(_context);
+            Stages = new StageRepository(_context);
             News = new NewsRepository(_context);
             Entry = new EntryRepository(_context);
             Payments = new PaymentRepository(_context);

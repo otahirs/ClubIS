@@ -10,12 +10,6 @@ namespace ClubIS.CoreLayer.TestSamples
     {
         public static IEnumerable<User> GetMockUsers()
         {
-            User_EntriesSupervisor ues = new User_EntriesSupervisor()
-            {
-                UserId = 2,
-                EntriesSupervisorId = 1
-
-            };
 
             List<User> users = new List<User>() {
                 new User
@@ -30,10 +24,11 @@ namespace ClubIS.CoreLayer.TestSamples
                 Gender = Gender.Male,
                 Licence = Licence.C,
                 AccountState = AccountState.Archived,
-                EntriesSupervisors = new HashSet<User_EntriesSupervisor>(),
-                EntriesSupervisedUsers = new HashSet<User_EntriesSupervisor>(){ ues }
+                EntriesSupervisors = new HashSet<User>(),
+                EntriesSupervisedUsers = new HashSet<User>()
             },
-                new User()
+
+            new User()
             {
                 Id = 2,
                 AccountId = 1,
@@ -46,13 +41,12 @@ namespace ClubIS.CoreLayer.TestSamples
                 Gender = Gender.Female,
                 Licence = Licence.A,
                 AccountState = AccountState.Active,
-                EntriesSupervisors = new HashSet<User_EntriesSupervisor>(){ ues },
-                EntriesSupervisedUsers = new HashSet<User_EntriesSupervisor>()
+                EntriesSupervisors = new HashSet<User>(),
+                EntriesSupervisedUsers = new HashSet<User>()
             }
             };
-
-            ues.User = users[1];
-            ues.EntriesSupervisor = users[0];
+            users[1].EntriesSupervisors.Add(users[0]);
+            users[0].EntriesSupervisedUsers.Add(users[1]);
             users[1].FinanceSupervisor = users[0];
 
             return users;

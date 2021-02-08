@@ -12,6 +12,6 @@ namespace ClubIS.CoreLayer.Entities
         [MaxLength(50)]
         public DateTime Date { get; set; }
         public string Name { get; set; }
-        public virtual ISet<EventEntry_EventStage> StageEntries { get; set; }
+        public virtual ISet<EventEntry> StageEntries { get; set; }
     }
 }

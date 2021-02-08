@@ -4,6 +4,7 @@ using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
 using ClubIS.DataAccessLayer;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Services
@@ -19,9 +20,14 @@ namespace ClubIS.BusinessLayer.Services
             _mapper = mapper;
         }
 
-        public Task Create(EventEntryEditDTO entry)
+        public async Task Create(EventEntryEditDTO entry)
         {
-            return _unitOfWork.Entry.Add(_mapper.Map<EventEntry>(entry));
+            EventEntry entryEntity = _mapper.Map<EventEntry>(entry);
+            entryEntity.EnteredStages = _mapper.Map<ISet<EventStage>>(
+                    await _unitOfWork.Stages.GetAllById(entry.EnteredStages.Select(u => u.Id))
+                );
+
+           await _unitOfWork.Entry.Add(entryEntity);
         }
 
         public async Task Delete(int id)
@@ -36,6 +42,10 @@ namespace ClubIS.BusinessLayer.Services
             EventEntry entryEntity = await _unitOfWork.Entry.GetById(entry.Id);
             entryEntity.EnteredStages.Clear();
             _mapper.Map(entry, entryEntity);
+            entryEntity.EnteredStages = _mapper.Map<ISet<EventStage>>(
+                    await _unitOfWork.Stages.GetAllById(entry.EnteredStages.Select(u => u.Id))
+                );
+
         }
 
         public async Task<EventEntryListDTO> GetById(int id)

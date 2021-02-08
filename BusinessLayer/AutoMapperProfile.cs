@@ -14,24 +14,12 @@ namespace ClubIS.BusinessLayer
             CreateMap<EventEntry, EventEntryListDTO>()
                 .ForMember(d => d.Name, opt => opt.MapFrom(s => s.User.Firstname + " " + s.User.Surname))
                 .ForMember(d => d.RegistrationNumber, opt => opt.MapFrom(s => s.User.RegistrationNumber))
-                .ForMember(d => d.EnteredStages, opt => opt.MapFrom(s => s.EnteredStages.Select(entry_stage => entry_stage.Stage)));
-            CreateMap<EventEntry, EventEntryEditDTO>()
-                .ForMember(d => d.EnteredStages, opt => opt.MapFrom(s => s.EnteredStages.Select(entry_stage => entry_stage.Stage)));
+                .ForMember(d => d.EnteredStages, opt => opt.MapFrom(s => s.EnteredStages));
             CreateMap<EventEntryEditDTO, EventEntry>()
-                .ForMember(d => d.EnteredStages, opt => opt.MapFrom(s => s.EnteredStages.Select(stage =>
-                    new EventEntry_EventStage()
-                    {
-                        EventEntryId = s.EventId,
-                        EventStageId = stage.Id
-                    })));
+                .ForMember(d => d.EnteredStages, opt => opt.Ignore());
 
             CreateMap<Event, EventListDTO>().ReverseMap();
             CreateMap<EventStage, EventStageDTO>().ReverseMap();
-            //CreateMap<EventEntry_EventStage, EventStageDTO>()
-            //    .ConstructUsing((src, ctx) => ctx.Mapper.Map<EventStageDTO>(src.Stage));
-
-            //CreateMap<EventStageDTO, EventEntry_EventStage>()
-            //    .ForMember(d => d.Stage, opt => opt.MapFrom(es => es));
 
             // TODO CreateMap<Tuple<Event, Payment>, FinanceEventListDTO>().ReverseMap();
             CreateMap<MemberFee, MemberFeeDTO>().ReverseMap();
