@@ -266,6 +266,7 @@
         if (currentEntry == null)
         {
             sendEntry.Status = EntryStatus.NotSent;
+            currentEntry.Status = EntryStatus.NotSent;
             SetSiCard();
             await Http.PostAsJsonAsync<EventEntryEditDTO>("Entries", sendEntry);
             await LoadEntries();
@@ -283,6 +284,7 @@
         sendEntry.Id = currentEntry.Id;
         SetSiCard();
         sendEntry.Status = EntryStatus.Changed;
+        currentEntry.Status = EntryStatus.Changed;
         await Http.PutAsJsonAsync<EventEntryEditDTO>("Entries", sendEntry);
         await LoadEntries();
         StateHasChanged();
