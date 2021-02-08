@@ -2,6 +2,7 @@
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
+using ClubIS.CoreLayer.Enums;
 using ClubIS.DataAccessLayer;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,7 @@ namespace ClubIS.BusinessLayer.Services
             return events.Select(e => new EventListWithUserEntryDTO()
             {
                 Event = _mapper.Map<EventListDTO>(e),
-                EntryInfo = _mapper.Map<EventEntryBasicInfoDTO>(entries.SingleOrDefault(entry => entry.EventId == e.Id))
+                EntryInfo = _mapper.Map<EventEntryBasicInfoDTO>(entries.SingleOrDefault(entry => entry.EventId == e.Id && entry.Status != EntryStatus.Removed))
             });
         }
     }
