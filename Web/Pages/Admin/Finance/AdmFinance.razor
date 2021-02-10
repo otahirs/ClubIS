@@ -3,9 +3,9 @@
 @inject HttpClient Http
 @attribute [Authorize(Policy = Policy.Finance)]
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin finance</MudText>
-    <MudTabs Position="Position.Left"  @ref="@tabs">
+    <MudTabs @ref="@tabs">
         <MudTabPanel Text="Events">
             <MudContainer MaxWidth="MaxWidth.Large">
                 <FinanceEvents />
@@ -29,11 +29,11 @@
 
 @code {
     [Parameter]
-    public int? PanelIndex { get; set; }
+    public int PanelIndex { get; set; }
     MudTabs tabs;
     protected override void OnAfterRender(bool firstRender)
     {
-        if (PanelIndex != null && PanelIndex >= 0 && PanelIndex < tabs.Panels.Count)
+        if (PanelIndex >= 0 && PanelIndex < tabs.Panels.Count)
         {
             tabs.ActivatePanel((int)PanelIndex);
         }

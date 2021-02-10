@@ -7,9 +7,9 @@
 @inject HttpClient Http
 @inject IdentityAuthenticationStateProvider authStateProvider
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Settings</MudText>
-    <MudTabs Position="Position.Left">
+    <MudTabs>
         <MudTabPanel Text="User">
             @if (CurrentUser != null)
             {<UserEditForm User="CurrentUser" />}
