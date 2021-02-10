@@ -11,7 +11,7 @@
     }
     else
     {
-        <MudTable Items="@events" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListDTO" Hover="true">
+        <MudTable Items="@events" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListDTO" Hover="true" Dense="true">
             <ToolBarContent>
                 <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
                 <MudToolBarSpacer />
