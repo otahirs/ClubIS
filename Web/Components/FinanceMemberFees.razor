@@ -1,0 +1,83 @@
+﻿
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+@if (memberFees == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudTable Items="@memberFees" T="MemberFeeDTO" Hover="true" Dense="true" Class="mb-16" OnRowClick="((e) => feeEdit = e.Item)">
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Description</MudTh>
+            <MudTh>Amount</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Description">@context.Description</MudTd>
+            <MudTd DataLabel="Amount">@context.Amount</MudTd>
+        </RowTemplate>
+    </MudTable>
+
+    @if (feeEdit != null)
+    {
+        <EditForm Model="@feeEdit" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <MudCard Elevation="0">
+                <MudCardContent>
+                    <MudTextField Label="Name" @bind-Value="feeEdit.Name" For="@(() => feeEdit.Name)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Description" @bind-Value="feeEdit.Description" For="@(() => feeEdit.Description)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Amount" @bind-Value="feeEdit.Amount" For="@(() => feeEdit.Amount)" Variant="Variant.Outlined" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Filled.Close" OnClick="(() => feeEdit = null)" Class="ml-3">Cancel</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Save</MudButton>
+                    @if (feeEdit.Id != 0)
+                    {
+                        <MudTooltip Text="TODO">
+                            <MudButton Disabled="true" ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="Remove" Class="mx-2">Remove</MudButton>
+                        </MudTooltip>
+                    }
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    }
+    else
+    {
+        <MudTooltip Text="TODO">
+            <MudButton Class="my-2" ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Disabled="true" >New</MudButton>
+        </MudTooltip>
+    }
+}
+
+@code {
+    private List<MemberFeeDTO> memberFees;
+    private MemberFeeDTO feeEdit;
+
+    protected override async Task OnInitializedAsync()
+    {
+        memberFees = await Http.GetFromJsonAsync<List<MemberFeeDTO>>($"Payments/member-fee-types");
+    }
+
+    private async Task OnValidSubmit(EditContext context)
+    {
+        if (feeEdit == null)
+        {
+            await Http.PostAsJsonAsync<MemberFeeDTO>("Payments/member-fee-types", feeEdit);
+        }
+        else
+        {
+            await Http.PutAsJsonAsync<MemberFeeDTO>("Payments/member-fee-types", feeEdit);
+        }
+    }
+
+    private async Task Remove()
+    {
+        await Http.DeleteAsync($"Payments/member-fee-types/{feeEdit.Id}");
+        memberFees.RemoveAll(f => f.Id == feeEdit.Id);
+        feeEdit = null;
+    }
+}

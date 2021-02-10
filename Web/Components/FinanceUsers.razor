@@ -1,0 +1,54 @@
+﻿
+@inject HttpClient Http
+
+@inject NavigationManager NavigationManager
+@inject Searching Searching
+
+
+@if (users == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudTable Items="users" T="FinanceUserListDTO" Dense="true" Filter="Filter" Hover="true" SortLabel="Sort By" OnRowClick="Navigate">
+        <ToolBarContent>
+            <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="((FinanceUserListDTO x)=>x.Surname)">Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="((FinanceUserListDTO x)=>x.RegistrationNumber)">RegNum</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="((FinanceUserListDTO x)=>x.CreditBalance)">CreditBalance</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Name">@context.Surname @context.Firstname</MudTd>
+            <MudTd DataLabel="RegNum">@context.RegistrationNumber</MudTd>
+            <MudTd DataLabel="CreditBalance">@context.CreditBalance</MudTd>
+        </RowTemplate>
+    </MudTable>
+}
+
+@code {
+    private FinanceUserListDTO[] users;
+
+    private string searchString = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await Http.GetFromJsonAsync<FinanceUserListDTO[]>("Payments/users");
+    }
+
+    protected void Navigate(TableRowClickEventArgs<FinanceUserListDTO> e)
+    {
+        NavigationManager.NavigateTo($"/admin/finance/user/{e.Item.Id}");
+    }
+
+    bool Filter(FinanceUserListDTO u)
+    {
+        if (searchString == null)
+            searchString = "";
+        var userData = $"{u.Firstname} {u.Surname} {u.RegistrationNumber} {u.CreditBalance}";
+
+        return userData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
+    }
+}

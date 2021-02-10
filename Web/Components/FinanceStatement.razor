@@ -1,0 +1,30 @@
+﻿
+<MudTable Items="@Statement.Payments" Dense="true" Class="mt-4">
+    <HeaderContent>
+        <MudTh>Date</MudTh>
+        <MudTh>Event</MudTh>
+        <MudTh>Amount</MudTh>
+        <MudTh>Note</MudTh>
+        <MudTh>Executed by</MudTh>
+        <MudTh>Status</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Date">@context.Date</MudTd>
+        <MudTd DataLabel="Event">@context.EventName</MudTd>
+        <MudTd DataLabel="Amount">@context.CreditAmount</MudTd>
+        <MudTd DataLabel="Note">@context.Message</MudTd>
+        <MudTd DataLabel="Executed by">@context.ExecutorName</MudTd>
+        <MudTd DataLabel="Status">@context.PaymentState</MudTd>
+    </RowTemplate>
+</MudTable>
+<MudCard Class="mt-4 mb-4">
+    <MudCardContent>
+        <MudText Typo="Typo.h6">Credit balance: @Statement.CreditBalance</MudText>
+    </MudCardContent>
+</MudCard>
+
+
+@code {
+    [Parameter]
+    public FinanceStatementDTO Statement { get; set; }
+}

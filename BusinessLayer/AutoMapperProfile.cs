@@ -27,6 +27,8 @@ namespace ClubIS.BusinessLayer
             CreateMap<News, NewsListDTO>()
                 .ForMember(d => d.UserName, opt => opt.MapFrom(s => s.User.Firstname + " " + s.User.Surname));
             CreateMap<Payment, PaymentEditDTO>().ReverseMap();
+            CreateMap<PaymentGiveCreditDTO, PaymentEditDTO>();
+            CreateMap<PaymentTakeCreditDTO, PaymentEditDTO>();
             CreateMap<PaymentUserTransferDTO, PaymentEditDTO>().ReverseMap();
             CreateMap<Payment, PaymentListDTO>()
                 .ForMember(d => d.ExecutorName, opt => opt.MapFrom(s => s.ExecutorId.HasValue ? $"{s.Executor.Firstname} {s.Executor.Surname}" : ""))
@@ -40,7 +42,7 @@ namespace ClubIS.BusinessLayer
                 .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.RecipientAccount.Owner.Id))
                 .ForMember(d => d.PaymentId, opt => opt.MapFrom(s => s.Id));
             CreateMap<User, UserAdministrationDTO>().ReverseMap();
-            CreateMap<User, UserCreditListDTO>().ReverseMap();
+            CreateMap<User, FinanceUserListDTO>().ReverseMap();
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<User, MemberUserEditDTO>().ReverseMap();
             CreateMap<User, UserEntriesSupervisedListDTO>().ReverseMap();

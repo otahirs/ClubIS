@@ -2,7 +2,7 @@
 
 namespace ClubIS.CoreLayer.DTOs
 {
-    public class UserCreditListDTO
+    public class FinanceUserListDTO
     {
         public int Id { get; set; }
         public string Firstname { get; set; }
@@ -10,6 +10,6 @@ namespace ClubIS.CoreLayer.DTOs
         public string RegistrationNumber { get; set; }
         public int CreditBalance { get; set; }
         public MemberFee MemberFee { get; set; }
-        public User BilledUser { get; set; }
+        public FinanceUserListDTO FinanceSupervisor { get; set; }
     }
 }

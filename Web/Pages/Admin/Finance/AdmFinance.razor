@@ -1,0 +1,42 @@
+@page "/admin/finance"
+@page "/admin/finance/{PanelIndex:int}"
+@inject HttpClient Http
+@attribute [Authorize(Policy = Policy.Finance)]
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+    <MudText Typo="Typo.h3" GutterBottom="true">Admin finance</MudText>
+    <MudTabs Position="Position.Left"  @ref="@tabs">
+        <MudTabPanel Text="Events">
+            <MudContainer MaxWidth="MaxWidth.Large">
+                <FinanceEvents />
+            </MudContainer>
+        </MudTabPanel>
+        <MudTabPanel Text="Users">
+            <MudContainer MaxWidth="MaxWidth.Large">
+                <FinanceUsers />
+            </MudContainer>
+        </MudTabPanel>
+        <MudTabPanel Text="MemberFees">
+            <MudContainer MaxWidth="MaxWidth.Large">
+                <FinanceMemberFees />
+            </MudContainer>
+        </MudTabPanel>
+        <MudTabPanel Text="Claims">
+            <MudText>TODO</MudText>
+        </MudTabPanel>
+    </MudTabs>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public int? PanelIndex { get; set; }
+    MudTabs tabs;
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (PanelIndex != null && PanelIndex >= 0 && PanelIndex < tabs.Panels.Count)
+        {
+            tabs.ActivatePanel((int)PanelIndex);
+        }
+    }
+}
+

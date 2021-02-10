@@ -1,0 +1,67 @@
+﻿@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+@if (events == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudTable Items="@events" T="EventListWithTotalCostsDTO" Dense="true" Hover="true" Filter="new Func<EventListWithTotalCostsDTO,bool>(FilterFunc)" OnRowClick="Navigate">
+        <ToolBarContent>
+            <MudTextField @bind-Value="searchString" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Date</MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>Place</MudTh>
+            <MudTh>Type</MudTh>
+            <MudTh>Deadlines</MudTh>
+            <MudTh>Cost</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Date">@GetDate(context.Event.StartDate, context.Event.EndDate)</MudTd>
+            <MudTd DataLabel="Name">@context.Event.Name</MudTd>
+            <MudTd DataLabel="Place">@context.Event.Place</MudTd>
+            <MudTd DataLabel="Type">@context.Event.EventType</MudTd>
+            <MudTd DataLabel="Deadlines">@GetDeadlines(context.Event.Deadlines)</MudTd>
+            <MudTd DataLabel="Cost">@context.TotalCosts</MudTd>
+        </RowTemplate>
+    </MudTable>
+}
+
+@code {
+    public List<EventListWithTotalCostsDTO> events;
+
+    string searchString = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await Http.GetFromJsonAsync<List<EventListWithTotalCostsDTO>>("Events/costs");
+    }
+
+    bool FilterFunc(EventListWithTotalCostsDTO e)
+    {
+        if (searchString == null)
+            searchString = "";
+        var eventData = $"{e.Event.Name} {e.Event.Place} {e.Event.EventType}";
+
+        return eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    private void Navigate(TableRowClickEventArgs<EventListWithTotalCostsDTO> obj)
+    {
+        NavigationManager.NavigateTo($"admin/finance/event/{obj.Item.Event.Id}");
+    }
+
+    private static string GetDate(DateTime start, DateTime end)
+    {
+        return (start.Equals(end)) ? end.ToString("dd.MM.yyyy") : start.ToString("dd.") + '-' + end.ToString("dd.MM.yyyy");
+    }
+
+    private static string GetDeadlines(ICollection<EventDeadline> deadlines)
+    {
+        return (deadlines.Count != 0) ? deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
+    }
+
+}

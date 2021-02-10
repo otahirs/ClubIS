@@ -24,12 +24,16 @@ namespace ClubIS.BusinessLayer.Services
             Payment payment = _mapper.Map<Payment>(p);
             payment.Date = DateTime.Now;
             payment.PaymentState = PaymentState.Ok;
-
-            FinanceAccount source = await _unitOfWork.Accounts.GetById((int)p.SourceAccountId);
-            FinanceAccount recipient = await _unitOfWork.Accounts.GetById((int)p.RecipientAccountId);
-            source.CreditBalance -= payment.CreditAmount;
-            recipient.CreditBalance += payment.CreditAmount;
-
+            if (p.SourceAccountId != null)
+            {
+                FinanceAccount source = await _unitOfWork.Accounts.GetById((int)p.SourceAccountId);
+                source.CreditBalance -= payment.CreditAmount;
+            }
+            if (p.RecipientAccountId != null)
+            {
+                FinanceAccount recipient = await _unitOfWork.Accounts.GetById((int)p.RecipientAccountId);
+                recipient.CreditBalance += payment.CreditAmount;
+            }
             await _unitOfWork.Payments.Add(payment);
         }
 
@@ -70,9 +74,9 @@ namespace ClubIS.BusinessLayer.Services
             };
         }
 
-        public async Task<IEnumerable<UserCreditListDTO>> GetAllUSerCreditList()
+        public async Task<IEnumerable<FinanceUserListDTO>> GetAllUSerCreditList()
         {
-            return _mapper.Map<IEnumerable<UserCreditListDTO>>(await _unitOfWork.Users.GetAll());
+            return _mapper.Map<IEnumerable<FinanceUserListDTO>>(await _unitOfWork.Users.GetAll());
         }
 
         public async Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id)
@@ -84,11 +88,6 @@ namespace ClubIS.BusinessLayer.Services
         public async Task<int> GetEventPaymentSumByEventId(int id)
         {
             return await _unitOfWork.Payments.GetEventPaymentSumByEventId(id);
-        }
-
-        public async Task<IEnumerable<MemberFeeDTO>> GetAllMemberFeeTypes()
-        {
-            return _mapper.Map<IEnumerable<MemberFeeDTO>>(await _unitOfWork.MemberFees.GetAll());
         }
     }
 }

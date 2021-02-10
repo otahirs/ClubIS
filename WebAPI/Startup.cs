@@ -100,6 +100,8 @@ namespace ClubIS.WebAPI
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IPaymentFacade, PaymentFacade>();
+            services.AddScoped<IMemberFeeRepository, MemberFeeRepository>();
+            services.AddScoped<IMemberFeeService, MemberFeeService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserFacade, UserFacade>();

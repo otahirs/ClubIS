@@ -37,13 +37,18 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(payments);
         }
 
-        [HttpGet("statements")]
+        [HttpGet("statements/{userId}")]
         [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Statements not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Statements retrieved.")]
-        public async Task<ActionResult<IEnumerable<FinanceStatementDTO>>> GetByUserId()
+        public async Task<ActionResult<IEnumerable<FinanceStatementDTO>>> GetByUserId(int userId)
         {
-            int userId = User.Identity.GetUserId();
+            if (User.Identity.GetUserId() != userId &&
+                !User.IsInRole(Role.Finance) &&
+                !User.IsInRole(Role.Admin))
+            {
+                return Unauthorized();
+            }
             IEnumerable<FinanceStatementDTO> financeStatements = await _paymentFacade.GetAllFinanceStatement(userId);
             if (financeStatements == null)
             {
@@ -86,6 +91,71 @@ namespace ClubIS.WebAPI.Controllers
                 return NotFound();
             }
             return Ok(memberFeeTypes);
+        }
+
+        [HttpPut("member-fee-types")]
+        [Authorize(Policy = Policy.Finance)]
+        public async Task<ActionResult> EditMemberFeeType([FromBody] MemberFeeDTO feeType)
+        {
+            if (feeType == null)
+            {
+                return BadRequest();
+            }
+
+            await _paymentFacade.UpdateMemberFee(feeType);
+            return Ok();
+        }
+        [HttpPost("member-fee-types")]
+        [Authorize(Policy = Policy.Finance)]
+        public async Task<ActionResult> CreateMemberFeeTypes([FromBody] MemberFeeDTO feeType)
+        {
+            if (feeType == null)
+            {
+                return BadRequest();
+            }
+
+            await _paymentFacade.CreatMemberFee(feeType);
+            return Ok();
+        }
+
+        [HttpGet("users")]
+        [Authorize(Policy = Policy.Finance)]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Users not found.")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Users retrieved.")]
+        public async Task<ActionResult<IEnumerable<UserListDTO>>> GetUsers()
+        {
+            IEnumerable<FinanceUserListDTO> users = await _paymentFacade.GetAllUserCreditList();
+            if (users == null)
+            {
+                return NotFound();
+            }
+            return Ok(users);
+        }
+
+        [HttpPost("give-credit")]
+        [Authorize(Policy = Policy.Finance)]
+        public async Task<ActionResult> GiveCredit([FromBody] PaymentGiveCreditDTO payment)
+        {
+            if (payment == null)
+            {
+                return BadRequest();
+            }
+
+            await _paymentFacade.Create(payment, User.Identity.GetUserId());
+            return Ok();
+        }
+
+        [HttpPost("take-credit")]
+        [Authorize(Policy = Policy.Finance)]
+        public async Task<ActionResult> TakeCredit([FromBody] PaymentTakeCreditDTO payment)
+        {
+            if (payment == null)
+            {
+                return BadRequest();
+            }
+
+            await _paymentFacade.Create(payment, User.Identity.GetUserId());
+            return Ok();
         }
     }
 }
