@@ -63,9 +63,9 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Event not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One event retrieved.")]
-        public async Task<ActionResult<EventEditDTO>> Get(int id)
+        public async Task<ActionResult<EventDTO>> Get(int id)
         {
-            EventEditDTO e = await _eventFacade.GetById(id);
+            EventDTO e = await _eventFacade.GetById(id);
 
             if (e == null)
             {
@@ -78,7 +78,7 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize(Policy = Policy.Events)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided event.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Event added.")]
-        public async Task<ActionResult> Post([FromBody] EventEditDTO e)
+        public async Task<ActionResult> Post([FromBody] EventDTO e)
         {
             if (e == null)
             {
@@ -94,7 +94,7 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize(Policy = Policy.Events)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided event.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Event updated.")]
-        public async Task<ActionResult> Put([FromBody] EventEditDTO e)
+        public async Task<ActionResult> Put([FromBody] EventDTO e)
         {
             if (e == null)
             {
@@ -111,7 +111,7 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Event deleted.")]
         public async Task<ActionResult> Delete(int id)
         {
-            EventEditDTO e = await _eventFacade.GetById(id);
+            EventDTO e = await _eventFacade.GetById(id);
 
             if (e == null)
             {

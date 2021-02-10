@@ -29,9 +29,9 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entries retrieved.")]
-        public async Task<ActionResult<IEnumerable<EventEntryListDTO>>> GetByEventId(int eventId)
+        public async Task<ActionResult<IEnumerable<EventEntryDTO>>> GetByEventId(int eventId)
         {
-            IEnumerable<EventEntryListDTO> entries = await _entryFacade.GetAllByEventId(eventId);
+            IEnumerable<EventEntryDTO> entries = await _entryFacade.GetAllByEventId(eventId);
             if (entries == null)
             {
                 return NotFound();
@@ -44,9 +44,9 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Entry not found.")]
         [SwaggerResponse(StatusCodes.Status200OK, "One entry retrieved.")]
-        public async Task<ActionResult<EventEntryListDTO>> Get(int id)
+        public async Task<ActionResult<EventEntryDTO>> Get(int id)
         {
-            EventEntryListDTO entry = await _entryFacade.GetById(id);
+            EventEntryDTO entry = await _entryFacade.GetById(id);
 
             if (entry == null)
             {
@@ -59,7 +59,7 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided entry.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry added.")]
-        public async Task<ActionResult> Post([FromBody] EventEntryEditDTO entry)
+        public async Task<ActionResult> Post([FromBody] EventEntryDTO entry)
         {
             if (User.Identity.GetUserId() != entry.UserId &&
                 !User.IsInRole(Role.Entries) &&
@@ -75,7 +75,7 @@ namespace ClubIS.WebAPI.Controllers
 
             await _entryFacade.Create(entry);
 
-            EventEditDTO e = await _eventFacade.GetById(entry.EventId);
+            EventDTO e = await _eventFacade.GetById(entry.EventId);
             if (e.Entries != EntriesExport.Changed)
             {
                 e.Entries = EntriesExport.Changed;
@@ -89,7 +89,7 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Something wrong with the provided entry.")]
         [SwaggerResponse(StatusCodes.Status200OK, "Entry updated.")]
-        public async Task<ActionResult> Put([FromBody] EventEntryEditDTO entry)
+        public async Task<ActionResult> Put([FromBody] EventEntryDTO entry)
         {
             if (User.Identity.GetUserId() != entry.UserId &&
                 !User.IsInRole(Role.Entries) &&
@@ -105,7 +105,7 @@ namespace ClubIS.WebAPI.Controllers
 
             await _entryFacade.Update(entry);
 
-            EventEditDTO e = await _eventFacade.GetById(entry.EventId);
+            EventDTO e = await _eventFacade.GetById(entry.EventId);
             if (e.Entries != EntriesExport.Changed)
             {
                 e.Entries = EntriesExport.Changed;
@@ -121,7 +121,7 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Entry deleted.")]
         public async Task<ActionResult> Delete(int id)
         {
-            EventEntryListDTO entry = await _entryFacade.GetById(id);
+            EventEntryDTO entry = await _entryFacade.GetById(id);
             if (entry == null)
             {
                 return NotFound();

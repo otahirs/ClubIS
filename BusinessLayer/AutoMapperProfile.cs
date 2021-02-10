@@ -9,13 +9,13 @@ namespace ClubIS.BusinessLayer
     {
         public AutoMapperProfile()
         {
-            CreateMap<Event, EventEditDTO>().ReverseMap();
+            CreateMap<Event, EventDTO>().ReverseMap();
             CreateMap<EventEntry, EventEntryBasicInfoDTO>().ReverseMap();
-            CreateMap<EventEntry, EventEntryListDTO>()
+            CreateMap<EventEntry, EventEntryDTO>()
                 .ForMember(d => d.Name, opt => opt.MapFrom(s => s.User.Firstname + " " + s.User.Surname))
                 .ForMember(d => d.RegistrationNumber, opt => opt.MapFrom(s => s.User.RegistrationNumber))
                 .ForMember(d => d.EnteredStages, opt => opt.MapFrom(s => s.EnteredStages));
-            CreateMap<EventEntryEditDTO, EventEntry>()
+            CreateMap<EventEntryDTO, EventEntry>()
                 .ForMember(d => d.EnteredStages, opt => opt.Ignore());
 
             CreateMap<Event, EventListDTO>().ReverseMap();

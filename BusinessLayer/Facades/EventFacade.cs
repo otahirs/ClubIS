@@ -21,12 +21,12 @@ namespace ClubIS.BusinessLayer.Facades
             _paymentService = paymentService;
         }
 
-        public async Task<EventEditDTO> GetById(int id)
+        public async Task<EventDTO> GetById(int id)
         {
             return await _eventService.GetById(id);
         }
 
-        public async Task Create(EventEditDTO e)
+        public async Task Create(EventDTO e)
         {
             await _eventService.Create(e);
             await _unitOfWork.Save();
@@ -60,7 +60,7 @@ namespace ClubIS.BusinessLayer.Facades
             await _unitOfWork.Save();
         }
 
-        public async Task Update(EventEditDTO e)
+        public async Task Update(EventDTO e)
         {
             await _eventService.Update(e);
             await _unitOfWork.Save();

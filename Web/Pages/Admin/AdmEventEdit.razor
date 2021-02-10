@@ -150,14 +150,14 @@
 @code {
     [Parameter]
     public int? eventId { get; set; }
-    private EventEditDTO sendEvent;
+    private EventDTO sendEvent;
     private string currentOption;
 
     protected override async Task OnInitializedAsync()
     {
         if (eventId == null)
         {
-            sendEvent = new EventEditDTO();
+            sendEvent = new EventDTO();
             sendEvent.StartDate = DateTime.Today;
             sendEvent.EndDate = DateTime.Today;
             sendEvent.EventType = GetTypes()[0];
@@ -171,7 +171,7 @@
         }
         else
         {
-            sendEvent = await Http.GetFromJsonAsync<EventEditDTO>($"Events/{eventId}");
+            sendEvent = await Http.GetFromJsonAsync<EventDTO>($"Events/{eventId}");
         }
 
     }
@@ -256,11 +256,11 @@
     {
         if (eventId == null)
         {
-            await Http.PostAsJsonAsync<EventEditDTO>("Events", sendEvent);
+            await Http.PostAsJsonAsync<EventDTO>("Events", sendEvent);
         }
         else
         {
-            await Http.PutAsJsonAsync<EventEditDTO>("Events", sendEvent);
+            await Http.PutAsJsonAsync<EventDTO>("Events", sendEvent);
         }
         NavigationManager.NavigateTo($"/admin/events");
     }

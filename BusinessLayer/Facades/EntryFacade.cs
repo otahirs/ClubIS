@@ -18,24 +18,24 @@ namespace ClubIS.BusinessLayer.Facades
             _entryService = entryService;
         }
 
-        public async Task<IEnumerable<EventEntryListDTO>> GetAllByEventId(int eventId)
+        public async Task<IEnumerable<EventEntryDTO>> GetAllByEventId(int eventId)
         {
             return await _entryService.GetAllByEventId(eventId);
         }
 
 
-        public async Task<EventEntryListDTO> GetById(int id)
+        public async Task<EventEntryDTO> GetById(int id)
         {
             return await _entryService.GetById(id);
         }
 
-        public async Task Create(EventEntryEditDTO entry)
+        public async Task Create(EventEntryDTO entry)
         {
             await _entryService.Create(entry);
             await _unitOfWork.Save();
         }
 
-        public async Task Update(EventEntryEditDTO entry)
+        public async Task Update(EventEntryDTO entry)
         {
             await _entryService.Update(entry);
             await _unitOfWork.Save();

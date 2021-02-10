@@ -18,7 +18,7 @@ namespace ClubIS.BusinessLayer.Tests
         private readonly IMapper _mapper = new MapperConfiguration(c =>
           c.AddProfile<AutoMapperProfile>()).CreateMapper();
 
-        public EventEditDTO origEvent = new EventEditDTO()
+        public EventDTO origEvent = new EventDTO()
         {
             Id = 42,
             StartDate = new DateTime(2020, 10, 11),
@@ -60,7 +60,7 @@ namespace ClubIS.BusinessLayer.Tests
         [Fact]
         public async Task GetById() // db seed dependant
         {
-            EventEditDTO e;
+            EventDTO e;
             using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
             {
                 EventService ns = new EventService(uow, _mapper);
@@ -72,7 +72,7 @@ namespace ClubIS.BusinessLayer.Tests
         [Fact]
         public async Task Create()
         {
-            EventEditDTO e;
+            EventDTO e;
             using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
             {
                 EventService es = new EventService(uow, _mapper);
@@ -86,7 +86,7 @@ namespace ClubIS.BusinessLayer.Tests
         [Fact]
         public async Task Update()
         {
-            EventEditDTO e;
+            EventDTO e;
             string editedOrganizer = "Edited Organizer";
             using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
             {
@@ -105,7 +105,7 @@ namespace ClubIS.BusinessLayer.Tests
         [Fact]
         public async Task Delete()
         {
-            EventEditDTO e;
+            EventDTO e;
             using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
             {
                 EventService es = new EventService(uow, _mapper);
@@ -121,7 +121,7 @@ namespace ClubIS.BusinessLayer.Tests
         [Fact]
         public async Task GetAllWithUserEntry() // db seed dependant
         {
-            EventEditDTO origEvent2 = new EventEditDTO
+            EventDTO origEvent2 = new EventDTO
             {
                 Id = 43,
                 StartDate = new DateTime(2020,

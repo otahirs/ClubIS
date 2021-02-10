@@ -20,7 +20,7 @@ namespace ClubIS.BusinessLayer.Services
             _mapper = mapper;
         }
 
-        public async Task Create(EventEntryEditDTO entry)
+        public async Task Create(EventEntryDTO entry)
         {
             EventEntry entryEntity = _mapper.Map<EventEntry>(entry);
             entryEntity.EnteredStages = _mapper.Map<ISet<EventStage>>(
@@ -37,7 +37,7 @@ namespace ClubIS.BusinessLayer.Services
             _unitOfWork.Entry.Remove(entryEntity);
         }
 
-        public async Task Update(EventEntryEditDTO entry)
+        public async Task Update(EventEntryDTO entry)
         {
             EventEntry entryEntity = await _unitOfWork.Entry.GetById(entry.Id);
             entryEntity.EnteredStages.Clear();
@@ -48,15 +48,15 @@ namespace ClubIS.BusinessLayer.Services
 
         }
 
-        public async Task<EventEntryListDTO> GetById(int id)
+        public async Task<EventEntryDTO> GetById(int id)
         {
-            return _mapper.Map<EventEntryListDTO>(await _unitOfWork.Entry.GetById(id));
+            return _mapper.Map<EventEntryDTO>(await _unitOfWork.Entry.GetById(id));
         }
 
-        public async Task<IEnumerable<EventEntryListDTO>> GetAllByEventId(int eventId)
+        public async Task<IEnumerable<EventEntryDTO>> GetAllByEventId(int eventId)
         {
             IEnumerable<EventEntry> list = await _unitOfWork.Entry.GetAllByEventId(eventId);
-            return _mapper.Map<IEnumerable<EventEntryListDTO>>(list);
+            return _mapper.Map<IEnumerable<EventEntryDTO>>(list);
         }
 
     }

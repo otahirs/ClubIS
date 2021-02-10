@@ -21,18 +21,18 @@ namespace ClubIS.BusinessLayer.Services
             _mapper = mapper;
         }
 
-        public async Task Create(EventEditDTO e)
+        public async Task Create(EventDTO e)
         {
             Event entity = _mapper.Map<Event>(e);
             await _unitOfWork.Events.Add(entity);
         }
 
-        public async Task<EventEditDTO> GetById(int id)
+        public async Task<EventDTO> GetById(int id)
         {
-            return _mapper.Map<EventEditDTO>(await _unitOfWork.Events.GetById(id));
+            return _mapper.Map<EventDTO>(await _unitOfWork.Events.GetById(id));
         }
 
-        public async Task Update(EventEditDTO e)
+        public async Task Update(EventDTO e)
         {
             Event entity = await _unitOfWork.Events.GetById(e.Id);
             _mapper.Map(e, entity);

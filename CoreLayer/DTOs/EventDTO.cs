@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClubIS.CoreLayer.DTOs
 {
-    public class EventEditDTO
+    public class EventDTO
     {
         public int Id { get; set; }
         public DateTime StartDate { get; set; }
