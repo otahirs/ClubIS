@@ -9,12 +9,11 @@ namespace ClubIS.DataAccessLayer
 {
     public static class DataInitializer
     {
-        // PostgreSQL cannot handle Id autogeration after seeding, workaround is to seed from MaxValue
-        private static readonly int ID_1 = int.MaxValue;
-        private static readonly int ID_2 = int.MaxValue - 1;
-        private static readonly int ID_3 = int.MaxValue - 2;
-        private static readonly int ID_4 = int.MaxValue - 3;
-        private static readonly int ID_5 = int.MaxValue - 4;
+        private static readonly int ID_1 = 1;
+        private static readonly int ID_2 = 2;
+        private static readonly int ID_3 = 3;
+        private static readonly int ID_4 = 4;
+        private static readonly int ID_5 = 5;
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Address>().HasData(new Address()

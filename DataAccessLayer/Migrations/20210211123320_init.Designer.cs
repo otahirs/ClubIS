@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClubIS.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210211100336_init")]
+    [Migration("20210211123320_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,18 +53,18 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2147483647,
+                            Id = 1,
                             City = "Brno",
                             PostalCode = "***REMOVED***",
                             StreetAndNumber = "***REMOVED***",
-                            UserId = 2147483647
+                            UserId = 1
                         },
                         new
                         {
-                            Id = 2147483646,
+                            Id = 2,
                             City = "***REMOVED***",
                             PostalCode = "***REMOVED***",
-                            UserId = 2147483646
+                            UserId = 2
                         });
                 });
 
@@ -129,7 +129,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2147483647,
+                            Id = 1,
                             AccommodationOption = 2,
                             EndDate = new DateTime(2021, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Entries = 0,
@@ -145,7 +145,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = 2147483646,
+                            Id = 2,
                             AccommodationOption = 2,
                             EndDate = new DateTime(2021, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Entries = 0,
@@ -183,32 +183,32 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2147483647,
-                            EventId = 2147483647,
+                            Id = 1,
+                            EventId = 1,
                             Name = "A"
                         },
                         new
                         {
-                            Id = 2147483646,
-                            EventId = 2147483647,
+                            Id = 2,
+                            EventId = 1,
                             Name = "B"
                         },
                         new
                         {
-                            Id = 2147483645,
-                            EventId = 2147483646,
+                            Id = 3,
+                            EventId = 2,
                             Name = "A"
                         },
                         new
                         {
-                            Id = 2147483644,
-                            EventId = 2147483646,
+                            Id = 4,
+                            EventId = 2,
                             Name = "B"
                         },
                         new
                         {
-                            Id = 2147483643,
-                            EventId = 2147483646,
+                            Id = 5,
+                            EventId = 2,
                             Name = "H20"
                         });
                 });
@@ -235,21 +235,21 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2147483647,
+                            Id = 1,
                             Deadline = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 2147483647
+                            EventId = 1
                         },
                         new
                         {
-                            Id = 2147483646,
+                            Id = 2,
                             Deadline = new DateTime(2021, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 2147483646
+                            EventId = 2
                         },
                         new
                         {
-                            Id = 2147483645,
+                            Id = 3,
                             Deadline = new DateTime(2021, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 2147483646
+                            EventId = 2
                         });
                 });
 
@@ -301,25 +301,25 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2147483647,
+                            Id = 1,
                             Class = "A",
-                            EventId = 2147483647,
+                            EventId = 1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
                             SiCardNumber = ***REMOVED***,
                             Status = 0,
-                            UserId = 2147483646
+                            UserId = 2
                         },
                         new
                         {
-                            Id = 2147483646,
+                            Id = 2,
                             Class = "H20",
-                            EventId = 2147483646,
+                            EventId = 2,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
                             SiCardNumber = ***REMOVED***,
                             Status = 0,
-                            UserId = 2147483647
+                            UserId = 1
                         });
                 });
 
@@ -364,12 +364,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2147483647,
+                            Id = 1,
                             CreditBalance = 0
                         },
                         new
                         {
-                            Id = 2147483646,
+                            Id = 2,
                             CreditBalance = 0
                         });
                 });
@@ -402,7 +402,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2147483646,
+                            Id = 2,
                             Amount = 0,
                             Description = "Oddílem jsou placeny veškeré závody. Závodník platí pouze storna.",
                             MemberFeeType = 4,
@@ -410,7 +410,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = 2147483647,
+                            Id = 1,
                             Amount = 100,
                             Description = "Nikam nejezdím nebo málo  veškeré závody se strhávají z osobního vkladu.",
                             MemberFeeType = 1,
@@ -448,11 +448,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2147483647,
+                            Id = 1,
                             Date = new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111",
                             Title = "test nadpisu",
-                            UserId = 2147483647
+                            UserId = 1
                         });
                 });
 
@@ -507,14 +507,14 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2147483647,
+                            Id = 1,
                             CreditAmount = 1000,
                             Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 2147483647,
-                            ExecutorId = 2147483647,
+                            EventId = 1,
+                            ExecutorId = 1,
                             PaymentState = 0,
-                            RecipientAccountId = 2147483646,
-                            SourceAccountId = 2147483647
+                            RecipientAccountId = 2,
+                            SourceAccountId = 1
                         });
                 });
 
@@ -543,17 +543,17 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2147483647,
+                            Id = 1,
                             IsDefault = true,
                             Number = ***REMOVED***,
-                            UserId = 2147483647
+                            UserId = 1
                         },
                         new
                         {
-                            Id = 2147483646,
+                            Id = 2,
                             IsDefault = true,
                             Number = ***REMOVED***,
-                            UserId = 2147483646
+                            UserId = 2
                         });
                 });
 
@@ -624,8 +624,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2147483647,
-                            AccountId = 2147483647,
+                            Id = 1,
+                            AccountId = 1,
                             AccountState = 3,
                             Email = "tst2@eof.cz",
                             Firstname = "Matěj",
@@ -637,11 +637,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = 2147483646,
-                            AccountId = 2147483646,
+                            Id = 2,
+                            AccountId = 2,
                             AccountState = 0,
                             Email = "tst2@eob.cz",
-                            FinanceSupervisorId = 2147483647,
+                            FinanceSupervisorId = 1,
                             Firstname = "Kateřina",
                             Gender = 1,
                             Licence = 2,
@@ -720,13 +720,13 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2147483647,
+                            Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8d8ee2e5-907f-46d2-bd4c-82d474454849",
+                            ConcurrencyStamp = "4af1802c-6a65-4c87-882d-e150dffd8757",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "MATEJ",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBO4+3GzShbIdI+3r8Bz5cjcpzkP4w1K9NXsutjDC9Ek8a+RyIFSRGPXpkefwdEXcg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIFR/2pwNK85F0E8gTKBSVGBXGmmPZYLOHwLkMWHePgSTnNpOknmdjPisptqZZPbFw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -734,13 +734,13 @@ namespace ClubIS.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = 2147483646,
+                            Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3666b4d9-5ebe-4140-82cb-9a9930402529",
+                            ConcurrencyStamp = "1bc79641-cae0-4194-ac24-05ab7f8fda3a",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "KATKA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJw3id42PIrEfxfb4b10coGhdWpY9aOpsMWWrMn7fVU6tIU4c2gRTLIitUllU0hLEA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGnm5vSQcWv6LkW66CsKTCPjanu+fAelUpE5UK5fub0j8q/iBH5kp/uFARDR4NHOLA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -795,42 +795,42 @@ namespace ClubIS.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "7403bffa-3b4c-4c41-b86f-62ad3db783f0",
+                            ConcurrencyStamp = "a9e019cd-8bea-40fb-a895-9b43e8b0f264",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "b4952bac-bbb4-4c52-98a2-89a188ba165b",
+                            ConcurrencyStamp = "4238fd5b-4237-4cb7-98ac-42be3d05150b",
                             Name = "entries",
                             NormalizedName = "ENTRIES"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "59a5315c-fc3a-435f-b4fe-638da476f055",
+                            ConcurrencyStamp = "de7f5464-8508-462b-a169-1f2a78d71b0b",
                             Name = "events",
                             NormalizedName = "EVENTS"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "a09efce7-fd85-4324-a3cd-86db849c8c01",
+                            ConcurrencyStamp = "19c6377f-83e5-4310-a54e-a33da220c26f",
                             Name = "finance",
                             NormalizedName = "FINANCE"
                         },
                         new
                         {
                             Id = 5,
-                            ConcurrencyStamp = "84fb5025-402b-4bc9-a1a1-be75e11178b4",
+                            ConcurrencyStamp = "563add47-a039-4cc2-962a-cfe996020862",
                             Name = "news",
                             NormalizedName = "NEWS"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "a778e468-0f01-4a9d-abbb-45fd95c2852c",
+                            ConcurrencyStamp = "2abaa507-8f3a-4b1a-863e-343b0a691cf5",
                             Name = "users",
                             NormalizedName = "USERS"
                         });
@@ -920,7 +920,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = 2147483647,
+                            UserId = 1,
                             RoleId = 1
                         });
                 });
@@ -961,8 +961,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            EntriesSupervisorId = 2147483646,
-                            UserId = 2147483647
+                            EntriesSupervisorId = 2,
+                            UserId = 1
                         });
                 });
 
