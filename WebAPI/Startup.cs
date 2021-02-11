@@ -40,7 +40,7 @@ namespace ClubIS.WebAPI
 
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("ApplicationData"));
+                options.UseNpgsql(Configuration.GetConnectionString("PostgresDb"));
                 options.EnableSensitiveDataLogging();
             });
 
