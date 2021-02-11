@@ -9,27 +9,35 @@
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Settings</MudText>
-    <MudTabs>
+    <MudTabs Elevation="1">
         <MudTabPanel Text="User">
-            @if (CurrentUser != null)
-            {<UserEditForm User="CurrentUser" />}
-            else
-            { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+            <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+                @if (CurrentUser != null)
+                {<UserEditForm User="CurrentUser" />}
+                else
+                { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+            </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="SI Cards">
-            @if (CurrentUser != null)
-            {<SICardsForm User="CurrentUser" />}
-            else
-            { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+            <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+                @if (CurrentUser != null)
+                {<SICardsForm User="CurrentUser" />}
+                else
+                { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+            </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Login">
-            <LoginEditForm EditedUserId="CurrentUser.Id" />
+            <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+                <LoginEditForm EditedUserId="CurrentUser.Id" />
+            </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Supervision">
-            @if (CurrentUser != null)
-            { <Supervisors UserId="CurrentUser.Id" isAdmin="false" /> }
-            else
-            { <MudProgressCircular Color="Color.Default" Indeterminate="true" /> }
+            <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+                @if (CurrentUser != null)
+                { <Supervisors UserId="CurrentUser.Id" isAdmin="false" /> }
+                else
+                { <MudProgressCircular Color="Color.Default" Indeterminate="true" /> }
+            </MudContainer>
         </MudTabPanel>
     </MudTabs>
 </MudContainer>
