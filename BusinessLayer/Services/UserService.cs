@@ -21,12 +21,9 @@ namespace ClubIS.BusinessLayer.Services
         }
         public async Task Create(UserDTO user)
         {
-            FinanceAccount account = new FinanceAccount();
-            await _unitOfWork.Accounts.Add(account);
-            await _unitOfWork.Save();
-            user.AccountId = account.Id;
             User entity = _mapper.Map<User>(user);
             entity.Address = new Address();
+            entity.Account = new FinanceAccount();
             await _unitOfWork.Users.Add(entity);
         }
 
