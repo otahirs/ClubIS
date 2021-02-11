@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClubIS.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210208101640_init")]
+    [Migration("20210211100336_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,7 +19,7 @@ namespace ClubIS.DataAccessLayer.Migrations
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.2");
+                .HasAnnotation("ProductVersion", "5.0.3");
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.Address", b =>
                 {
@@ -53,18 +53,18 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 2147483647,
                             City = "Brno",
                             PostalCode = "***REMOVED***",
                             StreetAndNumber = "***REMOVED***",
-                            UserId = 1
+                            UserId = 2147483647
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 2147483646,
                             City = "***REMOVED***",
                             PostalCode = "***REMOVED***",
-                            UserId = 2
+                            UserId = 2147483646
                         });
                 });
 
@@ -129,7 +129,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 2147483647,
                             AccommodationOption = 2,
                             EndDate = new DateTime(2021, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Entries = 0,
@@ -145,7 +145,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 2147483646,
                             AccommodationOption = 2,
                             EndDate = new DateTime(2021, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Entries = 0,
@@ -183,32 +183,32 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            EventId = 1,
+                            Id = 2147483647,
+                            EventId = 2147483647,
                             Name = "A"
                         },
                         new
                         {
-                            Id = 2,
-                            EventId = 1,
+                            Id = 2147483646,
+                            EventId = 2147483647,
                             Name = "B"
                         },
                         new
                         {
-                            Id = 3,
-                            EventId = 2,
+                            Id = 2147483645,
+                            EventId = 2147483646,
                             Name = "A"
                         },
                         new
                         {
-                            Id = 4,
-                            EventId = 2,
+                            Id = 2147483644,
+                            EventId = 2147483646,
                             Name = "B"
                         },
                         new
                         {
-                            Id = 5,
-                            EventId = 2,
+                            Id = 2147483643,
+                            EventId = 2147483646,
                             Name = "H20"
                         });
                 });
@@ -235,21 +235,21 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 2147483647,
                             Deadline = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 1
+                            EventId = 2147483647
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 2147483646,
                             Deadline = new DateTime(2021, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 2
+                            EventId = 2147483646
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 2147483645,
                             Deadline = new DateTime(2021, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 2
+                            EventId = 2147483646
                         });
                 });
 
@@ -301,25 +301,25 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 2147483647,
                             Class = "A",
-                            EventId = 1,
+                            EventId = 2147483647,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
                             SiCardNumber = ***REMOVED***,
                             Status = 0,
-                            UserId = 2
+                            UserId = 2147483646
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 2147483646,
                             Class = "H20",
-                            EventId = 2,
+                            EventId = 2147483646,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
                             SiCardNumber = ***REMOVED***,
                             Status = 0,
-                            UserId = 1
+                            UserId = 2147483647
                         });
                 });
 
@@ -364,12 +364,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 2147483647,
                             CreditBalance = 0
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 2147483646,
                             CreditBalance = 0
                         });
                 });
@@ -402,7 +402,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2,
+                            Id = 2147483646,
                             Amount = 0,
                             Description = "Oddílem jsou placeny veškeré závody. Závodník platí pouze storna.",
                             MemberFeeType = 4,
@@ -410,7 +410,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = 1,
+                            Id = 2147483647,
                             Amount = 100,
                             Description = "Nikam nejezdím nebo málo  veškeré závody se strhávají z osobního vkladu.",
                             MemberFeeType = 1,
@@ -448,11 +448,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 2147483647,
                             Date = new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111",
                             Title = "test nadpisu",
-                            UserId = 1
+                            UserId = 2147483647
                         });
                 });
 
@@ -507,14 +507,14 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 2147483647,
                             CreditAmount = 1000,
                             Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventId = 1,
-                            ExecutorId = 1,
+                            EventId = 2147483647,
+                            ExecutorId = 2147483647,
                             PaymentState = 0,
-                            RecipientAccountId = 2,
-                            SourceAccountId = 1
+                            RecipientAccountId = 2147483646,
+                            SourceAccountId = 2147483647
                         });
                 });
 
@@ -543,17 +543,17 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 2147483647,
                             IsDefault = true,
                             Number = ***REMOVED***,
-                            UserId = 1
+                            UserId = 2147483647
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 2147483646,
                             IsDefault = true,
                             Number = ***REMOVED***,
-                            UserId = 2
+                            UserId = 2147483646
                         });
                 });
 
@@ -624,8 +624,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            AccountId = 2,
+                            Id = 2147483647,
+                            AccountId = 2147483647,
                             AccountState = 3,
                             Email = "tst2@eof.cz",
                             Firstname = "Matěj",
@@ -637,17 +637,114 @@ namespace ClubIS.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = 2,
-                            AccountId = 1,
+                            Id = 2147483646,
+                            AccountId = 2147483646,
                             AccountState = 0,
                             Email = "tst2@eob.cz",
-                            FinanceSupervisorId = 1,
+                            FinanceSupervisorId = 2147483647,
                             Firstname = "Kateřina",
                             Gender = 1,
                             Licence = 2,
                             Nationality = "Česká republika",
                             RegistrationNumber = "***REMOVED***",
                             Surname = "***REMOVED***"
+                        });
+                });
+
+            modelBuilder.Entity("ClubIS.CoreLayer.Entities.UserIdentity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2147483647,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8d8ee2e5-907f-46d2-bd4c-82d474454849",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "MATEJ",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBO4+3GzShbIdI+3r8Bz5cjcpzkP4w1K9NXsutjDC9Ek8a+RyIFSRGPXpkefwdEXcg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "matej"
+                        },
+                        new
+                        {
+                            Id = 2147483646,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3666b4d9-5ebe-4140-82cb-9a9930402529",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "KATKA",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJw3id42PIrEfxfb4b10coGhdWpY9aOpsMWWrMn7fVU6tIU4c2gRTLIitUllU0hLEA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "katka"
                         });
                 });
 
@@ -664,6 +761,187 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasIndex("EventStageId");
 
                     b.ToTable("EvenEntry_EventStage");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "7403bffa-3b4c-4c41-b86f-62ad3db783f0",
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "b4952bac-bbb4-4c52-98a2-89a188ba165b",
+                            Name = "entries",
+                            NormalizedName = "ENTRIES"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ConcurrencyStamp = "59a5315c-fc3a-435f-b4fe-638da476f055",
+                            Name = "events",
+                            NormalizedName = "EVENTS"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ConcurrencyStamp = "a09efce7-fd85-4324-a3cd-86db849c8c01",
+                            Name = "finance",
+                            NormalizedName = "FINANCE"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ConcurrencyStamp = "84fb5025-402b-4bc9-a1a1-be75e11178b4",
+                            Name = "news",
+                            NormalizedName = "NEWS"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ConcurrencyStamp = "a778e468-0f01-4a9d-abbb-45fd95c2852c",
+                            Name = "users",
+                            NormalizedName = "USERS"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 2147483647,
+                            RoleId = 1
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("User_EntriesSupervisor", b =>
@@ -683,8 +961,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            EntriesSupervisorId = 2,
-                            UserId = 1
+                            EntriesSupervisorId = 2147483646,
+                            UserId = 2147483647
                         });
                 });
 
@@ -828,6 +1106,57 @@ namespace ClubIS.DataAccessLayer.Migrations
                         .WithMany()
                         .HasForeignKey("EventStageId")
                         .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.HasOne("ClubIS.CoreLayer.Entities.UserIdentity", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.HasOne("ClubIS.CoreLayer.Entities.UserIdentity", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ClubIS.CoreLayer.Entities.UserIdentity", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.HasOne("ClubIS.CoreLayer.Entities.UserIdentity", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

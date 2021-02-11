@@ -1,16 +1,15 @@
 ﻿using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Enums;
-using ClubIS.IdentityStore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClubIS.CoreLayer;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace ClubIS.WebAPI.Controllers
 {
@@ -19,84 +18,48 @@ namespace ClubIS.WebAPI.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class AuthorizeController : ControllerBase
     {
-        private readonly UserManager<IdentityStoreUser> _userManager;
-        private readonly SignInManager<IdentityStoreUser> _signInManager;
+        
         private readonly IUserFacade _userFacade;
+        private readonly IAuthFacade _authFacade;
 
-        public AuthorizeController(UserManager<IdentityStoreUser> userManager, SignInManager<IdentityStoreUser> signInManager, IUserFacade userFacade)
+        public AuthorizeController(IUserFacade userFacade, IAuthFacade authFacade)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
             _userFacade = userFacade;
+            _authFacade = authFacade;
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginParametersDTO parameters)
         {
-            IdentityStoreUser user = await _userManager.FindByNameAsync(parameters.UserName);
-            if (user == null)
-            {
-                return BadRequest("User does not exist");
-            }
-
-            Microsoft.AspNetCore.Identity.SignInResult singInResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
+            SignInResult singInResult = await _authFacade.SignIn(parameters);
             if (!singInResult.Succeeded)
             {
-                return BadRequest("Invalid password");
+                return BadRequest("Invalid credentials");
             }
-
-            await _signInManager.SignInAsync(user, parameters.RememberMe);
-
             return Ok();
         }
-
 
         [HttpPost("register")]
         [Authorize(Policy = Policy.Users)]
         public async Task<IActionResult> Register(RegisterParametersDTO parameters)
         {
-            IdentityStoreUser userIdentity = new IdentityStoreUser
+            if(parameters.Password != parameters.PasswordConfirm)
             {
-                UserName = parameters.UserName
-            };
-            IdentityResult result = await _userManager.CreateAsync(userIdentity, parameters.Password);
+                return BadRequest("Passwords do not match");
+            }
+            var result = await _authFacade.CreateNewUser(parameters);
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors.FirstOrDefault()?.Description);
             }
-
-            IdentityStoreUser identityUser = await _userManager.FindByNameAsync(userIdentity.UserName);
-            UserDTO user = new UserDTO()
-            {
-                Id = identityUser.Id,
-                Firstname = parameters.Firstname,
-                Surname = parameters.Surname,
-                RegistrationNumber = parameters.RegistrationNumber
-            };
-
-            try
-            {
-                await _userFacade.Create(user);
-            }
-            catch (Exception ex)
-            {
-                // remove Identity if user creation failed
-                await _userManager.DeleteAsync(identityUser);
-                throw new ApplicationException("User creation failed", ex);
-            }
-
-            return await Login(new LoginParametersDTO
-            {
-                UserName = parameters.UserName,
-                Password = parameters.Password
-            });
+            return Ok();
         }
 
         [Authorize]
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await _authFacade.Logout();
             return Ok();
         }
 
@@ -107,11 +70,6 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return new UserInfoDTO();
             }
-            return await BuildUserInfo();
-        }
-
-        private async Task<UserInfoDTO> BuildUserInfo()
-        {
             UserDTO user = await _userFacade.GetById(User.Identity.GetUserId());
             return new UserInfoDTO
             {
@@ -137,13 +95,12 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return Unauthorized();
             }
-            IdentityStoreUser user = await _userManager.GetUserAsync(User);
-            if (!await _userManager.CheckPasswordAsync(user, parameters.AprovalPassword))
+            if (!await _authFacade.CheckPassword(User.Identity.GetUserId(), parameters.AprovalPassword))
             {
                 return BadRequest("Invalid password");
             }
-            IdentityStoreUser editedUser = await GetUserIdentityById(parameters.EditedUserId);
-            IdentityResult result = await _userManager.SetUserNameAsync(editedUser, parameters.NewUserName);
+
+            IdentityResult result = await _authFacade.ChangeLogin(parameters.EditedUserId, parameters.NewUserName);
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors.FirstOrDefault()?.Description);
@@ -162,13 +119,13 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return Unauthorized();
             }
-            IdentityStoreUser user = await _userManager.GetUserAsync(User);
-            if (!await _userManager.CheckPasswordAsync(user, parameters.OldPassword))
+
+            if (!await _authFacade.CheckPassword(User.Identity.GetUserId(), parameters.OldPassword))
             {
                 return BadRequest("Invalid password");
             }
-            IdentityStoreUser editedUser = await GetUserIdentityById(parameters.EditedUserId);
-            IdentityResult result = await _userManager.ChangePasswordAsync(editedUser, parameters.OldPassword, parameters.NewPassword);
+
+            IdentityResult result = await _authFacade.ChangePassword(parameters.EditedUserId, parameters.NewPassword);
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors.FirstOrDefault()?.Description);
@@ -183,19 +140,12 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "User roles retrieved.")]
         public async Task<ActionResult<UserRolesDTO>> Get(int userId)
         {
-            IdentityStoreUser user = await GetUserIdentityById(userId);
-            if (user == null)
+            if (await _authFacade.UserExist(userId))
             {
-                return NotFound();
+                UserRolesDTO roles = await _authFacade.GetRoles(userId);
+                return Ok(roles);
             }
-            IList<string> rolesList = await _userManager.GetRolesAsync(user);
-            UserRolesDTO roles = new UserRolesDTO() { UserId = userId, Roles = rolesList };
-            return Ok(roles);
-        }
-
-        private Task<IdentityStoreUser> GetUserIdentityById(int userId)
-        {
-            return _userManager.FindByIdAsync(userId.ToString());
+            return NotFound();
         }
 
         [HttpGet("username/{userId}")]
@@ -210,33 +160,29 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return Unauthorized();
             }
-
-            IdentityStoreUser user = await GetUserIdentityById(userId);
-            if (user == null)
+            
+            if (await _authFacade.UserExist(userId))
             {
-                return NotFound();
+                return new JsonResult(await _authFacade.GetUserName(userId));
             }
-            return new JsonResult(user.UserName);
+            return NotFound();
+            
         }
 
         [HttpPut("roles")]
         [Authorize(Policy = Policy.Users)]
         public async Task<IActionResult> ChangeUserRoles(UserRolesDTO userRoles)
         {
-            IdentityStoreUser user = await GetUserIdentityById(userRoles.UserId);
-            if (user == null)
+            if (await _authFacade.UserExist(userRoles.UserId))
             {
-                return NotFound();
-            }
-            IList<string> oldRoles = await _userManager.GetRolesAsync(user);
-            await _userManager.RemoveFromRolesAsync(user, oldRoles);
-            IdentityResult result = await _userManager.AddToRolesAsync(user, userRoles.Roles);
-            if (!result.Succeeded)
-            {
+                IdentityResult result = await _authFacade.ChangeRoles(userRoles);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
                 return BadRequest(result.Errors.FirstOrDefault()?.Description);
             }
-
-            return Ok();
+            return NotFound();
         }
     }
 }

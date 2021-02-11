@@ -21,7 +21,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BusinessLayer\ClubIS.BusinessLayer.csproj" />
     <ProjectReference Include="..\CoreLayer\ClubIS.CoreLayer.csproj" />
-    <ProjectReference Include="..\IdentityStore\ClubIS.IdentityStore.csproj" />
     <ProjectReference Include="..\Web\ClubIS.Web.csproj" />
   </ItemGroup>
 

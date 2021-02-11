@@ -1,12 +1,15 @@
 ﻿using ClubIS.CoreLayer.Entities;
+using ClubIS.CoreLayer.Enums;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace ClubIS.DataAccessLayer
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<UserIdentity, IdentityRole<int>, int>
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> ApplicationUsers { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<EventEntry> EventEntries { get; set; }
         public DbSet<Payment> Payments { get; set; }
@@ -37,6 +40,9 @@ namespace ClubIS.DataAccessLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // AplicationUsers => Users to avoid conflict warning DbSet Users with AspNetUsers table
+            modelBuilder.Entity<User>()
+                .ToTable("Users"); 
 
             modelBuilder.Entity<User>()
                 .Property(u => u.Id).ValueGeneratedNever();
@@ -67,6 +73,45 @@ namespace ClubIS.DataAccessLayer
                 .HasOne(u => u.FinanceSupervisor)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<IdentityRole<int>>().HasData(
+                new IdentityRole<int>
+                {
+                    Id = 1,
+                    Name = Role.Admin,
+                    NormalizedName = Role.Admin.ToUpper()
+                },
+                new IdentityRole<int>
+                {
+                    Id = 2,
+                    Name = Role.Entries,
+                    NormalizedName = Role.Entries.ToUpper()
+                },
+                new IdentityRole<int>
+                {
+                    Id = 3,
+                    Name = Role.Events,
+                    NormalizedName = Role.Events.ToUpper()
+                },
+                new IdentityRole<int>
+                {
+                    Id = 4,
+                    Name = Role.Finance,
+                    NormalizedName = Role.Finance.ToUpper()
+                },
+                new IdentityRole<int>
+                {
+                    Id = 5,
+                    Name = Role.News,
+                    NormalizedName = Role.News.ToUpper()
+                },
+                new IdentityRole<int>
+                {
+                    Id = 6,
+                    Name = Role.Users,
+                    NormalizedName = Role.Users.ToUpper()
+                }
+            );
 
             modelBuilder.Seed();
 

@@ -4,11 +4,11 @@ using ClubIS.BusinessLayer.Facades;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services;
 using ClubIS.BusinessLayer.Services.Interfaces;
+using ClubIS.CoreLayer.Entities;
 using ClubIS.CoreLayer.Enums;
 using ClubIS.DataAccessLayer;
 using ClubIS.DataAccessLayer.Repositories;
 using ClubIS.DataAccessLayer.Repositories.Interfaces;
-using ClubIS.IdentityStore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -44,11 +44,8 @@ namespace ClubIS.WebAPI
                 options.EnableSensitiveDataLogging();
             });
 
-            services.AddDbContext<IdentityStoreDbContext>(options =>
-              options.UseSqlServer(Configuration.GetConnectionString("IdentityStore")));
-
-            services.AddIdentity<IdentityStoreUser, IdentityStoreRole>()
-                .AddEntityFrameworkStores<IdentityStoreDbContext>()
+            services.AddIdentity<UserIdentity, IdentityRole<int>>()
+                .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
 
             services.AddAutoMapper(typeof(AutoMapperProfile));
@@ -105,6 +102,8 @@ namespace ClubIS.WebAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserFacade, UserFacade>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAuthFacade, AuthFacade>();
             services.AddControllers();
 
             services.AddApiVersioning(x =>
@@ -130,11 +129,10 @@ namespace ClubIS.WebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider, DataContext dataContext, IdentityStoreDbContext identityStoreDbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider, DataContext dataContext)
         {
             // migrate any database changes on startup (includes initial db creation)
-            dataContext.Database.Migrate();
-            identityStoreDbContext.Database.Migrate();
+           dataContext.Database.Migrate();
 
             if (env.IsDevelopment())
             {
