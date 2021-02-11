@@ -32,7 +32,10 @@
             </NestedList>
         </MudListItem>
     </MudList>
-    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-3" OnClick="SaveChanges">Save</MudButton>
+    @if (isAdmin)
+    {
+        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-3" OnClick="SaveChanges">Save</MudButton>
+    }
 </MudContainer>
 
 @code {

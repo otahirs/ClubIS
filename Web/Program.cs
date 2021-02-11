@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -26,6 +27,7 @@ namespace ClubIS.Web
                 options.AddPolicy(Policy.Events, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Events)));
                 options.AddPolicy(Policy.Users, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Users)));
                 options.AddPolicy(Policy.Finance, policy => policy.RequireAssertion(ctx => ctx.User.IsInRole(Role.Admin) || ctx.User.IsInRole(Role.Finance)));
+                options.AddPolicy("ShowAdminMenu", policy => policy.RequireAssertion(ctx => Role.GetAll().Any(r => ctx.User.IsInRole(r))));
             });
             builder.Services.AddScoped<Searching>();
             builder.Services.AddScoped<IdentityAuthenticationStateProvider>();

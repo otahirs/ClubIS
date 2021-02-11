@@ -6,8 +6,10 @@
     <MudNavLink Href="/users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.People">Member list</MudNavLink>
     <MudNavLink Href="/finance" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AccountBalanceWallet">Finance</MudNavLink>
     <MudNavLink Href="/settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">Settings</MudNavLink>
-    <MudDivider DividerType="DividerType.Middle" Class="mt-10" />
-    <br />
+    <AuthorizeView Policy="ShowAdminMenu">
+        <MudDivider DividerType="DividerType.Middle" Class="mt-10" />
+        <br />
+    </AuthorizeView>
     <AuthorizeView Policy=@Policy.News>
         <MudNavLink Href="/admin/news" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Message">News</MudNavLink>
     </AuthorizeView>

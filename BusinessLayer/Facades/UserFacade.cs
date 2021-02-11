@@ -12,10 +12,8 @@ namespace ClubIS.BusinessLayer.Facades
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
-        private readonly IMapper _mapper;
         public UserFacade(IUnitOfWork unitOfWork, IUserService userService, IMapper mapper)
         {
-            _mapper = mapper;
             _unitOfWork = unitOfWork;
             _userService = userService;
         }
