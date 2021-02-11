@@ -93,6 +93,7 @@
         {
             MemberUserEditDTO sendData = new MemberUserEditDTO()
             {
+                Id = User.Id,
                 SiCards = User.SiCards
             };
             await Http.PutAsJsonAsync<MemberUserEditDTO>("Users/member-edit", sendData);
