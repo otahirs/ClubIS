@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ClubIS.DataAccessLayer.Migrations
 {
-    public partial class init : Migration
+    public partial class initPostgres : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,11 +12,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,22 +27,22 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,22 +53,22 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "Events",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Place = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Organizer = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    AccommodationOption = table.Column<int>(type: "int", nullable: false),
-                    TransportOption = table.Column<int>(type: "int", nullable: false),
-                    Link = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Leader = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EventType = table.Column<int>(type: "int", nullable: false),
-                    EventState = table.Column<int>(type: "int", nullable: false),
-                    EventProperties = table.Column<int>(type: "int", nullable: false),
-                    Entries = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Place = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Organizer = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    AccommodationOption = table.Column<int>(type: "integer", nullable: false),
+                    TransportOption = table.Column<int>(type: "integer", nullable: false),
+                    Link = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Note = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    Leader = table.Column<string>(type: "text", nullable: true),
+                    EventType = table.Column<int>(type: "integer", nullable: false),
+                    EventState = table.Column<int>(type: "integer", nullable: false),
+                    EventProperties = table.Column<int>(type: "integer", nullable: false),
+                    Entries = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,9 +79,9 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "FinanceAccounts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreditBalance = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CreditBalance = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,12 +92,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "MemberFees",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    MemberFeeType = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    Description = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    Amount = table.Column<int>(type: "integer", nullable: false),
+                    MemberFeeType = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -107,11 +108,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<int>(type: "integer", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -128,11 +129,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -149,10 +150,10 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -169,8 +170,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    RoleId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -193,10 +194,10 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -213,10 +214,10 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "EventClassOption",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EventId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    EventId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -233,10 +234,10 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "EventDeadline",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EventId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Deadline = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EventId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -253,11 +254,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "EventStage",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EventId = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    EventId = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp without time zone", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -274,20 +275,20 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    AccountId = table.Column<int>(type: "int", nullable: false),
-                    FinanceSupervisorId = table.Column<int>(type: "int", nullable: true),
-                    MemberFeeId = table.Column<int>(type: "int", nullable: true),
-                    Firstname = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    RegistrationNumber = table.Column<string>(type: "nvarchar(7)", maxLength: 7, nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Nationality = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    Gender = table.Column<int>(type: "int", nullable: false),
-                    Licence = table.Column<int>(type: "int", nullable: false),
-                    AccountState = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    AccountId = table.Column<int>(type: "integer", nullable: false),
+                    FinanceSupervisorId = table.Column<int>(type: "integer", nullable: true),
+                    MemberFeeId = table.Column<int>(type: "integer", nullable: true),
+                    Firstname = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Surname = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    RegistrationNumber = table.Column<string>(type: "character varying(7)", maxLength: 7, nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    Nationality = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Phone = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: true),
+                    Gender = table.Column<int>(type: "integer", nullable: false),
+                    Licence = table.Column<int>(type: "integer", nullable: false),
+                    AccountState = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -316,12 +317,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "Address",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    StreetAndNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    City = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    PostalCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    StreetAndNumber = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    City = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: true),
+                    PostalCode = table.Column<string>(type: "character varying(6)", maxLength: 6, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -338,17 +339,17 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "EventEntries",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    EventId = table.Column<int>(type: "int", nullable: false),
-                    Class = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    HasClubAccommodation = table.Column<bool>(type: "bit", nullable: false),
-                    HasClubTransport = table.Column<bool>(type: "bit", nullable: false),
-                    NoteForClub = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    NoteForOrganisator = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    SiCardNumber = table.Column<int>(type: "int", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    EventId = table.Column<int>(type: "integer", nullable: false),
+                    Class = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
+                    HasClubAccommodation = table.Column<bool>(type: "boolean", nullable: false),
+                    HasClubTransport = table.Column<bool>(type: "boolean", nullable: false),
+                    NoteForClub = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    NoteForOrganisator = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    SiCardNumber = table.Column<int>(type: "integer", nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -371,12 +372,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "News",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Text = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Text = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -393,17 +394,17 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "Payments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ExecutorId = table.Column<int>(type: "int", nullable: true),
-                    SourceAccountId = table.Column<int>(type: "int", nullable: true),
-                    RecipientAccountId = table.Column<int>(type: "int", nullable: true),
-                    EventId = table.Column<int>(type: "int", nullable: true),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreditAmount = table.Column<int>(type: "int", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    PaymentState = table.Column<int>(type: "int", nullable: false),
-                    StornoNote = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ExecutorId = table.Column<int>(type: "integer", nullable: true),
+                    SourceAccountId = table.Column<int>(type: "integer", nullable: true),
+                    RecipientAccountId = table.Column<int>(type: "integer", nullable: true),
+                    EventId = table.Column<int>(type: "integer", nullable: true),
+                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CreditAmount = table.Column<int>(type: "integer", nullable: false),
+                    Message = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    PaymentState = table.Column<int>(type: "integer", nullable: false),
+                    StornoNote = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -438,11 +439,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "SiCard",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Number = table.Column<int>(type: "int", nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Number = table.Column<int>(type: "integer", nullable: false),
+                    IsDefault = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -459,8 +460,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "User_EntriesSupervisor",
                 columns: table => new
                 {
-                    EntriesSupervisorId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    EntriesSupervisorId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -470,7 +471,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                         column: x => x.EntriesSupervisorId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_User_EntriesSupervisor_Users_UserId",
                         column: x => x.UserId,
@@ -483,8 +484,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "EvenEntry_EventStage",
                 columns: table => new
                 {
-                    EventEntryId = table.Column<int>(type: "int", nullable: false),
-                    EventStageId = table.Column<int>(type: "int", nullable: false)
+                    EventEntryId = table.Column<int>(type: "integer", nullable: false),
+                    EventStageId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -506,12 +507,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "a9e019cd-8bea-40fb-a895-9b43e8b0f264", "admin", "ADMIN" },
-                    { 2, "4238fd5b-4237-4cb7-98ac-42be3d05150b", "entries", "ENTRIES" },
-                    { 3, "de7f5464-8508-462b-a169-1f2a78d71b0b", "events", "EVENTS" },
-                    { 4, "19c6377f-83e5-4310-a54e-a33da220c26f", "finance", "FINANCE" },
-                    { 5, "563add47-a039-4cc2-962a-cfe996020862", "news", "NEWS" },
-                    { 6, "2abaa507-8f3a-4b1a-863e-343b0a691cf5", "users", "USERS" }
+                    { 1, "03a0a046-ab1f-406c-a099-e59d0cf721fc", "admin", "ADMIN" },
+                    { 2, "5d3ffa32-4b30-496c-8e4e-3b9fc00b95ae", "entries", "ENTRIES" },
+                    { 3, "eb1ffc08-ccce-430e-b8bd-7c460a07823b", "events", "EVENTS" },
+                    { 4, "4ee8d977-820d-4d85-9341-61ca78d10694", "finance", "FINANCE" },
+                    { 5, "ffff1a4d-2cd4-46cd-8a00-c663e1a109b1", "news", "NEWS" },
+                    { 6, "e372f28c-6b3e-491b-8cbb-3f96a34487cf", "users", "USERS" }
                 });
 
             migrationBuilder.InsertData(
@@ -519,8 +520,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "4af1802c-6a65-4c87-882d-e150dffd8757", null, false, false, null, null, "MATEJ", "AQAAAAEAACcQAAAAEIFR/2pwNK85F0E8gTKBSVGBXGmmPZYLOHwLkMWHePgSTnNpOknmdjPisptqZZPbFw==", null, false, "", false, "matej" },
-                    { 2, 0, "1bc79641-cae0-4194-ac24-05ab7f8fda3a", null, false, false, null, null, "KATKA", "AQAAAAEAACcQAAAAEGnm5vSQcWv6LkW66CsKTCPjanu+fAelUpE5UK5fub0j8q/iBH5kp/uFARDR4NHOLA==", null, false, "", false, "katka" }
+                    { 1, 0, "c2248128-2d3d-4ba9-adec-846b3039dc5d", null, false, false, null, null, "MATEJ", "AQAAAAEAACcQAAAAEFDaf75EjJ7WrA+w+v15E9EC/7ZgKeMNyO+fxUNAXoGpoOedvRJNnwMSMH7sSDd1Gw==", null, false, "", false, "matej" },
+                    { 2, 0, "9a08a220-485b-4209-bd6c-f69d656454c0", null, false, false, null, null, "KATKA", "AQAAAAEAACcQAAAAEH+jmR+VWRxvRUiXbeCgzxFNDvQpiwSj/tchCleui0w+9zM2e4SBzjtp/qfDvVHWEw==", null, false, "", false, "katka" }
                 });
 
             migrationBuilder.InsertData(
@@ -647,8 +648,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -674,8 +674,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_EvenEntry_EventStage_EventStageId",
