@@ -47,6 +47,7 @@ namespace ClubIS.BusinessLayer.Facades
                     RegistrationNumber = parameters.RegistrationNumber
                 };
                 await _userService.Create(user);
+                await _unitOfWork.Save();
             }
             return result;
         }
