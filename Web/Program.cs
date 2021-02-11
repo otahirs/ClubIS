@@ -4,7 +4,6 @@ using ClubIS.Web.Services.Implementations;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using MudBlazor;
 using MudBlazor.Services;
 using System;
 using System.Net.Http;
@@ -34,10 +33,7 @@ namespace ClubIS.Web
             builder.Services.AddScoped<IAuthorizeApi, AuthorizeApi>();
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress + "api/v1/") });
-            builder.Services.AddMudBlazorDom();
-            builder.Services.AddMudBlazorDialog();
-            builder.Services.AddMudBlazorSnackbar();
-            builder.Services.AddMudBlazorResizeListener();
+            builder.Services.AddMudServices();
 
             await builder.Build().RunAsync();
         }
