@@ -30,19 +30,21 @@ namespace ClubIS.BusinessLayer
             CreateMap<PaymentGiveCreditDTO, PaymentEditDTO>();
             CreateMap<PaymentTakeCreditDTO, PaymentEditDTO>();
             CreateMap<PaymentUserTransferDTO, PaymentEditDTO>().ReverseMap();
+            CreateMap<PaymentEntryListDTO, PaymentEditDTO>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.PaymentId));
             CreateMap<Payment, PaymentListDTO>()
                 .ForMember(d => d.ExecutorName, opt => opt.MapFrom(s => s.ExecutorId.HasValue ? $"{s.Executor.Firstname} {s.Executor.Surname}" : ""))
                 .ForMember(d => d.SourceAccountName, opt => opt.MapFrom(s => $"{s.SourceAccount.Owner.Firstname} {s.SourceAccount.Owner.Surname}"))
                 .ForMember(d => d.TargetAccountName, opt => opt.MapFrom(s => $"{s.RecipientAccount.Owner.Firstname} {s.RecipientAccount.Owner.Surname}"))
                 .ForMember(d => d.EventName, opt => opt.MapFrom(s => s.EventId.HasValue ? s.Event.Name : ""));
             CreateMap<Payment, PaymentEntryListDTO>()
-                .ForMember(d => d.Firstname, opt => opt.MapFrom(s => s.RecipientAccount.Owner.Firstname))
-                .ForMember(d => d.Surname, opt => opt.MapFrom(s => s.RecipientAccount.Owner.Surname))
-                .ForMember(d => d.RegistrationNumber, opt => opt.MapFrom(s => s.RecipientAccount.Owner.RegistrationNumber))
-                .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.RecipientAccount.Owner.Id))
+                .ForMember(d => d.Name, opt => opt.MapFrom(s => s.SourceAccount.Owner.Surname + " " + s.SourceAccount.Owner.Firstname))
+                .ForMember(d => d.RegistrationNumber, opt => opt.MapFrom(s => s.SourceAccount.Owner.RegistrationNumber))
+                .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.SourceAccount.Owner.Id))
                 .ForMember(d => d.PaymentId, opt => opt.MapFrom(s => s.Id));
             CreateMap<User, UserAdministrationDTO>().ReverseMap();
-            CreateMap<User, FinanceUserListDTO>().ReverseMap();
+            CreateMap<User, FinanceUserListDTO>()
+                .ForMember(d => d.CreditBalance, opt => opt.MapFrom(s => s.Account.CreditBalance));
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<User, MemberUserEditDTO>().ReverseMap();
             CreateMap<User, UserEntriesSupervisedListDTO>().ReverseMap();

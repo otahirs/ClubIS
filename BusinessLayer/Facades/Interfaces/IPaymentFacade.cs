@@ -11,6 +11,8 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
         Task Create(PaymentUserTransferDTO p);
         Task Create(PaymentGiveCreditDTO payment, int executorId);
         Task Create(PaymentTakeCreditDTO payment, int executorId);
+        Task Create(PaymentEntryListDTO payment, int executorId);
+        Task Update(PaymentEntryListDTO payment, int executorId);
         Task<IEnumerable<PaymentListDTO>> GetAll();
         Task<IEnumerable<FinanceStatementDTO>> GetAllFinanceStatement(int userId);
         Task<IEnumerable<FinanceUserListDTO>> GetAllUserCreditList();
@@ -21,5 +23,6 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
         Task CreatMemberFee(MemberFeeDTO feeType);
         Task UpdateMemberFee(MemberFeeDTO feeType);
         Task DeleteMemberFee(int id);
+        Task UpdatePaymentEntryList(IEnumerable<PaymentEntryListDTO> payments, int executorId);
     }
 }

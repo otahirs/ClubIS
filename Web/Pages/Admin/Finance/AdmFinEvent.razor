@@ -1,0 +1,72 @@
+﻿@page "/admin/finance/event/{eventId:int}"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@attribute [Authorize(Policy = Policy.Finance)]
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
+
+    <MudButton StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="@(()=>NavigationManager.NavigateTo("/admin/finance"))" Class="ml-3">back to finances</MudButton>
+    @if (e != null)
+    {
+        <EventHeader Event="e" />
+    }
+    @if (eventPayments != null)
+    {
+        <MudForm @ref="form">
+            <MudTable Items="@eventPayments">
+                <HeaderContent>
+                    <MudTh>Name</MudTh>
+                    <MudTh>RegNum</MudTh>
+                    <MudTh>Current Amount</MudTh>
+                    <MudTh>New Amount</MudTh>
+                    <MudTh>Note</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.Name</MudTd>
+                    <MudTd>@context.RegistrationNumber</MudTd>
+                    <MudTd>@(oldAmounts[context.PaymentId] != 0 ? oldAmounts[context.PaymentId] : "—")</MudTd>
+                    <MudTd>
+                        <MudTextField @bind-Value="@context.CreditAmount" For="(()=> context.CreditAmount)" />
+                    </MudTd>
+                    <MudTd>
+                        <MudTextField @bind-Value="@context.Message" For="(()=> context.Message)" />
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Class="mt-4">Save</MudButton>
+        </MudForm>
+    }
+
+
+    </MudContainer>
+
+@code {
+    [Parameter]
+    public int EventId { get; set; }
+    private EventDTO e;
+    private List<PaymentEntryListDTO> eventPayments;
+    private Dictionary<int, int> oldAmounts;
+    private MudForm form;
+
+    protected override async Task OnInitializedAsync()
+    {
+        e = await Http.GetFromJsonAsync<EventDTO>($"Events/{EventId}");
+        await ReloadPayments();
+    }
+
+    private async Task ReloadPayments()
+    {
+        eventPayments = await Http.GetFromJsonAsync<List<PaymentEntryListDTO>>($"Payments/events/{EventId}");
+        oldAmounts = eventPayments.ToDictionary(p => p.PaymentId, p => p.CreditAmount ?? 0);
+    }
+
+    private async Task Submit()
+    {
+        form.Validate();
+        if (form.IsValid)
+        {
+            await Http.PostAsJsonAsync($"Payments/events/{EventId}", eventPayments);
+            await ReloadPayments();
+        }
+    }
+}

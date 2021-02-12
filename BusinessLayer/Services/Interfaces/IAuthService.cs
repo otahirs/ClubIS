@@ -17,5 +17,6 @@ namespace ClubIS.BusinessLayer.Services.Interfaces
         Task<bool> CheckPassword(UserIdentity userIdentity, string password);
         Task<IdentityResult> ChangeLogin(UserIdentity userIdentity, string newUsername);
         Task<IdentityResult> ChangePassword(UserIdentity userIdentity, string newPassword);
+        Task<UserRolesDTO> GetRoles(int userId);
     }
 }

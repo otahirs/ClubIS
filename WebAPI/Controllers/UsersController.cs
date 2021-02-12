@@ -173,5 +173,17 @@ namespace ClubIS.WebAPI.Controllers
             await _userFacade.UpdateSupervisions(user);
             return Ok();
         }
+
+        [HttpGet("permissions")]
+        [Authorize(Policy = Policy.Users)]
+        public async Task<ActionResult<IEnumerable<UserPermListDTO>>> GetAllWithPermissions()
+        {
+            IEnumerable<UserPermListDTO> users = await _userFacade.GetAllWithPermissions();
+            if (users == null)
+            {
+                return NotFound();
+            }
+            return Ok(users);
+        }
     }
 }

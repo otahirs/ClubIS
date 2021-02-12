@@ -89,5 +89,16 @@ namespace ClubIS.BusinessLayer.Services
         {
             return await _unitOfWork.Payments.GetEventPaymentSumByEventId(id);
         }
+
+        public async Task Update(PaymentEditDTO payment)
+        {
+            Payment paymentEntity = await _unitOfWork.Payments.GetById(payment.Id);
+            _mapper.Map(payment, paymentEntity);
+        }
+
+        public async Task<PaymentEditDTO> GetById(int id)
+        {
+            return _mapper.Map<PaymentEditDTO>(await _unitOfWork.Payments.GetById(id));
+        }
     }
 }

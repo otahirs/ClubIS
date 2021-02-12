@@ -58,6 +58,11 @@ namespace ClubIS.BusinessLayer.Services
             return new UserRolesDTO() { UserId = userIdentity.Id, Roles = rolesList };
         }
 
+        public async Task<UserRolesDTO> GetRoles(int userId)
+        {
+            return await GetRoles(await GetIdentity(userId));
+        }
+
         public async Task<IdentityResult> ChangeRoles(UserRolesDTO newRoles)
         {
             UserIdentity userIdentity = await GetIdentity(newRoles.UserId);

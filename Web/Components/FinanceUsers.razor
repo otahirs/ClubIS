@@ -11,10 +11,10 @@
 }
 else
 {
+    <MudPaper Class="d-flex justify-space-between" Elevation="0">
+        <MudTextField Class="ma-4" @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    </MudPaper>
     <MudTable Items="users" T="FinanceUserListDTO" Dense="true" Filter="Filter" Hover="true" SortLabel="Sort By" OnRowClick="Navigate">
-        <ToolBarContent>
-            <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
-        </ToolBarContent>
         <HeaderContent>
             <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="((FinanceUserListDTO x)=>x.Surname)">Name</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortBy="((FinanceUserListDTO x)=>x.RegistrationNumber)">RegNum</MudTableSortLabel></MudTh>

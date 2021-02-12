@@ -59,5 +59,11 @@ namespace ClubIS.BusinessLayer.Services
             return _mapper.Map<IEnumerable<EventEntryDTO>>(list);
         }
 
+        public async Task<IEnumerable<EventEntryDTO>> GetAllByUserId(int userId)
+        {
+            IEnumerable<EventEntry> list = await _unitOfWork.Entry.GetAllByUserId(userId);
+            return _mapper.Map<IEnumerable<EventEntryDTO>>(list);
+        }
+
     }
 }
