@@ -11,17 +11,16 @@
     }
     else
     {
+        <MudPaper Class="d-flex justify-space-between" Elevation="0">
+            <MudTextField Class="ma-4" @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+            <MudSelect @bind-Value="searchType" Label="Filter EventType" Class=" ma-4">
+                @foreach (var type in types)
+                    {
+                    <MudSelectItem Value="@type" />
+                    }
+            </MudSelect>
+        </MudPaper>
         <MudTable Items="@events" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListDTO" Hover="true" Dense="true">
-            <ToolBarContent>
-                <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
-                <MudToolBarSpacer />
-                <MudSelect @bind-Value="searchType" Label="Filter EventType" Class="ml-3">
-                    @foreach (var type in types)
-                        {
-                        <MudSelectItem Value="@type" />
-                        }
-                </MudSelect>
-            </ToolBarContent>
             <HeaderContent>
                 <MudTh>Date</MudTh>
                 <MudTh>Name</MudTh>

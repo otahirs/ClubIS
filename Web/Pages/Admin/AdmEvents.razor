@@ -4,29 +4,24 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
-    <MudText Typo="Typo.h3" GutterBottom="true">Events Admin</MudText>
-    <MudToggleIconButton Toggled="@includeArchivedEvents" ToggledChanged="(toggleValue) => ArchivedOptionChanged(toggleValue)"
-                         Icon="@Icons.Material.Filled.Block" Color="@Color.Error"
-                         ToggledIcon="@Icons.Custom.Uncategorized.AlertSuccess" ToggledColor="@Color.Success" />
+    <MudText Typo="Typo.h3" GutterBottom="true">Admin events</MudText>
 
-    <span>Archived Events @(includeArchivedEvents ? "included" : "excluded")</span>
     @if (displayedEvents == null)
     {
         <MudProgressCircular Color="Color.Default" Indeterminate="true" />
     }
     else
     {
+        <MudPaper Class="d-flex justify-space-between" Elevation="0">
+            <MudTextField Class="ma-4" @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+            <MudSelect @bind-Value="searchType" Label="Filter EventType" Class=" ma-4">
+                @foreach (var type in types)
+                    {
+                    <MudSelectItem Value="@type" />
+                    }
+            </MudSelect>
+        </MudPaper>
         <MudTable Items="@displayedEvents" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@((TableRowClickEventArgs<EventListDTO> e)=>Navigate(e))" T="EventListDTO" Hover="true" Dense="true">
-            <ToolBarContent>
-                <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
-                <MudToolBarSpacer />
-                <MudSelect @bind-Value="searchType" Label="Filter EventType" Class="ml-3">
-                    @foreach (var type in types)
-                        {
-                        <MudSelectItem Value="@type" />
-                        }
-                </MudSelect>
-            </ToolBarContent>
             <HeaderContent>
                 <MudTh>Date</MudTh>
                 <MudTh>Name</MudTh>
@@ -42,8 +37,18 @@
                 <MudTd DataLabel="Deadlines">@GetDeadlines(context.Deadlines)</MudTd>
             </RowTemplate>
         </MudTable>
-        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="Navigate" Class="ml-auto mt-2">Event</MudButton>
 
+        <MudButton Class="mt-4" ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="Navigate">Event</MudButton>
+
+        <div style="float:right;" class="mt-2">
+            <MudToggleIconButton Toggled="@includeArchivedEvents"
+                                 ToggledChanged="(toggleValue) => ArchivedOptionChanged(toggleValue)"
+                                 Icon="@Icons.Material.Filled.Block"
+                                 ToggledIcon="@Icons.Custom.Uncategorized.AlertSuccess"
+                                 ToggledColor="@Color.Success" />
+
+            Archived events @(includeArchivedEvents ? "included" : "excluded")
+        </div>
     }
 </MudContainer>
 
@@ -53,14 +58,14 @@
     private List<string> types;
     private string searchString = "";
     private string searchType = "";
-    private bool includeArchivedEvents = true;
+    private bool includeArchivedEvents = false;
 
     protected override async Task OnInitializedAsync()
     {
         events = await Http.GetFromJsonAsync<EventListDTO[]>($"Events");
         types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
         types.Insert(0, "");
-        DisplayAllEvents();
+        DisplayNotArchivedEvents();
     }
 
     public void ArchivedOptionChanged(bool toggleValue)
