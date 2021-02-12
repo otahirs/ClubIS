@@ -31,7 +31,7 @@
     <AuthorizeView>
         <Authorized>
             <MudText Class="mx-2">@context.User.Identity.Name</MudText>
-            <MudButton OnClick="@(async ()=> await authStateProvider.Logout())">Logout</MudButton>
+            <MudButton OnClick="@(()=> navigationManager.NavigateTo("/logout"))">Logout</MudButton>
         </Authorized>
         <NotAuthorized>
             <MudButton OnClick="@(()=> navigationManager.NavigateTo("/login"))">Login</MudButton>
