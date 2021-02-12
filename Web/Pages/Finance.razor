@@ -22,7 +22,7 @@
         <br />
         <MudGrid>
             <MudItem md="6" xs="12">
-                 <FinanceUserCreditTransfer SourceUserName="@currentStatement.Name" SourceUserId="@currentStatement.UserId" />
+                 <FinanceUserCreditTransfer SourceUserName="@currentStatement.Name" SourceUserId="@currentStatement.UserId" OnAfterSubmit="ReloadStatements" />
             </MudItem>
         </MudGrid>
     }
@@ -34,6 +34,11 @@
     private FinanceStatementDTO currentStatement;
 
     protected override async Task OnInitializedAsync()
+    {
+        await ReloadStatements();
+    }
+
+    private async Task ReloadStatements()
     {
         int userId = await authState.GetUserId();
         financeStatements = await Http.GetFromJsonAsync<List<FinanceStatementDTO>>($"Payments/statements/{userId}");

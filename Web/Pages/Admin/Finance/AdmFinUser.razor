@@ -50,7 +50,7 @@
                 </EditForm>
             </MudItem>
             <MudItem md="6" xs="12">
-                <FinanceUserCreditTransfer SourceUserId="@financeStatement.UserId" SourceUserName="@financeStatement.Name" />
+                <FinanceUserCreditTransfer SourceUserId="@financeStatement.UserId" SourceUserName="@financeStatement.Name" OnAfterSubmit="ReloadFinanceStatement" />
             </MudItem>
         </MudGrid>
     }
