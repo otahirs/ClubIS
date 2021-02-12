@@ -506,12 +506,12 @@ namespace ClubIS.DataAccessLayer.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "a9e019cd-8bea-40fb-a895-9b43e8b0f264", "admin", "ADMIN" },
-                    { 2, "4238fd5b-4237-4cb7-98ac-42be3d05150b", "entries", "ENTRIES" },
-                    { 3, "de7f5464-8508-462b-a169-1f2a78d71b0b", "events", "EVENTS" },
-                    { 4, "19c6377f-83e5-4310-a54e-a33da220c26f", "finance", "FINANCE" },
-                    { 5, "563add47-a039-4cc2-962a-cfe996020862", "news", "NEWS" },
-                    { 6, "2abaa507-8f3a-4b1a-863e-343b0a691cf5", "users", "USERS" }
+                    { 1, "3b7764b1-ccab-4c02-8e1e-10e62574c83c", "admin", "ADMIN" },
+                    { 2, "0115ca95-4989-4455-b065-88e7cd5e6a2e", "entries", "ENTRIES" },
+                    { 3, "d1aed71f-7301-4433-9b13-bd37306b81b1", "events", "EVENTS" },
+                    { 4, "cb700a47-dc0f-4d8d-82ba-4d71db9bfa31", "finance", "FINANCE" },
+                    { 5, "429f9368-ff5c-43e5-b021-888ff9ca1d1b", "news", "NEWS" },
+                    { 6, "08c86235-da40-49bd-aae7-210b8f10d264", "users", "USERS" }
                 });
 
             migrationBuilder.InsertData(
@@ -519,8 +519,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "4af1802c-6a65-4c87-882d-e150dffd8757", null, false, false, null, null, "MATEJ", "AQAAAAEAACcQAAAAEIFR/2pwNK85F0E8gTKBSVGBXGmmPZYLOHwLkMWHePgSTnNpOknmdjPisptqZZPbFw==", null, false, "", false, "matej" },
-                    { 2, 0, "1bc79641-cae0-4194-ac24-05ab7f8fda3a", null, false, false, null, null, "KATKA", "AQAAAAEAACcQAAAAEGnm5vSQcWv6LkW66CsKTCPjanu+fAelUpE5UK5fub0j8q/iBH5kp/uFARDR4NHOLA==", null, false, "", false, "katka" }
+                    { 1, 0, "549207d7-d987-4bc8-90d1-4d491e60979e", null, false, false, null, null, "MATEJ", "AQAAAAEAACcQAAAAEKec1Afnjr0ZqT69v9wvcqO1IeDFXlmGMnxjLe1CV7/4h5UFDjlRsl8YIGIc9nsIUw==", null, false, "", false, "matej" },
+                    { 2, 0, "f6691153-db87-4b70-8d7a-c87190018e59", null, false, false, null, null, "KATKA", "AQAAAAEAACcQAAAAEIYxEcVgnxlvgWhUbNQcsSA1Bt9SNT/8wkeMrV2oqe0xvXJ5/oido7+NoYo9MWlHbw==", null, false, "", false, "katka" }
                 });
 
             migrationBuilder.InsertData(
@@ -537,7 +537,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                 columns: new[] { "Id", "CreditBalance" },
                 values: new object[,]
                 {
-                    { 1, 0 },
+                    { 1, -1000 },
                     { 2, 0 }
                 });
 
@@ -580,7 +580,7 @@ namespace ClubIS.DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccountId", "AccountState", "DateOfBirth", "Email", "FinanceSupervisorId", "Firstname", "Gender", "Licence", "MemberFeeId", "Nationality", "Phone", "RegistrationNumber", "Surname" },
-                values: new object[] { 1, 1, 3, null, "tst2@eof.cz", null, "Matěj", 0, 0, null, "Česká republika", null, "***REMOVED***", "***REMOVED***" });
+                values: new object[] { 1, 1, 0, null, "tst2@eof.cz", null, "Matěj", 0, 0, null, "Česká republika", null, "***REMOVED***", "***REMOVED***" });
 
             migrationBuilder.InsertData(
                 table: "Address",
@@ -590,7 +590,7 @@ namespace ClubIS.DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "EventEntries",
                 columns: new[] { "Id", "Class", "EventId", "HasClubAccommodation", "HasClubTransport", "NoteForClub", "NoteForOrganisator", "SiCardNumber", "Status", "UserId" },
-                values: new object[] { 2, "H20", 2, true, true, null, null, ***REMOVED***, 0, 1 });
+                values: new object[] { 1, "A", 1, true, true, null, null, ***REMOVED***, 0, 1 });
 
             migrationBuilder.InsertData(
                 table: "News",
@@ -600,7 +600,7 @@ namespace ClubIS.DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "Payments",
                 columns: new[] { "Id", "CreditAmount", "Date", "EventId", "ExecutorId", "Message", "PaymentState", "RecipientAccountId", "SourceAccountId", "StornoNote" },
-                values: new object[] { 1, 1000, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, null, 0, 2, 1, null });
+                values: new object[] { 1, 1000, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, null, 0, null, 1, null });
 
             migrationBuilder.InsertData(
                 table: "SiCard",
@@ -620,7 +620,7 @@ namespace ClubIS.DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "EventEntries",
                 columns: new[] { "Id", "Class", "EventId", "HasClubAccommodation", "HasClubTransport", "NoteForClub", "NoteForOrganisator", "SiCardNumber", "Status", "UserId" },
-                values: new object[] { 1, "A", 1, true, true, null, null, ***REMOVED***, 0, 2 });
+                values: new object[] { 2, "H20", 1, true, true, null, null, ***REMOVED***, 0, 2 });
 
             migrationBuilder.InsertData(
                 table: "SiCard",
