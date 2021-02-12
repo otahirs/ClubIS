@@ -46,16 +46,16 @@
                                     <MudCheckBox T="bool" @bind-Checked="@sendEntry.HasClubAccommodation" Label="Accommodation" />
                                 }
 
-                                <MudSelect T="string" Label="SI card number" @bind-Value="@siCard" Variant="Variant.Outlined">
+                                <MudSelect T="int" Label="SI card number" Variant="Variant.Outlined" Value="siCard" ValueChanged="SiChanged">
                                     @foreach (var card in GetSiCards(sendEntry.UserId))
                                     {
-                                        <MudSelectItem Value="@card.Number.ToString()">@card.Number.ToString()</MudSelectItem>
+                                        <MudSelectItem Value="@card.Number">@card.Number.ToString()</MudSelectItem>
                                     }
-                                    <MudSelectItem Value="@custom">@custom</MudSelectItem>
+                                    <MudSelectItem Value="@custom">Custom</MudSelectItem>
                                 </MudSelect>
-                                @if (siCard.Equals(custom))
+                                @if (siCard == custom)
                                 {
-                                    <MudTextField Label="Custom SI card number" @bind-Value="sendEntry.SiCardNumber" For="@(() => sendEntry.SiCardNumber)" Variant="Variant.Outlined" />
+                                    <MudTextField T="int?" @ref="@customSiField" Label="Custom SI card number" For="@(() => sendEntry.SiCardNumber)" Variant="Variant.Outlined" />
                                 }
 
                                 <MudTextField Label="Note(intern)" @bind-Value="sendEntry.NoteForClub" For="@(() => sendEntry.NoteForClub)" Variant="Variant.Outlined" />
@@ -149,8 +149,9 @@
     [Parameter]
     public int eventId { get; set; }
     private int userId;
-    private string custom { get; set; } = "Custom";
-    private string siCard { get; set; }
+    private MudTextField<int?> customSiField;
+    private int custom { get; set; } = -1;
+    private int siCard { get; set; }
 
     private EventDTO e;
     private UserEntryListDTO users;
@@ -179,7 +180,6 @@
         sendEntry.Class = e.ClassOptions.ElementAt(0).Name;
         sendEntry.EnteredStages = new HashSet<EventStageDTO>();
         e.EventStages.ToList().ForEach(s => s.Selected = false);
-        siCard = (GetSiCards(id).Count > 0) ? (GetSiCards(id).FirstOrDefault(s => s.IsDefault)).Number.ToString() : custom;
     }
 
     private void UpdateData(int id)
@@ -191,12 +191,12 @@
         }
         else
         {
-            siCard = sendEntry.SiCardNumber.ToString();
             foreach (var stage in e.EventStages)
             {
                 stage.Selected = sendEntry.EnteredStages.Any(s => s.Id == stage.Id);
             }
         }
+        siCard = (GetSiCards(id).Count > 0) ? (GetSiCards(id).FirstOrDefault(s => s.IsDefault)).Number : custom;
     }
 
     private ISet<SiCardDTO> GetSiCards(int id)
@@ -206,8 +206,9 @@
 
     private async Task OnValidSubmit()
     {
+        sendEntry.SiCardNumber = (siCard == custom) ? customSiField.Value.GetValueOrDefault() : siCard;
         sendEntry.EnteredStages.Clear();
-        @foreach (var stage in e.EventStages)
+        foreach (var stage in e.EventStages)
         {
             if (stage.Selected)
             {
@@ -216,7 +217,6 @@
                 );
             }
         }
-        SetSiCard();
         if (sendEntry.Id == 0)
         {
             // add new
@@ -231,14 +231,6 @@
         await LoadEntries();
         UpdateData(sendEntry.UserId);
         StateHasChanged();
-    }
-
-    private void SetSiCard()
-    {
-        if (!(siCard.Equals(custom)))
-        {
-            sendEntry.SiCardNumber = Convert.ToInt32(siCard);
-        }
     }
 
     private async void RemoveEntry()
@@ -274,5 +266,16 @@
     {
         var maxDate = e.Deadlines.Select(x => x.Deadline).Max();
         return DateTime.Compare(DateTime.Today, maxDate) >= 0;
+    }
+
+    private async Task SiChanged(int value)
+    {
+        siCard = value;
+        if (siCard == custom)
+        {
+            StateHasChanged(); // schedules component rerender
+            await Task.Delay(1); // force rerender to be executed
+            await customSiField.FocusAsync();
+        }
     }
 }
