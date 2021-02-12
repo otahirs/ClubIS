@@ -11,5 +11,6 @@ namespace ClubIS.BusinessLayer.Services.Interfaces
         Task Create(EventEntryDTO entry);
         Task Update(EventEntryDTO entry);
         Task Delete(int id);
+        Task<IEnumerable<EventEntryDTO>> GetAllByUserId(int userId);
     }
 }

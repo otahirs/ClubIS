@@ -18,5 +18,6 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
         Task<UserEntryListDTO> GetAllEntriesSupervisorsById(int id);
 
         Task<UserSupervisionsDTO> GetUserSupervisions(int id);
+        Task<IEnumerable<UserPermListDTO>> GetAllWithPermissions();
     }
 }

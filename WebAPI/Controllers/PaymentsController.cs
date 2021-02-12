@@ -157,5 +157,31 @@ namespace ClubIS.WebAPI.Controllers
             await _paymentFacade.Create(payment, User.Identity.GetUserId());
             return Ok();
         }
+
+
+        [HttpGet("events/{eventId}")]
+        [Authorize(Policy = Policy.Finance)]
+        public async Task<ActionResult<IEnumerable<PaymentEntryListDTO>>> GetPaymentEntryList(int eventId)
+        {
+            IEnumerable<PaymentEntryListDTO> eventPayments = await _paymentFacade.GetPaymentEntryListByEventId(eventId);
+            if (eventPayments == null)
+            {
+                return NotFound();
+            }
+            return Ok(eventPayments);
+        }
+
+        [HttpPost("events/{eventId}")]
+        [Authorize(Policy = Policy.Finance)]
+        public async Task<ActionResult> UpdatePaymentEntryList([FromBody] IEnumerable<PaymentEntryListDTO> payments)
+        {
+            if (payments == null)
+            {
+                return BadRequest();
+            }
+
+            await _paymentFacade.UpdatePaymentEntryList(payments, User.Identity.GetUserId());
+            return Ok();
+        }
     }
 }

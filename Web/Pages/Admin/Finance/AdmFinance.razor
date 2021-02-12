@@ -7,12 +7,12 @@
     <MudText Typo="Typo.h3" GutterBottom="true">Admin finance</MudText>
     <MudTabs @ref="@tabs" Elevation="1">
         <MudTabPanel Text="Events" >
-            <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+            <MudContainer MaxWidth="MaxWidth.Large">
                 <FinanceEvents />
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Users">
-            <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+            <MudContainer MaxWidth="MaxWidth.Large">
                 <FinanceUsers />
             </MudContainer>
         </MudTabPanel>
@@ -22,7 +22,9 @@
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Claims">
-           <MudText>TODO</MudText>
+            <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+                <FinanceClaims />
+            </MudContainer>
         </MudTabPanel>
     </MudTabs>
 </MudContainer>

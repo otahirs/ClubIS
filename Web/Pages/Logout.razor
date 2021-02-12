@@ -1,0 +1,11 @@
+﻿@page "/logout"
+@inject NavigationManager navigationManager
+@inject IdentityAuthenticationStateProvider authStateProvider
+@code{
+
+    protected override async Task OnInitializedAsync()
+    {
+        await authStateProvider.Logout();
+        navigationManager.NavigateTo($"/");
+    }
+}

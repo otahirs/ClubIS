@@ -60,7 +60,7 @@ namespace ClubIS.DataAccessLayer
                 Email = "tst2@eof.cz",
                 Gender = Gender.Male,
                 Licence = Licence.C,
-                AccountState = AccountState.Archived
+                AccountState = AccountState.Active
             };
             User supervised = new User()
             {
@@ -86,7 +86,7 @@ namespace ClubIS.DataAccessLayer
             modelBuilder.Entity<FinanceAccount>().HasData(new FinanceAccount()
             {
                 Id = ID_1,
-                CreditBalance = 0,
+                CreditBalance = -1000,
             });
 
             modelBuilder.Entity<FinanceAccount>().HasData(new FinanceAccount()
@@ -216,7 +216,7 @@ namespace ClubIS.DataAccessLayer
             modelBuilder.Entity<EventEntry>().HasData(new EventEntry()
             {
                 Id = ID_1,
-                UserId = ID_2,
+                UserId = ID_1,
                 EventId = ID_1,
                 Class = "A",
                 SiCardNumber = ***REMOVED***,
@@ -227,8 +227,8 @@ namespace ClubIS.DataAccessLayer
             modelBuilder.Entity<EventEntry>().HasData(new EventEntry()
             {
                 Id = ID_2,
-                UserId = ID_1,
-                EventId = ID_2,
+                UserId = ID_2,
+                EventId = ID_1,
                 Class = "H20",
                 SiCardNumber = ***REMOVED***,
                 HasClubAccommodation = true,
@@ -240,7 +240,6 @@ namespace ClubIS.DataAccessLayer
                 Id = ID_1,
                 ExecutorId = ID_1,
                 SourceAccountId = ID_1,
-                RecipientAccountId = ID_2,
                 EventId = ID_1,
                 CreditAmount = 1000,
                 PaymentState = PaymentState.Ok

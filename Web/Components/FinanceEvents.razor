@@ -7,10 +7,16 @@
 }
 else
 {
+    <MudPaper Class="d-flex justify-space-between" Elevation="0">
+        <MudTextField Class="ma-4" @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+        <MudSelect @bind-Value="searchType" Label="Filter EventType" Class=" ma-4">
+            @foreach (var type in types)
+                {
+                <MudSelectItem Value="@type" />
+                }
+        </MudSelect>
+    </MudPaper>
     <MudTable Items="@events" T="EventListWithTotalCostsDTO" Dense="true" Hover="true" Filter="new Func<EventListWithTotalCostsDTO,bool>(FilterFunc)" OnRowClick="Navigate">
-        <ToolBarContent>
-            <MudTextField @bind-Value="searchString" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
-        </ToolBarContent>
         <HeaderContent>
             <MudTh>Date</MudTh>
             <MudTh>Name</MudTh>
@@ -33,20 +39,25 @@ else
 @code {
     public List<EventListWithTotalCostsDTO> events;
 
+    private List<string> types;
     string searchString = "";
+    string searchType = "";
 
     protected override async Task OnInitializedAsync()
     {
         events = await Http.GetFromJsonAsync<List<EventListWithTotalCostsDTO>>("Events/costs");
+
+        types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
+        types.Insert(0, "");
     }
 
     bool FilterFunc(EventListWithTotalCostsDTO e)
     {
-        if (searchString == null)
-            searchString = "";
-        var eventData = $"{e.Event.Name} {e.Event.Place} {e.Event.EventType}";
+        if (searchString == null) searchString = "";
+        var eventData = $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)}";
+        var eventType = e.Event.EventType.ToString();
 
-        return eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
+        return eventType.Contains(searchType) && eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
     }
 
     private void Navigate(TableRowClickEventArgs<EventListWithTotalCostsDTO> obj)

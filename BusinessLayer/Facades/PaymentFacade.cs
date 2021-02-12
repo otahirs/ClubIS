@@ -3,7 +3,9 @@ using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.DataAccessLayer;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Facades
@@ -12,13 +14,15 @@ namespace ClubIS.BusinessLayer.Facades
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPaymentService _paymentService;
+        private readonly IEntryService _entryService;
         private readonly IUserService _userService;
         private readonly IMemberFeeService _memberFeeService;
         private readonly IMapper _mapper;
-        public PaymentFacade(IUnitOfWork unitOfWork, IPaymentService paymentService, IMemberFeeService memberFeeService, IUserService userService, IMapper mapper)
+        public PaymentFacade(IUnitOfWork unitOfWork, IPaymentService paymentService, IEntryService entryService, IMemberFeeService memberFeeService, IUserService userService, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _paymentService = paymentService;
+            _entryService = entryService;
             _userService = userService;
             _memberFeeService = memberFeeService;
             _mapper = mapper;
@@ -64,6 +68,26 @@ namespace ClubIS.BusinessLayer.Facades
             await _unitOfWork.Save();
         }
 
+        public async Task Create(PaymentEntryListDTO p, int executorId)
+        {
+            UserDTO sourceUser = await _userService.GetById(p.UserId);
+            PaymentEditDTO payment = _mapper.Map<PaymentEditDTO>(p);
+            payment.SourceAccountId = sourceUser.AccountId;
+            payment.ExecutorId = executorId;
+            await _paymentService.Create(payment);
+            await _unitOfWork.Save();
+        }
+
+        public async Task Update(PaymentEntryListDTO p, int executorId)
+        {
+            UserDTO sourceUser = await _userService.GetById(p.UserId);
+            PaymentEditDTO payment = _mapper.Map<PaymentEditDTO>(p);
+            payment.SourceAccountId = sourceUser.AccountId;
+            payment.ExecutorId = executorId;
+            await _paymentService.Update(payment);
+            await _unitOfWork.Save();
+        }
+
         public async Task Delete(int id)
         {
             await _paymentService.Delete(id);
@@ -105,7 +129,40 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id)
         {
-            return await _paymentService.GetPaymentEntryListByEventId(id);
+            var entries = await _entryService.GetAllByEventId(id);
+            var eventPayments = await _paymentService.GetPaymentEntryListByEventId(id);
+            return entries.Select(e =>
+                    eventPayments.FirstOrDefault(p => p.UserId == e.UserId) ??
+                    new PaymentEntryListDTO()
+                    {
+                        EventId = e.EventId,
+                        UserId = e.UserId,
+                        Name = e.Name,
+                        RegistrationNumber = e.RegistrationNumber
+                    });
+        }
+
+        public async Task UpdatePaymentEntryList(IEnumerable<PaymentEntryListDTO> payments, int executorId)
+        {
+            foreach(var payment in payments)
+            {
+                if (payment.PaymentId == 0)
+                {
+                    await Create(payment, executorId);
+                }
+                else if (payment.CreditAmount == 0)
+                {
+                    var paymentEntity = await _paymentService.GetById(payment.PaymentId);
+                    if (paymentEntity != null)
+                    {
+                        await Delete(payment.PaymentId);
+                    }
+                }
+                else
+                {
+                    await Update(payment, executorId);
+                }
+            }
         }
 
         public async Task<IEnumerable<MemberFeeDTO>> GetAllMemberFeeTypes()

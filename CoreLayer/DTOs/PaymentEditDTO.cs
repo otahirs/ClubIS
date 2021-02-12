@@ -5,6 +5,7 @@ namespace ClubIS.CoreLayer.DTOs
 {
     public class PaymentEditDTO
     {
+        public int Id { get; set; }
         public int ExecutorId { get; set; }
         public int? SourceAccountId { get; set; }
         public int? RecipientAccountId { get; set; }

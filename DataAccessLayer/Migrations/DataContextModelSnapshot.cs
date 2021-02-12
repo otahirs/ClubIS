@@ -306,18 +306,18 @@ namespace ClubIS.DataAccessLayer.Migrations
                             HasClubTransport = true,
                             SiCardNumber = ***REMOVED***,
                             Status = 0,
-                            UserId = 2
+                            UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             Class = "H20",
-                            EventId = 2,
+                            EventId = 1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
                             SiCardNumber = ***REMOVED***,
                             Status = 0,
-                            UserId = 1
+                            UserId = 2
                         });
                 });
 
@@ -363,7 +363,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            CreditBalance = 0
+                            CreditBalance = -1000
                         },
                         new
                         {
@@ -511,7 +511,6 @@ namespace ClubIS.DataAccessLayer.Migrations
                             EventId = 1,
                             ExecutorId = 1,
                             PaymentState = 0,
-                            RecipientAccountId = 2,
                             SourceAccountId = 1
                         });
                 });
@@ -624,7 +623,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 1,
                             AccountId = 1,
-                            AccountState = 3,
+                            AccountState = 0,
                             Email = "tst2@eof.cz",
                             Firstname = "Matěj",
                             Gender = 0,
@@ -719,11 +718,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c2248128-2d3d-4ba9-adec-846b3039dc5d",
+                            ConcurrencyStamp = "6ee335f7-ce55-4217-a2b5-c80e29dedb2c",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "MATEJ",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFDaf75EjJ7WrA+w+v15E9EC/7ZgKeMNyO+fxUNAXoGpoOedvRJNnwMSMH7sSDd1Gw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELbaEkAqKwvrt6Fh2qQ6c5qU9uwo6TXg0OOt+03OsK2t6L65LHnlLr9DE4wyPRg2yw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -733,11 +732,11 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9a08a220-485b-4209-bd6c-f69d656454c0",
+                            ConcurrencyStamp = "c6e3bf5c-e598-49ee-8d52-1eadb4a7b014",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "KATKA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEH+jmR+VWRxvRUiXbeCgzxFNDvQpiwSj/tchCleui0w+9zM2e4SBzjtp/qfDvVHWEw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFvpXNUidEHT4lY1RPwg9JjkoIOvRoLwrJaqVHoFnrklH4WxXRb4p5A65emSA9A60g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -791,42 +790,42 @@ namespace ClubIS.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "03a0a046-ab1f-406c-a099-e59d0cf721fc",
+                            ConcurrencyStamp = "7d8df56d-be75-4251-bead-d2d530d7d65d",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "5d3ffa32-4b30-496c-8e4e-3b9fc00b95ae",
+                            ConcurrencyStamp = "3ac64955-bad6-4414-ba7b-773115592a23",
                             Name = "entries",
                             NormalizedName = "ENTRIES"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "eb1ffc08-ccce-430e-b8bd-7c460a07823b",
+                            ConcurrencyStamp = "99fa71fb-2961-4b1a-b6cc-d6f16eccd2c5",
                             Name = "events",
                             NormalizedName = "EVENTS"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "4ee8d977-820d-4d85-9341-61ca78d10694",
+                            ConcurrencyStamp = "0097ec0d-1d92-4ed2-9458-210959a8c3b2",
                             Name = "finance",
                             NormalizedName = "FINANCE"
                         },
                         new
                         {
                             Id = 5,
-                            ConcurrencyStamp = "ffff1a4d-2cd4-46cd-8a00-c663e1a109b1",
+                            ConcurrencyStamp = "74dfd0f6-c2fb-4119-8011-2fb6064a6c1c",
                             Name = "news",
                             NormalizedName = "NEWS"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "e372f28c-6b3e-491b-8cbb-3f96a34487cf",
+                            ConcurrencyStamp = "9165b9ad-d1f6-4dd6-abdb-b8f54b33067a",
                             Name = "users",
                             NormalizedName = "USERS"
                         });

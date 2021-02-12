@@ -32,6 +32,8 @@
     public int SourceUserId { get; set; }
     [Parameter]
     public string SourceUserName { get; set; }
+    [Parameter] 
+    public EventCallback OnAfterSubmit { get; set; }
     private List<UserListDTO> users;
     private PaymentUserTransferDTO sendPayment = new PaymentUserTransferDTO();
 
@@ -50,6 +52,7 @@
         sendPayment.SourceUserId = SourceUserId;
         await Http.PostAsJsonAsync<PaymentUserTransferDTO>("Payments/transfer", sendPayment);
         sendPayment = new PaymentUserTransferDTO();
+        await OnAfterSubmit.InvokeAsync();
     }
 
     private async Task<IEnumerable<int?>> Search(string searchValue)
