@@ -10,19 +10,22 @@
     }
     else
     {
-        <MudText Typo="Typo.h3" GutterBottom="true">User Detail</MudText>
-        <MudText Typo="Typo.h4">@SendUser.Firstname @SendUser.Surname</MudText>
+        <MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
+        <MudText Typo="Typo.h3">@SendUser.Surname @SendUser.Firstname</MudText>
         <MudList Clickable="false">
+            <MudListItem><b>Registration Number:</b> @SendUser.RegistrationNumber</MudListItem>
+            <MudListItem><b>Nationality:</b> @SendUser.Nationality</MudListItem>
+            <MudListItem><b>Sex:</b> @SendUser.Gender</MudListItem>
             <MudListItem><b>Licence:</b> @SendUser.Licence</MudListItem>
             <MudDivider />
-            <MudListItem><b>Address:</b></MudListItem>
+            <MudText Typo="Typo.h5">Address</MudText>
             <MudList Clickable="false">
                 <MudListItem><b>Street & Num:</b> @SendUser.Address.StreetAndNumber</MudListItem>
                 <MudListItem><b>City:</b> @SendUser.Address.City</MudListItem>
                 <MudListItem><b>Postal code:</b> @SendUser.Address.PostalCode</MudListItem>
             </MudList>
             <MudDivider />
-            <MudListItem><b>Contact:</b></MudListItem>
+            <MudText Typo="Typo.h5">Contact</MudText>
             <MudList Clickable="false">
                 <MudListItem><b>E-mail:</b> @SendUser.Email</MudListItem>
                 <MudListItem><b>Phone:</b> @SendUser.Phone</MudListItem>
@@ -35,13 +38,17 @@
     [Parameter]
     public int? UserId { get; set; }
     private UserDTO SendUser;
+    private List<BreadcrumbItem> _breadCrumbs = new List<BreadcrumbItem> { new BreadcrumbItem("Member List", href: "/users", icon: Icons.Material.Filled.People) };
+
 
     protected override async Task OnInitializedAsync()
     {
         if (UserId != null)
         {
             SendUser = await Http.GetFromJsonAsync<UserDTO>($"Users/{UserId}");
+            _breadCrumbs.Add(new BreadcrumbItem(SendUser.Surname + " " + SendUser.Firstname, href: null, disabled: true));
         }
+    }
     }
 
 }

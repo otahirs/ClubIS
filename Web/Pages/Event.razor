@@ -12,7 +12,7 @@
     }
     else
     {
-        <MudButton StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="@(()=>NavigationManager.NavigateTo("/events"))" Class="ml-3">back to events</MudButton>
+        <MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
         <EventHeader Event="e" />
         @if (e.EventState != EventState.Canceled && !IsAfterDeadlines())
         {
@@ -159,6 +159,8 @@
     private List<EventEntryDTO> allEntries;
     private EventEntryDTO sendEntry = new EventEntryDTO();
 
+    private List<BreadcrumbItem> _breadCrumbs = new List<BreadcrumbItem>{ new BreadcrumbItem("Event Entries", href: "/events", icon: Icons.Material.Filled.DirectionsRun) };
+
     protected override async Task OnInitializedAsync()
     {
         userId = await authState.GetUserId();
@@ -167,6 +169,7 @@
         await LoadEntries();
         NewEntry(userId);
         UpdateData(userId);
+        _breadCrumbs.Add(new BreadcrumbItem(e.Name, href: null, disabled: true));
     }
 
     private void NewEntry(int id)
