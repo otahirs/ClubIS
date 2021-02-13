@@ -55,16 +55,15 @@
 @code {
     private EventListDTO[] events;
     private EventListDTO[] displayedEvents;
-    private List<string> types;
+    private List<string> types = Enum.GetNames(typeof(EventType)).Prepend("All").ToList();
+    private string searchType = "All";
     private string searchString = "";
-    private string searchType = "";
     private bool includeArchivedEvents = false;
 
     protected override async Task OnInitializedAsync()
     {
         events = await Http.GetFromJsonAsync<EventListDTO[]>($"Events");
-        types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
-        types.Insert(0, "");
+
         DisplayNotArchivedEvents();
     }
 
@@ -97,7 +96,7 @@
         var eventData = $"{GetDate(e.StartDate, e.EndDate)} {e.Name} {e.Place} {e.EventType} {GetDeadlines(e.Deadlines)}";
         var eventType = e.EventType.ToString();
 
-        return eventType.Contains(searchType) && eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
+        return (searchType == "All" || eventType.Contains(searchType)) && eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
     }
 
     private static string GetDate(DateTime start, DateTime end)
