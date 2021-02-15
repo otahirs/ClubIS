@@ -14,7 +14,10 @@ namespace ClubIS.BusinessLayer.Services.Interfaces
         Task UpdateSupervisions(UserSupervisionsDTO user);
         Task Delete(int id);
         Task<IEnumerable<UserEntriesSupervisedListDTO>> GetAllEntriesSupervisors();
-        Task<UserEntryListDTO> GetAllEntriesSupervisorsById(int id);
         Task<UserSupervisionsDTO> GetUserSupervisions(int id);
+
+        Task<EntryUserListDTO> GetEntryUser(int id);
+        Task<IEnumerable<EntryUserListDTO>> GetEntrySupervisedUsers(int id);
+        Task<IEnumerable<EntryUserListDTO>> GetEntryAllUsers();
     }
 }

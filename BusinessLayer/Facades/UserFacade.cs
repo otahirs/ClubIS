@@ -2,6 +2,7 @@
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
+using ClubIS.CoreLayer.Enums;
 using ClubIS.DataAccessLayer;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace ClubIS.BusinessLayer.Facades
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
-        public UserFacade(IUnitOfWork unitOfWork, IUserService userService, IAuthService authService)
+        public UserFacade(IUnitOfWork unitOfWork, IUserService userService, IAuthService authService, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _userService = userService;
@@ -90,11 +91,23 @@ namespace ClubIS.BusinessLayer.Facades
             return await _userService.GetAllEntriesSupervisors();
         }
 
-        public async Task<UserEntryListDTO> GetAllEntriesSupervisorsById(int id)
+        public async Task<IEnumerable<EntryUserListDTO>> GetEntryUserList(int id)
         {
-            return await _userService.GetAllEntriesSupervisorsById(id);
+            var result = new List<EntryUserListDTO>();
+            result.Add(await _userService.GetEntryUser(id));
+            result.AddRange(await _userService.GetEntrySupervisedUsers(id));
 
+            var userRoles = await _authService.GetRoles(id);
+            if (userRoles.Roles.Any(r => r == Role.Entries || r == Role.Admin))
+            {
+                result.AddRange(await _userService.GetEntryAllUsers());
+                result = result
+                    .GroupBy(g => g.Id)
+                    .Select(g => g.First())
+                    .ToList(); // == distinct()
+            }
 
+            return result;
         }
 
 

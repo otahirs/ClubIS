@@ -15,8 +15,7 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
         Task UpdateSupervisions(UserSupervisionsDTO user);
         Task Delete(int id);
         Task<IEnumerable<UserEntriesSupervisedListDTO>> GetAllEntriesSupervisors();
-        Task<UserEntryListDTO> GetAllEntriesSupervisorsById(int id);
-
+        Task<IEnumerable<EntryUserListDTO>> GetEntryUserList(int id);
         Task<UserSupervisionsDTO> GetUserSupervisions(int id);
         Task<IEnumerable<UserPermListDTO>> GetAllWithPermissions();
     }

@@ -43,16 +43,6 @@ namespace ClubIS.BusinessLayer.Services
             return _mapper.Map<IEnumerable<UserEntriesSupervisedListDTO>>(await _unitOfWork.Users.GetAll());
         }
 
-        public async Task<UserEntryListDTO> GetAllEntriesSupervisorsById(int id)
-        {
-            User user = await _unitOfWork.Users.GetEntriesSupervisorsById(id);
-            return new UserEntryListDTO
-            {
-                Supervised = _mapper.Map<IEnumerable<UserEntryEditDTO>>(user.EntriesSupervisedUsers),
-                User = _mapper.Map<UserEntryEditDTO>(user)
-            };
-        }
-
         public async Task<UserDTO> GetById(int id)
         {
             return _mapper.Map<UserDTO>(await _unitOfWork.Users.GetById(id));
@@ -104,5 +94,21 @@ namespace ClubIS.BusinessLayer.Services
                 FinanceSupervisedUsers = _mapper.Map<ISet<UserListDTO>>(financeSupervisedUsers)
             };
         }
+
+
+        public async Task<EntryUserListDTO> GetEntryUser(int id)
+        {
+            return _mapper.Map<EntryUserListDTO>(await _unitOfWork.Users.GetById(id));
+        }
+        public async Task<IEnumerable<EntryUserListDTO>> GetEntrySupervisedUsers(int id)
+        {
+            User user = await _unitOfWork.Users.GetById(id);
+            return _mapper.Map<IEnumerable<EntryUserListDTO>>(user.EntriesSupervisedUsers);
+        }
+        public async Task<IEnumerable<EntryUserListDTO>> GetEntryAllUsers()
+        {
+            return _mapper.Map<IEnumerable<EntryUserListDTO>>(await _unitOfWork.Users.GetAll());
+        }
+
     }
 }

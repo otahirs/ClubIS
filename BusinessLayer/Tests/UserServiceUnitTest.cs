@@ -24,20 +24,20 @@ namespace ClubIS.BusinessLayer.Tests
             using (AutoMock mock = AutoMock.GetLoose())
             {
                 mock.Mock<IUnitOfWork>()
-                   .Setup(x => x.Users.GetEntriesSupervisorsById(It.IsAny<int>()))
+                   .Setup(x => x.Users.GetById(It.IsAny<int>()))
                    .Returns<int>(i => UsersTestDBSample.GetMockUserById(i));
 
                 mock.Mock<IMapper>()
-                    .Setup(x => x.Map<IEnumerable<UserEntryEditDTO>>(It.IsAny<IEnumerable<User>>()))
-                    .Returns<IEnumerable<User>>(i => _mapper.Map<IEnumerable<UserEntryEditDTO>>(i));
+                    .Setup(x => x.Map<IEnumerable<EntryUserListDTO>>(It.IsAny<IEnumerable<User>>()))
+                    .Returns<IEnumerable<User>>(i => _mapper.Map<IEnumerable<EntryUserListDTO>>(i));
 
                 UserService userService = mock.Create<UserService>();
-                UserEntryListDTO result1 = await userService.GetAllEntriesSupervisorsById(1);
-                UserEntryListDTO result2 = await userService.GetAllEntriesSupervisorsById(2);
+                IEnumerable<EntryUserListDTO> result1 = await userService.GetEntrySupervisedUsers(1);
+                IEnumerable<EntryUserListDTO> result2 = await userService.GetEntrySupervisedUsers(2);
 
-                Assert.True(result1.Supervised.Count() == 1);
-                Assert.True(result1.Supervised.First().Id == 2);
-                Assert.True(result2.Supervised.Count() == 0);
+                Assert.True(result1.Count() == 1);
+                Assert.True(result1.First().Id == 2);
+                Assert.True(result2.Count() == 0);
             }
         }
         [Fact]

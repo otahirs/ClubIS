@@ -6,7 +6,7 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
-    @if (e == null || displayedEntries == null || users == null)
+    @if (e == null || displayedEntries == null || users == null || sendEntry == null)
     {
         <MudProgressCircular Color="Color.Default" Indeterminate="true" />
     }
@@ -22,14 +22,7 @@
                     <MudCardContent>
                         <MudGrid>
                             <MudItem md="6">
-                                <MudSelect Label="User" Required="true" ValueChanged="@((int s) => UpdateData(s))" Value="@sendEntry.UserId" Variant="Variant.Outlined">
-                                    <MudSelectItem Value="@users.User.Id">@users.User.Name</MudSelectItem>
-                                    @foreach (var user in users.Supervised)
-                                    {
-                                        <MudSelectItem Value="@user.Id">@user.Name</MudSelectItem>
-                                    }
-                                </MudSelect>
-
+                                <MudAutocomplete Label="User" T="int" Value="sendEntry.UserId" ValueChanged="UpdateData" SearchFunc="@Search" ToStringFunc="@((id) => users.Find(u => u.Id == id).Name)" Variant="Variant.Outlined" CoerceText="true"/>
                                 <MudSelect Label="Class" Required="true" @bind-Value="@sendEntry.Class" Variant="Variant.Outlined">
                                     @foreach (var c in e.ClassOptions)
                                                 {
@@ -154,10 +147,10 @@
     private int siCard { get; set; }
 
     private EventDTO e;
-    private UserEntryListDTO users;
+    private List<EntryUserListDTO> users;
     private List<EventEntryDTO> displayedEntries;
     private List<EventEntryDTO> allEntries;
-    private EventEntryDTO sendEntry = new EventEntryDTO();
+    private EventEntryDTO sendEntry;
 
     private List<BreadcrumbItem> _breadCrumbs = new List<BreadcrumbItem>{ new BreadcrumbItem("Event Entries", href: "/events", icon: Icons.Material.Filled.DirectionsRun) };
 
@@ -165,7 +158,7 @@
     {
         userId = await authState.GetUserId();
         e = await Http.GetFromJsonAsync<EventDTO>($"Events/{eventId}");
-        users = await Http.GetFromJsonAsync<UserEntryListDTO>($"Users/entriesSupervisor/{userId}");
+        users = await Http.GetFromJsonAsync<List<EntryUserListDTO>>($"Users/can-edit-entries/{userId}");
         await LoadEntries();
         NewEntry(userId);
         UpdateData(userId);
@@ -204,7 +197,7 @@
 
     private ISet<SiCardDTO> GetSiCards(int id)
     {
-        return users.User.Id == id ? users.User.SiCardNumbers : (users.Supervised.FirstOrDefault(c => c.Id == id))?.SiCardNumbers;
+        return users.FirstOrDefault(c => c.Id == id)?.SiCards;
     }
 
     private async Task OnValidSubmit()
@@ -280,5 +273,13 @@
             await Task.Delay(1); // force rerender to be executed
             await customSiField.FocusAsync();
         }
+    }
+
+    private async Task<IEnumerable<int>> Search(string searchValue)
+    {
+        var currUser = users.First(u => u.Id == sendEntry.Id);
+        if (string.IsNullOrEmpty(searchValue) || searchValue == currUser.Name) 
+            return users.Select(u => u.Id); // show all
+        return users.Where(u => u.Name.Contains(searchValue, StringComparison.InvariantCultureIgnoreCase)).Select(u => u.Id); // filter
     }
 }
