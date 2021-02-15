@@ -39,16 +39,13 @@ else
 @code {
     public List<EventListWithTotalCostsDTO> events;
 
-    private List<string> types;
+    private List<string> types = Enum.GetNames(typeof(EventType)).Prepend("All").ToList();
+    private string searchType = "All";
     string searchString = "";
-    string searchType = "";
 
     protected override async Task OnInitializedAsync()
     {
         events = await Http.GetFromJsonAsync<List<EventListWithTotalCostsDTO>>("Events/costs");
-
-        types = ((EventType[])Enum.GetValues(typeof(EventType))).Select(t => t.ToString()).ToList();
-        types.Insert(0, "");
     }
 
     bool FilterFunc(EventListWithTotalCostsDTO e)
@@ -57,7 +54,7 @@ else
         var eventData = $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)}";
         var eventType = e.Event.EventType.ToString();
 
-        return eventType.Contains(searchType) && eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
+        return (searchType == "All" || eventType.Contains(searchType)) && eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
     }
 
     private void Navigate(TableRowClickEventArgs<EventListWithTotalCostsDTO> obj)

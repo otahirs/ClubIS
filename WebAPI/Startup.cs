@@ -136,6 +136,7 @@ namespace ClubIS.WebAPI
 
             if (env.IsDevelopment())
             {
+                app.UseWebAssemblyDebugging();
                 app.UseDeveloperExceptionPage();
             }
 

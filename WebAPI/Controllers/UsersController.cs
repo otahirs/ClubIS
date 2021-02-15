@@ -50,10 +50,9 @@ namespace ClubIS.WebAPI.Controllers
             return Ok(users);
         }
 
-        [HttpGet("entriesSupervisor/{id}")]
+        [HttpGet("can-edit-entries/{id}")]
         [Authorize]
-        [SwaggerResponse(StatusCodes.Status200OK, "Supervisors retrieved.")]
-        public async Task<ActionResult<UserEntryListDTO>> GetEntriesSupervisors(int id)
+        public async Task<ActionResult<IEnumerable<EntryUserListDTO>>> GetEntryUserList(int id)
         {
             if (User.Identity.GetUserId() != id &&
                !User.IsInRole(Role.Users) &&
@@ -61,7 +60,7 @@ namespace ClubIS.WebAPI.Controllers
             {
                 return Unauthorized();
             }
-            UserEntryListDTO users = await _userFacade.GetAllEntriesSupervisorsById(id);
+            IEnumerable<EntryUserListDTO> users = await _userFacade.GetEntryUserList(id);
             if (users == null)
             {
                 return NotFound();
