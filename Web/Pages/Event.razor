@@ -277,7 +277,7 @@
 
     private async Task<IEnumerable<int>> Search(string searchValue)
     {
-        var currUser = users.First(u => u.Id == sendEntry.Id);
+        var currUser = users.First(u => u.Id == sendEntry.UserId);
         if (string.IsNullOrEmpty(searchValue) || searchValue == currUser.Name) 
             return users.Select(u => u.Id); // show all
         return users.Where(u => u.Name.Contains(searchValue, StringComparison.InvariantCultureIgnoreCase)).Select(u => u.Id); // filter
