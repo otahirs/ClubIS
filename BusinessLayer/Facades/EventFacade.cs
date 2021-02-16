@@ -1,18 +1,18 @@
-﻿using ClubIS.BusinessLayer.Facades.Interfaces;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.DataAccessLayer;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Facades
 {
     public class EventFacade : IEventFacade
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IEventService _eventService;
         private readonly IPaymentService _paymentService;
+        private readonly IUnitOfWork _unitOfWork;
 
         public EventFacade(IUnitOfWork unitOfWork, IEventService eventService, IPaymentService paymentService)
         {
@@ -44,14 +44,12 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task<IEnumerable<EventListWithTotalCostsDTO>> GetAllWithTotalCosts()
         {
-            IEnumerable<EventListDTO> events = await _eventService.GetAll();
-            return events
-                .Select(e => new EventListWithTotalCostsDTO
-                {
-                    Event = e,
-                    TotalCosts = _paymentService.GetEventPaymentSumByEventId(e.Id).GetAwaiter().GetResult()
-                }
-                );
+            var events = await _eventService.GetAll();
+            return events.Select(e => new EventListWithTotalCostsDTO
+            {
+                Event = e,
+                TotalCosts = _paymentService.GetEventPaymentSumByEventId(e.Id).GetAwaiter().GetResult()
+            });
         }
 
         public async Task Delete(int id)

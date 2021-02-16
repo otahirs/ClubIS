@@ -1,9 +1,9 @@
-﻿using ClubIS.CoreLayer.Entities;
+﻿using System;
+using System.Collections.Generic;
+using ClubIS.CoreLayer.Entities;
 using ClubIS.CoreLayer.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace ClubIS.DataAccessLayer
 {
@@ -14,17 +14,18 @@ namespace ClubIS.DataAccessLayer
         private static readonly int ID_3 = 3;
         private static readonly int ID_4 = 4;
         private static readonly int ID_5 = 5;
+
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Address>().HasData(new Address()
+            modelBuilder.Entity<Address>()
+            .HasData(new Address
             {
                 Id = ID_1,
                 UserId = ID_1,
                 StreetAndNumber = "***REMOVED***",
                 City = "Brno",
                 PostalCode = "***REMOVED***"
-            },
-            new Address()
+            }, new Address
             {
                 Id = ID_2,
                 UserId = ID_2,
@@ -32,15 +33,15 @@ namespace ClubIS.DataAccessLayer
                 PostalCode = "***REMOVED***"
             });
 
-            modelBuilder.Entity<MemberFee>().HasData(new MemberFee()
+            modelBuilder.Entity<MemberFee>()
+            .HasData(new MemberFee
             {
                 Id = ID_2,
                 Name = "All Inclusive",
                 Description = "Oddílem jsou placeny veškeré závody. Závodník platí pouze storna.",
                 Amount = 0,
                 MemberFeeType = MemberFeeType.All
-            },
-            new MemberFee()
+            }, new MemberFee
             {
                 Id = ID_1,
                 Name = "Základ",
@@ -49,7 +50,7 @@ namespace ClubIS.DataAccessLayer
                 MemberFeeType = MemberFeeType.Basic
             });
 
-            User supervisor = new User
+            var supervisor = new User
             {
                 Id = ID_1,
                 AccountId = ID_1,
@@ -62,7 +63,7 @@ namespace ClubIS.DataAccessLayer
                 Licence = Licence.C,
                 AccountState = AccountState.Active
             };
-            User supervised = new User()
+            var supervised = new User
             {
                 Id = ID_2,
                 AccountId = ID_2,
@@ -75,53 +76,57 @@ namespace ClubIS.DataAccessLayer
                 Gender = Gender.Female,
                 Licence = Licence.A,
                 AccountState = AccountState.Active
-               
             };
             modelBuilder.Entity<User>().HasData(supervisor, supervised);
 
-            modelBuilder.Entity("User_EntriesSupervisor").HasData(
-              new Dictionary<string, object> { ["UserId"] = ID_1, ["EntriesSupervisorId"] = ID_2 }
-            );
+            modelBuilder.Entity("User_EntriesSupervisor")
+            .HasData(new Dictionary<string, object>
+            {
+                ["UserId"] = ID_1,
+                ["EntriesSupervisorId"] = ID_2
+            });
 
-            modelBuilder.Entity<FinanceAccount>().HasData(new FinanceAccount()
+            modelBuilder.Entity<FinanceAccount>()
+            .HasData(new FinanceAccount
             {
                 Id = ID_1,
-                CreditBalance = -1000,
+                CreditBalance = -1000
             });
 
-            modelBuilder.Entity<FinanceAccount>().HasData(new FinanceAccount()
+            modelBuilder.Entity<FinanceAccount>()
+            .HasData(new FinanceAccount
             {
                 Id = ID_2,
-                CreditBalance = 0,
+                CreditBalance = 0
             });
 
-            modelBuilder.Entity<SiCard>().HasData(
-                new SiCard()
-                {
-                    Id = ID_1,
-                    UserId = ID_1,
-                    Number = ***REMOVED***,
-                    IsDefault = true
-                },
-                new SiCard()
-                {
-                    Id = ID_2,
-                    UserId = ID_2,
-                    Number = ***REMOVED***,
-                    IsDefault = true
-                }
-            );
+            modelBuilder.Entity<SiCard>()
+            .HasData(new SiCard
+            {
+                Id = ID_1,
+                UserId = ID_1,
+                Number = ***REMOVED***,
+                IsDefault = true
+            }, new SiCard
+            {
+                Id = ID_2,
+                UserId = ID_2,
+                Number = ***REMOVED***,
+                IsDefault = true
+            });
 
-            modelBuilder.Entity<News>().HasData(new News()
+            modelBuilder.Entity<News>()
+            .HasData(new News
             {
                 Id = ID_1,
                 UserId = ID_1,
                 Date = new DateTime(2020, 9, 30),
                 Title = "test nadpisu",
-                Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111",
+                Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111"
             });
 
-            modelBuilder.Entity<Event>().HasData(new Event()
+            modelBuilder.Entity<Event>()
+            .HasData(new Event
             {
                 Id = ID_1,
                 StartDate = new DateTime(2021, 9, 7),
@@ -137,7 +142,8 @@ namespace ClubIS.DataAccessLayer
                 EventProperties = EventProperty.Championship
             });
 
-            modelBuilder.Entity<Event>().HasData(new Event()
+            modelBuilder.Entity<Event>()
+            .HasData(new Event
             {
                 Id = ID_2,
                 StartDate = new DateTime(2021, 10, 30),
@@ -153,67 +159,60 @@ namespace ClubIS.DataAccessLayer
                 EventProperties = EventProperty.Championship
             });
 
-            modelBuilder.Entity<EventDeadline>().HasData(
-               new EventDeadline()
-               {
-                   Id = ID_1,
-                   EventId = ID_1,
-                   Deadline = new DateTime(2021, 9, 1)
-               }
-            );
+            modelBuilder.Entity<EventDeadline>()
+            .HasData(new EventDeadline
+            {
+                Id = ID_1,
+                EventId = ID_1,
+                Deadline = new DateTime(2021, 9, 1)
+            });
 
-            modelBuilder.Entity<EventDeadline>().HasData(
-                new EventDeadline()
-                {
-                    Id = ID_2,
-                    EventId = ID_2,
-                    Deadline = new DateTime(2021, 10, 1)
-                },
-                new EventDeadline()
-                {
-                    Id = ID_3,
-                    EventId = ID_2,
-                    Deadline = new DateTime(2021, 10, 5)
-                }
-            );
+            modelBuilder.Entity<EventDeadline>()
+            .HasData(new EventDeadline
+            {
+                Id = ID_2,
+                EventId = ID_2,
+                Deadline = new DateTime(2021, 10, 1)
+            }, new EventDeadline
+            {
+                Id = ID_3,
+                EventId = ID_2,
+                Deadline = new DateTime(2021, 10, 5)
+            });
 
-            modelBuilder.Entity<EventClassOption>().HasData(
-                new EventClassOption()
-                {
-                    Id = ID_1,
-                    EventId = ID_1,
-                    Name = "A"
-                },
-                new EventClassOption()
-                {
-                    Id = ID_2,
-                    EventId = ID_1,
-                    Name = "B"
-                }
-            );
+            modelBuilder.Entity<EventClassOption>()
+            .HasData(new EventClassOption
+            {
+                Id = ID_1,
+                EventId = ID_1,
+                Name = "A"
+            }, new EventClassOption
+            {
+                Id = ID_2,
+                EventId = ID_1,
+                Name = "B"
+            });
 
-            modelBuilder.Entity<EventClassOption>().HasData(
-                new EventClassOption()
-                {
-                    Id = ID_3,
-                    EventId = ID_2,
-                    Name = "A"
-                },
-                new EventClassOption()
-                {
-                    Id = ID_4,
-                    EventId = ID_2,
-                    Name = "B"
-                },
-                new EventClassOption()
-                {
-                    Id = ID_5,
-                    EventId = ID_2,
-                    Name = "H20"
-                }
-            );
+            modelBuilder.Entity<EventClassOption>()
+            .HasData(new EventClassOption
+            {
+                Id = ID_3,
+                EventId = ID_2,
+                Name = "A"
+            }, new EventClassOption
+            {
+                Id = ID_4,
+                EventId = ID_2,
+                Name = "B"
+            }, new EventClassOption
+            {
+                Id = ID_5,
+                EventId = ID_2,
+                Name = "H20"
+            });
 
-            modelBuilder.Entity<EventEntry>().HasData(new EventEntry()
+            modelBuilder.Entity<EventEntry>()
+            .HasData(new EventEntry
             {
                 Id = ID_1,
                 UserId = ID_1,
@@ -224,7 +223,8 @@ namespace ClubIS.DataAccessLayer
                 HasClubTransport = true
             });
 
-            modelBuilder.Entity<EventEntry>().HasData(new EventEntry()
+            modelBuilder.Entity<EventEntry>()
+            .HasData(new EventEntry
             {
                 Id = ID_2,
                 UserId = ID_2,
@@ -235,7 +235,8 @@ namespace ClubIS.DataAccessLayer
                 HasClubTransport = true
             });
 
-            modelBuilder.Entity<Payment>().HasData(new Payment()
+            modelBuilder.Entity<Payment>()
+            .HasData(new Payment
             {
                 Id = ID_1,
                 ExecutorId = ID_1,
@@ -245,34 +246,31 @@ namespace ClubIS.DataAccessLayer
                 PaymentState = PaymentState.Ok
             });
 
-            PasswordHasher<UserIdentity> hasher = new PasswordHasher<UserIdentity>();
-            modelBuilder.Entity<UserIdentity>().HasData(
-                new UserIdentity
-                {
-                    Id = ID_1,
-                    UserName = "matej",
-                    NormalizedUserName = "MATEJ",
-                    PasswordHash = hasher.HashPassword(null, "matej"),
-                    SecurityStamp = string.Empty
-                },
-                new UserIdentity
-                {
-                    Id = ID_2,
-                    UserName = "katka",
-                    NormalizedUserName = "KATKA",
-                    PasswordHash = hasher.HashPassword(null, "katka"),
-                    SecurityStamp = string.Empty
-                }
-            );
+            var hasher = new PasswordHasher<UserIdentity>();
+            modelBuilder.Entity<UserIdentity>()
+            .HasData(new UserIdentity
+            {
+                Id = ID_1,
+                UserName = "matej",
+                NormalizedUserName = "MATEJ",
+                PasswordHash = hasher.HashPassword(null, "matej"),
+                SecurityStamp = string.Empty
+            }, new UserIdentity
+            {
+                Id = ID_2,
+                UserName = "katka",
+                NormalizedUserName = "KATKA",
+                PasswordHash = hasher.HashPassword(null, "katka"),
+                SecurityStamp = string.Empty
+            });
 
             // make matej admin
-            modelBuilder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int>
+            modelBuilder.Entity<IdentityUserRole<int>>()
+            .HasData(new IdentityUserRole<int>
             {
                 RoleId = 1,
                 UserId = ID_1
             });
-
-
         }
     }
 }

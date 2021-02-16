@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
-using System.Linq;
 
 namespace ClubIS.BusinessLayer
 {
@@ -17,11 +16,8 @@ namespace ClubIS.BusinessLayer
                 .ForMember(d => d.EnteredStages, opt => opt.MapFrom(s => s.EnteredStages));
             CreateMap<EventEntryDTO, EventEntry>()
                 .ForMember(d => d.EnteredStages, opt => opt.Ignore());
-
             CreateMap<Event, EventListDTO>().ReverseMap();
             CreateMap<EventStage, EventStageDTO>().ReverseMap();
-
-            // TODO CreateMap<Tuple<Event, Payment>, FinanceEventListDTO>().ReverseMap();
             CreateMap<MemberFee, MemberFeeDTO>().ReverseMap();
             CreateMap<News, NewsEditDTO>().ReverseMap();
             CreateMap<News, NewsListDTO>()

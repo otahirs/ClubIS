@@ -1,7 +1,7 @@
-﻿using ClubIS.CoreLayer.DTOs;
+﻿using System.Threading.Tasks;
+using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Services.Interfaces
 {

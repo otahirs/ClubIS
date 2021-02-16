@@ -1,24 +1,23 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using ClubIS.BusinessLayer.Services;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
 using ClubIS.CoreLayer.Enums;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace ClubIS.BusinessLayer.Tests
 {
     public class EventServiceTests
     {
-        private readonly IMapper _mapper = new MapperConfiguration(c =>
-          c.AddProfile<AutoMapperProfile>()).CreateMapper();
+        private readonly IMapper _mapper = new MapperConfiguration(c => c.AddProfile<AutoMapperProfile>()).CreateMapper();
 
-        public EventDTO origEvent = new EventDTO()
+        public EventDTO origEvent = new()
         {
             Id = 42,
             StartDate = new DateTime(2020, 10, 11),
@@ -27,24 +26,24 @@ namespace ClubIS.BusinessLayer.Tests
             Place = "Ještěd",
             Organizer = "OB ZAM",
             Link = "hrob.cz",
-            Deadlines = new List<EventDeadline>()
+            Deadlines = new List<EventDeadline>
             {
-                new EventDeadline
+                new()
                 {
                     Id = 40,
                     Deadline = DateTime.Now,
-                    EventId = 42,
+                    EventId = 42
                 }
             },
-            ClassOptions = new HashSet<EventClassOption>()
+            ClassOptions = new HashSet<EventClassOption>
             {
-                new EventClassOption()
+                new()
                 {
                     Id = 40,
                     EventId = 42,
                     Name = "A"
                 },
-                new EventClassOption()
+                new()
                 {
                     Id = 41,
                     EventId = 42,
@@ -61,11 +60,12 @@ namespace ClubIS.BusinessLayer.Tests
         public async Task GetById() // db seed dependant
         {
             EventDTO e;
-            using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
+            using (var uow = TestUoWFactory.Create())
             {
-                EventService ns = new EventService(uow, _mapper);
-                e = (await ns.GetById(1));
+                var ns = new EventService(uow, _mapper);
+                e = await ns.GetById(1);
             }
+
             Assert.NotNull(e);
         }
 
@@ -73,13 +73,14 @@ namespace ClubIS.BusinessLayer.Tests
         public async Task Create()
         {
             EventDTO e;
-            using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
+            using (var uow = TestUoWFactory.Create())
             {
-                EventService es = new EventService(uow, _mapper);
+                var es = new EventService(uow, _mapper);
                 await es.Create(origEvent);
                 await uow.Save();
-                e = (await es.GetById(42));
+                e = await es.GetById(42);
             }
+
             origEvent.Should().BeEquivalentTo(e);
         }
 
@@ -87,10 +88,10 @@ namespace ClubIS.BusinessLayer.Tests
         public async Task Update()
         {
             EventDTO e;
-            string editedOrganizer = "Edited Organizer";
-            using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
+            var editedOrganizer = "Edited Organizer";
+            using (var uow = TestUoWFactory.Create())
             {
-                EventService es = new EventService(uow, _mapper);
+                var es = new EventService(uow, _mapper);
                 await es.Create(origEvent);
                 await uow.Save();
                 e = await es.GetById(42);
@@ -99,6 +100,7 @@ namespace ClubIS.BusinessLayer.Tests
                 await uow.Save();
                 e = await es.GetById(42);
             }
+
             Assert.Equal(editedOrganizer, e.Organizer);
         }
 
@@ -106,45 +108,42 @@ namespace ClubIS.BusinessLayer.Tests
         public async Task Delete()
         {
             EventDTO e;
-            using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
+            using (var uow = TestUoWFactory.Create())
             {
-                EventService es = new EventService(uow, _mapper);
+                var es = new EventService(uow, _mapper);
                 await es.Create(origEvent);
                 await uow.Save();
                 await es.Delete(origEvent.Id);
                 await uow.Save();
                 e = await es.GetById(42);
             }
+
             Assert.Null(e);
         }
 
         [Fact]
         public async Task GetAllWithUserEntry() // db seed dependant
         {
-            EventDTO origEvent2 = new EventDTO
+            var origEvent2 = new EventDTO
             {
                 Id = 43,
-                StartDate = new DateTime(2020,
-                    10,
-                    11),
-                EndDate = new DateTime(2020,
-                    10,
-                    11),
+                StartDate = new DateTime(2020, 10, 11),
+                EndDate = new DateTime(2020, 10, 11),
                 Name = "MČR klubů a oblastních výběrů",
                 Place = "Kobyla nad Vidnávkou",
                 Organizer = "OB ZAM",
                 Link = "mcr2020.obopava.cz",
                 Deadlines = new List<EventDeadline>(),
                 Leader = null,
-                ClassOptions = new HashSet<EventClassOption>()
+                ClassOptions = new HashSet<EventClassOption>
                 {
-                    new EventClassOption()
+                    new()
                     {
                         Id = 42,
                         EventId = 43,
                         Name = "A"
                     },
-                    new EventClassOption()
+                    new()
                     {
                         Id = 43,
                         EventId = 43,
@@ -157,18 +156,19 @@ namespace ClubIS.BusinessLayer.Tests
                 EventStages = new HashSet<EventStageDTO>()
             };
             List<EventListWithUserEntryDTO> events;
-            using (DataAccessLayer.UnitOfWork uow = TestUoWFactory.Create())
+            using (var uow = TestUoWFactory.Create())
             {
-                EventService es = new EventService(uow, _mapper);
+                var es = new EventService(uow, _mapper);
                 await es.Create(origEvent);
                 await es.Create(origEvent2);
                 await uow.Save();
-                events = (await es.GetAllWithUserEntry(userId: 2)).ToList();
+                events = (await es.GetAllWithUserEntry(2)).ToList();
             }
+
             using (new AssertionScope())
             {
                 events.Count.Should().BeGreaterThan(1);
-                EventListWithUserEntryDTO event1 = events.First(n => n.Event.Id == 42);
+                var event1 = events.First(n => n.Event.Id == 42);
                 event1.Event.StartDate.Should().Be(origEvent.StartDate);
                 event1.Event.EndDate.Should().Be(origEvent.EndDate);
                 event1.Event.Name.Should().Be(origEvent.Name);

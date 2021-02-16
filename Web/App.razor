@@ -1,4 +1,4 @@
-@inject NavigationManager navigationManager
+@inject NavigationManager NavigationManager
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(Program).Assembly">
         <Found Context="routeData">
@@ -7,7 +7,7 @@
                     @*Authorizing...*@
                 </Authorizing>
                 <NotAuthorized>
-                    <RedirectToLogin ReturnUrl="@navigationManager.Uri" />
+                    <RedirectToLogin ReturnUrl="@NavigationManager.Uri"/>
                 </NotAuthorized>
             </AuthorizeRouteView>
         </Found>
@@ -19,6 +19,6 @@
     </Router>
 </CascadingAuthenticationState>
 
-<MudThemeProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>

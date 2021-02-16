@@ -1,12 +1,17 @@
-﻿@inject NavigationManager navigationManager
-<div class="loader loader-bouncing"><span>Redirecting...</span></div>
+﻿@inject NavigationManager NavigationManager
+<div class="loader loader-bouncing">
+    <span>Redirecting...</span>
+</div>
+
 @code{
+
     [Parameter]
-    public string ReturnUrl {get; set;}
+    public string ReturnUrl { get; set; }
 
     protected override void OnInitialized()
     {
-        ReturnUrl = ReturnUrl.Substring(navigationManager.BaseUri.Length).Replace("/", "&");
-        navigationManager.NavigateTo($"/login/{ReturnUrl}");
+        ReturnUrl = ReturnUrl.Substring(NavigationManager.BaseUri.Length).Replace("/", "&");
+        NavigationManager.NavigateTo($"/login/{ReturnUrl}");
     }
+
 }

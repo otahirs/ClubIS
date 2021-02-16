@@ -1,6 +1,6 @@
 ﻿namespace ClubIS.CoreLayer.Enums
 {
-    public enum EntryStatus : int
+    public enum EntryStatus
     {
         Ok = 0,
         NotSent = 1,

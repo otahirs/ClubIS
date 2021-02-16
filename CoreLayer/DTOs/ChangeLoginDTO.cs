@@ -6,10 +6,11 @@ namespace ClubIS.CoreLayer.DTOs
     {
         [Required]
         public int EditedUserId { get; set; }
+
         [Required]
         public string NewUserName { get; set; }
 
         [Required]
-        public string AprovalPassword { get; set; }
+        public string ApprovalPassword { get; set; }
     }
 }

@@ -1,66 +1,70 @@
-﻿@inject IdentityAuthenticationStateProvider authStateProvider
+﻿@inject IdentityAuthenticationStateProvider AuthStateProvider
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
-    @if (roles == null)
+    @if (_roles == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
         <MudCard Elevation="0">
-                <MudCardContent>
-                    @foreach (var key in RolesAndPermissions.Keys)
-                    {
-                        <MudGrid>
-                            <MudItem xs="8">
-                                <b>@key</b>
-                            </MudItem>
-                            <MudItem xs="4">
-                                <MudCheckBox @bind-Checked="@RolesAndPermissions[key]"></MudCheckBox>
-                            </MudItem>
-                        </MudGrid>
-                    }
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveChanges" Class="ml-3">Save</MudButton>
-                </MudCardActions>
-            </MudCard>
+            <MudCardContent>
+                @foreach (var key in _rolesAndPermissions.Keys)
+                {
+                    <MudGrid>
+                        <MudItem xs="8">
+                            <b>@key</b>
+                        </MudItem>
+                        <MudItem xs="4">
+                            <MudCheckBox @bind-Checked="@_rolesAndPermissions[key]"></MudCheckBox>
+                        </MudItem>
+                    </MudGrid>
+                }
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveChanges" Class="ml-3">Save</MudButton>
+            </MudCardActions>
+        </MudCard>
     }
 </MudContainer>
 
 @code {
+
     [Parameter]
     public int UserId { get; set; }
-    private Dictionary<string, bool> RolesAndPermissions = new Dictionary<string, bool>();
-    private UserRolesDTO roles = new UserRolesDTO();
+
+    private Dictionary<string, bool> _rolesAndPermissions = new();
+    private UserRolesDTO _roles = new();
 
     protected override async Task OnInitializedAsync()
     {
-        roles = await authStateProvider.GetUserRolesById(UserId);
+        _roles = await AuthStateProvider.GetUserRolesById(UserId);
         foreach (var r in Role.GetAll())
         {
-            RolesAndPermissions.Add(r, roles.Roles.Contains(r));
+            _rolesAndPermissions.Add(r, _roles.Roles.Contains(r));
         }
     }
 
     private async Task SaveChanges()
     {
-        foreach(var item in RolesAndPermissions)
+        foreach (var item in _rolesAndPermissions)
         {
             if (item.Value)
             {
-                if (!roles.Roles.Contains(item.Key))
+                if (!_roles.Roles.Contains(item.Key))
                 {
-                    roles.Roles.Add(item.Key);
+                    _roles.Roles.Add(item.Key);
                 }
-            } else
+            }
+            else
             {
-                if (roles.Roles.Contains(item.Key))
+                if (_roles.Roles.Contains(item.Key))
                 {
-                    roles.Roles.Remove(item.Key);
+                    _roles.Roles.Remove(item.Key);
                 }
             }
         }
-        await authStateProvider.ChangeUserRoles(roles);
+        await AuthStateProvider.ChangeUserRoles(_roles);
     }
+
 }

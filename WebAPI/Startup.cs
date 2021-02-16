@@ -1,4 +1,5 @@
-using AutoMapper;
+using System;
+using System.Threading.Tasks;
 using ClubIS.BusinessLayer;
 using ClubIS.BusinessLayer.Facades;
 using ClubIS.BusinessLayer.Facades.Interfaces;
@@ -18,8 +19,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Threading.Tasks;
 
 namespace ClubIS.WebAPI
 {
@@ -44,9 +43,7 @@ namespace ClubIS.WebAPI
                 options.EnableSensitiveDataLogging();
             });
 
-            services.AddIdentity<UserIdentity, IdentityRole<int>>()
-                .AddEntityFrameworkStores<DataContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<UserIdentity, IdentityRole<int>>().AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
 
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
@@ -132,7 +129,7 @@ namespace ClubIS.WebAPI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider, DataContext dataContext)
         {
             // migrate any database changes on startup (includes initial db creation)
-           dataContext.Database.Migrate();
+            dataContext.Database.Migrate();
 
             if (env.IsDevelopment())
             {
@@ -158,9 +155,9 @@ namespace ClubIS.WebAPI
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                for (int i = provider.ApiVersionDescriptions.Count - 1; i >= 0; i--)
+                for (var i = provider.ApiVersionDescriptions.Count - 1; i >= 0; i--)
                 {
-                    ApiVersionDescription description = provider.ApiVersionDescriptions[i];
+                    var description = provider.ApiVersionDescriptions[i];
                     c.SwaggerEndpoint($"{description.GroupName}/swagger.json", $"Demo ClubIS API {description.GroupName}");
                 }
             });

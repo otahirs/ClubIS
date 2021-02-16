@@ -1,11 +1,11 @@
 ﻿@page "/login"
 @page "/login/{returnUrl}"
 @layout LoginLayout
-@inject NavigationManager navigationManager
-@inject IdentityAuthenticationStateProvider authStateProvider
+@inject NavigationManager NavigationManager
+@inject IdentityAuthenticationStateProvider AuthStateProvider
 
-<EditForm Model="@loginParameters" OnValidSubmit="OnValidSubmit">
-    <DataAnnotationsValidator />
+<EditForm Model="@LoginParameters" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator/>
     <MudCard Style="margin-top: 72px;">
         <MudCardHeader>
             <CardHeaderContent>
@@ -14,10 +14,10 @@
         </MudCardHeader>
         <MudCardContent>
             <MudTextField Label="Username"
-                          @bind-Value="loginParameters.UserName" For="@(() => loginParameters.UserName)" />
+                          @bind-Value="LoginParameters.UserName" For="@(() => LoginParameters.UserName)"/>
             <MudTextField Label="Password" Class="mt-3"
-                          @bind-Value="loginParameters.Password" For="@(() => loginParameters.Password)" InputType="InputType.Password" />
-            <MudCheckBox Label="Remember me" T="bool" @bind-Value="@loginParameters.RememberMe" />
+                          @bind-Value="LoginParameters.Password" For="@(() => LoginParameters.Password)" InputType="InputType.Password"/>
+            <MudCheckBox Label="Remember me" T="bool" @bind-Value="@LoginParameters.RememberMe"/>
         </MudCardContent>
         <MudCardActions>
             <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Sign in</MudButton>
@@ -25,35 +25,38 @@
     </MudCard>
 
 
-    @if (!string.IsNullOrEmpty(error))
+    @if (!string.IsNullOrEmpty(Error))
     {
         <MudText Typo="Typo.body2" Align="Align.Center" Class="my-4">
-            @error
+            @Error
         </MudText>
     }
 </EditForm>
 
 @code{
+
     [Parameter]
-    public string returnUrl { get; set; }
-    LoginParametersDTO loginParameters { get; set; } = new LoginParametersDTO();
-    string error { get; set; }
+    public string ReturnUrl { get; set; }
+
+    LoginParametersDTO LoginParameters { get; } = new();
+    string Error { get; set; }
 
     async Task OnValidSubmit()
     {
-        error = null;
+        Error = null;
         try
         {
-            await authStateProvider.Login(loginParameters);
-            if (string.IsNullOrEmpty(returnUrl))
+            await AuthStateProvider.Login(LoginParameters);
+            if (string.IsNullOrEmpty(ReturnUrl))
             {
-                navigationManager.NavigateTo("/");
+                NavigationManager.NavigateTo("/");
             }
-            navigationManager.NavigateTo("/" + returnUrl.Replace("&", "/"));
+            NavigationManager.NavigateTo("/" + ReturnUrl.Replace("&", "/"));
         }
         catch (Exception ex)
         {
-            error = ex.Message;
+            Error = ex.Message;
         }
     }
+
 }

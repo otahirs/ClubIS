@@ -1,13 +1,13 @@
-﻿using ClubIS.BusinessLayer.Facades.Interfaces;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ClubIS.BusinessLayer.Facades.Interfaces;
+using ClubIS.CoreLayer;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Enums;
-using ClubIS.CoreLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ClubIS.WebAPI.Controllers
 {
@@ -29,11 +29,9 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Payments retrieved.")]
         public async Task<ActionResult<IEnumerable<PaymentListDTO>>> Get()
         {
-            IEnumerable<PaymentListDTO> payments = await _paymentFacade.GetAll();
+            var payments = await _paymentFacade.GetAll();
             if (payments == null)
-            {
                 return NotFound();
-            }
             return Ok(payments);
         }
 
@@ -43,17 +41,11 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Statements retrieved.")]
         public async Task<ActionResult<IEnumerable<FinanceStatementDTO>>> GetByUserId(int userId)
         {
-            if (User.Identity.GetUserId() != userId &&
-                !User.IsInRole(Role.Finance) &&
-                !User.IsInRole(Role.Admin))
-            {
+            if (User.Identity.GetUserId() != userId && !User.IsInRole(Role.Finance) && !User.IsInRole(Role.Admin))
                 return Unauthorized();
-            }
-            IEnumerable<FinanceStatementDTO> financeStatements = await _paymentFacade.GetAllFinanceStatement(userId);
+            var financeStatements = await _paymentFacade.GetAllFinanceStatement(userId);
             if (financeStatements == null)
-            {
                 return NotFound();
-            }
             return Ok(financeStatements);
         }
 
@@ -64,16 +56,8 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<ActionResult> Post([FromBody] PaymentUserTransferDTO payment)
         {
             if (User.Identity.GetUserId() != payment.SourceUserId && //TODO allow transfers from supervised accounts
-               !User.IsInRole(Role.Finance) &&
-               !User.IsInRole(Role.Admin))
-            {
+                !User.IsInRole(Role.Finance) && !User.IsInRole(Role.Admin))
                 return Unauthorized();
-            }
-
-            if (payment == null)
-            {
-                return BadRequest();
-            }
 
             await _paymentFacade.Create(payment);
             return Ok();
@@ -85,11 +69,9 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Member fee types retrieved.")]
         public async Task<ActionResult<IEnumerable<MemberFeeDTO>>> GetAllMemberFeeTypes()
         {
-            IEnumerable<MemberFeeDTO> memberFeeTypes = await _paymentFacade.GetAllMemberFeeTypes();
+            var memberFeeTypes = await _paymentFacade.GetAllMemberFeeTypes();
             if (memberFeeTypes == null)
-            {
                 return NotFound();
-            }
             return Ok(memberFeeTypes);
         }
 
@@ -98,23 +80,20 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<ActionResult> EditMemberFeeType([FromBody] MemberFeeDTO feeType)
         {
             if (feeType == null)
-            {
                 return BadRequest();
-            }
 
             await _paymentFacade.UpdateMemberFee(feeType);
             return Ok();
         }
+
         [HttpPost("member-fee-types")]
         [Authorize(Policy = Policy.Finance)]
         public async Task<ActionResult> CreateMemberFeeTypes([FromBody] MemberFeeDTO feeType)
         {
             if (feeType == null)
-            {
                 return BadRequest();
-            }
 
-            await _paymentFacade.CreatMemberFee(feeType);
+            await _paymentFacade.CreateMemberFee(feeType);
             return Ok();
         }
 
@@ -124,11 +103,9 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Users retrieved.")]
         public async Task<ActionResult<IEnumerable<UserListDTO>>> GetUsers()
         {
-            IEnumerable<FinanceUserListDTO> users = await _paymentFacade.GetAllUserCreditList();
+            var users = await _paymentFacade.GetAllUserCreditList();
             if (users == null)
-            {
                 return NotFound();
-            }
             return Ok(users);
         }
 
@@ -137,9 +114,7 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<ActionResult> GiveCredit([FromBody] PaymentGiveCreditDTO payment)
         {
             if (payment == null)
-            {
                 return BadRequest();
-            }
 
             await _paymentFacade.Create(payment, User.Identity.GetUserId());
             return Ok();
@@ -150,9 +125,7 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<ActionResult> TakeCredit([FromBody] PaymentTakeCreditDTO payment)
         {
             if (payment == null)
-            {
                 return BadRequest();
-            }
 
             await _paymentFacade.Create(payment, User.Identity.GetUserId());
             return Ok();
@@ -163,11 +136,9 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize(Policy = Policy.Finance)]
         public async Task<ActionResult<IEnumerable<PaymentEntryListDTO>>> GetPaymentEntryList(int eventId)
         {
-            IEnumerable<PaymentEntryListDTO> eventPayments = await _paymentFacade.GetPaymentEntryListByEventId(eventId);
+            var eventPayments = await _paymentFacade.GetPaymentEntryListByEventId(eventId);
             if (eventPayments == null)
-            {
                 return NotFound();
-            }
             return Ok(eventPayments);
         }
 
@@ -176,9 +147,7 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<ActionResult> UpdatePaymentEntryList([FromBody] IEnumerable<PaymentEntryListDTO> payments)
         {
             if (payments == null)
-            {
                 return BadRequest();
-            }
 
             await _paymentFacade.UpdatePaymentEntryList(payments, User.Identity.GetUserId());
             return Ok();

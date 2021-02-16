@@ -9,8 +9,10 @@ namespace ClubIS.CoreLayer.DTOs
         public int UserId { get; set; }
         public int EventId { get; set; }
         public int PaymentId { get; set; }
+
         [Range(1, int.MaxValue)]
         public int? CreditAmount { get; set; }
+
         public string Message { get; set; }
     }
 }

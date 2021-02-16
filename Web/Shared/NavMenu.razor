@@ -1,5 +1,5 @@
-﻿@inject NavigationManager navigationManager
-@inject IdentityAuthenticationStateProvider authStateProvider
+﻿@inject NavigationManager NavigationManager
+@inject IdentityAuthenticationStateProvider AuthStateProvider
 <MudNavMenu Class="mt-10">
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
     <MudNavLink Href="/events" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.DirectionsRun">Event Entries</MudNavLink>
@@ -7,34 +7,34 @@
     <MudNavLink Href="/finance" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AccountBalanceWallet">Finance</MudNavLink>
     <MudNavLink Href="/settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">Settings</MudNavLink>
     <AuthorizeView Policy="ShowAdminMenu">
-        <MudDivider DividerType="DividerType.Middle" Class="mt-10" />
-        <br />
+        <MudDivider DividerType="DividerType.Middle" Class="mt-10"/>
+        <br/>
     </AuthorizeView>
-    <AuthorizeView Policy=@Policy.News>
+    <AuthorizeView Policy="@Policy.News">
         <MudNavLink Href="/admin/news" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Message">News Edit</MudNavLink>
     </AuthorizeView>
-    <AuthorizeView Policy=@Policy.Entries>
+    <AuthorizeView Policy="@Policy.Entries">
         <MudNavLink Href="/admin/events" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.SportsKabaddi">Events Edit</MudNavLink>
     </AuthorizeView>
-    <AuthorizeView Policy=@Policy.Users>
+    <AuthorizeView Policy="@Policy.Users">
         <MudNavLink Href="/admin/users" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Groups">Users Edit</MudNavLink>
     </AuthorizeView>
-    <AuthorizeView Policy=@Policy.Entries>
+    <AuthorizeView Policy="@Policy.Entries">
         <MudNavLink Href="/admin/entries" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.StickyNote2">Entries Export</MudNavLink>
     </AuthorizeView>
-    <AuthorizeView Policy=@Policy.Finance>
+    <AuthorizeView Policy="@Policy.Finance">
         <MudNavLink Href="/admin/finance" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AccountBalance">Finance Managment</MudNavLink>
     </AuthorizeView>
-    <br />
-    <MudDivider DividerType="DividerType.Middle" Class="mb-5" />
+    <br/>
+    <MudDivider DividerType="DividerType.Middle" Class="mb-5"/>
 
     <AuthorizeView>
         <Authorized>
             <MudText Class="mx-2">@context.User.Identity.Name</MudText>
-            <MudButton OnClick="@(()=> navigationManager.NavigateTo("/logout"))">Logout</MudButton>
+            <MudButton OnClick="@(() => NavigationManager.NavigateTo("/logout"))">Logout</MudButton>
         </Authorized>
         <NotAuthorized>
-            <MudButton OnClick="@(()=> navigationManager.NavigateTo("/login"))">Login</MudButton>
+            <MudButton OnClick="@(() => NavigationManager.NavigateTo("/login"))">Login</MudButton>
         </NotAuthorized>
     </AuthorizeView>
 </MudNavMenu>

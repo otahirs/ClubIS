@@ -1,66 +1,70 @@
 ﻿@inject HttpClient Http
 
-    @if (users == null)
-    {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
-    }
-    else
-    {
-        <EditForm Model="@sendPayment" OnValidSubmit="OnValidSubmit">
-            <DataAnnotationsValidator />
-            <MudCard>
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h6">Transfer to another user</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                    <MudTextField Label="From" Text="@SourceUserName" T="string" Disabled="true" Variant="Variant.Outlined" />
-                    <MudAutocomplete Label="Recipient" T="int?" @bind-Value="sendPayment.RecipientUserId" SearchFunc="@Search" ToStringFunc="@(id=> users.Where(u=> u.Id == (int)id).Select(u =>  $"{u.Surname} {u.Firstname}").First())" For="@(() => sendPayment.RecipientUserId)" Variant="Variant.Outlined" ResetValueOnEmptyText="true" />
-                    <MudTextField Label="Amount" @bind-Value="sendPayment.CreditAmount" For="@(() => sendPayment.CreditAmount)" Variant="Variant.Outlined" />
-                    <MudTextField Label="Note" @bind-Value="sendPayment.Message" For="@(() => sendPayment.Message)" Variant="Variant.Outlined" />
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </EditForm>
-    }
+@if (_users == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+}
+else
+{
+    <EditForm Model="@_sendPayment" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator/>
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Transfer to another user</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField Label="From" Text="@SourceUserName" T="string" Disabled="true" Variant="Variant.Outlined"/>
+                <MudAutocomplete Label="Recipient" T="int?" @bind-Value="_sendPayment.RecipientUserId" SearchFunc="@Search" ToStringFunc="@(id => _users.Where(u => u.Id == (int) id).Select(u => $"{u.Surname} {u.Firstname}").First())" For="@(() => _sendPayment.RecipientUserId)" Variant="Variant.Outlined" ResetValueOnEmptyText="true"/>
+                <MudTextField Label="Amount" @bind-Value="_sendPayment.CreditAmount" For="@(() => _sendPayment.CreditAmount)" Variant="Variant.Outlined"/>
+                <MudTextField Label="Note" @bind-Value="_sendPayment.Message" For="@(() => _sendPayment.Message)" Variant="Variant.Outlined"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+}
 
 @code {
+
     [Parameter]
     public int SourceUserId { get; set; }
+
     [Parameter]
     public string SourceUserName { get; set; }
-    [Parameter] 
+
+    [Parameter]
     public EventCallback OnAfterSubmit { get; set; }
-    private List<UserListDTO> users;
-    private PaymentUserTransferDTO sendPayment = new PaymentUserTransferDTO();
+
+    private List<UserListDTO> _users;
+    private PaymentUserTransferDTO _sendPayment = new();
 
     protected override async Task OnInitializedAsync()
     {
-        users = await Http.GetFromJsonAsync<List<UserListDTO>>("Users");
+        _users = await Http.GetFromJsonAsync<List<UserListDTO>>("Users");
     }
 
     protected override void OnParametersSet()
     {
-        sendPayment = new PaymentUserTransferDTO();
+        _sendPayment = new PaymentUserTransferDTO();
     }
 
     private async Task OnValidSubmit(EditContext context)
     {
-        sendPayment.SourceUserId = SourceUserId;
-        await Http.PostAsJsonAsync<PaymentUserTransferDTO>("Payments/transfer", sendPayment);
-        sendPayment = new PaymentUserTransferDTO();
+        _sendPayment.SourceUserId = SourceUserId;
+        await Http.PostAsJsonAsync("Payments/transfer", _sendPayment);
+        _sendPayment = new PaymentUserTransferDTO();
         await OnAfterSubmit.InvokeAsync();
     }
 
     private async Task<IEnumerable<int?>> Search(string searchValue)
     {
-        var recipientUsers = users.Where(u => u.Id != SourceUserId);
+        var recipientUsers = _users.Where(u => u.Id != SourceUserId);
         if (string.IsNullOrEmpty(searchValue))
-            return recipientUsers.Select(u => (int?)u.Id);
-        return recipientUsers.Where(u => $"{u.Surname} ({u.Firstname})".Contains(searchValue, StringComparison.InvariantCultureIgnoreCase)).Select(u => (int?)u.Id);
+            return recipientUsers.Select(u => (int?) u.Id);
+        return recipientUsers.Where(u => $"{u.Surname} ({u.Firstname})".Contains(searchValue, StringComparison.InvariantCultureIgnoreCase)).Select(u => (int?) u.Id);
     }
 
 }

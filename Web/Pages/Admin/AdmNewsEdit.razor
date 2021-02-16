@@ -3,47 +3,52 @@
 
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
-@inject IdentityAuthenticationStateProvider authStateProvider
+@inject IdentityAuthenticationStateProvider AuthStateProvider
 @attribute [Authorize(Policy = Policy.News)]
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
-    @if (SendNews == null)
+    @if (_sendNews == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
-        <EditForm Model="@SendNews" OnValidSubmit="OnValidSubmit">
-            <DataAnnotationsValidator />
+        <EditForm Model="@_sendNews" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator/>
             <MudCard Elevation="0">
                 <MudCardContent>
-                    <MudTextField Label="Title" @bind-Value="SendNews.Title" For="@(() => SendNews.Title)" Variant="Variant.Outlined" />
-                    <MudTextField Label="Text" @bind-Value="SendNews.Text" For="@(() => SendNews.Text)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Title" @bind-Value="_sendNews.Title" For="@(() => _sendNews.Title)" Variant="Variant.Outlined"/>
+                    <MudTextField Label="Text" @bind-Value="_sendNews.Text" For="@(() => _sendNews.Text)" Variant="Variant.Outlined"/>
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
                     @if (NewsId != null)
-                    {<MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveNews" Class="ml-auto">Remove</MudButton>}
+                    {
+                        <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveNews" Class="ml-auto">Remove</MudButton>
+                    }
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
                 </MudCardActions>
             </MudCard>
-        </EditForm>}
+        </EditForm>
+    }
 </MudContainer>
 
 @code {
+
     [Parameter]
     public int? NewsId { get; set; }
-    private NewsEditDTO SendNews;
+
+    private NewsEditDTO _sendNews;
 
     protected override async Task OnInitializedAsync()
     {
         if (NewsId == null)
         {
-            SendNews = new NewsEditDTO() { UserId = await authStateProvider.GetUserId() };
+            _sendNews = new NewsEditDTO {UserId = await AuthStateProvider.GetUserId()};
         }
         else
         {
-            SendNews = await Http.GetFromJsonAsync<NewsEditDTO>($"News/{NewsId}");
+            _sendNews = await Http.GetFromJsonAsync<NewsEditDTO>($"News/{NewsId}");
         }
     }
 
@@ -51,12 +56,12 @@
     {
         if (NewsId == null)
         {
-            SendNews.Date = DateTime.Now;
-            await Http.PostAsJsonAsync<NewsEditDTO>("News", SendNews);
+            _sendNews.Date = DateTime.Now;
+            await Http.PostAsJsonAsync("News", _sendNews);
         }
         else
         {
-            await Http.PutAsJsonAsync<NewsEditDTO>("News", SendNews);
+            await Http.PutAsJsonAsync("News", _sendNews);
         }
         Navigate();
     }
@@ -69,6 +74,7 @@
 
     private void Navigate()
     {
-        NavigationManager.NavigateTo($"/admin/news");
+        NavigationManager.NavigateTo("/admin/news");
     }
+
 }

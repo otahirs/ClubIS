@@ -6,6 +6,7 @@ namespace ClubIS.CoreLayer.DTOs
     {
         [Required]
         public int EditedUserId { get; set; }
+
         [Required]
         public string OldPassword { get; set; }
 

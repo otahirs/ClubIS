@@ -1,13 +1,13 @@
-﻿using ClubIS.BusinessLayer.Facades.Interfaces;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ClubIS.BusinessLayer.Facades.Interfaces;
+using ClubIS.CoreLayer;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Enums;
-using ClubIS.CoreLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ClubIS.WebAPI.Controllers
 {
@@ -29,11 +29,9 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Users retrieved.")]
         public async Task<ActionResult<IEnumerable<UserListDTO>>> Get()
         {
-            IEnumerable<UserListDTO> users = await _userFacade.GetAll();
+            var users = await _userFacade.GetAll();
             if (users == null)
-            {
                 return NotFound();
-            }
             return Ok(users);
         }
 
@@ -42,11 +40,9 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Users retrieved.")]
         public async Task<ActionResult<IEnumerable<UserEntriesSupervisedListDTO>>> GetEntriesSupervisors()
         {
-            IEnumerable<UserEntriesSupervisedListDTO> users = await _userFacade.GetAllEntriesSupervisors();
+            var users = await _userFacade.GetAllEntriesSupervisors();
             if (users == null)
-            {
                 return NotFound();
-            }
             return Ok(users);
         }
 
@@ -54,17 +50,11 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<EntryUserListDTO>>> GetEntryUserList(int id)
         {
-            if (User.Identity.GetUserId() != id &&
-               !User.IsInRole(Role.Users) &&
-               !User.IsInRole(Role.Admin))
-            {
+            if (User.Identity.GetUserId() != id && !User.IsInRole(Role.Users) && !User.IsInRole(Role.Admin))
                 return Unauthorized();
-            }
-            IEnumerable<EntryUserListDTO> users = await _userFacade.GetEntryUserList(id);
+            var users = await _userFacade.GetEntryUserList(id);
             if (users == null)
-            {
                 return NotFound();
-            }
             return Ok(users);
         }
 
@@ -74,12 +64,10 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "One user retrieved.")]
         public async Task<ActionResult<UserDTO>> Get(int id)
         {
-            UserDTO user = await _userFacade.GetById(id);
+            var user = await _userFacade.GetById(id);
 
             if (user == null)
-            {
                 return NotFound();
-            }
             return Ok(user);
         }
 
@@ -90,9 +78,7 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<ActionResult> Put([FromBody] UserDTO user)
         {
             if (user == null)
-            {
                 return BadRequest();
-            }
 
             await _userFacade.Update(user);
             return Ok();
@@ -104,17 +90,8 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "User updated.")]
         public async Task<ActionResult> Put([FromBody] MemberUserEditDTO user)
         {
-            if (User.Identity.GetUserId() != user.Id &&
-              !User.IsInRole(Role.Users) &&
-              !User.IsInRole(Role.Admin))
-            {
+            if (User.Identity.GetUserId() != user.Id && !User.IsInRole(Role.Users) && !User.IsInRole(Role.Admin))
                 return Unauthorized();
-            }
-
-            if (user == null)
-            {
-                return BadRequest();
-            }
 
             await _userFacade.Update(user);
             return Ok();
@@ -126,12 +103,10 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "User deleted.")]
         public async Task<ActionResult> Delete(int id)
         {
-            UserDTO user = await _userFacade.GetById(id);
+            var user = await _userFacade.GetById(id);
 
             if (user == null)
-            {
                 return NotFound();
-            }
             await _userFacade.Delete(id);
             return Ok();
         }
@@ -143,18 +118,12 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Supervisions retrieved.")]
         public async Task<ActionResult<UserSupervisionsDTO>> UserSupervisions(int id)
         {
-            if (User.Identity.GetUserId() != id &&
-              !User.IsInRole(Role.Users) &&
-              !User.IsInRole(Role.Admin))
-            {
+            if (User.Identity.GetUserId() != id && !User.IsInRole(Role.Users) && !User.IsInRole(Role.Admin))
                 return Unauthorized();
-            }
 
-            UserSupervisionsDTO userSupervisions = await _userFacade.GetUserSupervisions(id);
+            var userSupervisions = await _userFacade.GetUserSupervisions(id);
             if (userSupervisions == null)
-            {
                 return NotFound();
-            }
             return Ok(userSupervisions);
         }
 
@@ -165,9 +134,7 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<ActionResult> Put([FromBody] UserSupervisionsDTO user)
         {
             if (user == null)
-            {
                 return BadRequest();
-            }
 
             await _userFacade.UpdateSupervisions(user);
             return Ok();
@@ -177,11 +144,9 @@ namespace ClubIS.WebAPI.Controllers
         [Authorize(Policy = Policy.Users)]
         public async Task<ActionResult<IEnumerable<UserPermListDTO>>> GetAllWithPermissions()
         {
-            IEnumerable<UserPermListDTO> users = await _userFacade.GetAllWithPermissions();
+            var users = await _userFacade.GetAllWithPermissions();
             if (users == null)
-            {
                 return NotFound();
-            }
             return Ok(users);
         }
     }

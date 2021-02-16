@@ -1,23 +1,23 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.DataAccessLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Facades
 {
     public class PaymentFacade : IPaymentFacade
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IPaymentService _paymentService;
         private readonly IEntryService _entryService;
-        private readonly IUserService _userService;
-        private readonly IMemberFeeService _memberFeeService;
         private readonly IMapper _mapper;
+        private readonly IMemberFeeService _memberFeeService;
+        private readonly IPaymentService _paymentService;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserService _userService;
+
         public PaymentFacade(IUnitOfWork unitOfWork, IPaymentService paymentService, IEntryService entryService, IMemberFeeService memberFeeService, IUserService userService, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -36,9 +36,9 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task Create(PaymentUserTransferDTO p)
         {
-            PaymentEditDTO payment = _mapper.Map<PaymentEditDTO>(p);
-            UserDTO recipientUser = await _userService.GetById((int)p.RecipientUserId);
-            UserDTO sourceUser = await _userService.GetById(p.SourceUserId);
+            var payment = _mapper.Map<PaymentEditDTO>(p);
+            var recipientUser = await _userService.GetById((int) p.RecipientUserId);
+            var sourceUser = await _userService.GetById(p.SourceUserId);
 
             payment.RecipientAccountId = recipientUser.AccountId;
             payment.SourceAccountId = sourceUser.AccountId;
@@ -50,8 +50,8 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task Create(PaymentGiveCreditDTO p, int executorId)
         {
-            UserDTO recipientUser = await _userService.GetById(p.RecipientUserId);
-            PaymentEditDTO payment = _mapper.Map<PaymentEditDTO>(p);
+            var recipientUser = await _userService.GetById(p.RecipientUserId);
+            var payment = _mapper.Map<PaymentEditDTO>(p);
             payment.RecipientAccountId = recipientUser.AccountId;
             payment.ExecutorId = executorId;
             await _paymentService.Create(payment);
@@ -60,8 +60,8 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task Create(PaymentTakeCreditDTO p, int executorId)
         {
-            UserDTO sourceUser = await _userService.GetById(p.SourceUserId);
-            PaymentEditDTO payment = _mapper.Map<PaymentEditDTO>(p);
+            var sourceUser = await _userService.GetById(p.SourceUserId);
+            var payment = _mapper.Map<PaymentEditDTO>(p);
             payment.SourceAccountId = sourceUser.AccountId;
             payment.ExecutorId = executorId;
             await _paymentService.Create(payment);
@@ -70,8 +70,8 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task Create(PaymentEntryListDTO p, int executorId)
         {
-            UserDTO sourceUser = await _userService.GetById(p.UserId);
-            PaymentEditDTO payment = _mapper.Map<PaymentEditDTO>(p);
+            var sourceUser = await _userService.GetById(p.UserId);
+            var payment = _mapper.Map<PaymentEditDTO>(p);
             payment.SourceAccountId = sourceUser.AccountId;
             payment.ExecutorId = executorId;
             await _paymentService.Create(payment);
@@ -80,8 +80,8 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task Update(PaymentEntryListDTO p, int executorId)
         {
-            UserDTO sourceUser = await _userService.GetById(p.UserId);
-            PaymentEditDTO payment = _mapper.Map<PaymentEditDTO>(p);
+            var sourceUser = await _userService.GetById(p.UserId);
+            var payment = _mapper.Map<PaymentEditDTO>(p);
             payment.SourceAccountId = sourceUser.AccountId;
             payment.ExecutorId = executorId;
             await _paymentService.Update(payment);
@@ -106,18 +106,14 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task<IEnumerable<FinanceStatementDTO>> GetAllFinanceStatement(int userId)
         {
-            List<FinanceStatementDTO> result = new List<FinanceStatementDTO>()
-            {
-                await _paymentService.GetFinanceStatement(userId)
-            };
+            var result = new List<FinanceStatementDTO> {await _paymentService.GetFinanceStatement(userId)};
 
-            foreach (CoreLayer.Entities.User user in await _unitOfWork.Users.GetFinanceSupervisored(userId))
-            {
+            foreach (var user in await _unitOfWork.Users.GetFinanceSupervisored(userId))
                 result.Add(await _paymentService.GetFinanceStatement(user.Id));
-            }
             return result;
         }
-        public async Task<IEnumerable<PaymentListDTO>> GetAllByEventID(int id)
+
+        public async Task<IEnumerable<PaymentListDTO>> GetAllByEventId(int id)
         {
             return await _paymentService.GetAllByEventID(id);
         }
@@ -131,21 +127,18 @@ namespace ClubIS.BusinessLayer.Facades
         {
             var entries = await _entryService.GetAllByEventId(id);
             var eventPayments = await _paymentService.GetPaymentEntryListByEventId(id);
-            return entries.Select(e =>
-                    eventPayments.FirstOrDefault(p => p.UserId == e.UserId) ??
-                    new PaymentEntryListDTO()
-                    {
-                        EventId = e.EventId,
-                        UserId = e.UserId,
-                        Name = e.Name,
-                        RegistrationNumber = e.RegistrationNumber
-                    });
+            return entries.Select(e => eventPayments.FirstOrDefault(p => p.UserId == e.UserId) ?? new PaymentEntryListDTO
+            {
+                EventId = e.EventId,
+                UserId = e.UserId,
+                Name = e.Name,
+                RegistrationNumber = e.RegistrationNumber
+            });
         }
 
         public async Task UpdatePaymentEntryList(IEnumerable<PaymentEntryListDTO> payments, int executorId)
         {
-            foreach(var payment in payments)
-            {
+            foreach (var payment in payments)
                 if (payment.PaymentId == 0)
                 {
                     await Create(payment, executorId);
@@ -154,15 +147,12 @@ namespace ClubIS.BusinessLayer.Facades
                 {
                     var paymentEntity = await _paymentService.GetById(payment.PaymentId);
                     if (paymentEntity != null)
-                    {
                         await Delete(payment.PaymentId);
-                    }
                 }
                 else
                 {
                     await Update(payment, executorId);
                 }
-            }
         }
 
         public async Task<IEnumerable<MemberFeeDTO>> GetAllMemberFeeTypes()
@@ -170,7 +160,7 @@ namespace ClubIS.BusinessLayer.Facades
             return await _memberFeeService.GetAll();
         }
 
-        public async Task CreatMemberFee(MemberFeeDTO feeType)
+        public async Task CreateMemberFee(MemberFeeDTO feeType)
         {
             await _memberFeeService.Create(feeType);
             await _unitOfWork.Save();

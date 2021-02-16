@@ -8,11 +8,9 @@ namespace ClubIS.CoreLayer
     {
         public static int GetUserId(this IIdentity identity)
         {
-            Claim claim = ((ClaimsIdentity)identity).FindFirst(ClaimTypes.NameIdentifier);
+            var claim = ((ClaimsIdentity) identity).FindFirst(ClaimTypes.NameIdentifier);
             if (claim == null)
-            {
                 throw new ArgumentException("Cannot get UserId for Unauthenticated user");
-            }
             return int.Parse(claim.Value);
         }
     }

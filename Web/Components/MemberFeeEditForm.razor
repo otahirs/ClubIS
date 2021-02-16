@@ -2,20 +2,20 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
-    @if (User == null || memberFeeTypes == null)
+    @if (User == null || _memberFeeTypes == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
         <EditForm Model="@User" OnValidSubmit="OnValidSubmit">
-            <DataAnnotationsValidator />
+            <DataAnnotationsValidator/>
             <MudCard Elevation="0">
                 <MudCardContent>
-                    <MudSelect T="MemberFeeDTO" Label="Selected member fee" Variant="Variant.Outlined" ToStringFunc="((m) => m.Name)" @bind-Value="User.MemberFee">
-                        @foreach (var memberFeeType in memberFeeTypes)
+                    <MudSelect T="MemberFeeDTO" Label="Selected member fee" Variant="Variant.Outlined" ToStringFunc="m => m.Name" @bind-Value="User.MemberFee">
+                        @foreach (var memberFeeType in _memberFeeTypes)
                         {
-                            <MudSelectItem T="MemberFeeDTO" Value="memberFeeType" />
+                            <MudSelectItem T="MemberFeeDTO" Value="memberFeeType"/>
                         }
                     </MudSelect>
                 </MudCardContent>
@@ -28,18 +28,20 @@
 </MudContainer>
 
 @code {
+
     [Parameter]
     public UserDTO User { get; set; }
-    private List<MemberFeeDTO> memberFeeTypes;
+
+    private List<MemberFeeDTO> _memberFeeTypes;
 
     protected override async Task OnInitializedAsync()
     {
-        memberFeeTypes = await Http.GetFromJsonAsync<List<MemberFeeDTO>>($"Payments/member-fee-types");
+        _memberFeeTypes = await Http.GetFromJsonAsync<List<MemberFeeDTO>>("Payments/member-fee-types");
     }
 
     private async Task OnValidSubmit(EditContext context)
     {
-        await Http.PutAsJsonAsync<UserDTO>("Users", User);
+        await Http.PutAsJsonAsync("Users", User);
     }
-}
 
+}

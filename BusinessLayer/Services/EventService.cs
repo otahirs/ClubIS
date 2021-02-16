@@ -1,19 +1,19 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
 using ClubIS.CoreLayer.Enums;
 using ClubIS.DataAccessLayer;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Services
 {
     public class EventService : IEventService
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
         public EventService(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -23,7 +23,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task Create(EventDTO e)
         {
-            Event entity = _mapper.Map<Event>(e);
+            var entity = _mapper.Map<Event>(e);
             await _unitOfWork.Events.Add(entity);
         }
 
@@ -34,7 +34,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task Update(EventDTO e)
         {
-            Event entity = await _unitOfWork.Events.GetById(e.Id);
+            var entity = await _unitOfWork.Events.GetById(e.Id);
             _mapper.Map(e, entity);
         }
 
@@ -50,9 +50,9 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task<IEnumerable<EventListWithUserEntryDTO>> GetAllWithUserEntry(int userId)
         {
-            IEnumerable<EventEntry> entries = await _unitOfWork.Entry.GetAllByUserId(userId);
-            IEnumerable<Event> events = await _unitOfWork.Events.GetAll();
-            return events.Select(e => new EventListWithUserEntryDTO()
+            var entries = await _unitOfWork.Entry.GetAllByUserId(userId);
+            var events = await _unitOfWork.Events.GetAll();
+            return events.Select(e => new EventListWithUserEntryDTO
             {
                 Event = _mapper.Map<EventListDTO>(e),
                 EntryInfo = _mapper.Map<EventEntryBasicInfoDTO>(entries.SingleOrDefault(entry => entry.EventId == e.Id && entry.Status != EntryStatus.Removed))

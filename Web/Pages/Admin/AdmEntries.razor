@@ -5,22 +5,22 @@
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin entries</MudText>
-    @if (events == null)
+    @if (_events == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
         <MudPaper Class="d-flex justify-space-between" Elevation="0">
-            <MudTextField Class="ma-4" @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
-            <MudSelect @bind-Value="searchType" Label="Filter EventType" Class=" ma-4">
-                @foreach (var type in types)
-                    {
-                    <MudSelectItem Value="@type" />
-                    }
+            <MudTextField Class="ma-4" @bind-Value="_searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+            <MudSelect @bind-Value="_searchType" Label="Filter EventType" Class=" ma-4">
+                @foreach (var type in _types)
+                {
+                    <MudSelectItem Value="@type"/>
+                }
             </MudSelect>
         </MudPaper>
-        <MudTable Items="@events" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@(e=>Navigate(e))" T="EventListDTO" Hover="true" Dense="true">
+        <MudTable Items="@_events" Filter="new Func<EventListDTO, bool>(FilterFunc)" OnRowClick="@(e => Navigate(e))" T="EventListDTO" Hover="true" Dense="true">
             <HeaderContent>
                 <MudTh>Date</MudTh>
                 <MudTh>Name</MudTh>
@@ -51,33 +51,34 @@
 </MudContainer>
 
 @code {
-    private EventListDTO[] events;
-    private List<string> types = Enum.GetNames(typeof(EventType)).Prepend("All").ToList();
-    private string searchType = "All";
-    private string searchString = "";
+    private EventListDTO[] _events;
+    private readonly List<string> _types = Enum.GetNames(typeof(EventType)).Prepend("All").ToList();
+    private string _searchType = "All";
+    private string _searchString = "";
 
     protected override async Task OnInitializedAsync()
     {
-        events = await Http.GetFromJsonAsync<EventListDTO[]>($"Events/");
+        _events = await Http.GetFromJsonAsync<EventListDTO[]>("Events/");
     }
 
     bool FilterFunc(EventListDTO e)
     {
-        if (searchString == null) searchString = "";
+        if (_searchString == null)
+            _searchString = "";
         var eventData = $"{GetDate(e.StartDate, e.EndDate)} {e.Name} {e.Place} {e.EventType} {GetDeadlines(e.Deadlines)}";
         var eventType = e.EventType.ToString();
 
-        return (searchType == "All" || eventType.Contains(searchType)) && eventData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
+        return (_searchType == "All" || eventType.Contains(_searchType)) && eventData.Contains(_searchString, StringComparison.InvariantCultureIgnoreCase);
     }
 
     private static string GetDate(DateTime start, DateTime end)
     {
-        return (start.Equals(end)) ? end.ToString("dd.MM.yyyy") : start.ToString("dd.") + '-' + end.ToString("dd.MM.yyyy");
+        return start.Equals(end) ? end.ToString("dd.MM.yyyy") : start.ToString("dd.") + '-' + end.ToString("dd.MM.yyyy");
     }
 
     private static string GetDeadlines(ICollection<EventDeadline> deadlines)
     {
-        return (deadlines.Count != 0) ? deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
+        return deadlines.Count != 0 ? deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
     }
 
 

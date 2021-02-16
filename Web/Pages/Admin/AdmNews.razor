@@ -7,15 +7,15 @@
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin news</MudText>
-    @if (news == null)
+    @if (_news == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
-        @foreach (var n in news)
+        @foreach (var n in _news)
         {
-            <MudCard @onclick="(e => Navigate(n))">
+            <MudCard @onclick="e => Navigate(n)">
                 <MudCardHeader>
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">@n.Title</MudText>
@@ -35,20 +35,21 @@
 
 
 @code {
-    private NewsListDTO[] news;
+    private NewsListDTO[] _news;
 
     protected override async Task OnInitializedAsync()
     {
-        news = await Http.GetFromJsonAsync<NewsListDTO[]>("News");
+        _news = await Http.GetFromJsonAsync<NewsListDTO[]>("News");
     }
 
     protected void Navigate()
     {
-        NavigationManager.NavigateTo($"/admin/news/create");
+        NavigationManager.NavigateTo("/admin/news/create");
     }
 
     protected void Navigate(NewsListDTO n)
     {
         NavigationManager.NavigateTo($"/admin/news/edit/{n.Id}");
     }
+
 }

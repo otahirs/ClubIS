@@ -1,21 +1,22 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Enums;
 using ClubIS.DataAccessLayer;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Facades
 {
     public class UserFacade : IUserFacade
     {
+        private readonly IAuthService _authService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
-        private readonly IAuthService _authService;
-        public UserFacade(IUnitOfWork unitOfWork, IUserService userService, IAuthService authService, IMapper mapper)
+
+        public UserFacade(IUnitOfWork unitOfWork, IUserService userService, IAuthService authService)
         {
             _unitOfWork = unitOfWork;
             _userService = userService;
@@ -66,9 +67,8 @@ namespace ClubIS.BusinessLayer.Facades
         {
             var users = await _userService.GetAll();
             var result = new List<UserPermListDTO>();
-            foreach(var user in users)
-            {
-                result.Add(new UserPermListDTO()
+            foreach (var user in users)
+                result.Add(new UserPermListDTO
                 {
                     Id = user.Id,
                     Firstname = user.Firstname,
@@ -77,7 +77,6 @@ namespace ClubIS.BusinessLayer.Facades
                     AccountState = user.AccountState,
                     Permissions = (await _authService.GetRoles(user.Id)).Roles
                 });
-            }
             return result;
         }
 
@@ -101,10 +100,7 @@ namespace ClubIS.BusinessLayer.Facades
             if (userRoles.Roles.Any(r => r == Role.Entries || r == Role.Admin))
             {
                 result.AddRange(await _userService.GetEntryAllUsers());
-                result = result
-                    .GroupBy(g => g.Id)
-                    .Select(g => g.First())
-                    .ToList(); // == distinct()
+                result = result.GroupBy(g => g.Id).Select(g => g.First()).ToList(); // == distinct()
             }
 
             return result;

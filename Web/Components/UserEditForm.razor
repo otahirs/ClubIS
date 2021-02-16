@@ -4,52 +4,58 @@
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
     @if (User == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
         <EditForm Model="@User" OnValidSubmit="OnValidSubmit">
-            <DataAnnotationsValidator />
+            <DataAnnotationsValidator/>
             <MudCard Elevation="0">
                 <MudCardContent>
                     <MudCard Elevation="0">
                         <MudText Typo="Typo.h4" GutterBottom="true">User data</MudText>
                         <MudCardContent>
-                            <MudTextField Label="Firstname" @bind-Value="User.Firstname" For="@(() => User.Firstname)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
-                            <MudTextField Label="Surname" @bind-Value="User.Surname" For="@(() => User.Surname)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
-                            <MudTextField Label="Reg. number" @bind-Value="User.RegistrationNumber" For="@(() => User.RegistrationNumber)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
+                            <MudTextField Label="Firstname" @bind-Value="User.Firstname" For="@(() => User.Firstname)" Variant="Variant.Outlined" Disabled="!IsAdmin"/>
+                            <MudTextField Label="Surname" @bind-Value="User.Surname" For="@(() => User.Surname)" Variant="Variant.Outlined" Disabled="!IsAdmin"/>
+                            <MudTextField Label="Reg. number" @bind-Value="User.RegistrationNumber" For="@(() => User.RegistrationNumber)" Variant="Variant.Outlined" Disabled="!IsAdmin"/>
                             <MudDatePicker Label="Date of birth" @bind-Date="User.DateOfBirth" InputVariant="Variant.Outlined" DateFormat="yyyy-MM-dd" Disabled="!IsAdmin" InputIcon=""/>
                             <MudSelect Label="Gender" @bind-Value="User.Gender" Variant="Variant.Outlined" Disabled="!IsAdmin">
                                 @foreach (Gender gender in Enum.GetValues(typeof(Gender)))
-                                        {<MudSelectItem Value="@gender"/>}
+                                {
+                                    <MudSelectItem Value="@gender"/>
+                                }
                             </MudSelect>
-                            <MudTextField Label="Nationality" @bind-Value="User.Nationality" For="@(() => User.Nationality)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
+                            <MudTextField Label="Nationality" @bind-Value="User.Nationality" For="@(() => User.Nationality)" Variant="Variant.Outlined" Disabled="!IsAdmin"/>
                             <MudSelect Label="Licence" @bind-Value="User.Licence" Variant="Variant.Outlined" Disabled="!IsAdmin">
                                 @foreach (Licence licence in Enum.GetValues(typeof(Licence)))
-                                        {<MudSelectItem Value="@licence" />}
+                                {
+                                    <MudSelectItem Value="@licence"/>
+                                }
                             </MudSelect>
                         </MudCardContent>
                     </MudCard>
                     <MudCard Elevation="0">
                         <MudText Typo="Typo.h4" GutterBottom="true">Address</MudText>
                         <MudCardContent>
-                            <MudTextField Label="Street & Num" @bind-Value="User.Address.StreetAndNumber" For="@(() => User.Address.StreetAndNumber)" Variant="Variant.Outlined" />
-                            <MudTextField Label="City" @bind-Value="User.Address.City" For="@(() => User.Address.City)" Variant="Variant.Outlined" />
-                            <MudTextField Label="Postal code" @bind-Value="User.Address.PostalCode" For="@(() => User.Address.PostalCode)" Variant="Variant.Outlined" />
+                            <MudTextField Label="Street & Num" @bind-Value="User.Address.StreetAndNumber" For="@(() => User.Address.StreetAndNumber)" Variant="Variant.Outlined"/>
+                            <MudTextField Label="City" @bind-Value="User.Address.City" For="@(() => User.Address.City)" Variant="Variant.Outlined"/>
+                            <MudTextField Label="Postal code" @bind-Value="User.Address.PostalCode" For="@(() => User.Address.PostalCode)" Variant="Variant.Outlined"/>
                         </MudCardContent>
                     </MudCard>
                     <MudCard Elevation="0">
                         <MudText Typo="Typo.h4" GutterBottom="true">Contact</MudText>
                         <MudCardContent>
-                            <MudTextField Label="E-mail" @bind-Value="User.Email" For="@(() => User.Email)" Variant="Variant.Outlined" />
-                            <MudTextField Label="Phone" @bind-Value="User.Phone" For="@(() => User.Phone)" Variant="Variant.Outlined" />
+                            <MudTextField Label="E-mail" @bind-Value="User.Email" For="@(() => User.Email)" Variant="Variant.Outlined"/>
+                            <MudTextField Label="Phone" @bind-Value="User.Phone" For="@(() => User.Phone)" Variant="Variant.Outlined"/>
                         </MudCardContent>
                     </MudCard>
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Restore" OnClick="RedoChanges" Class="ml-3">Undo changes</MudButton>
                     @if (IsAdmin)
-                    {<MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveUser" Class="ml-auto">Remove</MudButton>}
+                    {
+                        <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveUser" Class="ml-auto">Remove</MudButton>
+                    }
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
                 </MudCardActions>
             </MudCard>
@@ -58,15 +64,17 @@
 </MudContainer>
 
 @code {
+
     [Parameter]
     public UserDTO User { get; set; }
+
     [Parameter]
     public bool IsAdmin { get; set; }
 
     private async Task RemoveUser()
     {
         await Http.DeleteAsync($"Users/{User.Id}");
-        NavigationManager.NavigateTo($"/admin/users");
+        NavigationManager.NavigateTo("/admin/users");
     }
 
     private async Task RedoChanges()
@@ -76,20 +84,15 @@
 
     private async Task OnValidSubmit(EditContext context)
     {
-        if (IsAdmin) {
-            await Http.PutAsJsonAsync<UserDTO>("Users", User);
+        if (IsAdmin)
+        {
+            await Http.PutAsJsonAsync("Users", User);
         }
         else
         {
-            MemberUserEditDTO sendData = new MemberUserEditDTO()
-            {
-                Id = User.Id,
-                Address = User.Address,
-                Email = User.Email,
-                Phone = User.Phone,
-                SiCards = User.SiCards
-            };
-            await Http.PutAsJsonAsync<MemberUserEditDTO>("Users/member-edit", sendData);
+            var sendData = new MemberUserEditDTO {Id = User.Id, Address = User.Address, Email = User.Email, Phone = User.Phone, SiCards = User.SiCards};
+            await Http.PutAsJsonAsync("Users/member-edit", sendData);
         }
     }
+
 }

@@ -1,21 +1,21 @@
 ﻿@page "/admin/entries/{eventId:int}"
 @inject HttpClient Http
 @attribute [Authorize(Policy = Policy.Entries)]
-@inject IdentityAuthenticationStateProvider authState
+@inject IdentityAuthenticationStateProvider AuthState
 @inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
-    @if (e == null || entries == null)
+    @if (_e == null || _entries == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
         <MudCard Elevation="0">
             <MudCardContent>
-                <EventHeader Event="e" />
+                <EventHeader Event="_e"/>
                 <MudText Typo="Typo.h5" GutterBottom="true">Entries</MudText>
-                <MudTable Items="@entries" Dense="true">
+                <MudTable Items="@_entries" Dense="true">
                     <HeaderContent>
                         <MudTh>Name</MudTh>
                         <MudTh>Class</MudTh>
@@ -34,18 +34,17 @@
                         <MudTd DataLabel="Stages">@GetStages(context.EnteredStages)</MudTd>
                         <MudTd DataLabel="Status">
                             @if (context.Status == EntryStatus.Ok)
-                                {
+                            {
                                 <MudChip Size="Size.Small" Label="true" Color="Color.Success">@context.Status</MudChip>
-
-                                }
-                                else if (context.Status == EntryStatus.Changed)
-                                {
+                            }
+                            else if (context.Status == EntryStatus.Changed)
+                            {
                                 <MudChip Size="Size.Small" Label="true" Color="Color.Warning">@context.Status</MudChip>
-                                }
-                                else
-                                {
+                            }
+                            else
+                            {
                                 <MudChip Size="Size.Small" Label="true" Color="Color.Error">@context.Status</MudChip>
-                                }
+                            }
                         </MudTd>
                     </RowTemplate>
                 </MudTable>
@@ -66,25 +65,27 @@
 </MudContainer>
 
 @code {
+
     [Parameter]
-    public int eventId { get; set; }
-    private EventDTO e;
-    private List<EventEntryDTO> entries;
+    public int EventId { get; set; }
+
+    private EventDTO _e;
+    private List<EventEntryDTO> _entries;
 
     protected override async Task OnInitializedAsync()
     {
-        e = await Http.GetFromJsonAsync<EventDTO>($"Events/{eventId}");
+        _e = await Http.GetFromJsonAsync<EventDTO>($"Events/{EventId}");
         await ReloadEntries();
     }
 
     private string GetStages(ISet<EventStageDTO> enteredStages)
     {
-        return (enteredStages.Count != 0) ? enteredStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
+        return enteredStages.Count != 0 ? enteredStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
     }
 
     private async Task SetAllNotSend()
     {
-        foreach (var entry in entries)
+        foreach (var entry in _entries)
         {
             if (entry.Status == EntryStatus.Ok)
             {
@@ -96,7 +97,7 @@
 
     private async Task SetAllResolved()
     {
-        foreach (var entry in entries)
+        foreach (var entry in _entries)
         {
             if (entry.Status != EntryStatus.Ok)
             {
@@ -111,25 +112,24 @@
             }
         }
         await ReloadEntries();
-        e.Entries = EntriesExport.OK;
-        await Http.PutAsJsonAsync<EventDTO>("Events", e);
+        _e.Entries = EntriesExport.OK;
+        await Http.PutAsJsonAsync("Events", _e);
     }
+
     private async Task ReloadEntries()
     {
-        entries = (await Http.GetFromJsonAsync<List<EventEntryDTO>>($"Entries/event/{eventId}"))
-                    .OrderBy(e => e.Status)
-                    .ToList();
+        _entries = (await Http.GetFromJsonAsync<List<EventEntryDTO>>($"Entries/event/{EventId}")).OrderBy(e => e.Status).ToList();
     }
 
     private async Task UpdateStatus(EventEntryDTO entry, EntryStatus status)
     {
         entry.Status = EntryStatus.Ok;
-        await Http.PutAsJsonAsync<EventEntryDTO>("Entries", entry);
+        await Http.PutAsJsonAsync("Entries", entry);
     }
 
     private void Navigate()
     {
-        NavigationManager.NavigateTo($"/admin/entries");
+        NavigationManager.NavigateTo("/admin/entries");
     }
 
 }

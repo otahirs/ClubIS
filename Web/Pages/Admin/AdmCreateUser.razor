@@ -2,34 +2,34 @@
 
 @attribute [Authorize(Policy = Policy.Users)]
 @inject NavigationManager NavigationManager
-@inject IdentityAuthenticationStateProvider authStateProvider
+@inject IdentityAuthenticationStateProvider AuthStateProvider
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
     <MudText Typo="Typo.h3">Create User</MudText>
 
-    <EditForm Model="@RegisterParameters" OnValidSubmit="OnValidSubmit">
-        <DataAnnotationsValidator />
+    <EditForm Model="@_registerParameters" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator/>
         <MudCard Elevation="0">
             <MudCardContent>
                 <MudCard Elevation="0">
                     <MudText Typo="Typo.h4" GutterBottom="true">User data</MudText>
                     <MudCardContent>
-                        <MudTextField Label="Firstname" @bind-Value="RegisterParameters.Firstname" For="@(() => RegisterParameters.Firstname)" Variant="Variant.Outlined" />
-                        <MudTextField Label="Surname" @bind-Value="RegisterParameters.Surname" For="@(() => RegisterParameters.Surname)" Variant="Variant.Outlined" />
-                        <MudTextField Label="Reg. number" @bind-Value="RegisterParameters.RegistrationNumber" For="@(() => RegisterParameters.RegistrationNumber)" Variant="Variant.Outlined" />
+                        <MudTextField Label="Firstname" @bind-Value="_registerParameters.Firstname" For="@(() => _registerParameters.Firstname)" Variant="Variant.Outlined"/>
+                        <MudTextField Label="Surname" @bind-Value="_registerParameters.Surname" For="@(() => _registerParameters.Surname)" Variant="Variant.Outlined"/>
+                        <MudTextField Label="Reg. number" @bind-Value="_registerParameters.RegistrationNumber" For="@(() => _registerParameters.RegistrationNumber)" Variant="Variant.Outlined"/>
                     </MudCardContent>
                 </MudCard>
                 <MudCard Elevation="0">
                     <MudText Typo="Typo.h4" GutterBottom="true">User credentials</MudText>
                     <MudCardContent>
-                        <MudTextField Label="Username" @bind-Value="RegisterParameters.UserName" For="@(() => RegisterParameters.UserName)" Variant="Variant.Outlined" />
-                        <MudTextField Label="Password" InputType="InputType.Password" @bind-Value="RegisterParameters.Password" For="@(() => RegisterParameters.Password)" Variant="Variant.Outlined" />
-                        <MudTextField Label="Password Confirmation" InputType="InputType.Password" @bind-Value="RegisterParameters.PasswordConfirm" For="@(() => RegisterParameters.PasswordConfirm)" Variant="Variant.Outlined" />
+                        <MudTextField Label="Username" @bind-Value="_registerParameters.UserName" For="@(() => _registerParameters.UserName)" Variant="Variant.Outlined"/>
+                        <MudTextField Label="Password" InputType="InputType.Password" @bind-Value="_registerParameters.Password" For="@(() => _registerParameters.Password)" Variant="Variant.Outlined"/>
+                        <MudTextField Label="Password Confirmation" InputType="InputType.Password" @bind-Value="_registerParameters.PasswordConfirm" For="@(() => _registerParameters.PasswordConfirm)" Variant="Variant.Outlined"/>
                     </MudCardContent>
                 </MudCard>
-                @if (errorMessage != null)
+                @if (_errorMessage != null)
                 {
-                    <MudAlert Severity="Severity.Error">@errorMessage</MudAlert>
+                    <MudAlert Severity="Severity.Error">@_errorMessage</MudAlert>
                 }
             </MudCardContent>
             <MudCardActions>
@@ -41,25 +41,26 @@
 </MudContainer>
 
 @code {
-    private RegisterParametersDTO RegisterParameters = new RegisterParametersDTO();
-    private string errorMessage;
+    private readonly RegisterParametersDTO _registerParameters = new();
+    private string _errorMessage;
 
     private void Navigate()
     {
-        NavigationManager.NavigateTo($"/admin/users");
+        NavigationManager.NavigateTo("/admin/users");
     }
 
     private async Task OnValidSubmit(EditContext context)
     {
-        errorMessage = null;
+        _errorMessage = null;
         try
         {
-            await authStateProvider.Register(RegisterParameters);
+            await AuthStateProvider.Register(_registerParameters);
             Navigate();
         }
         catch (Exception e)
         {
-            errorMessage = e.Message;
+            _errorMessage = e.Message;
         }
     }
+
 }

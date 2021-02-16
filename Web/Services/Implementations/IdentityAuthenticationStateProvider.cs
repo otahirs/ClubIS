@@ -1,19 +1,18 @@
-﻿using ClubIS.CoreLayer.DTOs;
-using ClubIS.Web.Services.Contracts;
-using Microsoft.AspNetCore.Components.Authorization;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using ClubIS.CoreLayer.DTOs;
+using ClubIS.Web.Services.Contracts;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace ClubIS.Web.Services.Implementations
 {
     public class IdentityAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private UserInfoDTO _userInfoCache;
         private readonly IAuthorizeApi _authorizeApi;
+        private UserInfoDTO _userInfoCache;
 
         public IdentityAuthenticationStateProvider(IAuthorizeApi authorizeApi)
         {
@@ -42,9 +41,7 @@ namespace ClubIS.Web.Services.Implementations
         private async Task<UserInfoDTO> GetUserInfo()
         {
             if (_userInfoCache != null && _userInfoCache.IsAuthenticated)
-            {
                 return _userInfoCache;
-            }
 
             _userInfoCache = await _authorizeApi.GetUserInfo();
             return _userInfoCache;
@@ -52,7 +49,7 @@ namespace ClubIS.Web.Services.Implementations
 
         public async Task<int> GetUserId()
         {
-            UserInfoDTO userInfo = await GetUserInfo();
+            var userInfo = await GetUserInfo();
             return userInfo.UserId;
         }
 
@@ -68,19 +65,19 @@ namespace ClubIS.Web.Services.Implementations
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            ClaimsIdentity identity = new ClaimsIdentity();
+            var identity = new ClaimsIdentity();
             try
             {
-                UserInfoDTO userInfo = await GetUserInfo();
+                var userInfo = await GetUserInfo();
                 if (userInfo.IsAuthenticated)
                 {
-                    IEnumerable<Claim> claims = new[] { new Claim(ClaimTypes.Name, userInfo.UserName) }.Concat(userInfo.ExposedClaims.Select(c => new Claim(c.Key, c.Value)));
+                    var claims = new[] {new Claim(ClaimTypes.Name, userInfo.UserName)}.Concat(userInfo.ExposedClaims.Select(c => new Claim(c.Key, c.Value)));
                     identity = new ClaimsIdentity(claims, "Server authentication");
                 }
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine("Request failed:" + ex.ToString());
+                Console.WriteLine("Request failed:" + ex);
             }
 
             return new AuthenticationState(new ClaimsPrincipal(identity));

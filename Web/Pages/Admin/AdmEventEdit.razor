@@ -5,95 +5,94 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
-    @if (sendEvent == null)
+    @if (_sendEvent == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
-        @if (eventId == null)
+        @if (EventId == null)
         {
             <MudText Typo="Typo.h3" GutterBottom="true">Create event</MudText>
         }
         else
         {
             <MudText Typo="Typo.h3" GutterBottom="true">Edit event</MudText>
-
         }
-        <EditForm Model="@sendEvent" OnValidSubmit="OnValidSubmit">
-            <DataAnnotationsValidator />
+        <EditForm Model="@_sendEvent" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator/>
             <MudCard Elevation="0">
                 <MudCardContent>
-                    <MudTextField Label="Name" @bind-Value="sendEvent.Name" For="@(() => sendEvent.Name)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Name" @bind-Value="_sendEvent.Name" For="@(() => _sendEvent.Name)" Variant="Variant.Outlined"/>
 
-                    <MudTextField Label="Place" @bind-Value="sendEvent.Place" For="@(() => sendEvent.Place)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Place" @bind-Value="_sendEvent.Place" For="@(() => _sendEvent.Place)" Variant="Variant.Outlined"/>
 
-                    <MudDatePicker Label="Start date"  TextChanged="@((string s) => UpdateStartDate(s))" Text="@sendEvent.StartDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
+                    <MudDatePicker Label="Start date" TextChanged="@(s => UpdateStartDate(s))" Text="@_sendEvent.StartDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2"/>
 
-                    <MudDatePicker Label="End date" TextChanged="@((string s) => UpdateEndDate(s))" Text="@sendEvent.EndDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
+                    <MudDatePicker Label="End date" TextChanged="@(s => UpdateEndDate(s))" Text="@_sendEvent.EndDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2"/>
 
-                    <MudTextField Label="Organizer" @bind-Value="sendEvent.Organizer" For="@(() => sendEvent.Organizer)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Organizer" @bind-Value="_sendEvent.Organizer" For="@(() => _sendEvent.Organizer)" Variant="Variant.Outlined"/>
 
-                    <MudTextField Label="Leader" @bind-Value="sendEvent.Leader" For="@(() => sendEvent.Leader)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Leader" @bind-Value="_sendEvent.Leader" For="@(() => _sendEvent.Leader)" Variant="Variant.Outlined"/>
 
-                    <MudSelect @bind-Value="sendEvent.EventType" Label="Event type" Variant="Variant.Outlined">
+                    <MudSelect @bind-Value="_sendEvent.EventType" Label="Event type" Variant="Variant.Outlined">
                         @foreach (var type in GetTypes())
-                            {
-                            <MudSelectItem Value="@type" />
-                            }
+                        {
+                            <MudSelectItem Value="@type"/>
+                        }
                     </MudSelect>
 
-                    <MudSelect @bind-Value="sendEvent.AccommodationOption" Label="Accommodation Option" Variant="Variant.Outlined">
+                    <MudSelect @bind-Value="_sendEvent.AccommodationOption" Label="Accommodation Option" Variant="Variant.Outlined">
                         @foreach (var type in GetOptions())
-                            {
-                            <MudSelectItem Value="@type" />
-                            }
+                        {
+                            <MudSelectItem Value="@type"/>
+                        }
                     </MudSelect>
 
-                    <MudSelect @bind-Value="sendEvent.TransportOption" Label="Transport Option" Variant="Variant.Outlined">
+                    <MudSelect @bind-Value="_sendEvent.TransportOption" Label="Transport Option" Variant="Variant.Outlined">
                         @foreach (var type in GetOptions())
-                            {
-                            <MudSelectItem Value="@type" />
-                            }
+                        {
+                            <MudSelectItem Value="@type"/>
+                        }
                     </MudSelect>
 
-                    <MudSelect @bind-Value="sendEvent.EventState" Label="Event state" Variant="Variant.Outlined">
+                    <MudSelect @bind-Value="_sendEvent.EventState" Label="Event state" Variant="Variant.Outlined">
                         @foreach (var state in GetStates())
-                            {
-                            <MudSelectItem Value="@state" />
-                            }
+                        {
+                            <MudSelectItem Value="@state"/>
+                        }
                     </MudSelect>
 
                     <MudCard Class="mt-1">
                         <MudCardContent>
-                            @foreach (var c in sendEvent.ClassOptions)
+                            @foreach (var c in _sendEvent.ClassOptions)
                             {
-                                <MudChip Color="Color.Default" OnClose="(() => RemoveClass(c))">@c.Name</MudChip>
+                                <MudChip Color="Color.Default" OnClose="() => RemoveClass(c)">@c.Name</MudChip>
                             }
 
-                            <MudTextField Label="Class options" @bind-Value="currentOption" Variant="Variant.Outlined" />
+                            <MudTextField Label="Class options" @bind-Value="_currentOption" Variant="Variant.Outlined"/>
                         </MudCardContent>
                         <MudCardActions>
                             <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Filled.Add" OnClick="AddClass">Class</MudButton>
                         </MudCardActions>
-                        <ValidationMessage For="@(() => sendEvent.ClassOptions)" class="validation-message" />
+                        <ValidationMessage For="@(() => _sendEvent.ClassOptions)" class="validation-message"/>
                     </MudCard>
 
-                    <MudTextField Label="Link" @bind-Value="sendEvent.Link" For="@(() => sendEvent.Link)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Link" @bind-Value="_sendEvent.Link" For="@(() => _sendEvent.Link)" Variant="Variant.Outlined"/>
 
-                    <MudTextField Label="Note" @bind-Value="sendEvent.Note" For="@(() => sendEvent.Note)" Variant="Variant.Outlined" />
+                    <MudTextField Label="Note" @bind-Value="_sendEvent.Note" For="@(() => _sendEvent.Note)" Variant="Variant.Outlined"/>
 
                     <MudCard Class="mt-1">
                         <MudCardContent>
                             <MudText Typo="Typo.h6">Deadlines:</MudText>
-                            @foreach (var d in sendEvent.Deadlines)
+                            @foreach (var d in _sendEvent.Deadlines)
                             {
                                 <MudCard Outlined="true">
                                     <MudCardContent>
-                                        <MudDatePicker Label="Deadline" TextChanged="@((string s) => UpdateDeadline(s, d))" Text="@d.Deadline.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
-                                        @if (sendEvent.Deadlines.Count > 1)
+                                        <MudDatePicker Label="Deadline" TextChanged="@(s => UpdateDeadline(s, d))" Text="@d.Deadline.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2"/>
+                                        @if (_sendEvent.Deadlines.Count > 1)
                                         {
-                                            <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="(() => RemoveDeadline(d))"></MudIconButton>
+                                            <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="() => RemoveDeadline(d)"></MudIconButton>
                                         }
                                     </MudCardContent>
                                 </MudCard>
@@ -106,18 +105,20 @@
 
                     <MudCard Class="mt-1">
                         <MudCardContent>
-                            <MudText Typo="Typo.h6"><b>Event Stages:</b></MudText>
-                            @foreach (var s in sendEvent.EventStages)
+                            <MudText Typo="Typo.h6">
+                                <b>Event Stages:</b>
+                            </MudText>
+                            @foreach (var s in _sendEvent.EventStages)
                             {
                                 <MudCard>
                                     <MudCardContent>
                                         <MudGrid>
                                             <MudItem xs="6">
-                                                <MudTextField Label="Stage name" @bind-Value="s.Name" For="@(() => s.Name)" Variant="Variant.Outlined" />
+                                                <MudTextField Label="Stage name" @bind-Value="s.Name" For="@(() => s.Name)" Variant="Variant.Outlined"/>
                                             </MudItem>
-                                            <MudDatePicker Label="Stage date" TextChanged="@((string st) => UpdateStageDate(st, s))" Text="@s.Date.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2" />
+                                            <MudDatePicker Label="Stage date" TextChanged="@(st => UpdateStageDate(st, s))" Text="@s.Date.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2"/>
 
-                                            <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="(() => RemoveStage(s))"></MudIconButton>
+                                            <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="() => RemoveStage(s)"></MudIconButton>
                                         </MudGrid>
                                     </MudCardContent>
                                 </MudCard>
@@ -132,7 +133,7 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
-                    @if (eventId == null)
+                    @if (EventId == null)
                     {
                         <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Save</MudButton>
                     }
@@ -148,73 +149,75 @@
 </MudContainer>
 
 @code {
+
     [Parameter]
-    public int? eventId { get; set; }
-    private EventDTO sendEvent;
-    private string currentOption;
+    public int? EventId { get; set; }
+
+    private EventDTO _sendEvent;
+    private string _currentOption;
 
     protected override async Task OnInitializedAsync()
     {
-        if (eventId == null)
+        if (EventId == null)
         {
-            sendEvent = new EventDTO();
-            sendEvent.StartDate = DateTime.Today;
-            sendEvent.EndDate = DateTime.Today;
-            sendEvent.EventType = GetTypes()[0];
-            sendEvent.EventState = GetStates()[0];
-            sendEvent.TransportOption = GetOptions()[0];
-            sendEvent.AccommodationOption = GetOptions()[0];
-            sendEvent.ClassOptions = new HashSet<EventClassOption>();
-            sendEvent.Deadlines = new List<EventDeadline>();
+            _sendEvent = new EventDTO();
+            _sendEvent.StartDate = DateTime.Today;
+            _sendEvent.EndDate = DateTime.Today;
+            _sendEvent.EventType = GetTypes()[0];
+            _sendEvent.EventState = GetStates()[0];
+            _sendEvent.TransportOption = GetOptions()[0];
+            _sendEvent.AccommodationOption = GetOptions()[0];
+            _sendEvent.ClassOptions = new HashSet<EventClassOption>();
+            _sendEvent.Deadlines = new List<EventDeadline>();
             AddDeadline();
-            sendEvent.EventStages = new HashSet<EventStageDTO>();
+            _sendEvent.EventStages = new HashSet<EventStageDTO>();
         }
         else
         {
-            sendEvent = await Http.GetFromJsonAsync<EventDTO>($"Events/{eventId}");
+            _sendEvent = await Http.GetFromJsonAsync<EventDTO>($"Events/{EventId}");
         }
-
     }
 
     private void UpdateStartDate(string date)
     {
-        sendEvent.StartDate = DateTime.Parse(date);
-        sendEvent.EndDate = DateTime.Parse(date);
+        _sendEvent.StartDate = DateTime.Parse(date);
+        _sendEvent.EndDate = DateTime.Parse(date);
     }
 
     private void UpdateEndDate(string date)
     {
-        sendEvent.EndDate = DateTime.Parse(date);
+        _sendEvent.EndDate = DateTime.Parse(date);
     }
 
     private static EventType[] GetTypes()
     {
-        return (EventType[])Enum.GetValues(typeof(EventType));
+        return (EventType[]) Enum.GetValues(typeof(EventType));
     }
 
     private static ClubEventOption[] GetOptions()
     {
-        return (ClubEventOption[])Enum.GetValues(typeof(ClubEventOption));
+        return (ClubEventOption[]) Enum.GetValues(typeof(ClubEventOption));
     }
 
     private static EventState[] GetStates()
     {
-        return (EventState[])Enum.GetValues(typeof(EventState));
+        return (EventState[]) Enum.GetValues(typeof(EventState));
     }
 
     private void AddClass()
     {
-        if (string.IsNullOrWhiteSpace(currentOption)) return;
+        if (string.IsNullOrWhiteSpace(_currentOption))
+            return;
         var newClass = new EventClassOption();
-        newClass.Name = currentOption;
-        currentOption = "";
-        sendEvent.ClassOptions.Add(newClass);
+        newClass.Name = _currentOption;
+        _currentOption = "";
+        _sendEvent.ClassOptions.Add(newClass);
         StateHasChanged();
     }
 
     private void RemoveClass(EventClassOption c)
     {
-        sendEvent.ClassOptions.Remove(c);
+        _sendEvent.ClassOptions.Remove(c);
         StateHasChanged();
     }
 
@@ -222,7 +225,7 @@
     {
         var newDeadline = new EventDeadline();
         newDeadline.Deadline = DateTime.Today;
-        sendEvent.Deadlines.Add(newDeadline);
+        _sendEvent.Deadlines.Add(newDeadline);
     }
 
     private void UpdateDeadline(string date, EventDeadline d)
@@ -232,14 +235,14 @@
 
     private void RemoveDeadline(EventDeadline d)
     {
-        sendEvent.Deadlines.Remove(d);
+        _sendEvent.Deadlines.Remove(d);
     }
 
     private void AddStage()
     {
         var newStage = new EventStageDTO();
         newStage.Date = DateTime.Today;
-        sendEvent.EventStages.Add(newStage);
+        _sendEvent.EventStages.Add(newStage);
     }
 
     private void UpdateStageDate(string date, EventStageDTO s)
@@ -249,31 +252,32 @@
 
     private void RemoveStage(EventStageDTO s)
     {
-        sendEvent.EventStages.Remove(s);
+        _sendEvent.EventStages.Remove(s);
     }
 
     private async void OnValidSubmit(EditContext context)
     {
-        if (eventId == null)
+        if (EventId == null)
         {
-            await Http.PostAsJsonAsync<EventDTO>("Events", sendEvent);
+            await Http.PostAsJsonAsync("Events", _sendEvent);
         }
         else
         {
-            await Http.PutAsJsonAsync<EventDTO>("Events", sendEvent);
+            await Http.PutAsJsonAsync("Events", _sendEvent);
         }
-        NavigationManager.NavigateTo($"/admin/events");
+        NavigationManager.NavigateTo("/admin/events");
     }
 
 
     private async void RemoveEvent()
     {
-        await Http.DeleteAsync($"Events/{eventId}");
-        NavigationManager.NavigateTo($"/admin/events");
+        await Http.DeleteAsync($"Events/{EventId}");
+        NavigationManager.NavigateTo("/admin/events");
     }
 
     private void Navigate()
     {
-        NavigationManager.NavigateTo($"/admin/events");
+        NavigationManager.NavigateTo("/admin/events");
     }
+
 }

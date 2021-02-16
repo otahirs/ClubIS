@@ -1,24 +1,29 @@
-﻿
-@inject HttpClient Http
+﻿@inject HttpClient Http
 
 @inject NavigationManager NavigationManager
 @inject Searching Searching
 
 
-@if (users == null)
+@if (_users == null)
 {
-    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
 }
 else
 {
     <MudPaper Class="d-flex justify-space-between" Elevation="0">
-        <MudTextField Class="ma-4" @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+        <MudTextField Class="ma-4" @bind-Value="_searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
     </MudPaper>
-    <MudTable Items="users" T="FinanceUserListDTO" Dense="true" Filter="Filter" Hover="true" SortLabel="Sort By" OnRowClick="Navigate">
+    <MudTable Items="_users" T="FinanceUserListDTO" Dense="true" Filter="Filter" Hover="true" SortLabel="Sort By" OnRowClick="Navigate">
         <HeaderContent>
-            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="((FinanceUserListDTO x)=>x.Surname)">Name</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="((FinanceUserListDTO x)=>x.RegistrationNumber)">RegNum</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="((FinanceUserListDTO x)=>x.CreditBalance)">CreditBalance</MudTableSortLabel></MudTh>
+            <MudTh>
+                <MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="(FinanceUserListDTO x) => x.Surname">Name</MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="(FinanceUserListDTO x) => x.RegistrationNumber">RegNum</MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="(FinanceUserListDTO x) => x.CreditBalance">CreditBalance</MudTableSortLabel>
+            </MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Name">@context.Surname @context.Firstname</MudTd>
@@ -29,13 +34,13 @@ else
 }
 
 @code {
-    private FinanceUserListDTO[] users;
+    private FinanceUserListDTO[] _users;
 
-    private string searchString = "";
+    private string _searchString = "";
 
     protected override async Task OnInitializedAsync()
     {
-        users = await Http.GetFromJsonAsync<FinanceUserListDTO[]>("Payments/users");
+        _users = await Http.GetFromJsonAsync<FinanceUserListDTO[]>("Payments/users");
     }
 
     protected void Navigate(TableRowClickEventArgs<FinanceUserListDTO> e)
@@ -45,10 +50,11 @@ else
 
     bool Filter(FinanceUserListDTO u)
     {
-        if (searchString == null)
-            searchString = "";
+        if (_searchString == null)
+            _searchString = "";
         var userData = $"{u.Firstname} {u.Surname} {u.RegistrationNumber} {u.CreditBalance}";
 
-        return userData.Contains(searchString, StringComparison.InvariantCultureIgnoreCase);
+        return userData.Contains(_searchString, StringComparison.InvariantCultureIgnoreCase);
     }
+
 }

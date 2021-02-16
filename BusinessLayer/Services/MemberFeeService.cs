@@ -1,17 +1,18 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
 using ClubIS.DataAccessLayer;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Services
 {
     public class MemberFeeService : IMemberFeeService
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
         public MemberFeeService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -20,7 +21,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task Create(MemberFeeDTO feeType)
         {
-            MemberFee feeEntity = _mapper.Map<MemberFee>(feeType);
+            var feeEntity = _mapper.Map<MemberFee>(feeType);
             await _unitOfWork.MemberFees.Add(feeEntity);
         }
 
@@ -31,7 +32,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task<IEnumerable<MemberFeeDTO>> GetAll()
         {
-            IEnumerable<MemberFee> list = await _unitOfWork.MemberFees.GetAll();
+            var list = await _unitOfWork.MemberFees.GetAll();
             return _mapper.Map<IEnumerable<MemberFeeDTO>>(list);
         }
 
@@ -42,9 +43,8 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task Update(MemberFeeDTO feeType)
         {
-            MemberFee feeEntity = await _unitOfWork.MemberFees.GetById(feeType.Id);
+            var feeEntity = await _unitOfWork.MemberFees.GetById(feeType.Id);
             _mapper.Map(feeType, feeEntity);
         }
     }
 }
-

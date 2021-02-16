@@ -5,15 +5,15 @@
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
 
-    <MudButton StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="@(()=>NavigationManager.NavigateTo("/admin/finance/1"))" Class="ml-3">back to finances</MudButton>
-    @if (financeStatement != null)
+    <MudButton StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="@(() => NavigationManager.NavigateTo("/admin/finance/1"))" Class="ml-3">back to finances</MudButton>
+    @if (_financeStatement != null)
     {
-        <MudText Typo="Typo.h3">@financeStatement.Name</MudText>
-        <FinanceStatement Statement="financeStatement" />
+        <MudText Typo="Typo.h3">@_financeStatement.Name</MudText>
+        <FinanceStatement Statement="_financeStatement"/>
         <MudGrid>
             <MudItem md="6" xs="12">
-                <EditForm Model="@giveCredit" OnValidSubmit="SubmitGiveCredit">
-                    <DataAnnotationsValidator />
+                <EditForm Model="@_giveCredit" OnValidSubmit="SubmitGiveCredit">
+                    <DataAnnotationsValidator/>
                     <MudCard>
                         <MudCardHeader>
                             <CardHeaderContent>
@@ -21,8 +21,8 @@
                             </CardHeaderContent>
                         </MudCardHeader>
                         <MudCardContent>
-                            <MudTextField Label="Amount" @bind-Value="giveCredit.CreditAmount" For="@(() => giveCredit.CreditAmount)" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Add" />
-                            <MudTextField Label="Note" @bind-Value="giveCredit.Message" For="@(() => giveCredit.Message)" Variant="Variant.Outlined" />
+                            <MudTextField Label="Amount" @bind-Value="_giveCredit.CreditAmount" For="@(() => _giveCredit.CreditAmount)" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Add"/>
+                            <MudTextField Label="Note" @bind-Value="_giveCredit.Message" For="@(() => _giveCredit.Message)" Variant="Variant.Outlined"/>
                         </MudCardContent>
                         <MudCardActions>
                             <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
@@ -31,8 +31,8 @@
                 </EditForm>
             </MudItem>
             <MudItem md="6" xs="12">
-                <EditForm Model="@takeCredit" OnValidSubmit="SubmitTakeCredit">
-                    <DataAnnotationsValidator />
+                <EditForm Model="@_takeCredit" OnValidSubmit="SubmitTakeCredit">
+                    <DataAnnotationsValidator/>
                     <MudCard>
                         <MudCardHeader>
                             <CardHeaderContent>
@@ -40,8 +40,8 @@
                             </CardHeaderContent>
                         </MudCardHeader>
                         <MudCardContent>
-                            <MudTextField Label="Amount" @bind-Value="takeCredit.CreditAmount" For="@(() => takeCredit.CreditAmount)" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Remove" />
-                            <MudTextField Label="Note" @bind-Value="takeCredit.Message" For="@(() => takeCredit.Message)" Variant="Variant.Outlined" />
+                            <MudTextField Label="Amount" @bind-Value="_takeCredit.CreditAmount" For="@(() => _takeCredit.CreditAmount)" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Remove"/>
+                            <MudTextField Label="Note" @bind-Value="_takeCredit.Message" For="@(() => _takeCredit.Message)" Variant="Variant.Outlined"/>
                         </MudCardContent>
                         <MudCardActions>
                             <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
@@ -50,7 +50,7 @@
                 </EditForm>
             </MudItem>
             <MudItem md="6" xs="12">
-                <FinanceUserCreditTransfer SourceUserId="@financeStatement.UserId" SourceUserName="@financeStatement.Name" OnAfterSubmit="ReloadFinanceStatement" />
+                <FinanceUserCreditTransfer SourceUserId="@_financeStatement.UserId" SourceUserName="@_financeStatement.Name" OnAfterSubmit="ReloadFinanceStatement"/>
             </MudItem>
         </MudGrid>
     }
@@ -59,34 +59,37 @@
 </MudContainer>
 
 @code {
+
     [Parameter]
     public int UserId { get; set; }
-    private FinanceStatementDTO financeStatement;
-    private PaymentGiveCreditDTO giveCredit = new PaymentGiveCreditDTO();
-    private PaymentTakeCreditDTO takeCredit = new PaymentTakeCreditDTO();
+
+    private FinanceStatementDTO _financeStatement;
+    private readonly PaymentGiveCreditDTO _giveCredit = new();
+    private readonly PaymentTakeCreditDTO _takeCredit = new();
 
 
     protected override async Task OnInitializedAsync()
     {
         await ReloadFinanceStatement();
-        giveCredit.RecipientUserId = UserId;
-        takeCredit.SourceUserId = UserId;
+        _giveCredit.RecipientUserId = UserId;
+        _takeCredit.SourceUserId = UserId;
     }
 
     private async Task ReloadFinanceStatement()
     {
-        financeStatement = (await Http.GetFromJsonAsync<List<FinanceStatementDTO>>($"Payments/statements/{UserId}")).First();
+        _financeStatement = (await Http.GetFromJsonAsync<List<FinanceStatementDTO>>($"Payments/statements/{UserId}")).First();
     }
 
     private async Task SubmitGiveCredit()
     {
-        await Http.PostAsJsonAsync($"Payments/give-credit", giveCredit);
+        await Http.PostAsJsonAsync("Payments/give-credit", _giveCredit);
         await ReloadFinanceStatement();
     }
 
     private async Task SubmitTakeCredit()
     {
-        await Http.PostAsJsonAsync($"Payments/take-credit", takeCredit);
+        await Http.PostAsJsonAsync("Payments/take-credit", _takeCredit);
         await ReloadFinanceStatement();
     }
+
 }

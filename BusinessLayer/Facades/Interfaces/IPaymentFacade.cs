@@ -1,7 +1,7 @@
-﻿using ClubIS.CoreLayer.DTOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ClubIS.CoreLayer.DTOs;
 
 namespace ClubIS.BusinessLayer.Facades.Interfaces
 {
@@ -17,10 +17,10 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
         Task<IEnumerable<FinanceStatementDTO>> GetAllFinanceStatement(int userId);
         Task<IEnumerable<FinanceUserListDTO>> GetAllUserCreditList();
         Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id);
-        Task<IEnumerable<PaymentListDTO>> GetAllByEventID(int id);
+        Task<IEnumerable<PaymentListDTO>> GetAllByEventId(int id);
         Task Delete(int id);
         Task<IEnumerable<MemberFeeDTO>> GetAllMemberFeeTypes();
-        Task CreatMemberFee(MemberFeeDTO feeType);
+        Task CreateMemberFee(MemberFeeDTO feeType);
         Task UpdateMemberFee(MemberFeeDTO feeType);
         Task DeleteMemberFee(int id);
         Task UpdatePaymentEntryList(IEnumerable<PaymentEntryListDTO> payments, int executorId);

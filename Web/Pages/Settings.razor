@@ -2,52 +2,63 @@
 
 @attribute [Authorize]
 
-@using ClubIS.Web.Components
-
 @inject HttpClient Http
-@inject IdentityAuthenticationStateProvider authStateProvider
+@inject IdentityAuthenticationStateProvider AuthStateProvider
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Settings</MudText>
     <MudTabs Elevation="1">
         <MudTabPanel Text="User">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                @if (CurrentUser != null)
-                {<UserEditForm User="CurrentUser" />}
+                @if (_currentUser != null)
+                {
+                    <UserEditForm User="_currentUser"/>
+                }
                 else
-                { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+                }
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="SI Cards">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                @if (CurrentUser != null)
-                {<SICardsForm User="CurrentUser" />}
+                @if (_currentUser != null)
+                {
+                    <SICardsForm User="_currentUser"/>
+                }
                 else
-                { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+                }
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Login">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                <LoginEditForm EditedUserId="CurrentUser.Id" />
+                <LoginEditForm EditedUserId="_currentUser.Id"/>
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Supervision">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                @if (CurrentUser != null)
-                { <Supervisors UserId="CurrentUser.Id" isAdmin="false" /> }
+                @if (_currentUser != null)
+                {
+                    <Supervisors UserId="_currentUser.Id" IsAdmin="false"/>
+                }
                 else
-                { <MudProgressCircular Color="Color.Default" Indeterminate="true" /> }
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+                }
             </MudContainer>
         </MudTabPanel>
     </MudTabs>
 </MudContainer>
 
 @code {
-    private UserDTO CurrentUser;
+    private UserDTO _currentUser;
 
     protected override async Task OnInitializedAsync()
     {
-        var currentUserId = await authStateProvider.GetUserId();
-        CurrentUser = await Http.GetFromJsonAsync<UserDTO>($"Users/{currentUserId}");
+        var currentUserId = await AuthStateProvider.GetUserId();
+        _currentUser = await Http.GetFromJsonAsync<UserDTO>($"Users/{currentUserId}");
     }
+
 }

@@ -1,6 +1,6 @@
-﻿using ClubIS.DataAccessLayer;
+﻿using System;
+using ClubIS.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace ClubIS.BusinessLayer.Tests
 {
@@ -8,10 +8,10 @@ namespace ClubIS.BusinessLayer.Tests
     {
         public static UnitOfWork Create()
         {
-            DbContextOptionsBuilder<DataContext> builder = new DbContextOptionsBuilder<DataContext>();
+            var builder = new DbContextOptionsBuilder<DataContext>();
             builder.UseInMemoryDatabase(Guid.NewGuid().ToString());
-            DbContextOptions<DataContext> dbContextOptions = builder.Options;
-            DataContext context = new DataContext(dbContextOptions);
+            var dbContextOptions = builder.Options;
+            var context = new DataContext(dbContextOptions);
             // Delete existing db before creating a new one
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
