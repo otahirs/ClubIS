@@ -7,6 +7,7 @@ namespace ClubIS.CoreLayer.Entities
     {
         [Key]
         public int Id { get; set; }
+
         public DateTime Deadline { get; set; }
         public int EventId { get; set; }
     }

@@ -10,20 +10,26 @@
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin users</MudText>
 
-    @if (displayedUsers == null)
+    @if (_displayedUsers == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
         <MudPaper Class="d-flex justify-space-between" Elevation="0">
-            <MudTextField Class="ma-4" @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+            <MudTextField Class="ma-4" @bind-Value="_searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
         </MudPaper>
-        <MudTable Items="displayedUsers" Filter="new Func<UserPermListDTO, bool>(FilterFunc)" Hover="true" Dense="true" SortLabel="Sort By" OnRowClick="@((TableRowClickEventArgs<UserPermListDTO> e)=> Navigate(e.Item))">
+        <MudTable Items="_displayedUsers" Filter="new Func<UserPermListDTO, bool>(FilterFunc)" Hover="true" Dense="true" SortLabel="Sort By" OnRowClick="@((TableRowClickEventArgs<UserPermListDTO> e) => Navigate(e.Item))">
             <HeaderContent>
-                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserPermListDTO, object>(x=>x.Surname)">Name</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<UserPermListDTO, object>(x=>x.RegistrationNumber)">RegNum</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<UserPermListDTO, object>(x=>x.AccountState)">State</MudTableSortLabel></MudTh>
+                <MudTh>
+                    <MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserPermListDTO, object>(x => x.Surname)">Name</MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<UserPermListDTO, object>(x => x.RegistrationNumber)">RegNum</MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<UserPermListDTO, object>(x => x.AccountState)">State</MudTableSortLabel>
+                </MudTh>
                 <MudTh>Permissions</MudTh>
             </HeaderContent>
             <RowTemplate>
@@ -35,37 +41,37 @@
         </MudTable>
         <MudButton Class="mt-4" ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="Navigate">User</MudButton>
 
-        <div style="float:right;" class="mt-2">
-            <MudToggleIconButton Toggled="@includeArchivedUsers"
-                                 ToggledChanged="(toggleValue) => ArchivedOptionChanged(toggleValue)"
+        <div style="float: right;" class="mt-2">
+            <MudToggleIconButton Toggled="@_includeArchivedUsers"
+                                 ToggledChanged="toggleValue => ArchivedOptionChanged(toggleValue)"
                                  Icon="@Icons.Material.Filled.Block"
                                  ToggledIcon="@Icons.Custom.Uncategorized.AlertSuccess"
-                                 ToggledColor="@Color.Success" />
+                                 ToggledColor="@Color.Success"/>
 
-            Archived users @(includeArchivedUsers ? "included" : "excluded")
+            Archived users @(_includeArchivedUsers ? "included" : "excluded")
         </div>
     }
 </MudContainer>
 
 @code {
-    private UserPermListDTO[] users;
+    private UserPermListDTO[] _users;
 
-    private UserPermListDTO[] displayedUsers;
+    private UserPermListDTO[] _displayedUsers;
 
-    private bool includeArchivedUsers = false;
+    private bool _includeArchivedUsers;
 
-    private string searchString = "";
+    private  string _searchString = "";
 
     protected override async Task OnInitializedAsync()
     {
-        users = await Http.GetFromJsonAsync<UserPermListDTO[]>("Users/permissions");
+        _users = await Http.GetFromJsonAsync<UserPermListDTO[]>("Users/permissions");
         DisplayNotArchivedUsers();
     }
 
     public void ArchivedOptionChanged(bool toggleValue)
     {
-        includeArchivedUsers = toggleValue;
-        if (includeArchivedUsers)
+        _includeArchivedUsers = toggleValue;
+        if (_includeArchivedUsers)
         {
             DisplayAllUsers();
         }
@@ -77,12 +83,12 @@
 
     private void DisplayAllUsers()
     {
-        displayedUsers = users;
+        _displayedUsers = _users;
     }
 
     private void DisplayNotArchivedUsers()
     {
-        displayedUsers = users.Where(user => user.AccountState != AccountState.Archived).ToArray();
+        _displayedUsers = _users.Where(user => user.AccountState != AccountState.Archived).ToArray();
     }
 
     protected void Navigate(UserPermListDTO u)
@@ -92,11 +98,12 @@
 
     bool FilterFunc(UserPermListDTO u)
     {
-        return Searching.FilterFunc($"{u.Firstname} {u.Surname} {u.RegistrationNumber} {u.AccountState}", searchString);
+        return Searching.FilterFunc($"{u.Firstname} {u.Surname} {u.RegistrationNumber} {u.AccountState}", _searchString);
     }
 
     protected void Navigate()
     {
-        NavigationManager.NavigateTo($"/admin/users/create");
+        NavigationManager.NavigateTo("/admin/users/create");
     }
+
 }

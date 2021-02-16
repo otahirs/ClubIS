@@ -7,6 +7,7 @@ namespace ClubIS.CoreLayer.DTOs
         [Required]
         [MaxLength(20)]
         public string Firstname { get; set; }
+
         [Required]
         [MaxLength(30)]
         public string Surname { get; set; }

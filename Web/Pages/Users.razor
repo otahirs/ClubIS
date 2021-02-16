@@ -9,19 +9,23 @@
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Member list</MudText>
-    @if (users == null)
+    @if (_users == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
         <MudPaper Class="d-flex justify-space-between" Elevation="0">
-            <MudTextField Class="ma-4" @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+            <MudTextField Class="ma-4" @bind-Value="_searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
         </MudPaper>
-        <MudTable Items="users" Filter="new Func<UserListDTO, bool>(FilterFunc)" Hover="true" Dense="true" SortLabel="Sort By" OnRowClick="@((TableRowClickEventArgs<UserListDTO> e)=> Navigate(e.Item))">
+        <MudTable Items="_users" Filter="new Func<UserListDTO, bool>(FilterFunc)" Hover="true" Dense="true" SortLabel="Sort By" OnRowClick="@((TableRowClickEventArgs<UserListDTO> e) => Navigate(e.Item))">
             <HeaderContent>
-                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x=>x.Surname)">Name</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<UserListDTO, object>(x=>x.RegistrationNumber)">RegNum</MudTableSortLabel></MudTh>
+                <MudTh>
+                    <MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<UserListDTO, object>(x => x.Surname)">Name</MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<UserListDTO, object>(x => x.RegistrationNumber)">RegNum</MudTableSortLabel>
+                </MudTh>
                 <MudTh>E-mail</MudTh>
                 <MudTh>Phone</MudTh>
             </HeaderContent>
@@ -36,23 +40,23 @@
 </MudContainer>
 
 
-
 @code {
-    private UserListDTO[] users;
-    private string searchString = "";
+    private UserListDTO[] _users;
+    private  string _searchString = "";
 
     protected override async Task OnInitializedAsync()
     {
-        users = await Http.GetFromJsonAsync<UserListDTO[]>("Users");
+        _users = await Http.GetFromJsonAsync<UserListDTO[]>("Users");
     }
 
     bool FilterFunc(UserListDTO u)
     {
-        return Searching.FilterFunc($"{u.Firstname} {u.Surname} {u.RegistrationNumber}", searchString);
+        return Searching.FilterFunc($"{u.Firstname} {u.Surname} {u.RegistrationNumber}", _searchString);
     }
 
     protected void Navigate(UserListDTO u)
     {
         NavigationManager.NavigateTo($"/users/userDetail/{u.Id}");
     }
+
 }

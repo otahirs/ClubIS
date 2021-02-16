@@ -1,28 +1,28 @@
 ﻿@page "/finance"
 @attribute [Authorize]
 @inject HttpClient Http
-@inject IdentityAuthenticationStateProvider authState
+@inject IdentityAuthenticationStateProvider AuthState
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Finance</MudText>
 
-    @if (currentStatement == null)
+    @if (_currentStatement == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
-        <MudSelect T="FinanceStatementDTO" Label="Accounts" Variant="Variant.Outlined" ToStringFunc="((s) => s.Name)" @bind-Value="currentStatement">
-            @foreach (var statement in financeStatements)
+        <MudSelect T="FinanceStatementDTO" Label="Accounts" Variant="Variant.Outlined" ToStringFunc="s => s.Name" @bind-Value="_currentStatement">
+            @foreach (var statement in _financeStatements)
             {
-                <MudSelectItem T="FinanceStatementDTO" Value="statement" />
+                <MudSelectItem T="FinanceStatementDTO" Value="statement"/>
             }
         </MudSelect>
-        <FinanceStatement Statement="currentStatement" />
-        <br />
+        <FinanceStatement Statement="_currentStatement"/>
+        <br/>
         <MudGrid>
             <MudItem md="6" xs="12">
-                 <FinanceUserCreditTransfer SourceUserName="@currentStatement.Name" SourceUserId="@currentStatement.UserId" OnAfterSubmit="ReloadStatements" />
+                <FinanceUserCreditTransfer SourceUserName="@_currentStatement.Name" SourceUserId="@_currentStatement.UserId" OnAfterSubmit="ReloadStatements"/>
             </MudItem>
         </MudGrid>
     }
@@ -30,8 +30,8 @@
 
 @code {
 
-    private List<FinanceStatementDTO> financeStatements;
-    private FinanceStatementDTO currentStatement;
+    private List<FinanceStatementDTO> _financeStatements;
+    private FinanceStatementDTO _currentStatement;
 
     protected override async Task OnInitializedAsync()
     {
@@ -40,8 +40,9 @@
 
     private async Task ReloadStatements()
     {
-        int userId = await authState.GetUserId();
-        financeStatements = await Http.GetFromJsonAsync<List<FinanceStatementDTO>>($"Payments/statements/{userId}");
-        currentStatement = financeStatements.First();
+        var userId = await AuthState.GetUserId();
+        _financeStatements = await Http.GetFromJsonAsync<List<FinanceStatementDTO>>($"Payments/statements/{userId}");
+        _currentStatement = _financeStatements.First();
     }
+
 }

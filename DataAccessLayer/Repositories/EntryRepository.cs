@@ -1,9 +1,9 @@
-﻿using ClubIS.CoreLayer.Entities;
-using ClubIS.DataAccessLayer.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClubIS.CoreLayer.Entities;
+using ClubIS.DataAccessLayer.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClubIS.DataAccessLayer.Repositories
 {
@@ -15,21 +15,13 @@ namespace ClubIS.DataAccessLayer.Repositories
 
         public async Task<IEnumerable<EventEntry>> GetAllByEventId(int eventId)
         {
-            return await _entities
-                .Where(e => e.EventId == eventId)
-                .Include(e => e.EnteredStages)
-                .Include(e => e.User)
-                .ToListAsync();
+            return await _entities.Where(e => e.EventId == eventId).Include(e => e.EnteredStages).Include(e => e.User).ToListAsync();
         }
 
 
         public async Task<IEnumerable<EventEntry>> GetAllByUserId(int userId)
         {
-            return await _entities
-                .Where(e => e.UserId == userId)
-                .ToListAsync();
+            return await _entities.Where(e => e.UserId == userId).ToListAsync();
         }
-
-
     }
 }

@@ -6,6 +6,5 @@
         public int UserId { get; set; }
         public int EventId { get; set; }
         public string Class { get; set; }
-
     }
 }

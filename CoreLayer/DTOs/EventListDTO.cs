@@ -1,7 +1,7 @@
-﻿using ClubIS.CoreLayer.Entities;
-using ClubIS.CoreLayer.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using ClubIS.CoreLayer.Entities;
+using ClubIS.CoreLayer.Enums;
 
 namespace ClubIS.CoreLayer.DTOs
 {

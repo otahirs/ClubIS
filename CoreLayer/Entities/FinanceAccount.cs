@@ -6,6 +6,7 @@ namespace ClubIS.CoreLayer.Entities
     {
         [Key]
         public int Id { get; set; }
+
         public int CreditBalance { get; set; }
         public virtual User Owner { get; set; }
     }

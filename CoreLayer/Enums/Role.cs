@@ -10,9 +10,10 @@ namespace ClubIS.CoreLayer.Enums
         public const string Events = "events";
         public const string Users = "users";
         public const string Entries = "entries";
+
         public static List<string> GetAll()
         {
-            return new List<string>()
+            return new()
             {
                 Admin,
                 News,

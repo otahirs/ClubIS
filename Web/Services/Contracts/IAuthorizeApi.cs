@@ -1,5 +1,5 @@
-﻿using ClubIS.CoreLayer.DTOs;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using ClubIS.CoreLayer.DTOs;
 
 namespace ClubIS.Web.Services.Contracts
 {

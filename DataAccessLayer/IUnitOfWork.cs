@@ -1,6 +1,6 @@
-﻿using ClubIS.DataAccessLayer.Repositories.Interfaces;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using ClubIS.DataAccessLayer.Repositories.Interfaces;
 
 namespace ClubIS.DataAccessLayer
 {
@@ -14,7 +14,6 @@ namespace ClubIS.DataAccessLayer
         IAccountRepository Accounts { get; }
         IEntryRepository Entry { get; }
         IMemberFeeRepository MemberFees { get; }
-        IAddressRepository Adresses { get; }
         Task<int> Save();
     }
 }

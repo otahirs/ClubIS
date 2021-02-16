@@ -12,23 +12,50 @@
         }
     </TitleContent>
     <ChildContent>
-        <MudText><b>Place:</b> @Event.Place</MudText>
-        <MudText><b>Organizer:</b> @Event.Organizer</MudText>
-        <MudText><b>Leader:</b> @Event.Leader</MudText>
-        <MudText><b>Start date:</b> @Event.StartDate.ToString("dd.MM.yyyy")</MudText>
-        <MudText><b>End date:</b> @Event.EndDate.ToString("dd.MM.yyyy")</MudText>
-        <MudText><b>Event type:</b> @Event.EventType</MudText>
-        <MudText><b>Link:</b> <MudLink Href="@GetLink()">@Event.Link</MudLink></MudText>
-        <MudText><b>Deadlines:</b> @GetDeadlines()</MudText>
-        <MudText><b>Class options:</b> @GetClassOptions()</MudText>
-        <MudText><b>Event state:</b> @Event.EventState</MudText>
-        <MudText><b>Event properties:</b> @Event.EventProperties</MudText>
-        <MudText><b>Event stages:</b> @GetStages()</MudText>
-        <MudText><b>Note:</b> @Event.Note</MudText>
+        <MudText>
+            <b>Place:</b> @Event.Place
+        </MudText>
+        <MudText>
+            <b>Organizer:</b> @Event.Organizer
+        </MudText>
+        <MudText>
+            <b>Leader:</b> @Event.Leader
+        </MudText>
+        <MudText>
+            <b>Start date:</b> @Event.StartDate.ToString("dd.MM.yyyy")
+        </MudText>
+        <MudText>
+            <b>End date:</b> @Event.EndDate.ToString("dd.MM.yyyy")
+        </MudText>
+        <MudText>
+            <b>Event type:</b> @Event.EventType
+        </MudText>
+        <MudText>
+            <b>Link:</b> <MudLink Href="@GetLink()">@Event.Link</MudLink>
+        </MudText>
+        <MudText>
+            <b>Deadlines:</b> @GetDeadlines()
+        </MudText>
+        <MudText>
+            <b>Class options:</b> @GetClassOptions()
+        </MudText>
+        <MudText>
+            <b>Event state:</b> @Event.EventState
+        </MudText>
+        <MudText>
+            <b>Event properties:</b> @Event.EventProperties
+        </MudText>
+        <MudText>
+            <b>Event stages:</b> @GetStages()
+        </MudText>
+        <MudText>
+            <b>Note:</b> @Event.Note
+        </MudText>
     </ChildContent>
 </MudExpansionPanel>
 
 @code {
+
     [Parameter]
     public EventDTO Event { get; set; }
 
@@ -39,7 +66,7 @@
 
     private string GetDeadlines()
     {
-        return (Event.Deadlines.Count != 0) ? Event.Deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
+        return Event.Deadlines.Count != 0 ? Event.Deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
     }
 
     private string GetClassOptions()
@@ -49,6 +76,7 @@
 
     private string GetStages()
     {
-        return (Event.EventStages.Count != 0) ? Event.EventStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
+        return Event.EventStages.Count != 0 ? Event.EventStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
     }
-} 
+
+}

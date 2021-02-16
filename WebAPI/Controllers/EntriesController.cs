@@ -1,13 +1,13 @@
-﻿using ClubIS.BusinessLayer.Facades.Interfaces;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ClubIS.BusinessLayer.Facades.Interfaces;
+using ClubIS.CoreLayer;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Enums;
-using ClubIS.CoreLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ClubIS.WebAPI.Controllers
 {
@@ -31,11 +31,9 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Entries retrieved.")]
         public async Task<ActionResult<IEnumerable<EventEntryDTO>>> GetByEventId(int eventId)
         {
-            IEnumerable<EventEntryDTO> entries = await _entryFacade.GetAllByEventId(eventId);
+            var entries = await _entryFacade.GetAllByEventId(eventId);
             if (entries == null)
-            {
                 return NotFound();
-            }
             return Ok(entries);
         }
 
@@ -46,12 +44,10 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "One entry retrieved.")]
         public async Task<ActionResult<EventEntryDTO>> Get(int id)
         {
-            EventEntryDTO entry = await _entryFacade.GetById(id);
+            var entry = await _entryFacade.GetById(id);
 
             if (entry == null)
-            {
                 return NotFound();
-            }
             return Ok(entry);
         }
 
@@ -61,21 +57,12 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Entry added.")]
         public async Task<ActionResult> Post([FromBody] EventEntryDTO entry)
         {
-            if (User.Identity.GetUserId() != entry.UserId &&
-                !User.IsInRole(Role.Entries) &&
-                !User.IsInRole(Role.Admin))
-            {
+            if (User.Identity.GetUserId() != entry.UserId && !User.IsInRole(Role.Entries) && !User.IsInRole(Role.Admin))
                 return Unauthorized();
-            }
-
-            if (entry == null)
-            {
-                return BadRequest();
-            }
 
             await _entryFacade.Create(entry);
 
-            EventDTO e = await _eventFacade.GetById(entry.EventId);
+            var e = await _eventFacade.GetById(entry.EventId);
             if (e.Entries != EntriesExport.Changed)
             {
                 e.Entries = EntriesExport.Changed;
@@ -91,21 +78,12 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Entry updated.")]
         public async Task<ActionResult> Put([FromBody] EventEntryDTO entry)
         {
-            if (User.Identity.GetUserId() != entry.UserId &&
-                !User.IsInRole(Role.Entries) &&
-                !User.IsInRole(Role.Admin))
-            {
+            if (User.Identity.GetUserId() != entry.UserId && !User.IsInRole(Role.Entries) && !User.IsInRole(Role.Admin))
                 return Unauthorized();
-            }
-
-            if (entry == null)
-            {
-                return BadRequest();
-            }
 
             await _entryFacade.Update(entry);
 
-            EventDTO e = await _eventFacade.GetById(entry.EventId);
+            var e = await _eventFacade.GetById(entry.EventId);
             if (e.Entries != EntriesExport.Changed)
             {
                 e.Entries = EntriesExport.Changed;
@@ -121,17 +99,11 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Entry deleted.")]
         public async Task<ActionResult> Delete(int id)
         {
-            EventEntryDTO entry = await _entryFacade.GetById(id);
+            var entry = await _entryFacade.GetById(id);
             if (entry == null)
-            {
                 return NotFound();
-            }
-            if (User.Identity.GetUserId() != entry.UserId &&
-                !User.IsInRole(Role.Entries) &&
-                !User.IsInRole(Role.Admin))
-            {
+            if (User.Identity.GetUserId() != entry.UserId && !User.IsInRole(Role.Entries) && !User.IsInRole(Role.Admin))
                 return Unauthorized();
-            }
             await _entryFacade.Delete(id);
             return Ok();
         }

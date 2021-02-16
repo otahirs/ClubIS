@@ -4,13 +4,13 @@
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">News</MudText>
-    @if (news == null)
+    @if (_news == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
-        @foreach(var n in news)
+        @foreach (var n in _news)
         {
             <MudCard>
                 <MudCardHeader>
@@ -23,16 +23,17 @@
                     <MudText Typo="Typo.body2">@n.Text</MudText>
                 </MudCardContent>
             </MudCard>
-            <br />
+            <br/>
         }
     }
 </MudContainer>
 
 @code {
-    private NewsListDTO[] news;
+    private NewsListDTO[] _news;
 
     protected override async Task OnInitializedAsync()
     {
-        news = await Http.GetFromJsonAsync<NewsListDTO[]>("News");
+        _news = await Http.GetFromJsonAsync<NewsListDTO[]>("News");
     }
-}       
+
+}

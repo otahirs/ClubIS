@@ -11,6 +11,6 @@ namespace ClubIS.CoreLayer.Enums
         Moravian = 1 << 2,
         Regional = 1 << 3,
         Championship = 1 << 4,
-        Relay = 1 << 5,
+        Relay = 1 << 5
     }
 }

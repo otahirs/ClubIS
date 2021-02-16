@@ -1,17 +1,18 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Entities;
 using ClubIS.DataAccessLayer;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Services
 {
     public class NewsService : INewsService
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
         public NewsService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -20,7 +21,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task Create(NewsEditDTO news)
         {
-            News newsEntity = _mapper.Map<News>(news);
+            var newsEntity = _mapper.Map<News>(news);
             await _unitOfWork.News.Add(newsEntity);
         }
 
@@ -31,7 +32,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task<IEnumerable<NewsListDTO>> GetAll()
         {
-            IEnumerable<News> list = await _unitOfWork.News.GetAll();
+            var list = await _unitOfWork.News.GetAll();
             return _mapper.Map<IEnumerable<NewsListDTO>>(list);
         }
 
@@ -42,7 +43,7 @@ namespace ClubIS.BusinessLayer.Services
 
         public async Task Update(NewsEditDTO news)
         {
-            News newsEntity = await _unitOfWork.News.GetById(news.Id);
+            var newsEntity = await _unitOfWork.News.GetById(news.Id);
             _mapper.Map(news, newsEntity);
         }
     }

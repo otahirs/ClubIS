@@ -4,18 +4,18 @@
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
     @if (User == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
         <EditForm Model="@User" OnValidSubmit="OnValidSubmit">
-            <DataAnnotationsValidator />
+            <DataAnnotationsValidator/>
             <MudCard Elevation="0">
                 <MudCardContent>
                     <MudSelect T="AccountState" Label="Selected account state" Variant="Variant.Outlined" @bind-Value="User.AccountState">
                         @foreach (var state in GetAccountStateTypes())
                         {
-                            <MudSelectItem T="AccountState" Value="state" />
+                            <MudSelectItem T="AccountState" Value="state"/>
                         }
                     </MudSelect>
                 </MudCardContent>
@@ -28,17 +28,18 @@
 </MudContainer>
 
 @code {
+
     [Parameter]
     public UserDTO User { get; set; }
 
     private static AccountState[] GetAccountStateTypes()
     {
-        return (AccountState[])Enum.GetValues(typeof(AccountState));
+        return (AccountState[]) Enum.GetValues(typeof(AccountState));
     }
 
     private async Task OnValidSubmit(EditContext context)
     {
-        await Http.PutAsJsonAsync<UserDTO>("Users", User);
+        await Http.PutAsJsonAsync("Users", User);
     }
-}
 
+}

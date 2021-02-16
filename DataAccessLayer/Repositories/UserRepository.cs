@@ -1,9 +1,9 @@
-﻿using ClubIS.CoreLayer.Entities;
-using ClubIS.DataAccessLayer.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClubIS.CoreLayer.Entities;
+using ClubIS.DataAccessLayer.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClubIS.DataAccessLayer.Repositories
 {
@@ -20,9 +20,9 @@ namespace ClubIS.DataAccessLayer.Repositories
 
         public async Task<User> GetEntriesSupervisorsById(int id)
         {
-            return await _entities
-                .FirstOrDefaultAsync(u => u.Id == id);
+            return await _entities.FirstOrDefaultAsync(u => u.Id == id);
         }
+
         public async Task<IEnumerable<User>> GetFinanceSupervisored(int userId)
         {
             return await _entities.Where(u => u.FinanceSupervisorId == userId).ToListAsync();
@@ -30,11 +30,9 @@ namespace ClubIS.DataAccessLayer.Repositories
 
         public void RemoveFinanceSupervisor(int supervisorUserId)
         {
-            IQueryable<User> users = _entities.Where(u => u.FinanceSupervisorId == supervisorUserId);
-            foreach (User u in users)
-            {
+            var users = _entities.Where(u => u.FinanceSupervisorId == supervisorUserId);
+            foreach (var u in users)
                 u.FinanceSupervisorId = null;
-            }
         }
     }
 }

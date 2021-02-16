@@ -4,51 +4,72 @@
 @attribute [Authorize]
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
-    @if (SendUser == null)
+    @if (_sendUser == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
         <MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
-        <MudText Typo="Typo.h3">@SendUser.Surname @SendUser.Firstname</MudText>
+        <MudText Typo="Typo.h3">@_sendUser.Surname @_sendUser.Firstname</MudText>
         <MudList Clickable="false">
-            <MudListItem><b>Registration Number:</b> @SendUser.RegistrationNumber</MudListItem>
-            <MudListItem><b>Nationality:</b> @SendUser.Nationality</MudListItem>
-            <MudListItem><b>Sex:</b> @SendUser.Gender</MudListItem>
-            <MudListItem><b>Licence:</b> @SendUser.Licence</MudListItem>
-            <MudDivider />
+            <MudListItem>
+                <b>Registration Number:</b> @_sendUser.RegistrationNumber
+            </MudListItem>
+            <MudListItem>
+                <b>Nationality:</b> @_sendUser.Nationality
+            </MudListItem>
+            <MudListItem>
+                <b>Sex:</b> @_sendUser.Gender
+            </MudListItem>
+            <MudListItem>
+                <b>License:</b> @_sendUser.Licence
+            </MudListItem>
+            <MudDivider/>
             <MudText Typo="Typo.h5">Address</MudText>
             <MudList Clickable="false">
-                <MudListItem><b>Street & Num:</b> @SendUser.Address.StreetAndNumber</MudListItem>
-                <MudListItem><b>City:</b> @SendUser.Address.City</MudListItem>
-                <MudListItem><b>Postal code:</b> @SendUser.Address.PostalCode</MudListItem>
+                <MudListItem>
+                    <b>Street & Num:</b> @_sendUser.Address.StreetAndNumber
+                </MudListItem>
+                <MudListItem>
+                    <b>City:</b> @_sendUser.Address.City
+                </MudListItem>
+                <MudListItem>
+                    <b>Postal code:</b> @_sendUser.Address.PostalCode
+                </MudListItem>
             </MudList>
-            <MudDivider />
+            <MudDivider/>
             <MudText Typo="Typo.h5">Contact</MudText>
             <MudList Clickable="false">
-                <MudListItem><b>E-mail:</b> @SendUser.Email</MudListItem>
-                <MudListItem><b>Phone:</b> @SendUser.Phone</MudListItem>
+                <MudListItem>
+                    <b>E-mail:</b> @_sendUser.Email
+                </MudListItem>
+                <MudListItem>
+                    <b>Phone:</b> @_sendUser.Phone
+                </MudListItem>
             </MudList>
         </MudList>
     }
 </MudContainer>
 
 @code {
+
     [Parameter]
     public int? UserId { get; set; }
-    private UserDTO SendUser;
-    private List<BreadcrumbItem> _breadCrumbs = new List<BreadcrumbItem> { new BreadcrumbItem("Member List", href: "/users", icon: Icons.Material.Filled.People) };
+
+    private UserDTO _sendUser;
+    private readonly List<BreadcrumbItem> _breadCrumbs = new() {new BreadcrumbItem("Member List", "/users", icon: Icons.Material.Filled.People)};
 
 
     protected override async Task OnInitializedAsync()
     {
         if (UserId != null)
         {
-            SendUser = await Http.GetFromJsonAsync<UserDTO>($"Users/{UserId}");
-            _breadCrumbs.Add(new BreadcrumbItem(SendUser.Surname + " " + SendUser.Firstname, href: null, disabled: true));
+            _sendUser = await Http.GetFromJsonAsync<UserDTO>($"Users/{UserId}");
+            _breadCrumbs.Add(new BreadcrumbItem(_sendUser.Surname + " " + _sendUser.Firstname, null, true));
         }
     }
-    }
+
+}
 
 }

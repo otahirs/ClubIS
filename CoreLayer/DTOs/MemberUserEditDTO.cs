@@ -1,5 +1,5 @@
-﻿using ClubIS.CoreLayer.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ClubIS.CoreLayer.Entities;
 
 namespace ClubIS.CoreLayer.DTOs
 {

@@ -1,7 +1,7 @@
-﻿using ClubIS.DataAccessLayer.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using ClubIS.DataAccessLayer.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClubIS.DataAccessLayer.Repositories
 {

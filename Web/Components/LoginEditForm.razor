@@ -1,111 +1,117 @@
 ﻿@inject HttpClient Http
 @inject NavigationManager NavigationManager
-@inject IdentityAuthenticationStateProvider authStateProvider
+@inject IdentityAuthenticationStateProvider AuthStateProvider
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
-        <MudList Clickable="true" Class="xs-12">
-            <MudListItem Icon="@Icons.Material.Filled.Login" Text="Change login">
-                <NestedList>
-                    @if (ChangeLogin == null)
-                    {<MudProgressCircular Color="Color.Default" Indeterminate="true" /> }
-                    else
-                    {
-                        <EditForm Model="@ChangeLogin" OnValidSubmit="OnValidLoginSubmit">
-                            <DataAnnotationsValidator />
-                            <MudCard Elevation="0">
-                                <MudCardContent>
-                                    <MudTextField Label="Login" @bind-Value="ChangeLogin.NewUserName" For="@(() => ChangeLogin.NewUserName)" Variant="Variant.Outlined" />
-                                    <MudTextField InputType="InputType.Password" Label="Your password" @bind-Value="ChangeLogin.AprovalPassword" For="@(() => ChangeLogin.AprovalPassword)" Variant="Variant.Outlined" />
-                                    @if (ErrorMesageLoginChange != null)
-                                    {
-                                        <MudAlert Severity="Severity.Error">@ErrorMesageLoginChange</MudAlert>
-                                    }
-                                </MudCardContent>
-                                <MudCardActions>
-                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
-                                </MudCardActions>
-                            </MudCard>
-                        </EditForm>
-                    }
-                </NestedList>
-            </MudListItem>
-            <MudListItem Icon="@Icons.Material.Filled.Lock" Text="Change password">
-                <NestedList>
-                    @if (ChangePassword == null)
-                    {<MudProgressCircular Color="Color.Default" Indeterminate="true" /> }
-                    else
-                    {
-                        <EditForm Model="@ChangePassword" OnValidSubmit="OnValidPasswordSubmit">
-                            <DataAnnotationsValidator />
-                            <MudCard Elevation="0">
-                                <MudCardContent>
-                                    <MudTextField InputType="InputType.Password" Label="Old password" @bind-Value="ChangePassword.OldPassword" For="@(() => ChangePassword.OldPassword)" Variant="Variant.Outlined" />
-                                    <MudTextField InputType="InputType.Password" Label="New password" @bind-Value="ChangePassword.NewPassword" For="@(() => ChangePassword.NewPassword)" Variant="Variant.Outlined" />
-                                    <MudTextField InputType="InputType.Password" Label="New password again" @bind-Value="NewPasswordAgain" For="@(() => NewPasswordAgain)" Variant="Variant.Outlined" />
-                                    @if (ErrorMesagePasswordChange != null)
-                                    {
-                                        <MudAlert Severity="Severity.Error">@ErrorMesagePasswordChange</MudAlert>
-                                    }
-                                </MudCardContent>
-                                <MudCardActions>
-                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
-                                </MudCardActions>
-                            </MudCard>
-                        </EditForm>
-                    }
-                    </NestedList>
-            </MudListItem>
-        </MudList>
+    <MudList Clickable="true" Class="xs-12">
+        <MudListItem Icon="@Icons.Material.Filled.Login" Text="Change login">
+            <NestedList>
+                @if (_changeLogin == null)
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+                }
+                else
+                {
+                    <EditForm Model="@_changeLogin" OnValidSubmit="OnValidLoginSubmit">
+                        <DataAnnotationsValidator/>
+                        <MudCard Elevation="0">
+                            <MudCardContent>
+                                <MudTextField Label="Login" @bind-Value="_changeLogin.NewUserName" For="@(() => _changeLogin.NewUserName)" Variant="Variant.Outlined"/>
+                                <MudTextField InputType="InputType.Password" Label="Your password" @bind-Value="_changeLogin.ApprovalPassword" For="@(() => _changeLogin.ApprovalPassword)" Variant="Variant.Outlined"/>
+                                @if (_errorMesageLoginChange != null)
+                                {
+                                    <MudAlert Severity="Severity.Error">@_errorMesageLoginChange</MudAlert>
+                                }
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </EditForm>
+                }
+            </NestedList>
+        </MudListItem>
+        <MudListItem Icon="@Icons.Material.Filled.Lock" Text="Change password">
+            <NestedList>
+                @if (_changePassword == null)
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+                }
+                else
+                {
+                    <EditForm Model="@_changePassword" OnValidSubmit="OnValidPasswordSubmit">
+                        <DataAnnotationsValidator/>
+                        <MudCard Elevation="0">
+                            <MudCardContent>
+                                <MudTextField InputType="InputType.Password" Label="Old password" @bind-Value="_changePassword.OldPassword" For="@(() => _changePassword.OldPassword)" Variant="Variant.Outlined"/>
+                                <MudTextField InputType="InputType.Password" Label="New password" @bind-Value="_changePassword.NewPassword" For="@(() => _changePassword.NewPassword)" Variant="Variant.Outlined"/>
+                                <MudTextField InputType="InputType.Password" Label="New password again" @bind-Value="_newPasswordAgain" For="@(() => _newPasswordAgain)" Variant="Variant.Outlined"/>
+                                @if (_errorMesagePasswordChange != null)
+                                {
+                                    <MudAlert Severity="Severity.Error">@_errorMesagePasswordChange</MudAlert>
+                                }
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </EditForm>
+                }
+            </NestedList>
+        </MudListItem>
+    </MudList>
 </MudContainer>
 
 @code {
+
     [Parameter]
     public int EditedUserId { get; set; }
-    private ChangeLoginDTO ChangeLogin;
-    private ChangePasswordDTO ChangePassword;
 
-    private string NewPasswordAgain;
+    private ChangeLoginDTO _changeLogin;
+    private ChangePasswordDTO _changePassword;
 
-    private string ErrorMesageLoginChange;
-    private string ErrorMesagePasswordChange;
+    private string _newPasswordAgain;
+
+    private string _errorMesageLoginChange;
+    private string _errorMesagePasswordChange;
 
     protected override async Task OnInitializedAsync()
     {
-        var currentUserName = await authStateProvider.GetUserNameById(EditedUserId);
-        ChangeLogin = new ChangeLoginDTO() { EditedUserId = EditedUserId, NewUserName = currentUserName };
-        ChangePassword = new ChangePasswordDTO() { EditedUserId = EditedUserId };
+        var currentUserName = await AuthStateProvider.GetUserNameById(EditedUserId);
+        _changeLogin = new ChangeLoginDTO {EditedUserId = EditedUserId, NewUserName = currentUserName};
+        _changePassword = new ChangePasswordDTO {EditedUserId = EditedUserId};
     }
 
 
     private async Task OnValidLoginSubmit(EditContext context)
     {
-        ErrorMesageLoginChange = null;
+        _errorMesageLoginChange = null;
         try
         {
-            await authStateProvider.ChangeLogin(ChangeLogin);
-        } catch(Exception e)
-        {
-            ErrorMesageLoginChange = e.Message;
+            await AuthStateProvider.ChangeLogin(_changeLogin);
         }
-
+        catch (Exception e)
+        {
+            _errorMesageLoginChange = e.Message;
+        }
     }
 
     private async Task OnValidPasswordSubmit(EditContext context)
     {
-        ErrorMesagePasswordChange = null;
-        if (ChangePassword.NewPassword != NewPasswordAgain)
+        _errorMesagePasswordChange = null;
+        if (_changePassword.NewPassword != _newPasswordAgain)
         {
-            ErrorMesagePasswordChange = "Passwords do not match.";
+            _errorMesagePasswordChange = "Passwords do not match.";
             return;
         }
         try
         {
-            await authStateProvider.ChangePassword(ChangePassword);
+            await AuthStateProvider.ChangePassword(_changePassword);
         }
         catch (Exception e)
         {
-            ErrorMesagePasswordChange = e.Message;
+            _errorMesagePasswordChange = e.Message;
         }
     }
-}
 
+}

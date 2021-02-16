@@ -1,10 +1,8 @@
 ﻿.validation-message {
-    width: 100%;
-    margin-top: .25rem;
-    font-size: 90%;
     color: #ff3333;
+    font-size: 90%;
+    margin-top: .25rem;
+    width: 100%;
 }
 
-.mud-table-hover .mud-table-body .mud-table-row:hover {
-    cursor: pointer;
-}
+.mud-table-hover .mud-table-body .mud-table-row:hover { cursor: pointer; }

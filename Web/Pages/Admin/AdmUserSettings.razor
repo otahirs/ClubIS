@@ -2,79 +2,104 @@
 
 @attribute [Authorize]
 
-@using ClubIS.Web.Components
-
 @inject HttpClient Http
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Settings</MudText>
-    <MudTabs  Elevation="1">
+    <MudTabs Elevation="1">
         <MudTabPanel Text="User">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                @if (SendUser != null)
-                {<UserEditForm User="SendUser" IsAdmin="true" />}
+                @if (_sendUser != null)
+                {
+                    <UserEditForm User="_sendUser" IsAdmin="true"/>
+                }
                 else
-                { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+                }
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="SI Cards">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                @if (SendUser != null)
-                {<SICardsForm User="SendUser" IsAdmin="true" />}
+                @if (_sendUser != null)
+                {
+                    <SICardsForm User="_sendUser" IsAdmin="true"/>
+                }
                 else
-                { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+                }
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Login">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                <LoginEditForm EditedUserId="SendUser.Id" />
+                <LoginEditForm EditedUserId="_sendUser.Id"/>
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Supervision">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                @if (SendUser != null)
-                {<Supervisors UserId="SendUser.Id" isAdmin="true" /> }
+                @if (_sendUser != null)
+                {
+                    <Supervisors UserId="_sendUser.Id" IsAdmin="true"/>
+                }
                 else
-                { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+                }
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Member Fee">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                @if (SendUser != null)
-                {<MemberFeeEditForm User="SendUser" />}
+                @if (_sendUser != null)
+                {
+                    <MemberFeeEditForm User="_sendUser"/>
+                }
                 else
-                { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+                }
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Account State">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                @if (SendUser != null)
-                {<AcountStateEditForm User="SendUser" />}
+                @if (_sendUser != null)
+                {
+                    <AcountStateEditForm User="_sendUser"/>
+                }
                 else
-                { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+                }
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Roles">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                @if (SendUser != null)
-                {<RolesForm UserId="SendUser.Id" /> }
+                @if (_sendUser != null)
+                {
+                    <RolesForm UserId="_sendUser.Id"/>
+                }
                 else
-                { <MudProgressCircular Color="Color.Default" Indeterminate="true" />}
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+                }
             </MudContainer>
         </MudTabPanel>
     </MudTabs>
 </MudContainer>
 
 @code {
+
     [Parameter]
     public int? UserId { get; set; }
-    private UserDTO SendUser;
+
+    private UserDTO _sendUser;
 
     protected override async Task OnInitializedAsync()
     {
         if (UserId != null)
         {
-            SendUser = await Http.GetFromJsonAsync<UserDTO>($"Users/{UserId}");
+            _sendUser = await Http.GetFromJsonAsync<UserDTO>($"Users/{UserId}");
         }
     }
+
 }

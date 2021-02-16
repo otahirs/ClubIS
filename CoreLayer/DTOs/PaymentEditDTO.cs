@@ -1,5 +1,5 @@
-﻿using ClubIS.CoreLayer.Enums;
-using System;
+﻿using System;
+using ClubIS.CoreLayer.Enums;
 
 namespace ClubIS.CoreLayer.DTOs
 {
@@ -14,6 +14,5 @@ namespace ClubIS.CoreLayer.DTOs
         public string Message { get; set; }
         public PaymentState PaymentState { get; set; }
         public DateTime Date { get; set; }
-
     }
 }

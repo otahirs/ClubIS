@@ -4,22 +4,22 @@
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
     @if (User == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
         <EditForm Model="@User" OnValidSubmit="OnValidSubmit">
-            <DataAnnotationsValidator />
+            <DataAnnotationsValidator/>
             <MudCard Elevation="0">
                 <MudCardContent>
                     @foreach (var siCard in User.SiCards)
                     {
                         <MudGrid>
                             <MudItem xs="4">
-                                <MudTextField @bind-Value="siCard.Number" For="@(() => siCard.Number)" Variant="Variant.Outlined" />
+                                <MudTextField @bind-Value="siCard.Number" For="@(() => siCard.Number)" Variant="Variant.Outlined"/>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSICard(siCard)" Class="mt-4">Delete</MudButton>
+                                <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSiCard(siCard)" Class="mt-4">Delete</MudButton>
                             </MudItem>
                             <MudItem xs="4">
                                 @if (siCard.IsDefault)
@@ -28,14 +28,14 @@
                                 }
                                 else
                                 {
-                                    <MudButton Class="mt-4" ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Cached" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => SetSICardAsDefault(siCard)">Set as default</MudButton>
+                                    <MudButton Class="mt-4" ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Cached" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => SetSiCardAsDefault(siCard)">Set as default</MudButton>
                                 }
                             </MudItem>
                         </MudGrid>
                     }
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="ShowNewSICardLine" Class="ml-3">SI Card</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="ShowNewSiCardLine" Class="ml-3">SI Card</MudButton>
                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Restore" OnClick="RedoChanges" Class="ml-3">Undo changes</MudButton>
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-3">Save</MudButton>
                 </MudCardActions>
@@ -45,15 +45,17 @@
 </MudContainer>
 
 @code {
+
     [Parameter]
     public UserDTO User { get; set; }
+
     [Parameter]
     public bool IsAdmin { get; set; }
 
 
-    private void DeleteSICard(SiCardDTO siCard)
+    private void DeleteSiCard(SiCardDTO siCard)
     {
-        bool setNewDefaultCard = siCard.IsDefault && User.SiCards.Count > 1;
+        var setNewDefaultCard = siCard.IsDefault && User.SiCards.Count > 1;
         User.SiCards.Remove(siCard);
         if (setNewDefaultCard)
         {
@@ -61,20 +63,20 @@
         }
     }
 
-    private void SetSICardAsDefault(SiCardDTO siCard)
+    private void SetSiCardAsDefault(SiCardDTO siCard)
     {
         User.SiCards.FirstOrDefault(s => s.IsDefault).IsDefault = false;
         siCard.IsDefault = true;
     }
 
-    private void ShowNewSICardLine()
+    private void ShowNewSiCardLine()
     {
-        SiCardDTO siCardDTO = new SiCardDTO();
+        var siCardDto = new SiCardDTO();
         if (User.SiCards.Count == 0)
         {
-            siCardDTO.IsDefault = true;
+            siCardDto.IsDefault = true;
         }
-        User.SiCards.Add(siCardDTO);
+        User.SiCards.Add(siCardDto);
     }
 
     private async Task RedoChanges()
@@ -86,16 +88,13 @@
     {
         if (IsAdmin)
         {
-            await Http.PutAsJsonAsync<UserDTO>("Users", User);
+            await Http.PutAsJsonAsync("Users", User);
         }
         else
         {
-            MemberUserEditDTO sendData = new MemberUserEditDTO()
-            {
-                Id = User.Id,
-                SiCards = User.SiCards
-            };
-            await Http.PutAsJsonAsync<MemberUserEditDTO>("Users/member-edit", sendData);
+            var sendData = new MemberUserEditDTO {Id = User.Id, SiCards = User.SiCards};
+            await Http.PutAsJsonAsync("Users/member-edit", sendData);
         }
     }
+
 }

@@ -5,5 +5,4 @@
         Male,
         Female
     }
-
 }

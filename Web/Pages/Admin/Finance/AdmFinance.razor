@@ -5,40 +5,43 @@
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin finance</MudText>
-    <MudTabs @ref="@tabs" Elevation="1">
-        <MudTabPanel Text="Events" >
+    <MudTabs @ref="@_tabs" Elevation="1">
+        <MudTabPanel Text="Events">
             <MudContainer MaxWidth="MaxWidth.Large">
-                <FinanceEvents />
+                <FinanceEvents/>
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Users">
             <MudContainer MaxWidth="MaxWidth.Large">
-                <FinanceUsers />
+                <FinanceUsers/>
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="MemberFees">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                <FinanceMemberFees />
+                <FinanceMemberFees/>
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Claims">
             <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-                <FinanceClaims />
+                <FinanceClaims/>
             </MudContainer>
         </MudTabPanel>
     </MudTabs>
 </MudContainer>
 
 @code {
+
     [Parameter]
     public int PanelIndex { get; set; }
-    MudTabs tabs;
+
+    MudTabs _tabs;
+
     protected override void OnAfterRender(bool firstRender)
     {
-        if (PanelIndex >= 0 && PanelIndex < tabs.Panels.Count)
+        if (PanelIndex >= 0 && PanelIndex < _tabs.Panels.Count)
         {
-            tabs.ActivatePanel((int)PanelIndex);
+            _tabs.ActivatePanel(PanelIndex);
         }
     }
-}
 
+}

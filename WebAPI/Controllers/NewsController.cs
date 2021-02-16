@@ -1,12 +1,12 @@
-﻿using ClubIS.BusinessLayer.Facades.Interfaces;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.CoreLayer.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ClubIS.WebAPI.Controllers
 {
@@ -27,11 +27,9 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "News retrieved.")]
         public async Task<ActionResult<IEnumerable<NewsListDTO>>> Get()
         {
-            IEnumerable<NewsListDTO> entries = await _newsFacade.GetAll();
+            var entries = await _newsFacade.GetAll();
             if (entries == null)
-            {
                 return NotFound();
-            }
             return Ok(entries);
         }
 
@@ -41,12 +39,10 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "One news retrieved.")]
         public async Task<ActionResult<NewsEditDTO>> Get(int id)
         {
-            NewsEditDTO news = await _newsFacade.GetById(id);
+            var news = await _newsFacade.GetById(id);
 
             if (news == null)
-            {
                 return NotFound();
-            }
             return Ok(news);
         }
 
@@ -57,9 +53,7 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<ActionResult> Post([FromBody] NewsEditDTO news)
         {
             if (news == null)
-            {
                 return BadRequest();
-            }
 
             await _newsFacade.Create(news);
             return Ok();
@@ -72,9 +66,7 @@ namespace ClubIS.WebAPI.Controllers
         public async Task<ActionResult> Put([FromBody] NewsEditDTO news)
         {
             if (news == null)
-            {
                 return BadRequest();
-            }
 
             await _newsFacade.Update(news);
             return Ok();
@@ -86,12 +78,10 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "News deleted.")]
         public async Task<ActionResult> Delete(int id)
         {
-            NewsEditDTO news = await _newsFacade.GetById(id);
+            var news = await _newsFacade.GetById(id);
 
             if (news == null)
-            {
                 return NotFound();
-            }
             await _newsFacade.Delete(id);
             return Ok();
         }

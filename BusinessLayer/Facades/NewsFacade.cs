@@ -1,16 +1,17 @@
-﻿using ClubIS.BusinessLayer.Facades.Interfaces;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ClubIS.BusinessLayer.Facades.Interfaces;
 using ClubIS.BusinessLayer.Services.Interfaces;
 using ClubIS.CoreLayer.DTOs;
 using ClubIS.DataAccessLayer;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ClubIS.BusinessLayer.Facades
 {
     public class NewsFacade : INewsFacade
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly INewsService _newsService;
+        private readonly IUnitOfWork _unitOfWork;
+
         public NewsFacade(IUnitOfWork unitOfWork, INewsService newsService)
         {
             _unitOfWork = unitOfWork;
@@ -49,7 +50,5 @@ namespace ClubIS.BusinessLayer.Facades
         {
             return await _newsService.GetById(id);
         }
-
-
     }
 }
