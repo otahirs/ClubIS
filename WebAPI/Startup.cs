@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace ClubIS.WebAPI
 {
@@ -41,26 +42,34 @@ namespace ClubIS.WebAPI
         {
             services.AddOptions();
             services.AddSwaggerGen();
-                        
+            
             services.AddDbContext<DataContext>(options =>
             {
-                if (_env.IsDevelopment())
+                var provider = _configuration.GetValue("Provider", "PostgreSQL");
+                switch (provider)
                 {
                     // add-migration init -P ClubIS.Migrations.SQLite
-                    options.UseSqlite(
-                        _configuration.GetConnectionString("SQLite"), 
-                        x => x.MigrationsAssembly("ClubIS.Migrations.SQLite"));
+                    case "SQLite":
+                        options.UseSqlite(
+                            _configuration.GetConnectionString("SQLite"),
+                            x => x.MigrationsAssembly("ClubIS.Migrations.SQLite"));
+                        break;
+
+                    //  add-migration init -P ClubIS.Migrations.PostgreSQL
+                    case "PostgreSQL":
+                        options.UseNpgsql(
+                            _configuration.GetConnectionString("PostgreSQL"),
+                            x => x.MigrationsAssembly("ClubIS.Migrations.PostgreSQL"));
+                        break;
+
+                    default:
+                        throw new Exception($"Unsupported provider: {provider}");
+                }
+
+                if (_env.IsDevelopment())
+                {
                     options.EnableSensitiveDataLogging();
                 }
-                else
-                {
-                    //  $Env:ASPNETCORE_ENVIRONMENT = "Production"
-                    //  add-migration init -P ClubIS.Migrations.PostgreSQL
-                    options.UseNpgsql(
-                        _configuration.GetConnectionString("PostgreSQL"), 
-                        x => x.MigrationsAssembly("ClubIS.Migrations.PostgreSQL"));
-                }
-                
             });
 
             services.AddIdentity<UserIdentity, IdentityRole<int>>().AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
