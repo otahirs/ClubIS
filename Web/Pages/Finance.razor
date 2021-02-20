@@ -8,21 +8,24 @@
 
     @if (_currentStatement == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
     }
     else
     {
-        <MudSelect T="FinanceStatementDTO" Label="Accounts" Variant="Variant.Outlined" ToStringFunc="s => s.Name" @bind-Value="_currentStatement">
-            @foreach (var statement in _financeStatements)
-            {
-                <MudSelectItem T="FinanceStatementDTO" Value="statement"/>
-            }
-        </MudSelect>
-        <FinanceStatement Statement="_currentStatement"/>
-        <br/>
+        @if (_financeStatements.Count > 1)
+        {
+            <MudSelect T="FinanceStatementDTO" Label="Managed Accounts" Variant="Variant.Outlined" ToStringFunc="s => s.Name" @bind-Value="_currentStatement">
+                @foreach (var statement in _financeStatements)
+                {
+                    <MudSelectItem T="FinanceStatementDTO" Value="statement" />
+                }
+            </MudSelect>
+        }
+        <FinanceStatement Statement="_currentStatement" />
+        <br />
         <MudGrid>
             <MudItem md="6" xs="12">
-                <FinanceUserCreditTransfer SourceUserName="@_currentStatement.Name" SourceUserId="@_currentStatement.UserId" OnAfterSubmit="ReloadStatements"/>
+                <FinanceUserCreditTransfer SourceUserName="@_currentStatement.Name" SourceUserId="@_currentStatement.UserId" OnAfterSubmit="ReloadStatements" />
             </MudItem>
         </MudGrid>
     }
