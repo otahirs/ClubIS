@@ -11,14 +11,6 @@ ClubIS is an information system for any Czech orienteering club. The core functi
 
 *The project is in an early stage of development and is not ready for production use!*
 
-### To Do List
-- [ ] Dev Wiki / Documentation
-- [ ] Logging
-- [ ] Mail remainders 
-- [ ] Database backup / restore
-- [ ] Oris integration
-- [ ] Localization
-- [ ] Tests
 ### Demo
 Live demo is available at [clubis.hirot.eu](https://clubis.hirot.eu). Use the following credentials to log in.
 | Login | Password | Note
@@ -31,7 +23,14 @@ Live demo is available at [clubis.hirot.eu](https://clubis.hirot.eu). Use the fo
 | ------ | ------ |
 | ![](preview2.png) | ![](preview4.png) |
 
-
+### To Do List
+- [ ] Dev Wiki / Documentation
+- [ ] Logging
+- [ ] Mail remainders 
+- [ ] Database backup / restore
+- [ ] Oris integration
+- [ ] Localization
+- [ ] Tests
 ---
 ## Built With
 
