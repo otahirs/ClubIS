@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ClubIS.CoreLayer.Entities;
 using ClubIS.CoreLayer.Enums;
 using Microsoft.AspNetCore.Identity;
@@ -30,7 +31,7 @@ namespace ClubIS.DataAccessLayer
             // For dev purposes
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=clubIS");
+                optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
                 optionsBuilder.EnableSensitiveDataLogging();
             }
 

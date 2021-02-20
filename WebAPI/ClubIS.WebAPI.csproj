@@ -20,6 +20,8 @@
     <ProjectReference Include="..\BusinessLayer\ClubIS.BusinessLayer.csproj" />
     <ProjectReference Include="..\CoreLayer\ClubIS.CoreLayer.csproj" />
     <ProjectReference Include="..\Web\ClubIS.Web.csproj" />
+    <ProjectReference Include="..\Migrations\PostgreSQL\ClubIS.Migrations.PostgreSQL.csproj" />
+    <ProjectReference Include="..\Migrations\SQLite\ClubIS.Migrations.SQLite.csproj" />
   </ItemGroup>
 
 

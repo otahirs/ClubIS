@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubIS.Web", "Web\ClubIS.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubIS.CoreLayer", "CoreLayer\ClubIS.CoreLayer.csproj", "{F82F7E37-5E18-47F3-93D3-AFF1AD6EB283}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubIS.Migrations.SQLite", "Migrations\SQLite\ClubIS.Migrations.SQLite.csproj", "{4803903D-8714-4C9E-912F-02852EF74C25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubIS.Migrations.PostgreSQL", "Migrations\PostgreSQL\ClubIS.Migrations.PostgreSQL.csproj", "{1D8144E3-099D-493B-A570-89FB1CD0EC20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{F82F7E37-5E18-47F3-93D3-AFF1AD6EB283}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F82F7E37-5E18-47F3-93D3-AFF1AD6EB283}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F82F7E37-5E18-47F3-93D3-AFF1AD6EB283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4803903D-8714-4C9E-912F-02852EF74C25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4803903D-8714-4C9E-912F-02852EF74C25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4803903D-8714-4C9E-912F-02852EF74C25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4803903D-8714-4C9E-912F-02852EF74C25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D8144E3-099D-493B-A570-89FB1CD0EC20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D8144E3-099D-493B-A570-89FB1CD0EC20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D8144E3-099D-493B-A570-89FB1CD0EC20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D8144E3-099D-493B-A570-89FB1CD0EC20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
