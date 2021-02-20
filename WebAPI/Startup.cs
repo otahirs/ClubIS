@@ -24,23 +24,43 @@ namespace ClubIS.WebAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _env;
 
-        public IConfiguration Configuration { get; }
+        public Startup(IWebHostEnvironment env)
+        {
+            _env = env;
+            _configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build(); ;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
             services.AddSwaggerGen();
-
+                        
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("ApplicationData"));
-                options.EnableSensitiveDataLogging();
+                if (_env.IsDevelopment())
+                {
+                    // add-migration init -P ClubIS.Migrations.SQLite
+                    options.UseSqlite(
+                        _configuration.GetConnectionString("SQLite"), 
+                        x => x.MigrationsAssembly("ClubIS.Migrations.SQLite"));
+                    options.EnableSensitiveDataLogging();
+                }
+                else
+                {
+                    //  $Env:ASPNETCORE_ENVIRONMENT = "Production"
+                    //  add-migration init -P ClubIS.Migrations.PostgreSQL
+                    options.UseNpgsql(
+                        _configuration.GetConnectionString("PostgreSQL"), 
+                        x => x.MigrationsAssembly("ClubIS.Migrations.PostgreSQL"));
+                }
+                
             });
 
             services.AddIdentity<UserIdentity, IdentityRole<int>>().AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
@@ -126,18 +146,17 @@ namespace ClubIS.WebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider, DataContext dataContext)
+        public void Configure(IApplicationBuilder app, IApiVersionDescriptionProvider provider, DataContext dataContext)
         {
             // migrate any database changes on startup (includes initial db creation)
             dataContext.Database.Migrate();
 
-            if (env.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 app.UseWebAssemblyDebugging();
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 

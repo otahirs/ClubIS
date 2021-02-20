@@ -7,9 +7,10 @@ namespace ClubIS.DataAccessLayer.Tests
 {
     public class TestsInMemory
     {
-        private readonly Func<TestClubContext> _createContext = () =>
+        private readonly Func<DataContext> _createContext = () =>
         {
-            var context = new TestClubContext();
+            var context = new DataContext();
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             return context;
         };
