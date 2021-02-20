@@ -12,43 +12,49 @@
             <DataAnnotationsValidator/>
             <MudCard Elevation="0">
                 <MudCardContent>
-                    <MudCard Elevation="0">
-                        <MudText Typo="Typo.h4" GutterBottom="true">User data</MudText>
-                        <MudCardContent>
-                            <MudTextField Label="Firstname" @bind-Value="User.Firstname" For="@(() => User.Firstname)" Variant="Variant.Outlined" Disabled="!IsAdmin"/>
-                            <MudTextField Label="Surname" @bind-Value="User.Surname" For="@(() => User.Surname)" Variant="Variant.Outlined" Disabled="!IsAdmin"/>
-                            <MudTextField Label="Reg. number" @bind-Value="User.RegistrationNumber" For="@(() => User.RegistrationNumber)" Variant="Variant.Outlined" Disabled="!IsAdmin"/>
-                            <MudDatePicker Label="Date of birth" @bind-Date="User.DateOfBirth" InputVariant="Variant.Outlined" DateFormat="yyyy-MM-dd" Disabled="!IsAdmin" InputIcon=""/>
-                            <MudSelect Label="Gender" @bind-Value="User.Gender" Variant="Variant.Outlined" Disabled="!IsAdmin">
-                                @foreach (Gender gender in Enum.GetValues(typeof(Gender)))
-                                {
-                                    <MudSelectItem Value="@gender"/>
-                                }
-                            </MudSelect>
-                            <MudTextField Label="Nationality" @bind-Value="User.Nationality" For="@(() => User.Nationality)" Variant="Variant.Outlined" Disabled="!IsAdmin"/>
-                            <MudSelect Label="Licence" @bind-Value="User.Licence" Variant="Variant.Outlined" Disabled="!IsAdmin">
-                                @foreach (Licence licence in Enum.GetValues(typeof(Licence)))
-                                {
-                                    <MudSelectItem Value="@licence"/>
-                                }
-                            </MudSelect>
-                        </MudCardContent>
-                    </MudCard>
-                    <MudCard Elevation="0">
-                        <MudText Typo="Typo.h4" GutterBottom="true">Address</MudText>
-                        <MudCardContent>
-                            <MudTextField Label="Street & Num" @bind-Value="User.Address.StreetAndNumber" For="@(() => User.Address.StreetAndNumber)" Variant="Variant.Outlined"/>
-                            <MudTextField Label="City" @bind-Value="User.Address.City" For="@(() => User.Address.City)" Variant="Variant.Outlined"/>
-                            <MudTextField Label="Postal code" @bind-Value="User.Address.PostalCode" For="@(() => User.Address.PostalCode)" Variant="Variant.Outlined"/>
-                        </MudCardContent>
-                    </MudCard>
-                    <MudCard Elevation="0">
-                        <MudText Typo="Typo.h4" GutterBottom="true">Contact</MudText>
-                        <MudCardContent>
-                            <MudTextField Label="E-mail" @bind-Value="User.Email" For="@(() => User.Email)" Variant="Variant.Outlined"/>
-                            <MudTextField Label="Phone" @bind-Value="User.Phone" For="@(() => User.Phone)" Variant="Variant.Outlined"/>
-                        </MudCardContent>
-                    </MudCard>
+                    <MudGrid>
+                        <MudItem md="6">
+                            <MudCard Elevation="0">
+                                <MudText Typo="Typo.h4" GutterBottom="true">User data</MudText>
+                                <MudCardContent>
+                                    <MudTextField Label="Firstname" @bind-Value="User.Firstname" For="@(() => User.Firstname)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
+                                    <MudTextField Label="Surname" @bind-Value="User.Surname" For="@(() => User.Surname)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
+                                    <MudTextField Label="Reg. number" @bind-Value="User.RegistrationNumber" For="@(() => User.RegistrationNumber)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
+                                    <MudDatePicker Label="Date of birth" @bind-Date="User.DateOfBirth" InputVariant="Variant.Outlined" DateFormat="yyyy-MM-dd" Disabled="!IsAdmin" InputIcon="" />
+                                    <MudSelect Label="Gender" @bind-Value="User.Gender" Variant="Variant.Outlined" Disabled="!IsAdmin">
+                                        @foreach (Gender gender in Enum.GetValues(typeof(Gender)))
+                                            {
+                                            <MudSelectItem Value="@gender" />
+                                            }
+                                    </MudSelect>
+                                    <MudTextField Label="Nationality" @bind-Value="User.Nationality" For="@(() => User.Nationality)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
+                                    <MudSelect Label="Licence" @bind-Value="User.Licence" Variant="Variant.Outlined" Disabled="!IsAdmin">
+                                        @foreach (Licence licence in Enum.GetValues(typeof(Licence)))
+                                            {
+                                            <MudSelectItem Value="@licence" />
+                                            }
+                                    </MudSelect>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                        <MudItem md="6">
+                            <MudCard Elevation="0">
+                                <MudText Typo="Typo.h4" GutterBottom="true">Address</MudText>
+                                <MudCardContent>
+                                    <MudTextField Label="Street & Num" @bind-Value="User.Address.StreetAndNumber" For="@(() => User.Address.StreetAndNumber)" Variant="Variant.Outlined" />
+                                    <MudTextField Label="City" @bind-Value="User.Address.City" For="@(() => User.Address.City)" Variant="Variant.Outlined" />
+                                    <MudTextField Label="Postal code" @bind-Value="User.Address.PostalCode" For="@(() => User.Address.PostalCode)" Variant="Variant.Outlined" />
+                                </MudCardContent>
+                            </MudCard>
+                            <MudCard Elevation="0">
+                                <MudText Typo="Typo.h4" GutterBottom="true">Contact</MudText>
+                                <MudCardContent>
+                                    <MudTextField Label="E-mail" @bind-Value="User.Email" For="@(() => User.Email)" Variant="Variant.Outlined" />
+                                    <MudTextField Label="Phone" @bind-Value="User.Phone" For="@(() => User.Phone)" Variant="Variant.Outlined" />
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                    </MudGrid>
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Restore" OnClick="RedoChanges" Class="ml-3">Undo changes</MudButton>
