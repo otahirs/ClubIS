@@ -15,27 +15,25 @@
                     @foreach (var siCard in User.SiCards)
                     {
                         <MudGrid>
-                            <MudItem xs="4">
-                                <MudTextField @bind-Value="siCard.Number" For="@(() => siCard.Number)" Variant="Variant.Outlined"/>
+                            <MudItem xs="12" sm="6" lg="4">
+                                <MudTextField @bind-Value="siCard.Number" For="@(() => siCard.Number)" Variant="Variant.Outlined" />
                             </MudItem>
-                            <MudItem xs="4">
-                                <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSiCard(siCard)" Class="mt-4">Delete</MudButton>
-                            </MudItem>
-                            <MudItem xs="4">
+                            <MudItem xs="12" md="6" Class="py-md-6 mt-n4 mb-4 my-md-0">
+                                <MudButton Class="mr-4" ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSiCard(siCard)">Delete</MudButton>
                                 @if (siCard.IsDefault)
                                 {
-                                    <MudChip Class="mt-4">Default</MudChip>
+                                    <MudChip>Default</MudChip>
                                 }
                                 else
                                 {
-                                    <MudButton Class="mt-4" ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Cached" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => SetSiCardAsDefault(siCard)">Set as default</MudButton>
+                                    <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Cached" Variant="Variant.Filled" OnClick="e => SetSiCardAsDefault(siCard)">Set as default</MudButton>
                                 }
                             </MudItem>
                         </MudGrid>
                     }
+                    <MudButton Class="mt-4 ml-3" ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="ShowNewSiCardLine">SI Card</MudButton>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="ShowNewSiCardLine" Class="ml-3">SI Card</MudButton>
                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Restore" OnClick="RedoChanges" Class="ml-3">Undo changes</MudButton>
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-3">Save</MudButton>
                 </MudCardActions>
