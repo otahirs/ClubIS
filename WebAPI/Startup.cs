@@ -24,13 +24,16 @@ namespace ClubIS.WebAPI
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             _env = env;
-            Configuration = configuration;
+            _configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build(); ;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -45,7 +48,7 @@ namespace ClubIS.WebAPI
                 {
                     // add-migration init -P ClubIS.Migrations.SQLite
                     options.UseSqlite(
-                        Configuration.GetConnectionString("SQLite"), 
+                        _configuration.GetConnectionString("SQLite"), 
                         x => x.MigrationsAssembly("ClubIS.Migrations.SQLite"));
                     options.EnableSensitiveDataLogging();
                 }
@@ -54,7 +57,7 @@ namespace ClubIS.WebAPI
                     //  $Env:ASPNETCORE_ENVIRONMENT = "Production"
                     //  add-migration init -P ClubIS.Migrations.PostgreSQL
                     options.UseNpgsql(
-                        Configuration.GetConnectionString("PostgreSQL"), 
+                        _configuration.GetConnectionString("PostgreSQL"), 
                         x => x.MigrationsAssembly("ClubIS.Migrations.PostgreSQL"));
                 }
                 
