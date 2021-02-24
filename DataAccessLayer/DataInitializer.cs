@@ -22,15 +22,16 @@ namespace ClubIS.DataAccessLayer
             {
                 Id = ID_1,
                 UserId = ID_1,
-                StreetAndNumber = "***REMOVED***",
+                StreetAndNumber = "Pantoflová 16",
                 City = "Brno",
-                PostalCode = "***REMOVED***"
+                PostalCode = "62800"
             }, new Address
             {
                 Id = ID_2,
                 UserId = ID_2,
-                City = "***REMOVED***",
-                PostalCode = "***REMOVED***"
+                StreetAndNumber = "Smrková 4",
+                City = "Brno",
+                PostalCode = "61300"
             });
 
             modelBuilder.Entity<MemberFee>()
@@ -55,8 +56,8 @@ namespace ClubIS.DataAccessLayer
                 Id = ID_1,
                 AccountId = ID_1,
                 Firstname = "Matěj",
-                Surname = "***REMOVED***",
-                RegistrationNumber = "***REMOVED***",
+                Surname = "Perník",
+                RegistrationNumber = "ZBM1108",
                 Nationality = "Česká republika",
                 Email = "tst2@eof.cz",
                 Gender = Gender.Male,
@@ -69,8 +70,8 @@ namespace ClubIS.DataAccessLayer
                 AccountId = ID_2,
                 FinanceSupervisorId = ID_1,
                 Firstname = "Kateřina",
-                Surname = "***REMOVED***",
-                RegistrationNumber = "***REMOVED***",
+                Surname = "Muflonová",
+                RegistrationNumber = "ZMB9751",
                 Nationality = "Česká republika",
                 Email = "tst2@eob.cz",
                 Gender = Gender.Female,
@@ -82,8 +83,8 @@ namespace ClubIS.DataAccessLayer
             modelBuilder.Entity("User_EntriesSupervisor")
             .HasData(new Dictionary<string, object>
             {
-                ["UserId"] = ID_1,
-                ["EntriesSupervisorId"] = ID_2
+                ["UserId"] = ID_2,
+                ["EntriesSupervisorId"] = ID_1
             });
 
             modelBuilder.Entity<FinanceAccount>()
@@ -105,13 +106,13 @@ namespace ClubIS.DataAccessLayer
             {
                 Id = ID_1,
                 UserId = ID_1,
-                Number = ***REMOVED***,
+                Number = 8670103,
                 IsDefault = true
             }, new SiCard
             {
                 Id = ID_2,
                 UserId = ID_2,
-                Number = ***REMOVED***,
+                Number = 464031,
                 IsDefault = true
             });
 
@@ -122,7 +123,7 @@ namespace ClubIS.DataAccessLayer
                 UserId = ID_1,
                 Date = new DateTime(2020, 9, 30),
                 Title = "test nadpisu",
-                Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111"
+                Text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
             });
 
             modelBuilder.Entity<Event>()
@@ -198,12 +199,12 @@ namespace ClubIS.DataAccessLayer
             {
                 Id = ID_3,
                 EventId = ID_2,
-                Name = "A"
+                Name = "D14"
             }, new EventClassOption
             {
                 Id = ID_4,
                 EventId = ID_2,
-                Name = "B"
+                Name = "D45"
             }, new EventClassOption
             {
                 Id = ID_5,
@@ -218,7 +219,7 @@ namespace ClubIS.DataAccessLayer
                 UserId = ID_1,
                 EventId = ID_1,
                 Class = "A",
-                SiCardNumber = ***REMOVED***,
+                SiCardNumber = 464031,
                 HasClubAccommodation = true,
                 HasClubTransport = true
             });
@@ -229,8 +230,8 @@ namespace ClubIS.DataAccessLayer
                 Id = ID_2,
                 UserId = ID_2,
                 EventId = ID_1,
-                Class = "H20",
-                SiCardNumber = ***REMOVED***,
+                Class = "B",
+                SiCardNumber = 8670103,
                 HasClubAccommodation = true,
                 HasClubTransport = true
             });
@@ -250,17 +251,19 @@ namespace ClubIS.DataAccessLayer
             modelBuilder.Entity<UserIdentity>()
             .HasData(new UserIdentity
             {
+                // matej
                 Id = ID_1,
-                UserName = "matej",
-                NormalizedUserName = "MATEJ",
-                PasswordHash = hasher.HashPassword(null, "matej"),
+                UserName = "admin123",
+                NormalizedUserName = "ADMIN123",
+                PasswordHash = hasher.HashPassword(null, "admin123"),
                 SecurityStamp = string.Empty
             }, new UserIdentity
             {
+                // katka
                 Id = ID_2,
-                UserName = "katka",
-                NormalizedUserName = "KATKA",
-                PasswordHash = hasher.HashPassword(null, "katka"),
+                UserName = "user123",
+                NormalizedUserName = "USER123",
+                PasswordHash = hasher.HashPassword(null, "user123"),
                 SecurityStamp = string.Empty
             });
 
