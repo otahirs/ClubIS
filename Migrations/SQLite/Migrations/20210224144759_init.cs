@@ -504,42 +504,42 @@ namespace ClubIS.Migrations.SQLite.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "5898ac80-467a-4ef2-90c2-2682b01ee042", "admin", "ADMIN" });
+                values: new object[] { 1, "53b2e2cd-bc99-46ad-a8b3-63849c4a84a0", "admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 2, "41927711-fbe3-4a16-a9a4-d8b8309a0c5c", "entries", "ENTRIES" });
+                values: new object[] { 2, "bd3237ea-db65-451e-b9ed-660cc0bc133a", "entries", "ENTRIES" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 3, "b06417ed-8395-4a13-b7d0-734aa5470429", "events", "EVENTS" });
+                values: new object[] { 3, "84f104b2-30f7-48b2-98d9-c0a2f82fea95", "events", "EVENTS" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 4, "45c6823a-9f55-4a0c-b512-f797b5f6b616", "finance", "FINANCE" });
+                values: new object[] { 4, "63ee3670-a95c-4976-b4f1-22e95494cb7f", "finance", "FINANCE" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 5, "3c6f4ff3-4005-4117-917a-00d1a01e25ce", "news", "NEWS" });
+                values: new object[] { 5, "1dd7bb1d-13d6-4e86-9df2-bd1770c47f7a", "news", "NEWS" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 6, "f71396dd-97fa-4264-a2b3-2ac61982b4e7", "users", "USERS" });
+                values: new object[] { 6, "0d514b4e-32b6-4a49-8dce-fe43625ae103", "users", "USERS" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "773a7834-dd26-417f-9606-347da4105afb", null, false, false, null, null, "MATEJ", "AQAAAAEAACcQAAAAEBnDVb/uqRu64/uFfUkJgL2fqfobp5ytBShRHgN+QBsJRSWzcGaLPnLehpJCFywJ8Q==", null, false, "", false, "matej" });
+                values: new object[] { 1, 0, "3358c6d8-0dde-42d5-94c6-bff4e3968cda", null, false, false, null, null, "ADMIN123", "AQAAAAEAACcQAAAAEPj9XP6T3a/P8NovcANlCHFJry8T+gGFLgUXoV90I6JZcmU3B1GfjxC/C5tR74GtDA==", null, false, "", false, "admin123" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 2, 0, "7bbecce4-0439-4f9d-9a87-d3d528e1027f", null, false, false, null, null, "KATKA", "AQAAAAEAACcQAAAAEC2Bwr1yYvmD+L5DWlzIsfsqfCO8qlYE+RIcfWtS+Y/Nx3GiI9qvYKj7ZQtLSG4v6Q==", null, false, "", false, "katka" });
+                values: new object[] { 2, 0, "d39b63ee-8ac0-4fec-9c9e-1fb099b85db8", null, false, false, null, null, "USER123", "AQAAAAEAACcQAAAAEEz9ls4ZKtmdYc6PvQRY3n/rREW18MDbzI8CjZljEupC0qR+ba+7G99lMG4RlqekEQ==", null, false, "", false, "user123" });
 
             migrationBuilder.InsertData(
                 table: "Events",
@@ -589,12 +589,12 @@ namespace ClubIS.Migrations.SQLite.Migrations
             migrationBuilder.InsertData(
                 table: "EventClassOption",
                 columns: new[] { "Id", "EventId", "Name" },
-                values: new object[] { 3, 2, "A" });
+                values: new object[] { 3, 2, "D14" });
 
             migrationBuilder.InsertData(
                 table: "EventClassOption",
                 columns: new[] { "Id", "EventId", "Name" },
-                values: new object[] { 4, 2, "B" });
+                values: new object[] { 4, 2, "D45" });
 
             migrationBuilder.InsertData(
                 table: "EventClassOption",
@@ -619,22 +619,22 @@ namespace ClubIS.Migrations.SQLite.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccountId", "AccountState", "DateOfBirth", "Email", "FinanceSupervisorId", "Firstname", "Gender", "Licence", "MemberFeeId", "Nationality", "Phone", "RegistrationNumber", "Surname" },
-                values: new object[] { 1, 1, 0, null, "tst2@eof.cz", null, "Matěj", 0, 0, null, "Česká republika", null, "***REMOVED***", "***REMOVED***" });
+                values: new object[] { 1, 1, 0, null, "tst2@eof.cz", null, "Matěj", 0, 0, null, "Česká republika", null, "ZBM1108", "Perník" });
 
             migrationBuilder.InsertData(
                 table: "Address",
                 columns: new[] { "Id", "City", "PostalCode", "StreetAndNumber", "UserId" },
-                values: new object[] { 1, "Brno", "***REMOVED***", "***REMOVED***", 1 });
+                values: new object[] { 1, "Brno", "62800", "Pantoflová 16", 1 });
 
             migrationBuilder.InsertData(
                 table: "EventEntries",
                 columns: new[] { "Id", "Class", "EventId", "HasClubAccommodation", "HasClubTransport", "NoteForClub", "NoteForOrganisator", "SiCardNumber", "Status", "UserId" },
-                values: new object[] { 1, "A", 1, true, true, null, null, ***REMOVED***, 0, 1 });
+                values: new object[] { 1, "A", 1, true, true, null, null, 464031, 0, 1 });
 
             migrationBuilder.InsertData(
                 table: "News",
                 columns: new[] { "Id", "Date", "Text", "Title", "UserId" },
-                values: new object[] { 1, new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "1111111111111111111111111111111111111111111111111111111111111111111111111111111", "test nadpisu", 1 });
+                values: new object[] { 1, new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.", "test nadpisu", 1 });
 
             migrationBuilder.InsertData(
                 table: "Payments",
@@ -644,32 +644,32 @@ namespace ClubIS.Migrations.SQLite.Migrations
             migrationBuilder.InsertData(
                 table: "SiCard",
                 columns: new[] { "Id", "IsDefault", "Number", "UserId" },
-                values: new object[] { 1, true, ***REMOVED***, 1 });
+                values: new object[] { 1, true, 8670103, 1 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccountId", "AccountState", "DateOfBirth", "Email", "FinanceSupervisorId", "Firstname", "Gender", "Licence", "MemberFeeId", "Nationality", "Phone", "RegistrationNumber", "Surname" },
-                values: new object[] { 2, 2, 0, null, "tst2@eob.cz", 1, "Kateřina", 1, 2, null, "Česká republika", null, "***REMOVED***", "***REMOVED***" });
+                values: new object[] { 2, 2, 0, null, "tst2@eob.cz", 1, "Kateřina", 1, 2, null, "Česká republika", null, "ZMB9751", "Muflonová" });
 
             migrationBuilder.InsertData(
                 table: "Address",
                 columns: new[] { "Id", "City", "PostalCode", "StreetAndNumber", "UserId" },
-                values: new object[] { 2, "***REMOVED***", "***REMOVED***", null, 2 });
+                values: new object[] { 2, "Brno", "61300", "Smrková 4", 2 });
 
             migrationBuilder.InsertData(
                 table: "EventEntries",
                 columns: new[] { "Id", "Class", "EventId", "HasClubAccommodation", "HasClubTransport", "NoteForClub", "NoteForOrganisator", "SiCardNumber", "Status", "UserId" },
-                values: new object[] { 2, "H20", 1, true, true, null, null, ***REMOVED***, 0, 2 });
+                values: new object[] { 2, "B", 1, true, true, null, null, 8670103, 0, 2 });
 
             migrationBuilder.InsertData(
                 table: "SiCard",
                 columns: new[] { "Id", "IsDefault", "Number", "UserId" },
-                values: new object[] { 2, true, ***REMOVED***, 2 });
+                values: new object[] { 2, true, 464031, 2 });
 
             migrationBuilder.InsertData(
                 table: "User_EntriesSupervisor",
                 columns: new[] { "EntriesSupervisorId", "UserId" },
-                values: new object[] { 2, 1 });
+                values: new object[] { 1, 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_UserId",

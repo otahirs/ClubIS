@@ -49,15 +49,16 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         {
                             Id = 1,
                             City = "Brno",
-                            PostalCode = "***REMOVED***",
-                            StreetAndNumber = "***REMOVED***",
+                            PostalCode = "62800",
+                            StreetAndNumber = "Pantoflová 16",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            City = "***REMOVED***",
-                            PostalCode = "***REMOVED***",
+                            City = "Brno",
+                            PostalCode = "61300",
+                            StreetAndNumber = "Smrková 4",
                             UserId = 2
                         });
                 });
@@ -189,13 +190,13 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         {
                             Id = 3,
                             EventId = 2,
-                            Name = "A"
+                            Name = "D14"
                         },
                         new
                         {
                             Id = 4,
                             EventId = 2,
-                            Name = "B"
+                            Name = "D45"
                         },
                         new
                         {
@@ -296,18 +297,18 @@ namespace ClubIS.Migrations.SQLite.Migrations
                             EventId = 1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
-                            SiCardNumber = ***REMOVED***,
+                            SiCardNumber = 464031,
                             Status = 0,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Class = "H20",
+                            Class = "B",
                             EventId = 1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
-                            SiCardNumber = ***REMOVED***,
+                            SiCardNumber = 8670103,
                             Status = 0,
                             UserId = 2
                         });
@@ -436,7 +437,7 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         {
                             Id = 1,
                             Date = new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111",
+                            Text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.",
                             Title = "test nadpisu",
                             UserId = 1
                         });
@@ -528,14 +529,14 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         {
                             Id = 1,
                             IsDefault = true,
-                            Number = ***REMOVED***,
+                            Number = 8670103,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             IsDefault = true,
-                            Number = ***REMOVED***,
+                            Number = 464031,
                             UserId = 2
                         });
                 });
@@ -615,8 +616,8 @@ namespace ClubIS.Migrations.SQLite.Migrations
                             Gender = 0,
                             Licence = 0,
                             Nationality = "Česká republika",
-                            RegistrationNumber = "***REMOVED***",
-                            Surname = "***REMOVED***"
+                            RegistrationNumber = "ZBM1108",
+                            Surname = "Perník"
                         },
                         new
                         {
@@ -629,8 +630,8 @@ namespace ClubIS.Migrations.SQLite.Migrations
                             Gender = 1,
                             Licence = 2,
                             Nationality = "Česká republika",
-                            RegistrationNumber = "***REMOVED***",
-                            Surname = "***REMOVED***"
+                            RegistrationNumber = "ZMB9751",
+                            Surname = "Muflonová"
                         });
                 });
 
@@ -703,29 +704,29 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "773a7834-dd26-417f-9606-347da4105afb",
+                            ConcurrencyStamp = "3358c6d8-0dde-42d5-94c6-bff4e3968cda",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedUserName = "MATEJ",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBnDVb/uqRu64/uFfUkJgL2fqfobp5ytBShRHgN+QBsJRSWzcGaLPnLehpJCFywJ8Q==",
+                            NormalizedUserName = "ADMIN123",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPj9XP6T3a/P8NovcANlCHFJry8T+gGFLgUXoV90I6JZcmU3B1GfjxC/C5tR74GtDA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
-                            UserName = "matej"
+                            UserName = "admin123"
                         },
                         new
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7bbecce4-0439-4f9d-9a87-d3d528e1027f",
+                            ConcurrencyStamp = "d39b63ee-8ac0-4fec-9c9e-1fb099b85db8",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedUserName = "KATKA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC2Bwr1yYvmD+L5DWlzIsfsqfCO8qlYE+RIcfWtS+Y/Nx3GiI9qvYKj7ZQtLSG4v6Q==",
+                            NormalizedUserName = "USER123",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEz9ls4ZKtmdYc6PvQRY3n/rREW18MDbzI8CjZljEupC0qR+ba+7G99lMG4RlqekEQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
-                            UserName = "katka"
+                            UserName = "user123"
                         });
                 });
 
@@ -774,42 +775,42 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "5898ac80-467a-4ef2-90c2-2682b01ee042",
+                            ConcurrencyStamp = "53b2e2cd-bc99-46ad-a8b3-63849c4a84a0",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "41927711-fbe3-4a16-a9a4-d8b8309a0c5c",
+                            ConcurrencyStamp = "bd3237ea-db65-451e-b9ed-660cc0bc133a",
                             Name = "entries",
                             NormalizedName = "ENTRIES"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "b06417ed-8395-4a13-b7d0-734aa5470429",
+                            ConcurrencyStamp = "84f104b2-30f7-48b2-98d9-c0a2f82fea95",
                             Name = "events",
                             NormalizedName = "EVENTS"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "45c6823a-9f55-4a0c-b512-f797b5f6b616",
+                            ConcurrencyStamp = "63ee3670-a95c-4976-b4f1-22e95494cb7f",
                             Name = "finance",
                             NormalizedName = "FINANCE"
                         },
                         new
                         {
                             Id = 5,
-                            ConcurrencyStamp = "3c6f4ff3-4005-4117-917a-00d1a01e25ce",
+                            ConcurrencyStamp = "1dd7bb1d-13d6-4e86-9df2-bd1770c47f7a",
                             Name = "news",
                             NormalizedName = "NEWS"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "f71396dd-97fa-4264-a2b3-2ac61982b4e7",
+                            ConcurrencyStamp = "0d514b4e-32b6-4a49-8dce-fe43625ae103",
                             Name = "users",
                             NormalizedName = "USERS"
                         });
@@ -938,8 +939,8 @@ namespace ClubIS.Migrations.SQLite.Migrations
                     b.HasData(
                         new
                         {
-                            EntriesSupervisorId = 2,
-                            UserId = 1
+                            EntriesSupervisorId = 1,
+                            UserId = 2
                         });
                 });
 

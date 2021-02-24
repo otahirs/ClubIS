@@ -5,39 +5,43 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace ClubIS.Migrations.SQLite.Migrations
+namespace ClubIS.Migrations.PostgreSQL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210220085733_init")]
+    [Migration("20210224144851_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.3");
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("City")
                         .HasMaxLength(25)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(25)");
 
                     b.Property<string>("PostalCode")
                         .HasMaxLength(6)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(6)");
 
                     b.Property<string>("StreetAndNumber")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(50)");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -51,15 +55,16 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         {
                             Id = 1,
                             City = "Brno",
-                            PostalCode = "***REMOVED***",
-                            StreetAndNumber = "***REMOVED***",
+                            PostalCode = "62800",
+                            StreetAndNumber = "Pantoflová 16",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            City = "***REMOVED***",
-                            PostalCode = "***REMOVED***",
+                            City = "Brno",
+                            PostalCode = "61300",
+                            StreetAndNumber = "Smrková 4",
                             UserId = 2
                         });
                 });
@@ -68,54 +73,55 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("AccommodationOption")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Entries")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("EventProperties")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("EventState")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("EventType")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Leader")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Link")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Note")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(255)");
 
                     b.Property<string>("Organizer")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Place")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(50)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("TransportOption")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -160,13 +166,14 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("EventId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -191,13 +198,13 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         {
                             Id = 3,
                             EventId = 2,
-                            Name = "A"
+                            Name = "D14"
                         },
                         new
                         {
                             Id = 4,
                             EventId = 2,
-                            Name = "B"
+                            Name = "D45"
                         },
                         new
                         {
@@ -211,13 +218,14 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("Deadline")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("EventId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -250,37 +258,38 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Class")
                         .HasMaxLength(10)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(10)");
 
                     b.Property<int>("EventId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<bool>("HasClubAccommodation")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("HasClubTransport")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("NoteForClub")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(255)");
 
                     b.Property<string>("NoteForOrganisator")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(255)");
 
                     b.Property<int?>("SiCardNumber")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -298,18 +307,18 @@ namespace ClubIS.Migrations.SQLite.Migrations
                             EventId = 1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
-                            SiCardNumber = ***REMOVED***,
+                            SiCardNumber = 464031,
                             Status = 0,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Class = "H20",
+                            Class = "B",
                             EventId = 1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
-                            SiCardNumber = ***REMOVED***,
+                            SiCardNumber = 8670103,
                             Status = 0,
                             UserId = 2
                         });
@@ -319,17 +328,18 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("Date")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("EventId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -342,10 +352,11 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("CreditBalance")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -368,21 +379,22 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("Amount")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(255)");
 
                     b.Property<int>("MemberFeeType")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .HasMaxLength(20)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(20)");
 
                     b.HasKey("Id");
 
@@ -411,21 +423,22 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Text")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(255)");
 
                     b.Property<string>("Title")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(50)");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -438,7 +451,7 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         {
                             Id = 1,
                             Date = new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111",
+                            Text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.",
                             Title = "test nadpisu",
                             UserId = 1
                         });
@@ -448,36 +461,37 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("CreditAmount")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int?>("EventId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("ExecutorId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Message")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(255)");
 
                     b.Property<int>("PaymentState")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("RecipientAccountId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("SourceAccountId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("StornoNote")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(255)");
 
                     b.HasKey("Id");
 
@@ -508,16 +522,17 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<bool>("IsDefault")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Number")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -530,14 +545,14 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         {
                             Id = 1,
                             IsDefault = true,
-                            Number = ***REMOVED***,
+                            Number = 8670103,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             IsDefault = true,
-                            Number = ***REMOVED***,
+                            Number = 464031,
                             UserId = 2
                         });
                 });
@@ -545,55 +560,55 @@ namespace ClubIS.Migrations.SQLite.Migrations
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.User", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("AccountId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("AccountState")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(50)");
 
                     b.Property<int?>("FinanceSupervisorId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Firstname")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(20)");
 
                     b.Property<int>("Gender")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Licence")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("MemberFeeId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Nationality")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Phone")
                         .HasMaxLength(25)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(25)");
 
                     b.Property<string>("RegistrationNumber")
                         .IsRequired()
                         .HasMaxLength(7)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(7)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(30)");
 
                     b.HasKey("Id");
 
@@ -617,8 +632,8 @@ namespace ClubIS.Migrations.SQLite.Migrations
                             Gender = 0,
                             Licence = 0,
                             Nationality = "Česká republika",
-                            RegistrationNumber = "***REMOVED***",
-                            Surname = "***REMOVED***"
+                            RegistrationNumber = "ZBM1108",
+                            Surname = "Perník"
                         },
                         new
                         {
@@ -631,8 +646,8 @@ namespace ClubIS.Migrations.SQLite.Migrations
                             Gender = 1,
                             Licence = 2,
                             Nationality = "Česká republika",
-                            RegistrationNumber = "***REMOVED***",
-                            Surname = "***REMOVED***"
+                            RegistrationNumber = "ZMB9751",
+                            Surname = "Muflonová"
                         });
                 });
 
@@ -640,54 +655,55 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
@@ -705,39 +721,39 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "773a7834-dd26-417f-9606-347da4105afb",
+                            ConcurrencyStamp = "44bf4021-73df-4626-9947-911152427e39",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedUserName = "MATEJ",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBnDVb/uqRu64/uFfUkJgL2fqfobp5ytBShRHgN+QBsJRSWzcGaLPnLehpJCFywJ8Q==",
+                            NormalizedUserName = "ADMIN123",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEMGQ8gSrmCG5hmb/xcRD1VRD1+6LukW0G9iGAcX26sjjbxXWDvxNE/JHOnkz8YYTQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
-                            UserName = "matej"
+                            UserName = "admin123"
                         },
                         new
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7bbecce4-0439-4f9d-9a87-d3d528e1027f",
+                            ConcurrencyStamp = "0b680948-878f-4101-80ab-4bc935ddb4b6",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedUserName = "KATKA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC2Bwr1yYvmD+L5DWlzIsfsqfCO8qlYE+RIcfWtS+Y/Nx3GiI9qvYKj7ZQtLSG4v6Q==",
+                            NormalizedUserName = "USER123",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOaFGmplizMVcV3vujNjvi350t+g8zhGA3EhiFZ0DY1eOkUnzreSr2ZbNDCs4xa7Hw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
-                            UserName = "katka"
+                            UserName = "user123"
                         });
                 });
 
             modelBuilder.Entity("EvenEntry_EventStage", b =>
                 {
                     b.Property<int>("EventEntryId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("EventStageId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("EventEntryId", "EventStageId");
 
@@ -750,19 +766,20 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
@@ -776,42 +793,42 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "5898ac80-467a-4ef2-90c2-2682b01ee042",
+                            ConcurrencyStamp = "8c956876-993b-4fcd-841d-6b299518fa58",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "41927711-fbe3-4a16-a9a4-d8b8309a0c5c",
+                            ConcurrencyStamp = "a30f789e-ff5c-4a2d-a1b9-569673f2d876",
                             Name = "entries",
                             NormalizedName = "ENTRIES"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "b06417ed-8395-4a13-b7d0-734aa5470429",
+                            ConcurrencyStamp = "41a101a4-bf3d-4c7d-be3b-4d8598867107",
                             Name = "events",
                             NormalizedName = "EVENTS"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "45c6823a-9f55-4a0c-b512-f797b5f6b616",
+                            ConcurrencyStamp = "6129044e-1bdf-4f1c-8624-cedbbf6fc8f8",
                             Name = "finance",
                             NormalizedName = "FINANCE"
                         },
                         new
                         {
                             Id = 5,
-                            ConcurrencyStamp = "3c6f4ff3-4005-4117-917a-00d1a01e25ce",
+                            ConcurrencyStamp = "e82a2b1b-eee8-4984-b19c-8ad8a39e643e",
                             Name = "news",
                             NormalizedName = "NEWS"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "f71396dd-97fa-4264-a2b3-2ac61982b4e7",
+                            ConcurrencyStamp = "9b6f2ab0-c252-4788-8257-c732797e5d34",
                             Name = "users",
                             NormalizedName = "USERS"
                         });
@@ -821,16 +838,17 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -843,16 +861,17 @@ namespace ClubIS.Migrations.SQLite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -864,16 +883,16 @@ namespace ClubIS.Migrations.SQLite.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -885,10 +904,10 @@ namespace ClubIS.Migrations.SQLite.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
                     b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -907,16 +926,16 @@ namespace ClubIS.Migrations.SQLite.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -926,10 +945,10 @@ namespace ClubIS.Migrations.SQLite.Migrations
             modelBuilder.Entity("User_EntriesSupervisor", b =>
                 {
                     b.Property<int>("EntriesSupervisorId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("EntriesSupervisorId", "UserId");
 
@@ -940,8 +959,8 @@ namespace ClubIS.Migrations.SQLite.Migrations
                     b.HasData(
                         new
                         {
-                            EntriesSupervisorId = 2,
-                            UserId = 1
+                            EntriesSupervisorId = 1,
+                            UserId = 2
                         });
                 });
 

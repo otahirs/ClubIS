@@ -5,43 +5,39 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace ClubIS.DataAccessLayer.Migrations
+namespace ClubIS.Migrations.SQLite.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210212180013_init")]
+    [Migration("20210224144759_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityByDefaultColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.3");
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("City")
                         .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PostalCode")
                         .HasMaxLength(6)
-                        .HasColumnType("character varying(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("StreetAndNumber")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -55,15 +51,16 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 1,
                             City = "Brno",
-                            PostalCode = "***REMOVED***",
-                            StreetAndNumber = "***REMOVED***",
+                            PostalCode = "62800",
+                            StreetAndNumber = "Pantoflová 16",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            City = "***REMOVED***",
-                            PostalCode = "***REMOVED***",
+                            City = "Brno",
+                            PostalCode = "61300",
+                            StreetAndNumber = "Smrková 4",
                             UserId = 2
                         });
                 });
@@ -72,55 +69,54 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("AccommodationOption")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Entries")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("EventProperties")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("EventState")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("EventType")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Leader")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Link")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Note")
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Organizer")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Place")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("TransportOption")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -165,14 +161,13 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("EventId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -197,13 +192,13 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 3,
                             EventId = 2,
-                            Name = "A"
+                            Name = "D14"
                         },
                         new
                         {
                             Id = 4,
                             EventId = 2,
-                            Name = "B"
+                            Name = "D45"
                         },
                         new
                         {
@@ -217,14 +212,13 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Deadline")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("EventId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -257,38 +251,37 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Class")
                         .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("EventId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("HasClubAccommodation")
-                        .HasColumnType("boolean");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("HasClubTransport")
-                        .HasColumnType("boolean");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("NoteForClub")
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NoteForOrganisator")
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("SiCardNumber")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -306,18 +299,18 @@ namespace ClubIS.DataAccessLayer.Migrations
                             EventId = 1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
-                            SiCardNumber = ***REMOVED***,
+                            SiCardNumber = 464031,
                             Status = 0,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Class = "H20",
+                            Class = "B",
                             EventId = 1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
-                            SiCardNumber = ***REMOVED***,
+                            SiCardNumber = 8670103,
                             Status = 0,
                             UserId = 2
                         });
@@ -327,18 +320,17 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
                         .HasMaxLength(50)
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("EventId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -351,11 +343,10 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CreditBalance")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -378,22 +369,21 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Amount")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("MemberFeeType")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -422,22 +412,21 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Text")
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -450,7 +439,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 1,
                             Date = new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111",
+                            Text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.",
                             Title = "test nadpisu",
                             UserId = 1
                         });
@@ -460,37 +449,36 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CreditAmount")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("EventId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("ExecutorId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Message")
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("PaymentState")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("RecipientAccountId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("SourceAccountId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("StornoNote")
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -521,17 +509,16 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsDefault")
-                        .HasColumnType("boolean");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Number")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -544,14 +531,14 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 1,
                             IsDefault = true,
-                            Number = ***REMOVED***,
+                            Number = 8670103,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             IsDefault = true,
-                            Number = ***REMOVED***,
+                            Number = 464031,
                             UserId = 2
                         });
                 });
@@ -559,55 +546,55 @@ namespace ClubIS.DataAccessLayer.Migrations
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.User", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("AccountId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("AccountState")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("FinanceSupervisorId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Firstname")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Gender")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Licence")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("MemberFeeId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Nationality")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Phone")
                         .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RegistrationNumber")
                         .IsRequired()
                         .HasMaxLength(7)
-                        .HasColumnType("character varying(7)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -631,8 +618,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Gender = 0,
                             Licence = 0,
                             Nationality = "Česká republika",
-                            RegistrationNumber = "***REMOVED***",
-                            Surname = "***REMOVED***"
+                            RegistrationNumber = "ZBM1108",
+                            Surname = "Perník"
                         },
                         new
                         {
@@ -645,8 +632,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Gender = 1,
                             Licence = 2,
                             Nationality = "Česká republika",
-                            RegistrationNumber = "***REMOVED***",
-                            Surname = "***REMOVED***"
+                            RegistrationNumber = "ZMB9751",
+                            Surname = "Muflonová"
                         });
                 });
 
@@ -654,55 +641,54 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -720,39 +706,39 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6ee335f7-ce55-4217-a2b5-c80e29dedb2c",
+                            ConcurrencyStamp = "3358c6d8-0dde-42d5-94c6-bff4e3968cda",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedUserName = "MATEJ",
-                            PasswordHash = "AQAAAAEAACcQAAAAELbaEkAqKwvrt6Fh2qQ6c5qU9uwo6TXg0OOt+03OsK2t6L65LHnlLr9DE4wyPRg2yw==",
+                            NormalizedUserName = "ADMIN123",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPj9XP6T3a/P8NovcANlCHFJry8T+gGFLgUXoV90I6JZcmU3B1GfjxC/C5tR74GtDA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
-                            UserName = "matej"
+                            UserName = "admin123"
                         },
                         new
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c6e3bf5c-e598-49ee-8d52-1eadb4a7b014",
+                            ConcurrencyStamp = "d39b63ee-8ac0-4fec-9c9e-1fb099b85db8",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedUserName = "KATKA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFvpXNUidEHT4lY1RPwg9JjkoIOvRoLwrJaqVHoFnrklH4WxXRb4p5A65emSA9A60g==",
+                            NormalizedUserName = "USER123",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEz9ls4ZKtmdYc6PvQRY3n/rREW18MDbzI8CjZljEupC0qR+ba+7G99lMG4RlqekEQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
-                            UserName = "katka"
+                            UserName = "user123"
                         });
                 });
 
             modelBuilder.Entity("EvenEntry_EventStage", b =>
                 {
                     b.Property<int>("EventEntryId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("EventStageId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("EventEntryId", "EventStageId");
 
@@ -765,20 +751,19 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -792,42 +777,42 @@ namespace ClubIS.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "7d8df56d-be75-4251-bead-d2d530d7d65d",
+                            ConcurrencyStamp = "53b2e2cd-bc99-46ad-a8b3-63849c4a84a0",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "3ac64955-bad6-4414-ba7b-773115592a23",
+                            ConcurrencyStamp = "bd3237ea-db65-451e-b9ed-660cc0bc133a",
                             Name = "entries",
                             NormalizedName = "ENTRIES"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "99fa71fb-2961-4b1a-b6cc-d6f16eccd2c5",
+                            ConcurrencyStamp = "84f104b2-30f7-48b2-98d9-c0a2f82fea95",
                             Name = "events",
                             NormalizedName = "EVENTS"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "0097ec0d-1d92-4ed2-9458-210959a8c3b2",
+                            ConcurrencyStamp = "63ee3670-a95c-4976-b4f1-22e95494cb7f",
                             Name = "finance",
                             NormalizedName = "FINANCE"
                         },
                         new
                         {
                             Id = 5,
-                            ConcurrencyStamp = "74dfd0f6-c2fb-4119-8011-2fb6064a6c1c",
+                            ConcurrencyStamp = "1dd7bb1d-13d6-4e86-9df2-bd1770c47f7a",
                             Name = "news",
                             NormalizedName = "NEWS"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "9165b9ad-d1f6-4dd6-abdb-b8f54b33067a",
+                            ConcurrencyStamp = "0d514b4e-32b6-4a49-8dce-fe43625ae103",
                             Name = "users",
                             NormalizedName = "USERS"
                         });
@@ -837,17 +822,16 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -860,17 +844,16 @@ namespace ClubIS.DataAccessLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -882,16 +865,16 @@ namespace ClubIS.DataAccessLayer.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -903,10 +886,10 @@ namespace ClubIS.DataAccessLayer.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -925,16 +908,16 @@ namespace ClubIS.DataAccessLayer.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -944,10 +927,10 @@ namespace ClubIS.DataAccessLayer.Migrations
             modelBuilder.Entity("User_EntriesSupervisor", b =>
                 {
                     b.Property<int>("EntriesSupervisorId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("EntriesSupervisorId", "UserId");
 
@@ -958,8 +941,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            EntriesSupervisorId = 2,
-                            UserId = 1
+                            EntriesSupervisorId = 1,
+                            UserId = 2
                         });
                 });
 

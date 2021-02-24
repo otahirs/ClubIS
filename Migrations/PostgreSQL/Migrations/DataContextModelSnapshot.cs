@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace ClubIS.DataAccessLayer.Migrations
+namespace ClubIS.Migrations.PostgreSQL.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
@@ -15,16 +15,16 @@ namespace ClubIS.DataAccessLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityByDefaultColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.3");
+                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("City")
                         .HasMaxLength(25)
@@ -53,15 +53,16 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 1,
                             City = "Brno",
-                            PostalCode = "***REMOVED***",
-                            StreetAndNumber = "***REMOVED***",
+                            PostalCode = "62800",
+                            StreetAndNumber = "Pantoflová 16",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            City = "***REMOVED***",
-                            PostalCode = "***REMOVED***",
+                            City = "Brno",
+                            PostalCode = "61300",
+                            StreetAndNumber = "Smrková 4",
                             UserId = 2
                         });
                 });
@@ -71,7 +72,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("AccommodationOption")
                         .HasColumnType("integer");
@@ -164,7 +165,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("EventId")
                         .HasColumnType("integer");
@@ -195,13 +196,13 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 3,
                             EventId = 2,
-                            Name = "A"
+                            Name = "D14"
                         },
                         new
                         {
                             Id = 4,
                             EventId = 2,
-                            Name = "B"
+                            Name = "D45"
                         },
                         new
                         {
@@ -216,7 +217,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("timestamp without time zone");
@@ -256,7 +257,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Class")
                         .HasMaxLength(10)
@@ -304,18 +305,18 @@ namespace ClubIS.DataAccessLayer.Migrations
                             EventId = 1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
-                            SiCardNumber = ***REMOVED***,
+                            SiCardNumber = 464031,
                             Status = 0,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Class = "H20",
+                            Class = "B",
                             EventId = 1,
                             HasClubAccommodation = true,
                             HasClubTransport = true,
-                            SiCardNumber = ***REMOVED***,
+                            SiCardNumber = 8670103,
                             Status = 0,
                             UserId = 2
                         });
@@ -326,7 +327,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("Date")
                         .HasMaxLength(50)
@@ -350,7 +351,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("CreditBalance")
                         .HasColumnType("integer");
@@ -377,7 +378,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("Amount")
                         .HasColumnType("integer");
@@ -421,7 +422,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
@@ -448,7 +449,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 1,
                             Date = new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111",
+                            Text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.",
                             Title = "test nadpisu",
                             UserId = 1
                         });
@@ -459,7 +460,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("CreditAmount")
                         .HasColumnType("integer");
@@ -520,7 +521,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("boolean");
@@ -542,14 +543,14 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 1,
                             IsDefault = true,
-                            Number = ***REMOVED***,
+                            Number = 8670103,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             IsDefault = true,
-                            Number = ***REMOVED***,
+                            Number = 464031,
                             UserId = 2
                         });
                 });
@@ -629,8 +630,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Gender = 0,
                             Licence = 0,
                             Nationality = "Česká republika",
-                            RegistrationNumber = "***REMOVED***",
-                            Surname = "***REMOVED***"
+                            RegistrationNumber = "ZBM1108",
+                            Surname = "Perník"
                         },
                         new
                         {
@@ -643,8 +644,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                             Gender = 1,
                             Licence = 2,
                             Nationality = "Česká republika",
-                            RegistrationNumber = "***REMOVED***",
-                            Surname = "***REMOVED***"
+                            RegistrationNumber = "ZMB9751",
+                            Surname = "Muflonová"
                         });
                 });
 
@@ -653,7 +654,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
@@ -718,29 +719,29 @@ namespace ClubIS.DataAccessLayer.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6ee335f7-ce55-4217-a2b5-c80e29dedb2c",
+                            ConcurrencyStamp = "44bf4021-73df-4626-9947-911152427e39",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedUserName = "MATEJ",
-                            PasswordHash = "AQAAAAEAACcQAAAAELbaEkAqKwvrt6Fh2qQ6c5qU9uwo6TXg0OOt+03OsK2t6L65LHnlLr9DE4wyPRg2yw==",
+                            NormalizedUserName = "ADMIN123",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEMGQ8gSrmCG5hmb/xcRD1VRD1+6LukW0G9iGAcX26sjjbxXWDvxNE/JHOnkz8YYTQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
-                            UserName = "matej"
+                            UserName = "admin123"
                         },
                         new
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c6e3bf5c-e598-49ee-8d52-1eadb4a7b014",
+                            ConcurrencyStamp = "0b680948-878f-4101-80ab-4bc935ddb4b6",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedUserName = "KATKA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFvpXNUidEHT4lY1RPwg9JjkoIOvRoLwrJaqVHoFnrklH4WxXRb4p5A65emSA9A60g==",
+                            NormalizedUserName = "USER123",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOaFGmplizMVcV3vujNjvi350t+g8zhGA3EhiFZ0DY1eOkUnzreSr2ZbNDCs4xa7Hw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
-                            UserName = "katka"
+                            UserName = "user123"
                         });
                 });
 
@@ -764,7 +765,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -790,42 +791,42 @@ namespace ClubIS.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "7d8df56d-be75-4251-bead-d2d530d7d65d",
+                            ConcurrencyStamp = "8c956876-993b-4fcd-841d-6b299518fa58",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "3ac64955-bad6-4414-ba7b-773115592a23",
+                            ConcurrencyStamp = "a30f789e-ff5c-4a2d-a1b9-569673f2d876",
                             Name = "entries",
                             NormalizedName = "ENTRIES"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "99fa71fb-2961-4b1a-b6cc-d6f16eccd2c5",
+                            ConcurrencyStamp = "41a101a4-bf3d-4c7d-be3b-4d8598867107",
                             Name = "events",
                             NormalizedName = "EVENTS"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "0097ec0d-1d92-4ed2-9458-210959a8c3b2",
+                            ConcurrencyStamp = "6129044e-1bdf-4f1c-8624-cedbbf6fc8f8",
                             Name = "finance",
                             NormalizedName = "FINANCE"
                         },
                         new
                         {
                             Id = 5,
-                            ConcurrencyStamp = "74dfd0f6-c2fb-4119-8011-2fb6064a6c1c",
+                            ConcurrencyStamp = "e82a2b1b-eee8-4984-b19c-8ad8a39e643e",
                             Name = "news",
                             NormalizedName = "NEWS"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "9165b9ad-d1f6-4dd6-abdb-b8f54b33067a",
+                            ConcurrencyStamp = "9b6f2ab0-c252-4788-8257-c732797e5d34",
                             Name = "users",
                             NormalizedName = "USERS"
                         });
@@ -836,7 +837,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text");
@@ -859,7 +860,7 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text");
@@ -956,8 +957,8 @@ namespace ClubIS.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            EntriesSupervisorId = 2,
-                            UserId = 1
+                            EntriesSupervisorId = 1,
+                            UserId = 2
                         });
                 });
 
