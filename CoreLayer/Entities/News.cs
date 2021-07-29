@@ -19,7 +19,7 @@ namespace ClubIS.CoreLayer.Entities
         [MaxLength(50)]
         public string Title { get; set; }
 
-        [MaxLength(255)]
+        [MaxLength(2048)]
         public string Text { get; set; }
     }
 }

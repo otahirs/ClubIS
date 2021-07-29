@@ -16,7 +16,7 @@ namespace ClubIS.CoreLayer.DTOs
 
         [Required]
         [MinLength(1)]
-        [MaxLength(50)]
+        [MaxLength(2048)]
         public string Text { get; set; }
     }
 }

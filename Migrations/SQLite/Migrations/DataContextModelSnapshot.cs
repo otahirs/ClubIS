@@ -416,7 +416,7 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Text")
-                        .HasMaxLength(255)
+                        .HasMaxLength(2048)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
@@ -704,11 +704,11 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3358c6d8-0dde-42d5-94c6-bff4e3968cda",
+                            ConcurrencyStamp = "1dc19f6a-12b0-4766-84c9-fc2753cbe51b",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN123",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPj9XP6T3a/P8NovcANlCHFJry8T+gGFLgUXoV90I6JZcmU3B1GfjxC/C5tR74GtDA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDsqBZN/wb7I/t2qJHSEVFRdXFMdHVbMr129larljssHEegFzyOpWeFFZSsj32MGkw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -718,11 +718,11 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d39b63ee-8ac0-4fec-9c9e-1fb099b85db8",
+                            ConcurrencyStamp = "8537196f-bf9c-4fac-b012-711ba8695e28",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "USER123",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEz9ls4ZKtmdYc6PvQRY3n/rREW18MDbzI8CjZljEupC0qR+ba+7G99lMG4RlqekEQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAlblqhdrH2VP2jYzAisbgW+U+gqGs+RiPW/P7V/9b/G6JcaSHnaG5dfER+K3TJpjQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -775,42 +775,42 @@ namespace ClubIS.Migrations.SQLite.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "53b2e2cd-bc99-46ad-a8b3-63849c4a84a0",
+                            ConcurrencyStamp = "ef9ba9b8-085d-4814-921c-71f8acb9a705",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "bd3237ea-db65-451e-b9ed-660cc0bc133a",
+                            ConcurrencyStamp = "f30a77c8-649a-4cdf-b71c-d5342aea92e9",
                             Name = "entries",
                             NormalizedName = "ENTRIES"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "84f104b2-30f7-48b2-98d9-c0a2f82fea95",
+                            ConcurrencyStamp = "0050bd8f-a56f-4a39-87e8-6b6d1e632075",
                             Name = "events",
                             NormalizedName = "EVENTS"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "63ee3670-a95c-4976-b4f1-22e95494cb7f",
+                            ConcurrencyStamp = "91c5d8a9-995b-4f57-b0bc-f1055e60cbfe",
                             Name = "finance",
                             NormalizedName = "FINANCE"
                         },
                         new
                         {
                             Id = 5,
-                            ConcurrencyStamp = "1dd7bb1d-13d6-4e86-9df2-bd1770c47f7a",
+                            ConcurrencyStamp = "c54f0821-a06b-4d60-8e34-a5d09d6390f9",
                             Name = "news",
                             NormalizedName = "NEWS"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "0d514b4e-32b6-4a49-8dce-fe43625ae103",
+                            ConcurrencyStamp = "5823520e-864b-421e-b824-e05fc4e54efa",
                             Name = "users",
                             NormalizedName = "USERS"
                         });

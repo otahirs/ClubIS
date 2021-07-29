@@ -18,7 +18,7 @@
             <MudCard Elevation="0">
                 <MudCardContent>
                     <MudTextField Label="Title" @bind-Value="_sendNews.Title" For="@(() => _sendNews.Title)" Variant="Variant.Outlined"/>
-                    <MudTextField Label="Text" @bind-Value="_sendNews.Text" For="@(() => _sendNews.Text)" Variant="Variant.Outlined"/>
+                    <MudTextField Label="Text" @bind-Value="_sendNews.Text" For="@(() => _sendNews.Text)" Variant="Variant.Outlined" Lines="7"/>
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
