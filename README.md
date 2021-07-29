@@ -13,7 +13,7 @@ ClubIS is an information system for any Czech orienteering club. The core functi
 *The project is in an early stage of development and is not ready for production use!*
 
 ### Demo
-Live demo is available at [clubis.otahirs.cz](https://clubis.hirot.eu). Use the following credentials to log in.
+Live demo is available at [clubis.otahirs.cz](https://clubis.otahirs.cz). Use the following credentials to log in.
 | Login | Password | Note
 | ------ | ------ | ----- |
 | user123 | user123 | basic user
