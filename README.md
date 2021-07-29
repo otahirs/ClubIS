@@ -9,10 +9,11 @@
 # ClubIS
 ClubIS is an information system for any Czech orienteering club. The core functionality includes management of Members data, Event entries and Finance. Tight integration with [Oris](https://oris.orientacnisporty.cz/) is planned to be implemented. The goal is to create a modern open-sourced and maintained information system to create an alternative for other outdated https://members.eob.cz/ or paid https://www.privatni-zona.cz/ solutions. I would be very grateful for any contribution, collaboration or feedback.
 
+![](https://media.giphy.com/media/kfR5iyQgmq7PoiFTAf/source.gif)  
 *The project is in an early stage of development and is not ready for production use!*
 
 ### Demo
-Live demo is available at [clubis.hirot.eu](https://clubis.hirot.eu). Use the following credentials to log in.
+Live demo is available at [clubis.otahirs.cz](https://clubis.hirot.eu). Use the following credentials to log in.
 | Login | Password | Note
 | ------ | ------ | ----- |
 | user123 | user123 | basic user
@@ -36,7 +37,7 @@ Live demo is available at [clubis.hirot.eu](https://clubis.hirot.eu). Use the fo
 
  * [.NET 5](https://dotnet.microsoft.com/) | .NET Framework and .NET Core marged into multiplatform (Windows/Linux) .NET 5
  * [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor) | component-based C# framework for creating web UI 
- * [MudBlazor](https://github.com/Garderoben/MudBlazor) | Material Design component framework for Blazor 
+ * [MudBlazor](https://github.com/Garderoben/MudBlazor) | Material Design component library for Blazor 
 
 
 ## Development
