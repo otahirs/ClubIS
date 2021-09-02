@@ -1,6 +1,6 @@
 ﻿@page "/admin/users/settings/{userId:int}"
 
-@attribute [Authorize]
+@attribute [Authorize(Policy = Policy.Users)]
 
 @inject HttpClient Http
 
