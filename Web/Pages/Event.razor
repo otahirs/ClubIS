@@ -28,26 +28,18 @@
                                         <MudSelectItem Value="@c.Name">@c.Name</MudSelectItem>
                                     }
                                 </MudSelect>
-                                @if (_e.TransportOption == ClubEventOption.Optional)
-                                {
-                                    <MudCheckBox T="bool" @bind-Checked="@_sendEntry.HasClubTransport" Label="Transport"/>
-                                }
-
-                                @if (_e.AccommodationOption == ClubEventOption.Optional)
-                                {
-                                    <MudCheckBox T="bool" @bind-Checked="@_sendEntry.HasClubAccommodation" Label="Accommodation"/>
-                                }
-
-                                <MudSelect T="int" Label="SI card number" Variant="Variant.Outlined" Value="SiCard" ValueChanged="SiChanged">
+                                <MudCheckBox Label="Transport" T="bool" @bind-Checked="@_sendEntry.HasClubTransport" Disabled="@(_e.TransportOption != ClubEventOption.Optional)" />
+                                <MudCheckBox Label="Accommodation" T="bool" @bind-Checked="@_sendEntry.HasClubAccommodation" Disabled="@(_e.AccommodationOption != ClubEventOption.Optional)" />
+                                <MudSelect T="int" Label="SI card number" Variant="Variant.Outlined" Value="SiCardSelect" ValueChanged="SiChanged">
                                     @foreach (var card in GetSiCards(_sendEntry.UserId))
                                     {
                                         <MudSelectItem Value="@card.Number">@card.Number.ToString()</MudSelectItem>
                                     }
-                                    <MudSelectItem Value="@Custom">Custom</MudSelectItem>
+                                    <MudSelectItem Value="CUSTOM_SI_NUMBER">Custom</MudSelectItem>
                                 </MudSelect>
-                                @if (SiCard == Custom)
+                                @if (!GetSiCards(_sendEntry.UserId).Select(c => c.Number).Contains(SiCardSelect))
                                 {
-                                    <MudTextField T="int?" @ref="@_customSiField" Label="Custom SI card number" For="@(() => _sendEntry.SiCardNumber)" Variant="Variant.Outlined"/>
+                                    <MudTextField T="int?" @ref="@_customSiField" @bind-Value="_sendEntry.SiCardNumber" Label="Custom SI card number" For="@(() => _sendEntry.SiCardNumber)" Variant="Variant.Outlined"/>
                                 }
 
                                 <MudTextField Label="Note(intern)" @bind-Value="_sendEntry.NoteForClub" For="@(() => _sendEntry.NoteForClub)" Variant="Variant.Outlined"/>
@@ -80,12 +72,12 @@
                             <MudItem md="6">
                                 @if (_sendEntry.Id == 0 || _sendEntry.Status == EntryStatus.Removed)
                                 {
-                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Save</MudButton>
+                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Enter</MudButton>
                                 }
                                 else
                                 {
-                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Save</MudButton>
-                                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveEntry" Class="mx-2">Remove</MudButton>
+                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Edit</MudButton>
+                                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveEntry" Class="mx-2">Sign off</MudButton>
                                 }
                             </MudItem>
                         </MudGrid>
@@ -93,18 +85,37 @@
                 </MudCard>
             </EditForm>
         }
-        <MudDivider Class="mt-4 mb-4"/>
-        <MudText Typo="Typo.h5" GutterBottom="true">Entries</MudText>
-        <MudTable Items="@_displayedEntries" Dense="true">
+        else if (IsAfterDeadlines())
+        {
+            <MudAlert Severity="Severity.Info">After deadline for entries, editing disabled.</MudAlert>
+        }
+        else if(_e.EventState == EventState.Canceled)
+        {
+            <MudAlert Severity="Severity.Warning">Event canceled, entries editing disabled.</MudAlert>
+        }
+        else
+        {
+            <MudAlert Severity="Severity.Error">Unknown error.</MudAlert>
+        }
+        
+        <MudTable Items="@_displayedEntries" Dense="true" Filter="FilterEntries" Class="mt-4">
+            <ToolBarContent>
+                <MudText Typo="Typo.h5" GutterBottom="true" Class="mt-4">Entries</MudText>
+                <MudSpacer />
+                <MudTextField @bind-Value="_entriesFilter" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" DisableUnderLine="true" ></MudTextField>
+            </ToolBarContent>
             <HeaderContent>
-                <MudTh>Name</MudTh>
+                <MudTh>Name @if(_displayedEntries.Any()){<text>(</text>@_displayedEntries.Count()<text>)</text>}</MudTh>
                 <MudTh>Class</MudTh>
-                <MudTh>ComTram</MudTh>
-                <MudTh>ComAcco</MudTh>
+                <MudTh>ComTram @if(_displayedEntries.Any(e => e.HasClubTransport)){<text>(</text>@_displayedEntries.Count(e => e.HasClubTransport)<text>)</text>}</MudTh>
+                <MudTh>ComAcco @if(_displayedEntries.Any(e => e.HasClubAccommodation)){<text>(</text>@_displayedEntries.Count(e => e.HasClubAccommodation)<text>)</text>}</MudTh>
                 <MudTh>SiNum</MudTh>
-                <MudTh>Note(i)</MudTh>
-                <MudTh>Note(org)</MudTh>
-                <MudTh>Stages</MudTh>
+                <MudTh>Note int.</MudTh>
+                <MudTh>Note org.</MudTh>
+                @if (_e.EventStages.Any())
+                {
+                    <MudTh>Stages</MudTh>
+                }
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Name">@context.Name</MudTd>
@@ -132,7 +143,10 @@
                 <MudTd DataLabel="SiNum">@context.SiCardNumber</MudTd>
                 <MudTd DataLabel="Note(i)">@context.NoteForClub</MudTd>
                 <MudTd DataLabel="Note(org)">@context.NoteForOrganisator</MudTd>
-                <MudTd DataLabel="Stages">@GetStages(context.EnteredStages)</MudTd>
+                @if (_e.EventStages.Any())
+                {
+                    <MudTd DataLabel="Stages">@GetStages(context.EnteredStages)</MudTd>
+                }
             </RowTemplate>
         </MudTable>
     }
@@ -144,15 +158,17 @@
     public int EventId { get; set; }
 
     private int _userId;
+    
     private MudTextField<int?> _customSiField;
-    private int Custom { get; } = -1;
-    private int SiCard { get; set; }
+    private const int CUSTOM_SI_NUMBER = -1;
+    private int SiCardSelect { get; set; } = CUSTOM_SI_NUMBER;
 
     private EventDTO _e;
     private List<EntryUserListDTO> _users;
     private List<EventEntryDTO> _displayedEntries;
     private List<EventEntryDTO> _allEntries;
     private EventEntryDTO _sendEntry;
+    private string _entriesFilter = "";
 
     private readonly List<BreadcrumbItem> _breadCrumbs = new() {new BreadcrumbItem("Event Entries", "/events", icon: Icons.Material.Filled.DirectionsRun)};
 
@@ -163,7 +179,7 @@
         _users = await Http.GetFromJsonAsync<List<EntryUserListDTO>>($"Users/can-edit-entries/{_userId}");
         await LoadEntries();
         NewEntry(_userId);
-        UpdateData(_userId);
+        await UpdateData(_userId);
         _breadCrumbs.Add(new BreadcrumbItem(_e.Name, null, true));
     }
 
@@ -177,10 +193,11 @@
         _sendEntry.Status = EntryStatus.NotSent;
         _sendEntry.Class = _e.ClassOptions.ElementAt(0).Name;
         _sendEntry.EnteredStages = new HashSet<EventStageDTO>();
+        _sendEntry.SiCardNumber = GetSiCards(id).FirstOrDefault(s => s.IsDefault)?.Number;
         _e.EventStages.ToList().ForEach(s => s.Selected = false);
     }
 
-    private void UpdateData(int id)
+    private async Task UpdateData(int id)
     {
         _sendEntry = _allEntries.FirstOrDefault(e => e.UserId == id);
         if (_sendEntry == null)
@@ -194,7 +211,7 @@
                 stage.Selected = _sendEntry.EnteredStages.Any(s => s.Id == stage.Id);
             }
         }
-        SiCard = GetSiCards(id).Count > 0 ? GetSiCards(id).FirstOrDefault(s => s.IsDefault)?.Number ?? Custom : Custom;
+        await SiChanged(_sendEntry.SiCardNumber ?? CUSTOM_SI_NUMBER);
     }
 
     private ISet<SiCardDTO> GetSiCards(int id)
@@ -204,7 +221,6 @@
 
     private async Task OnValidSubmit()
     {
-        _sendEntry.SiCardNumber = SiCard == Custom ? _customSiField.Value.GetValueOrDefault() : SiCard;
         _sendEntry.EnteredStages.Clear();
         foreach (var stage in _e.EventStages)
         {
@@ -225,7 +241,7 @@
             await Http.PutAsJsonAsync("Entries", _sendEntry);
         }
         await LoadEntries();
-        UpdateData(_sendEntry.UserId);
+        await UpdateData(_sendEntry.UserId);
         StateHasChanged();
     }
 
@@ -241,7 +257,7 @@
             await Http.PutAsJsonAsync("Entries", _sendEntry);
         }
         await LoadEntries();
-        UpdateData(_sendEntry.UserId);
+        await UpdateData(_sendEntry.UserId);
         StateHasChanged();
     }
 
@@ -266,12 +282,18 @@
 
     private async Task SiChanged(int value)
     {
-        SiCard = value;
-        if (SiCard == Custom)
+        SiCardSelect = GetSiCards(_sendEntry.UserId).Select(c => c.Number).Contains(value) ? value : CUSTOM_SI_NUMBER;
+
+        if (value == CUSTOM_SI_NUMBER)
         {
+            _sendEntry.SiCardNumber = null;
             StateHasChanged(); // schedules component rerender
             await Task.Delay(1); // force rerender to be executed
             await _customSiField.FocusAsync();
+        }
+        else
+        {
+            _sendEntry.SiCardNumber = value;
         }
     }
 
@@ -281,6 +303,11 @@
         if (string.IsNullOrEmpty(searchValue) || searchValue == currUser.Name)
             return _users.Select(u => u.Id); // show all
         return _users.Where(u => u.Name.Contains(searchValue, StringComparison.InvariantCultureIgnoreCase)).Select(u => u.Id); // filter
+    }
+    
+    private bool FilterEntries(EventEntryDTO u)
+    {
+        return Searching.FilterFunc($"{u.Name} {u.Class} {u.RegistrationNumber}", _entriesFilter);
     }
 
 }
