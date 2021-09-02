@@ -7,7 +7,14 @@
                     @*Authorizing...*@
                 </Authorizing>
                 <NotAuthorized>
-                    <RedirectToLogin ReturnUrl="@NavigationManager.Uri"/>
+                    @if (context.User.Identity is {IsAuthenticated: false })
+                    {
+                        <RedirectToLogin ReturnUrl="@NavigationManager.Uri"/>
+                    }
+                    else
+                    {
+                        <p>You are not authorized to access this resource.</p>
+                    }
                 </NotAuthorized>
             </AuthorizeRouteView>
         </Found>
