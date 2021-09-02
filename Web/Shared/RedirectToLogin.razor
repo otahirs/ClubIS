@@ -10,8 +10,8 @@
 
     protected override void OnInitialized()
     {
-        ReturnUrl = ReturnUrl.Substring(NavigationManager.BaseUri.Length).Replace("/", "&");
-        NavigationManager.NavigateTo($"/login/{ReturnUrl}");
+        var localRedirect = "/" + NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.NavigateTo($"/Login/{Uri.EscapeDataString(localRedirect)}");
     }
 
 }

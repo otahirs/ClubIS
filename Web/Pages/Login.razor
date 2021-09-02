@@ -47,11 +47,7 @@
         try
         {
             await AuthStateProvider.Login(LoginParameters);
-            if (string.IsNullOrEmpty(ReturnUrl))
-            {
-                NavigationManager.NavigateTo("/");
-            }
-            NavigationManager.NavigateTo("/" + ReturnUrl.Replace("&", "/"));
+            NavigationManager.NavigateTo(string.IsNullOrEmpty(ReturnUrl) ? "/" : ReturnUrl);
         }
         catch (Exception ex)
         {
