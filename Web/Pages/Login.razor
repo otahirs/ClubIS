@@ -10,13 +10,13 @@
     <MudCard Style="margin-top: 72px;">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h5">Login</MudText>
+                <MudText Typo="Typo.h3" Align="Align.Center" Class="mt-8">ClubIS</MudText>
             </CardHeaderContent>
         </MudCardHeader>
         <MudCardContent>
             <MudTextField Label="Username"
                           @bind-Value="LoginParameters.UserName" For="@(() => LoginParameters.UserName)"/>
-            <MudTextField Label="Password" Class="mt-3"
+            <MudTextField Label="Password" Class="my-3"
                           @bind-Value="LoginParameters.Password" For="@(() => LoginParameters.Password)" InputType="InputType.Password"/>
             <MudCheckBox Label="Remember me" T="bool" @bind-Value="@LoginParameters.RememberMe"/>
         </MudCardContent>
