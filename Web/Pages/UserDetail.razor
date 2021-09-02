@@ -1,7 +1,6 @@
 ﻿@page "/users/userDetail/{userId:int}"
 
 @inject HttpClient Http
-@attribute [Authorize]
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     @if (_sendUser == null)

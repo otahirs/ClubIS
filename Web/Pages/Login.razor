@@ -1,5 +1,6 @@
 ﻿@page "/login"
 @page "/login/{returnUrl}"
+@attribute [AllowAnonymous]
 @layout LoginLayout
 @inject NavigationManager NavigationManager
 @inject IdentityAuthenticationStateProvider AuthStateProvider
