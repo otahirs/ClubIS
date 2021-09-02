@@ -45,7 +45,7 @@
                             <MudCardContent>
                                 <MudTextField InputType="InputType.Password" Label="Old password" @bind-Value="_changePassword.OldPassword" For="@(() => _changePassword.OldPassword)" Variant="Variant.Outlined"/>
                                 <MudTextField InputType="InputType.Password" Label="New password" @bind-Value="_changePassword.NewPassword" For="@(() => _changePassword.NewPassword)" Variant="Variant.Outlined"/>
-                                <MudTextField InputType="InputType.Password" Label="New password again" @bind-Value="_newPasswordAgain" For="@(() => _newPasswordAgain)" Variant="Variant.Outlined"/>
+                                <MudTextField InputType="InputType.Password" Label="New password again" @bind-Value="_newPasswordAgain" For="@(() => _changePassword.NewPassword)" Variant="Variant.Outlined"/>
                                 @if (_errorMesagePasswordChange != null)
                                 {
                                     <MudAlert Severity="Severity.Error">@_errorMesagePasswordChange</MudAlert>
