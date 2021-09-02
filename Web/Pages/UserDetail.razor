@@ -2,52 +2,28 @@
 
 @inject HttpClient Http
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
-    @if (_sendUser == null)
+<MudContainer MaxWidth="MaxWidth.Large"  Class="mt-16">
+    @if (_user == null)
     {
         <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
         <MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
-        <MudText Typo="Typo.h3">@_sendUser.Surname @_sendUser.Firstname</MudText>
-        <MudList Clickable="false">
-            <MudListItem>
-                <b>Registration Number:</b> @_sendUser.RegistrationNumber
-            </MudListItem>
-            <MudListItem>
-                <b>Nationality:</b> @_sendUser.Nationality
-            </MudListItem>
-            <MudListItem>
-                <b>Sex:</b> @_sendUser.Gender
-            </MudListItem>
-            <MudListItem>
-                <b>License:</b> @_sendUser.Licence
-            </MudListItem>
-            <MudDivider/>
-            <MudText Typo="Typo.h5">Address</MudText>
-            <MudList Clickable="false">
-                <MudListItem>
-                    <b>Street & Num:</b> @_sendUser.Address.StreetAndNumber
-                </MudListItem>
-                <MudListItem>
-                    <b>City:</b> @_sendUser.Address.City
-                </MudListItem>
-                <MudListItem>
-                    <b>Postal code:</b> @_sendUser.Address.PostalCode
-                </MudListItem>
-            </MudList>
-            <MudDivider/>
-            <MudText Typo="Typo.h5">Contact</MudText>
-            <MudList Clickable="false">
-                <MudListItem>
-                    <b>E-mail:</b> @_sendUser.Email
-                </MudListItem>
-                <MudListItem>
-                    <b>Phone:</b> @_sendUser.Phone
-                </MudListItem>
-            </MudList>
-        </MudList>
+        <MudText Typo="Typo.h3">@_user.Surname @_user.Firstname</MudText>
+        <MudPaper Elevation="0" MaxWidth="400px">
+            <MudField Label="Registration Number" Variant="Variant.Outlined">@_user.RegistrationNumber</MudField>
+            <MudField Label="Licence" Variant="Variant.Outlined">@_user.Licence</MudField>
+            <MudField Label="Nationality" Variant="Variant.Outlined">@_user.Nationality</MudField>
+            <MudField Label="Sex" Variant="Variant.Outlined">@_user.Gender</MudField>
+            <MudText Typo="Typo.h5" Class="mt-4">Address</MudText>
+            <MudField Label="Street & Num" Variant="Variant.Outlined">@_user.Address.StreetAndNumber</MudField>
+            <MudField Label="City" Variant="Variant.Outlined">@_user.Address.City</MudField>
+            <MudField Label="Postal code" Variant="Variant.Outlined">@_user.Address.PostalCode</MudField>
+            <MudText Typo="Typo.h5" Class="mt-4">Contact</MudText>
+            <MudField Label="E-mail" Variant="Variant.Outlined">@_user.Email</MudField>
+            <MudField Label="Phone" Variant="Variant.Outlined">@_user.Phone</MudField>
+        </MudPaper>
     }
 </MudContainer>
 
@@ -56,7 +32,7 @@
     [Parameter]
     public int? UserId { get; set; }
 
-    private UserDTO _sendUser;
+    private UserDTO _user;
     private readonly List<BreadcrumbItem> _breadCrumbs = new() {new BreadcrumbItem("Member List", "/users", icon: Icons.Material.Filled.People)};
 
 
@@ -64,11 +40,9 @@
     {
         if (UserId != null)
         {
-            _sendUser = await Http.GetFromJsonAsync<UserDTO>($"Users/{UserId}");
-            _breadCrumbs.Add(new BreadcrumbItem(_sendUser.Surname + " " + _sendUser.Firstname, null, true));
+            _user = await Http.GetFromJsonAsync<UserDTO>($"Users/{UserId}");
+            _breadCrumbs.Add(new BreadcrumbItem(_user.Surname + " " + _user.Firstname, null, true));
         }
     }
-
-}
 
 }
