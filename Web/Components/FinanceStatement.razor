@@ -15,13 +15,16 @@
         <MudTd DataLabel="Executed by">@context.ExecutorName</MudTd>
         <MudTd DataLabel="Status">@context.PaymentState</MudTd>
     </RowTemplate>
+    <FooterContent>
+        <MudTd colspan="2" Style="text-align: right"><b>Credit balance</b></MudTd>
+        <MudTd colspan="4">
+            @if (Statement.CreditBalance < 0)
+            { <b style="color: red;">@Statement.CreditBalance</b> }
+            else
+            { <b>@Statement.CreditBalance</b> }
+        </MudTd>
+    </FooterContent>
 </MudTable>
-<MudCard Class="mt-4 mb-4">
-    <MudCardContent>
-        <MudText>Credit balance: <b>@Statement.CreditBalance</b></MudText>
-    </MudCardContent>
-</MudCard>
-
 
 @code {
 
