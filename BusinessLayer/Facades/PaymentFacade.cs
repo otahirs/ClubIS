@@ -112,6 +112,11 @@ namespace ClubIS.BusinessLayer.Facades
                 result.Add(await _paymentService.GetFinanceStatement(user.Id));
             return result;
         }
+        
+        public Task<FinanceStatementDTO> GetFinanceStatement(int userId)
+        {
+            return _paymentService.GetFinanceStatement(userId);
+        }
 
         public async Task<IEnumerable<PaymentListDTO>> GetAllByEventId(int id)
         {

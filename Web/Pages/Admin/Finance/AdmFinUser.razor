@@ -59,7 +59,7 @@
                         </CardHeaderContent>
                     </MudCardHeader>
                     <MudCardContent>
-                        <FinanceUserCreditTransferForm SourceUserId="@_financeStatement.UserId" SourceUserName="@_financeStatement.Name" OnAfterSubmit="ReloadFinanceStatement"/>
+                        <FinanceUserCreditTransferForm SourceUserId="@_financeStatement.UserId" SourceUserName="@_financeStatement.Name" AvailableFunds="_financeStatement.CreditBalance" OnAfterSubmit="ReloadFinanceStatement"/>
                     </MudCardContent>
                  </MudCard>
             </MudItem>

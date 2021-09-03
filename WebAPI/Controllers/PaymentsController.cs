@@ -59,6 +59,10 @@ namespace ClubIS.WebAPI.Controllers
                 !User.IsInRole(Role.Finance) && !User.IsInRole(Role.Admin))
                 return Unauthorized();
 
+            var statement = await _paymentFacade.GetFinanceStatement(payment.SourceUserId);
+            if (statement.CreditBalance < payment.CreditAmount)
+                return BadRequest();
+
             await _paymentFacade.Create(payment);
             return Ok();
         }

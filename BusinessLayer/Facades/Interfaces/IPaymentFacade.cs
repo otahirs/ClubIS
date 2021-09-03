@@ -14,6 +14,7 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
         Task Create(PaymentEntryListDTO payment, int executorId);
         Task Update(PaymentEntryListDTO payment, int executorId);
         Task<IEnumerable<PaymentListDTO>> GetAll();
+        Task<FinanceStatementDTO> GetFinanceStatement(int userId);
         Task<IEnumerable<FinanceStatementDTO>> GetAllFinanceStatement(int userId);
         Task<IEnumerable<FinanceUserListDTO>> GetAllUserCreditList();
         Task<IEnumerable<PaymentEntryListDTO>> GetPaymentEntryListByEventId(int id);

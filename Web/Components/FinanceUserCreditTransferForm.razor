@@ -12,7 +12,7 @@ else
             <MudCardContent>
                 <MudTextField Label="From" Text="@SourceUserName" T="string" Disabled="true" Variant="Variant.Outlined"/>
                 <MudAutocomplete Label="Recipient" T="int?" @bind-Value="_sendPayment.RecipientUserId" SearchFunc="@Search" ToStringFunc="@(id => _users.Where(u => u.Id == (int) id).Select(u => $"{u.Surname} {u.Firstname}").First())" For="@(() => _sendPayment.RecipientUserId)" Variant="Variant.Outlined" ResetValueOnEmptyText="true"/>
-                <MudTextField Label="Amount" @bind-Value="_sendPayment.CreditAmount" For="@(() => _sendPayment.CreditAmount)" Variant="Variant.Outlined"/>
+                <MudTextField Label="Amount" @bind-Value="_sendPayment.CreditAmount" For="@(() => _sendPayment.CreditAmount)" @ref=_amountField Variant="Variant.Outlined"/>
                 <MudTextField Label="Note" @bind-Value="_sendPayment.Message" For="@(() => _sendPayment.Message)" Variant="Variant.Outlined"/>
             </MudCardContent>
             <MudCardActions>
@@ -26,15 +26,19 @@ else
 
     [Parameter]
     public int SourceUserId { get; set; }
-
+    
     [Parameter]
     public string SourceUserName { get; set; }
 
+    [Parameter]
+    public int AvailableFunds { get; set; }
+    
     [Parameter]
     public EventCallback OnAfterSubmit { get; set; }
 
     private List<UserListDTO> _users;
     private PaymentUserTransferDTO _sendPayment = new();
+    private MudTextField<int?> _amountField;
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,6 +52,12 @@ else
 
     private async Task OnValidSubmit(EditContext context)
     {
+        if (_amountField.Value > AvailableFunds)
+        {
+            _amountField.ErrorText = "Insufficient funds";
+            _amountField.Error = true;
+            return;
+        }
         _sendPayment.SourceUserId = SourceUserId;
         await Http.PostAsJsonAsync("Payments/transfer", _sendPayment);
         _sendPayment = new PaymentUserTransferDTO();

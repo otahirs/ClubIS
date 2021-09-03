@@ -30,7 +30,7 @@
                             <MudText Typo="Typo.h6">Transfer to another user</MudText>
                         </TitleContent>
                         <ChildContent>
-                            <FinanceUserCreditTransferForm SourceUserName="@_currentStatement.Name" SourceUserId="@_currentStatement.UserId" OnAfterSubmit="ReloadStatements"/>
+                            <FinanceUserCreditTransferForm SourceUserName="@_currentStatement.Name" SourceUserId="@_currentStatement.UserId" AvailableFunds="_currentStatement.CreditBalance" OnAfterSubmit="ReloadStatements"/>
                         </ChildContent>
                     </MudExpansionPanel>
                 </MudExpansionPanels>
