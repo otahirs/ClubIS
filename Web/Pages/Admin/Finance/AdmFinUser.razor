@@ -8,9 +8,11 @@
     <MudButton StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="@(() => NavigationManager.NavigateTo("/admin/finance/1"))" Class="ml-3">back to finances</MudButton>
     @if (_financeStatement != null)
     {
-        <MudText Typo="Typo.h3">@_financeStatement.Name</MudText>
-        <FinanceStatement Statement="_financeStatement"/>
         <MudGrid>
+            <MudItem xs="12">
+                <MudText Typo="Typo.h3">@_financeStatement.Name</MudText>
+                <FinanceStatement Statement="_financeStatement"/>
+            </MudItem>
             <MudItem md="6" xs="12">
                 <EditForm Model="@_giveCredit" OnValidSubmit="SubmitGiveCredit">
                     <DataAnnotationsValidator/>
@@ -50,7 +52,16 @@
                 </EditForm>
             </MudItem>
             <MudItem md="6" xs="12">
-                <FinanceUserCreditTransfer SourceUserId="@_financeStatement.UserId" SourceUserName="@_financeStatement.Name" OnAfterSubmit="ReloadFinanceStatement"/>
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Transfer to another user</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <FinanceUserCreditTransferForm SourceUserId="@_financeStatement.UserId" SourceUserName="@_financeStatement.Name" OnAfterSubmit="ReloadFinanceStatement"/>
+                    </MudCardContent>
+                 </MudCard>
             </MudItem>
         </MudGrid>
     }

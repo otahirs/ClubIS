@@ -8,12 +8,7 @@ else
 {
     <EditForm Model="@_sendPayment" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator/>
-        <MudCard>
-            <MudCardHeader>
-                <CardHeaderContent>
-                    <MudText Typo="Typo.h6">Transfer to another user</MudText>
-                </CardHeaderContent>
-            </MudCardHeader>
+        <MudCard Elevation="0">
             <MudCardContent>
                 <MudTextField Label="From" Text="@SourceUserName" T="string" Disabled="true" Variant="Variant.Outlined"/>
                 <MudAutocomplete Label="Recipient" T="int?" @bind-Value="_sendPayment.RecipientUserId" SearchFunc="@Search" ToStringFunc="@(id => _users.Where(u => u.Id == (int) id).Select(u => $"{u.Surname} {u.Firstname}").First())" For="@(() => _sendPayment.RecipientUserId)" Variant="Variant.Outlined" ResetValueOnEmptyText="true"/>

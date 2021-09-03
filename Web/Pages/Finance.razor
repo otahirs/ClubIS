@@ -21,10 +21,19 @@
             </MudSelect>
         }
         <FinanceStatement Statement="_currentStatement" />
-        <br />
+        
         <MudGrid>
             <MudItem md="6" xs="12">
-                <FinanceUserCreditTransfer SourceUserName="@_currentStatement.Name" SourceUserId="@_currentStatement.UserId" OnAfterSubmit="ReloadStatements" />
+                <MudExpansionPanels Class="mt-10">
+                    <MudExpansionPanel>
+                        <TitleContent>
+                            <MudText Typo="Typo.h6">Transfer to another user</MudText>
+                        </TitleContent>
+                        <ChildContent>
+                            <FinanceUserCreditTransferForm SourceUserName="@_currentStatement.Name" SourceUserId="@_currentStatement.UserId" OnAfterSubmit="ReloadStatements"/>
+                        </ChildContent>
+                    </MudExpansionPanel>
+                </MudExpansionPanels>
             </MudItem>
         </MudGrid>
     }
