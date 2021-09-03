@@ -16,7 +16,7 @@ else
             }
         </MudSelect>
     </MudPaper>
-    <MudTable Items="@Events" T="EventListWithTotalCostsDTO" Dense="true" Hover="true" Filter="new Func<EventListWithTotalCostsDTO, bool>(FilterFunc)" OnRowClick="Navigate">
+    <MudTable Items="@Events" T="EventListWithTotalCostsDTO" Dense="true" Hover="true" Filter="new Func<EventListWithTotalCostsDTO, bool>(FilterFunc)" OnRowClick="e => Navigate(e)">
         <HeaderContent>
             <MudTh>Date</MudTh>
             <MudTh>Name</MudTh>
@@ -50,12 +50,9 @@ else
 
     bool FilterFunc(EventListWithTotalCostsDTO e)
     {
-        if (_searchString == null)
-            _searchString = "";
         var eventData = $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)}";
         var eventType = e.Event.EventType.ToString();
-
-        return (_searchType == "All" || eventType.Contains(_searchType)) && eventData.Contains(_searchString, StringComparison.InvariantCultureIgnoreCase);
+        return (_searchType == "All" || eventType.Contains(_searchType)) && Searching.FilterFunc(eventData, _searchString);
     }
 
     private void Navigate(TableRowClickEventArgs<EventListWithTotalCostsDTO> obj)

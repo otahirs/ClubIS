@@ -70,7 +70,7 @@
                                 <MudChip Color="Color.Default" OnClose="() => RemoveClass(c)">@c.Name</MudChip>
                             }
 
-                            <MudTextField Label="Class options" @bind-Value="_currentOption" Variant="Variant.Outlined"/>
+                            <MudTextField Label="Class options" @bind-Value="_currentClassOption" Variant="Variant.Outlined"/>
                         </MudCardContent>
                         <MudCardActions>
                             <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Filled.Add" OnClick="AddClass">Class</MudButton>
@@ -154,23 +154,25 @@
     public int? EventId { get; set; }
 
     private EventDTO _sendEvent;
-    private string _currentOption;
+    private string _currentClassOption;
 
     protected override async Task OnInitializedAsync()
     {
         if (EventId == null)
         {
-            _sendEvent = new EventDTO();
-            _sendEvent.StartDate = DateTime.Today;
-            _sendEvent.EndDate = DateTime.Today;
-            _sendEvent.EventType = GetTypes()[0];
-            _sendEvent.EventState = GetStates()[0];
-            _sendEvent.TransportOption = GetOptions()[0];
-            _sendEvent.AccommodationOption = GetOptions()[0];
-            _sendEvent.ClassOptions = new HashSet<EventClassOption>();
-            _sendEvent.Deadlines = new List<EventDeadline>();
+            _sendEvent = new EventDTO
+            {
+                StartDate = DateTime.Today,
+                EndDate = DateTime.Today,
+                EventType = GetTypes()[0],
+                EventState = GetStates()[0],
+                TransportOption = GetOptions()[0],
+                AccommodationOption = GetOptions()[0],
+                ClassOptions = new HashSet<EventClassOption>(),
+                Deadlines = new List<EventDeadline>(),
+                EventStages = new HashSet<EventStageDTO>()
+            };
             AddDeadline();
-            _sendEvent.EventStages = new HashSet<EventStageDTO>();
         }
         else
         {
@@ -206,11 +208,13 @@
 
     private void AddClass()
     {
-        if (string.IsNullOrWhiteSpace(_currentOption))
+        if (string.IsNullOrWhiteSpace(_currentClassOption))
             return;
-        var newClass = new EventClassOption();
-        newClass.Name = _currentOption;
-        _currentOption = "";
+        var newClass = new EventClassOption
+        {
+            Name = _currentClassOption
+        };
+        _currentClassOption = "";
         _sendEvent.ClassOptions.Add(newClass);
         StateHasChanged();
     }
@@ -223,12 +227,14 @@
 
     private void AddDeadline()
     {
-        var newDeadline = new EventDeadline();
-        newDeadline.Deadline = DateTime.Today;
+        var newDeadline = new EventDeadline
+        {
+            Deadline = DateTime.Today
+        };
         _sendEvent.Deadlines.Add(newDeadline);
     }
 
-    private void UpdateDeadline(string date, EventDeadline d)
+    private static void UpdateDeadline(string date, EventDeadline d)
     {
         d.Deadline = DateTime.Parse(date);
     }
@@ -240,12 +246,14 @@
 
     private void AddStage()
     {
-        var newStage = new EventStageDTO();
-        newStage.Date = DateTime.Today;
+        var newStage = new EventStageDTO
+        {
+            Date = DateTime.Today
+        };
         _sendEvent.EventStages.Add(newStage);
     }
 
-    private void UpdateStageDate(string date, EventStageDTO s)
+    private static void UpdateStageDate(string date, EventStageDTO s)
     {
         s.Date = DateTime.Parse(date);
     }

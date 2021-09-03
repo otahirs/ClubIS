@@ -68,7 +68,7 @@
 
     private RenderFragment RenderSepervisionTable(ICollection<UserListDTO> supervisionCollection, bool isSupervisor, bool enableAddition, Form form)
     {
-        return@<MudItem xs="6">
+        return @<MudItem xs="6">
                   <MudText Typo="Typo.h6" GutterBottom="true">@(isSupervisor ? "Supervising users" : "Supervised users")</MudText>
                   @foreach (var item in supervisionCollection)
                   {
@@ -117,7 +117,7 @@
 
     private ICollection<UserListDTO> GetAvailableUsers(ICollection<UserListDTO> supervisionCollection)
     {
-        return _allUsers.Where(u => u.Id != UserId && !supervisionCollection.Any(s => s.Id == u.Id)).ToList();
+        return _allUsers.Where(u => u.Id != UserId && supervisionCollection.All(s => s.Id != u.Id)).ToList();
     }
 
     private bool DisableSupervisionAddition(bool enableAddition, Form form, ICollection<UserListDTO> supervisionCollection)
@@ -157,14 +157,7 @@
 
     private async Task SaveChanges()
     {
-        if (_financeSupervisorToCollection.Count == 0)
-        {
-            _userSupervisions.FinanceSupervisor = null;
-        }
-        else
-        {
-            _userSupervisions.FinanceSupervisor = _financeSupervisorToCollection.First();
-        }
+        _userSupervisions.FinanceSupervisor = _financeSupervisorToCollection.FirstOrDefault();
         await Http.PutAsJsonAsync("Users/supervision", _userSupervisions);
     }
 

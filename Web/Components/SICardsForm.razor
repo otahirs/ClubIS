@@ -63,7 +63,7 @@
 
     private void SetSiCardAsDefault(SiCardDTO siCard)
     {
-        User.SiCards.FirstOrDefault(s => s.IsDefault).IsDefault = false;
+        User.SiCards.FirstOrDefault(s => s.IsDefault)!.IsDefault = false;
         siCard.IsDefault = true;
     }
 

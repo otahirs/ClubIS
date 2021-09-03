@@ -62,9 +62,7 @@ else
     private async Task<IEnumerable<int?>> Search(string searchValue)
     {
         var recipientUsers = _users.Where(u => u.Id != SourceUserId);
-        if (string.IsNullOrEmpty(searchValue))
-            return recipientUsers.Select(u => (int?) u.Id);
-        return recipientUsers.Where(u => $"{u.Surname} ({u.Firstname})".Contains(searchValue, StringComparison.InvariantCultureIgnoreCase)).Select(u => (int?) u.Id);
+        return Searching.SearchItems(recipientUsers, searchValue).Cast<int?>().ToList();
     }
 
 }

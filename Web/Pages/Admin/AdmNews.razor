@@ -42,12 +42,12 @@
         _news = await Http.GetFromJsonAsync<NewsListDTO[]>("News");
     }
 
-    protected void Navigate()
+    private void Navigate()
     {
         NavigationManager.NavigateTo("/admin/news/create");
     }
 
-    protected void Navigate(NewsListDTO n)
+    private void Navigate(NewsListDTO n)
     {
         NavigationManager.NavigateTo($"/admin/news/edit/{n.Id}");
     }

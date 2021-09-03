@@ -68,7 +68,7 @@
         DisplayNotArchivedUsers();
     }
 
-    public void ArchivedOptionChanged(bool toggleValue)
+    private void ArchivedOptionChanged(bool toggleValue)
     {
         _includeArchivedUsers = toggleValue;
         if (_includeArchivedUsers)
@@ -91,7 +91,7 @@
         _displayedUsers = _users.Where(user => user.AccountState != AccountState.Archived).ToArray();
     }
 
-    protected void Navigate(UserPermListDTO u)
+    private void Navigate(UserPermListDTO u)
     {
         NavigationManager.NavigateTo($"/admin/users/settings/{u.Id}");
     }
@@ -101,7 +101,7 @@
         return Searching.FilterFunc($"{u.Firstname} {u.Surname} {u.RegistrationNumber} {u.AccountState}", _searchString);
     }
 
-    protected void Navigate()
+    private void Navigate()
     {
         NavigationManager.NavigateTo("/admin/users/create");
     }

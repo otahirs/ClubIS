@@ -185,15 +185,17 @@
 
     private void NewEntry(int id)
     {
-        _sendEntry = new EventEntryDTO();
-        _sendEntry.UserId = id;
-        _sendEntry.EventId = EventId;
-        _sendEntry.HasClubAccommodation = _e.AccommodationOption == ClubEventOption.ClubEnsured;
-        _sendEntry.HasClubTransport = _e.TransportOption == ClubEventOption.ClubEnsured;
-        _sendEntry.Status = EntryStatus.NotSent;
-        _sendEntry.Class = _e.ClassOptions.ElementAt(0).Name;
-        _sendEntry.EnteredStages = new HashSet<EventStageDTO>();
-        _sendEntry.SiCardNumber = GetSiCards(id).FirstOrDefault(s => s.IsDefault)?.Number;
+        _sendEntry = new EventEntryDTO
+        {
+            UserId = id,
+            EventId = EventId,
+            HasClubAccommodation = _e.AccommodationOption == ClubEventOption.ClubEnsured,
+            HasClubTransport = _e.TransportOption == ClubEventOption.ClubEnsured,
+            Status = EntryStatus.NotSent,
+            Class = _e.ClassOptions.ElementAt(0).Name,
+            EnteredStages = new HashSet<EventStageDTO>(),
+            SiCardNumber = GetSiCards(id).FirstOrDefault(s => s.IsDefault)?.Number
+        };
         _e.EventStages.ToList().ForEach(s => s.Selected = false);
     }
 
@@ -269,7 +271,7 @@
         _displayedEntries = JsonSerializer.Deserialize<List<EventEntryDTO>>(JsonSerializer.Serialize(_displayedEntries));
     }
 
-    private string GetStages(ISet<EventStageDTO> enteredStages)
+    private static string GetStages(ISet<EventStageDTO> enteredStages)
     {
         return enteredStages.Count != 0 ? enteredStages.Select(s => s.Name).Aggregate((a, b) => a + ", " + b) : "";
     }

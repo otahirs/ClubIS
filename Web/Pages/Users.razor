@@ -39,7 +39,7 @@
 
 @code {
     private UserListDTO[] _users;
-    private  string _searchString = "";
+    private string _searchString = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -51,7 +51,7 @@
         return Searching.FilterFunc($"{u.Firstname} {u.Surname} {u.RegistrationNumber}", _searchString);
     }
 
-    protected void Navigate(UserListDTO u)
+    private void Navigate(UserListDTO u)
     {
         NavigationManager.NavigateTo($"/users/userDetail/{u.Id}");
     }

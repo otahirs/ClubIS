@@ -13,7 +13,7 @@ else
     <MudPaper Class="d-flex justify-space-between" Elevation="0">
         <MudTextField Class="ma-4" @bind-Value="_searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
     </MudPaper>
-    <MudTable Items="_users" T="FinanceUserListDTO" Dense="true" Filter="Filter" Hover="true" SortLabel="Sort By" OnRowClick="Navigate">
+    <MudTable Items="_users" T="FinanceUserListDTO" Dense="true" Filter="Filter" Hover="true" SortLabel="Sort By" OnRowClick="e => Navigate(e)">
         <HeaderContent>
             <MudTh>
                 <MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="(FinanceUserListDTO x) => x.Surname">Name</MudTableSortLabel>
@@ -43,18 +43,15 @@ else
         _users = await Http.GetFromJsonAsync<FinanceUserListDTO[]>("Payments/users");
     }
 
-    protected void Navigate(TableRowClickEventArgs<FinanceUserListDTO> e)
+    private void Navigate(TableRowClickEventArgs<FinanceUserListDTO> e)
     {
         NavigationManager.NavigateTo($"/admin/finance/user/{e.Item.Id}");
     }
 
     bool Filter(FinanceUserListDTO u)
     {
-        if (_searchString == null)
-            _searchString = "";
         var userData = $"{u.Firstname} {u.Surname} {u.RegistrationNumber} {u.CreditBalance}";
-
-        return userData.Contains(_searchString, StringComparison.InvariantCultureIgnoreCase);
+        return Searching.FilterFunc(userData, _searchString);
     }
 
 }

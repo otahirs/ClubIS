@@ -50,23 +50,21 @@
 </MudContainer>
 
 @code {
-    private EventListWithUserEntryDTO[] _events;
+    private List<EventListWithUserEntryDTO> _events;
     private readonly List<string> _types = Enum.GetNames(typeof(EventType)).Prepend("All").ToList();
     private string _searchType = "All";
     private string _searchString = "";
 
     protected override async Task OnInitializedAsync()
     {
-        _events = (await Http.GetFromJsonAsync<EventListWithUserEntryDTO[]>("Events/user/")).Where(e => e.Event.EventState != EventState.Archived).ToArray();
+        _events = (await Http.GetFromJsonAsync<List<EventListWithUserEntryDTO>>("Events/user/")).Where(e => e.Event.EventState != EventState.Archived).ToList();
     }
 
     bool FilterFunc(EventListWithUserEntryDTO e)
     {
-        _searchString ??= "";
         var eventData = $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {GetClass(e.EntryInfo)}";
         var eventType = e.Event.EventType.ToString();
-
-        return (_searchType == "All" || eventType.Contains(_searchType)) && eventData.Contains(_searchString, StringComparison.InvariantCultureIgnoreCase);
+        return (_searchType == "All" || eventType.Contains(_searchType)) && Searching.FilterFunc(eventData, _searchString);
     }
 
     private static string GetDate(DateTime start, DateTime end)
@@ -88,5 +86,4 @@
     {
         NavigationManager.NavigateTo($"event/{obj.Item.Event.Id}");
     }
-
 }

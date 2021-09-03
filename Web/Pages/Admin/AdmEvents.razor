@@ -67,7 +67,7 @@
         DisplayNotArchivedEvents();
     }
 
-    public void ArchivedOptionChanged(bool toggleValue)
+    private void ArchivedOptionChanged(bool toggleValue)
     {
         _includeArchivedEvents = toggleValue;
         if (_includeArchivedEvents)
@@ -92,11 +92,9 @@
 
     bool FilterFunc(EventListDTO e)
     {
-        _searchString ??= "";
         var eventData = $"{GetDate(e.StartDate, e.EndDate)} {e.Name} {e.Place} {e.EventType} {GetDeadlines(e.Deadlines)}";
         var eventType = e.EventType.ToString();
-
-        return (_searchType == "All" || eventType.Contains(_searchType)) && eventData.Contains(_searchString, StringComparison.InvariantCultureIgnoreCase);
+        return (_searchType == "All" || eventType.Contains(_searchType)) && Searching.FilterFunc(eventData, _searchString);
     }
 
     private static string GetDate(DateTime start, DateTime end)

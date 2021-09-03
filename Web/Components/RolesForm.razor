@@ -47,20 +47,20 @@
 
     private async Task SaveChanges()
     {
-        foreach (var item in _rolesAndPermissions)
+        foreach (var (role, hasPermission) in _rolesAndPermissions)
         {
-            if (item.Value)
+            if (hasPermission)
             {
-                if (!_roles.Roles.Contains(item.Key))
+                if (!_roles.Roles.Contains(role))
                 {
-                    _roles.Roles.Add(item.Key);
+                    _roles.Roles.Add(role);
                 }
             }
             else
             {
-                if (_roles.Roles.Contains(item.Key))
+                if (_roles.Roles.Contains(role))
                 {
-                    _roles.Roles.Remove(item.Key);
+                    _roles.Roles.Remove(role);
                 }
             }
         }

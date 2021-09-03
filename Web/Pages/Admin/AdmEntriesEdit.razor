@@ -85,30 +85,24 @@
 
     private async Task SetAllNotSend()
     {
-        foreach (var entry in _entries)
+        foreach (var entry in _entries.Where(entry => entry.Status == EntryStatus.Ok))
         {
-            if (entry.Status == EntryStatus.Ok)
-            {
-                await UpdateStatus(entry, EntryStatus.NotSent);
-            }
+            await UpdateStatus(entry, EntryStatus.NotSent);
         }
         await ReloadEntries();
     }
 
     private async Task SetAllResolved()
     {
-        foreach (var entry in _entries)
+        foreach (var entry in _entries.Where(entry => entry.Status != EntryStatus.Ok))
         {
-            if (entry.Status != EntryStatus.Ok)
+            if (entry.Status == EntryStatus.Removed)
             {
-                if (entry.Status == EntryStatus.Removed)
-                {
-                    await Http.DeleteAsync($"Entries/{entry.Id}");
-                }
-                else
-                {
-                    await UpdateStatus(entry, EntryStatus.NotSent);
-                }
+                await Http.DeleteAsync($"Entries/{entry.Id}");
+            }
+            else
+            {
+                await UpdateStatus(entry, EntryStatus.NotSent);
             }
         }
         await ReloadEntries();
