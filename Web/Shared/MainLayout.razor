@@ -8,11 +8,13 @@
             <MudAppBar Elevation="1">
                 <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(e => DrawerToggle())"/>
                 <MudSpacer/>
+                <MudButton OnClick="@(() => NavigationManager.NavigateTo("/logout"))" StartIcon="@Icons.Filled.Logout" Style="color: white;">Logout</MudButton>
             </MudAppBar>
             <MudDrawer @bind-Open="_drawerOpen" Elevation="2">
                 <MudDrawerHeader>
                     <MudText Typo="Typo.h4" Class="mx-auto mt-5">ClubIS</MudText>
                 </MudDrawerHeader>
+                <MudText Align="Align.Center" Class="mb-8">@context.User.Identity?.Name</MudText>
                 <NavMenu/>
             </MudDrawer>
             <MudMainContent>
