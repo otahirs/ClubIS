@@ -1,4 +1,4 @@
-﻿<MudTable Items="@Statement.Payments" Dense="true" Class="mt-4">
+﻿<MudTable Items="@Statement.Payments.OrderBy(p => p.Date)" Dense="true" Class="mt-4">
     <HeaderContent>
         <MudTh>Date</MudTh>
         <MudTh>Event</MudTh>
