@@ -19,7 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace ClubIS.WebAPI
 {
@@ -130,7 +130,8 @@ namespace ClubIS.WebAPI
             services.AddScoped<IUserFacade, UserFacade>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IAuthFacade, AuthFacade>();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling =
+                    ReferenceLoopHandling.Ignore); // NewtonsoftJson needed for this until net 6.0
 
             services.AddApiVersioning(x =>
             {
