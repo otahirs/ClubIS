@@ -5,14 +5,14 @@
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
     <MudText Typo="Typo.h3" GutterBottom="true">Admin finance</MudText>
-    <MudTabs @ref="@_tabs" Elevation="1">
+    <MudTabs @ref="@_tabs" Elevation="1" >
         <MudTabPanel Text="Events">
-            <MudContainer MaxWidth="MaxWidth.Large">
+            <MudContainer MaxWidth="MaxWidth.Large" Class="mt-1">
                 <FinanceEvents/>
             </MudContainer>
         </MudTabPanel>
         <MudTabPanel Text="Users">
-            <MudContainer MaxWidth="MaxWidth.Large">
+            <MudContainer MaxWidth="MaxWidth.Large" Class="mt-1">
                 <FinanceUsers/>
             </MudContainer>
         </MudTabPanel>
