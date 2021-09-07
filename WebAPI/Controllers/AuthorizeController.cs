@@ -90,6 +90,20 @@ namespace ClubIS.WebAPI.Controllers
 
             return Ok();
         }
+        
+        [HttpPut("login/admin")]
+        [Authorize]
+        public async Task<IActionResult> ChangeLoginAdmin(ChangeLoginDTO parameters)
+        {
+            if (!User.IsInRole(Role.Users) && !User.IsInRole(Role.Admin))
+                return Unauthorized();
+
+            var result = await _authFacade.ChangeLogin(parameters.EditedUserId, parameters.NewUserName);
+            if (!result.Succeeded)
+                return BadRequest(result.Errors.FirstOrDefault()?.Description);
+
+            return Ok();
+        }
 
         [HttpPut("password")]
         [Authorize]
@@ -101,6 +115,20 @@ namespace ClubIS.WebAPI.Controllers
             if (!await _authFacade.CheckPassword(User.Identity.GetUserId(), parameters.OldPassword))
                 return BadRequest("Invalid password");
 
+            var result = await _authFacade.ChangePassword(parameters.EditedUserId, parameters.NewPassword);
+            if (!result.Succeeded)
+                return BadRequest(result.Errors.FirstOrDefault()?.Description);
+
+            return Ok();
+        }
+        
+        [HttpPut("password/admin")]
+        [Authorize]
+        public async Task<IActionResult> ChangePasswordAdmin(ChangePasswordDTO parameters)
+        {
+            if (!User.IsInRole(Role.Users) && !User.IsInRole(Role.Admin))
+                return Unauthorized();
+            
             var result = await _authFacade.ChangePassword(parameters.EditedUserId, parameters.NewPassword);
             if (!result.Succeeded)
                 return BadRequest(result.Errors.FirstOrDefault()?.Description);
