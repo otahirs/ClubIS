@@ -2,42 +2,36 @@
 @inject Searching Searching
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
-
-    <MudList Clickable="true" Class="xs-12">
-        <MudListItem Icon="@Icons.Material.Filled.StickyNote2" Text="Entries supervision">
-            <NestedList>
-                @if (_userSupervisions == null)
-                {
-                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
-                }
-                else
-                {
-                    <MudGrid>
-                        @RenderSepervisionTable(_userSupervisions.EntriesSupervisors, true, true, _entriesSupervisingForm)
-                        @RenderSepervisionTable(_userSupervisions.EntriesSupervisedUsers, false, true, _entriesSupervisedUsersForm)
-                    </MudGrid>
-                }
-            </NestedList>
-        </MudListItem>
-        <MudListItem Icon="@Icons.Material.Filled.AccountBalanceWallet" Text="Finance supervision">
-            <NestedList>
-                @if (_userSupervisions == null)
-                {
-                    <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
-                }
-                else
-                {
-                    <MudGrid>
-                        @RenderSepervisionTable(_financeSupervisorToCollection, true, _financeSupervisorToCollection.Count == 0, _financeSupervisingForm)
-                        @RenderSepervisionTable(_userSupervisions.FinanceSupervisedUsers, false, true, _financeSupervisedUsersForm)
-                    </MudGrid>
-                }
-            </NestedList>
-        </MudListItem>
-    </MudList>
-    @if (IsAdmin)
+    @if (_userSupervisions == null)
     {
-        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-3" OnClick="SaveChanges">Save</MudButton>
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+    }
+    else
+    {
+        <MudCard Elevation="0">
+            <MudText Typo="Typo.h4">Entries</MudText>
+            <MudCardContent>
+                <MudGrid>
+                    @RenderSepervisionTable(_userSupervisions.EntriesSupervisors, true, true, _entriesSupervisingForm)
+                    @RenderSepervisionTable(_userSupervisions.EntriesSupervisedUsers, false, true, _entriesSupervisedUsersForm)
+                </MudGrid>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Elevation="0">
+            <MudText Typo="Typo.h4" Class="mt-8">Finance</MudText>
+            <MudCardContent>
+                <MudGrid>
+                    @RenderSepervisionTable(_financeSupervisorToCollection, true, _financeSupervisorToCollection.Count == 0, _financeSupervisingForm)
+                    @RenderSepervisionTable(_userSupervisions.FinanceSupervisedUsers, false, true, _financeSupervisedUsersForm)
+                </MudGrid>
+            </MudCardContent>
+        </MudCard>
+
+        @if (IsAdmin)
+        {
+            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="mt-3" OnClick="SaveChanges">Save all</MudButton>
+        }
     }
 </MudContainer>
 
@@ -68,28 +62,35 @@
 
     private RenderFragment RenderSepervisionTable(ICollection<UserListDTO> supervisionCollection, bool isSupervisor, bool enableAddition, Form form)
     {
-        return @<MudItem xs="6">
-                  <MudText Typo="Typo.h6" GutterBottom="true">@(isSupervisor ? "Supervised by" : "Users under supervision")</MudText>
-                  @foreach (var item in supervisionCollection)
-                  {
-                      <MudGrid>
-                          <MudItem xs="7">
-                              <b>@item.Surname @item.Firstname</b>
-                          </MudItem>
-                          <MudItem xs="5">
-                              @if (IsAdmin)
-                              {
-                                  <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSupervision(item, supervisionCollection)">Delete</MudButton>
-                              }
-                          </MudItem>
-                      </MudGrid>
-                  }
-                  @form.RenderedForm
-                  @if (IsAdmin)
-                  {
-                      <MudButton Class="my-2" ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="e => AddSupervisionForm(form, supervisionCollection)" Disabled="DisableSupervisionAddition(enableAddition, form, supervisionCollection)">Supervision</MudButton>
-                  }
-              </MudItem>;
+        return @<MudItem sm="6">
+                    <MudSimpleTable Elevation="0">
+                        <thead>
+                        <MudText Typo="Typo.h6">@(isSupervisor ? "Supervised by" : "Users under supervision")</MudText>
+                        </thead>
+                        <tbody>
+                        @foreach (var item in supervisionCollection)
+                        {
+                            <tr>
+                                <td><MudText>@item.Surname @item.Firstname</MudText></td>
+                                @if (IsAdmin)
+                                {
+                                    <td>
+                                        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" OnClick="e => DeleteSupervision(item, supervisionCollection)"><MudIcon Icon="@Icons.Material.Filled.Delete"/></MudButton>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                        </tbody>
+                   </MudSimpleTable>
+                   @if (IsAdmin)
+                   {
+                       @form.RenderedForm
+                       @if (form.RenderedForm == null && !DisableSupervisionAddition(enableAddition, form, supervisionCollection))
+                       {
+                           <MudButton Class="my-2" ButtonType="ButtonType.Button" Variant="Variant.Filled" OnClick="e => AddSupervisionForm(form, supervisionCollection)"><MudIcon Icon="@Icons.Material.Filled.Add"/></MudButton>
+                       }
+                   }
+               </MudItem>;
     }
 
     private string RenderUserName(UserListDTO user)
@@ -106,7 +107,7 @@
     {
         form.RenderedForm = @<MudGrid>
                                 <MudItem xs="7">
-                                    <MudAutocomplete T="int" @bind-Value="form.BindedUserId" SearchFunc="Search" ToStringFunc="e => RenderUserName(GetAvailableUsers(supervisionCollection).First(u => e == u.Id))" For="() => form.BindedUserId" Variant="Variant.Outlined" ResetValueOnEmptyText="true"/>
+                                    <MudAutocomplete T="int?" @bind-Value="form.BindedUserId" SearchFunc="str => Search(GetAvailableUsers(supervisionCollection), str)" ToStringFunc="id => RenderUserName(_allUsers.First(u => id == u.Id))" For="() => form.BindedUserId" Variant="Variant.Outlined" ResetValueOnEmptyText="true"/>
                                 </MudItem>
                                 <MudItem xs="5" Class="mt-4">
                                     <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="e => AddSupervision(form, supervisionCollection)">Add</MudButton>
@@ -144,15 +145,15 @@
         }
     }
 
-    private async Task<IEnumerable<int>> Search(string searchValue)
+    private async Task<IEnumerable<int?>> Search(IEnumerable<UserListDTO> users, string searchValue)
     {
-        return Searching.SearchItems(_allUsers, searchValue);
+        return Searching.SearchItems(users, searchValue).Cast<int?>().ToList();
     }
 
     private class Form
     {
         public RenderFragment RenderedForm { get; set; }
-        public int BindedUserId { get; set; }
+        public int? BindedUserId { get; set; }
     }
 
     private async Task SaveChanges()
