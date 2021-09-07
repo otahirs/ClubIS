@@ -160,6 +160,12 @@ namespace ClubIS.BusinessLayer.Facades
                 }
         }
 
+        public async Task<bool> IsFinanceSupervisor(int userId, int supervisorId)
+        {
+            var supervisions = await _userService.GetUserSupervisions(userId);
+            return supervisions.FinanceSupervisor.Id == supervisorId;
+        }
+
         public async Task<IEnumerable<MemberFeeDTO>> GetAllMemberFeeTypes()
         {
             return await _memberFeeService.GetAll();

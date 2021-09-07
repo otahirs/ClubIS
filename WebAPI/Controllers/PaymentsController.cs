@@ -55,8 +55,11 @@ namespace ClubIS.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Payment added.")]
         public async Task<ActionResult> Post([FromBody] PaymentUserTransferDTO payment)
         {
-            if (User.Identity.GetUserId() != payment.SourceUserId && //TODO allow transfers from supervised accounts
-                !User.IsInRole(Role.Finance) && !User.IsInRole(Role.Admin))
+            var senderId = User.Identity.GetUserId();
+            if (senderId != payment.SourceUserId &&
+                !await _paymentFacade.IsFinanceSupervisor(payment.SourceUserId, senderId) &&
+                !User.IsInRole(Role.Finance) &&
+                !User.IsInRole(Role.Admin))
                 return Unauthorized();
 
             var statement = await _paymentFacade.GetFinanceStatement(payment.SourceUserId);

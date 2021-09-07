@@ -25,5 +25,6 @@ namespace ClubIS.BusinessLayer.Facades.Interfaces
         Task UpdateMemberFee(MemberFeeDTO feeType);
         Task DeleteMemberFee(int id);
         Task UpdatePaymentEntryList(IEnumerable<PaymentEntryListDTO> payments, int executorId);
+        Task<bool> IsFinanceSupervisor(int userId, int supervisorId);
     }
 }
