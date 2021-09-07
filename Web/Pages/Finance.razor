@@ -53,7 +53,9 @@
     {
         var userId = await AuthState.GetUserId();
         _financeStatements = await Http.GetFromJsonAsync<List<FinanceStatementDTO>>($"Payments/statements/{userId}");
-        _currentStatement = _financeStatements.First();
+        _currentStatement = _currentStatement == null ? 
+            _financeStatements.First(s => s.UserId == userId) :
+            _financeStatements.First(s => s.UserId == _currentStatement.UserId);
     }
 
 }
