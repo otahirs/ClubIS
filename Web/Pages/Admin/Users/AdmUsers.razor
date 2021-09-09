@@ -8,6 +8,7 @@
 @inject Searching Searching
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
+    <MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
     <MudText Typo="Typo.h3" GutterBottom="true">Admin users</MudText>
 
     @if (_displayedUsers == null)
@@ -54,6 +55,13 @@
 </MudContainer>
 
 @code {
+    private readonly List<BreadcrumbItem> _breadCrumbs = new()
+    {
+        new BreadcrumbItem("Admin", null, true),
+        new BreadcrumbItem("Users", "/admin/users"),
+        
+    };
+    
     private UserPermListDTO[] _users;
 
     private UserPermListDTO[] _displayedUsers;

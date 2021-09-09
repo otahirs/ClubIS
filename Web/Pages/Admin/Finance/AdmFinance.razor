@@ -4,6 +4,7 @@
 @attribute [Authorize(Policy = Policy.Finance)]
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
+    <MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
     <MudText Typo="Typo.h3" GutterBottom="true">Admin finance</MudText>
     <MudTabs @ref="@_tabs" Elevation="1" >
         <MudTabPanel Text="Events">
@@ -34,6 +35,12 @@
     [Parameter]
     public int PanelIndex { get; set; }
 
+    private readonly List<BreadcrumbItem> _breadCrumbs = new()
+    {
+        new BreadcrumbItem("Admin", null, true),
+        new BreadcrumbItem("Finance", "/admin/finance"),
+        
+    };
     MudTabs _tabs;
 
     protected override void OnAfterRender(bool firstRender)

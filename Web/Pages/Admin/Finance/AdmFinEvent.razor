@@ -4,8 +4,8 @@
 @attribute [Authorize(Policy = Policy.Finance)]
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
+    <MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
 
-    <MudButton StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="@(() => NavigationManager.NavigateTo("/admin/finance"))" Class="ml-3">back to finances</MudButton>
     @if (_e != null)
     {
         <EventHeader Event="_e"/>
@@ -44,6 +44,13 @@
 
     [Parameter]
     public int EventId { get; set; }
+    
+    private readonly List<BreadcrumbItem> _breadCrumbs = new()
+    {
+        new BreadcrumbItem("Admin", null, true),
+        new BreadcrumbItem("Finance", "/admin/finance"),
+
+    };
 
     private EventDTO _e;
     private List<PaymentEntryListDTO> _eventPayments;
@@ -53,6 +60,7 @@
     protected override async Task OnInitializedAsync()
     {
         _e = await Http.GetFromJsonAsync<EventDTO>($"Events/{EventId}");
+        _breadCrumbs.Add(new BreadcrumbItem("Event overview", NavigationManager.Uri));
         await ReloadPayments();
     }
 

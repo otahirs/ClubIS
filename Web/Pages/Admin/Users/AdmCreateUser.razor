@@ -5,6 +5,7 @@
 @inject IdentityAuthenticationStateProvider AuthStateProvider
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
     <MudText Typo="Typo.h3">Create User</MudText>
 
     <EditForm Model="@_registerParameters" OnValidSubmit="OnValidSubmit">
@@ -41,6 +42,12 @@
 </MudContainer>
 
 @code {
+    private readonly List<BreadcrumbItem> _breadCrumbs = new()
+    {
+        new BreadcrumbItem("Admin", null, true),
+        new BreadcrumbItem("Users", "/admin/users"),
+        new BreadcrumbItem("Create", "/admin/users/create"),
+    };
     private readonly RegisterParametersDTO _registerParameters = new();
     private string _errorMessage;
 

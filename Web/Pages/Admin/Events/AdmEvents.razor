@@ -4,6 +4,7 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
+    <MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
     <MudText Typo="Typo.h3" GutterBottom="true">Admin events</MudText>
 
     @if (_displayedEvents == null)
@@ -53,6 +54,12 @@
 </MudContainer>
 
 @code {
+    private readonly List<BreadcrumbItem> _breadCrumbs = new()
+    {
+        new BreadcrumbItem("Admin", null, true),
+        new BreadcrumbItem("Events", "/admin/events")
+    };
+    
     private EventListDTO[] _events;
     private EventListDTO[] _displayedEvents;
     private readonly List<string> _types = Enum.GetNames(typeof(EventType)).Prepend("All").ToList();

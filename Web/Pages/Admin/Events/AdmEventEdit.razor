@@ -5,6 +5,7 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
+    <MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
     @if (_sendEvent == null)
     {
         <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
@@ -152,7 +153,13 @@
 
     [Parameter]
     public int? EventId { get; set; }
-
+    
+    private readonly List<BreadcrumbItem> _breadCrumbs = new()
+    {
+        new BreadcrumbItem("Admin", null, true),
+        new BreadcrumbItem("Events", "/admin/events")
+    };
+    
     private EventDTO _sendEvent;
     private string _currentClassOption;
 
@@ -173,10 +180,12 @@
                 EventStages = new HashSet<EventStageDTO>()
             };
             AddDeadline();
+            _breadCrumbs.Add(new BreadcrumbItem("Create", NavigationManager.Uri));
         }
         else
         {
             _sendEvent = await Http.GetFromJsonAsync<EventDTO>($"Events/{EventId}");
+            _breadCrumbs.Add(new BreadcrumbItem("Edit", NavigationManager.Uri));
         }
     }
 

@@ -6,6 +6,7 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
+    <MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
     <MudText Typo="Typo.h3" GutterBottom="true">Admin news</MudText>
     @if (_news == null)
     {
@@ -36,6 +37,12 @@
 
 @code {
     private NewsListDTO[] _news;
+    private readonly List<BreadcrumbItem> _breadCrumbs = new()
+    {
+        new BreadcrumbItem("Admin", null, true),
+        new BreadcrumbItem("News", "/admin/news"),
+        
+    };
 
     protected override async Task OnInitializedAsync()
     {
