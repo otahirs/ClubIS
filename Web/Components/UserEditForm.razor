@@ -56,13 +56,13 @@
                         </MudItem>
                     </MudGrid>
                 </MudCardContent>
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Restore" OnClick="RedoChanges" Class="ml-3">Undo changes</MudButton>
+                <MudCardActions Class="d-flex">
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Restore" OnClick="RedoChanges" Class="ml-auto">Undo changes</MudButton>
                     @if (IsAdmin)
                     {
-                        <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveUser" Class="ml-auto">Remove</MudButton>
+                        <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveUser" Class="ml-3">Remove</MudButton>
                     }
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
                 </MudCardActions>
             </MudCard>
         </EditForm>

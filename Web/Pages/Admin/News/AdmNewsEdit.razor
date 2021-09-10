@@ -22,12 +22,12 @@
                     <MudTextField Label="Text" @bind-Value="_sendNews.Text" For="@(() => _sendNews.Text)" Variant="Variant.Outlined" Lines="7"/>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Close" OnClick="Navigate" Class="ml-3">Cancel</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Save</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Close" OnClick="Navigate" Class="ml-auto">Cancel</MudButton>
                     @if (NewsId != null)
                     {
-                        <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveNews" Class="ml-auto">Remove</MudButton>
+                        <MudButton ButtonType="ButtonType.Button" StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Secondary" OnClick="RemoveNews" Class="ml-3">Remove</MudButton>
                     }
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Save</MudButton>
                 </MudCardActions>
             </MudCard>
         </EditForm>

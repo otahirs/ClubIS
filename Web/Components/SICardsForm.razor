@@ -33,9 +33,9 @@
                     }
                     <MudButton Class="mt-4 ml-3" ButtonType="ButtonType.Button" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="ShowNewSiCardLine">SI Card</MudButton>
                 </MudCardContent>
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Restore" OnClick="RedoChanges" Class="ml-3">Undo changes</MudButton>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-3">Save</MudButton>
+                <MudCardActions>                   
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Save</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Restore" OnClick="RedoChanges" Class="ml-auto">Undo changes</MudButton>
                 </MudCardActions>
             </MudCard>
         </EditForm>
