@@ -20,7 +20,7 @@
                                     <MudTextField Label="Firstname" @bind-Value="User.Firstname" For="@(() => User.Firstname)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
                                     <MudTextField Label="Surname" @bind-Value="User.Surname" For="@(() => User.Surname)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
                                     <MudTextField Label="Reg. number" @bind-Value="User.RegistrationNumber" For="@(() => User.RegistrationNumber)" Variant="Variant.Outlined" Disabled="!IsAdmin" />
-                                    <MudDatePicker Label="Date of birth" @bind-Date="User.DateOfBirth" InputVariant="Variant.Outlined" DateFormat="yyyy-MM-dd" Disabled="!IsAdmin" InputIcon="" />
+                                    <MudDatePicker Label="Date of birth" @bind-Date="User.DateOfBirth" InputVariant="Variant.Outlined" DateFormat="yyyy-MM-dd" Disabled="!IsAdmin" InputIcon="" Variant="Variant.Outlined"/>
                                     <MudSelect Label="Gender" @bind-Value="User.Gender" Variant="Variant.Outlined" Disabled="!IsAdmin">
                                         @foreach (Gender gender in Enum.GetValues(typeof(Gender)))
                                             {

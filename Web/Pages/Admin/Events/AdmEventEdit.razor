@@ -28,9 +28,9 @@
 
                     <MudTextField Label="Place" @bind-Value="_sendEvent.Place" For="@(() => _sendEvent.Place)" Variant="Variant.Outlined"/>
 
-                    <MudDatePicker Label="Start date" TextChanged="@(s => UpdateStartDate(s))" Text="@_sendEvent.StartDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2"/>
+                    <MudDatePicker Label="Start date" Date="_sendEvent.StartDate" DateChanged="OnStartDateChanged" DateFormat="yyyy-MM-dd" DisableToolbar="true" Class="mx-2" Variant="Variant.Outlined"/>
 
-                    <MudDatePicker Label="End date" TextChanged="@(s => UpdateEndDate(s))" Text="@_sendEvent.EndDate.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2"/>
+                    <MudDatePicker Label="End date" Date="_sendEvent.EndDate" DateChanged="OnEndDateChanged" DateFormat="yyyy-MM-dd" DisableToolbar="true" Class="mx-2" Variant="Variant.Outlined"/>
 
                     <MudTextField Label="Organizer" @bind-Value="_sendEvent.Organizer" For="@(() => _sendEvent.Organizer)" Variant="Variant.Outlined"/>
 
@@ -90,7 +90,7 @@
                             {
                                 <MudCard Outlined="true">
                                     <MudCardContent>
-                                        <MudDatePicker Label="Deadline" TextChanged="@(s => UpdateDeadline(s, d))" Text="@d.Deadline.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2"/>
+                                        <MudDatePicker Label="Deadline" Date="d.Deadline" DateChanged="s => OnDeadlineChanged(s, d)" DateFormat="yyyy-MM-dd" DisableToolbar="true" Class="mx-2" Variant="Variant.Outlined"/>
                                         @if (_sendEvent.Deadlines.Count > 1)
                                         {
                                             <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="() => RemoveDeadline(d)"></MudIconButton>
@@ -117,7 +117,7 @@
                                             <MudItem xs="6">
                                                 <MudTextField Label="Stage name" @bind-Value="s.Name" For="@(() => s.Name)" Variant="Variant.Outlined"/>
                                             </MudItem>
-                                            <MudDatePicker Label="Stage date" TextChanged="@(st => UpdateStageDate(st, s))" Text="@s.Date.ToString("yyyy-MM-dd")" DisableToolbar="true" Class="mx-2"/>
+                                            <MudDatePicker Label="Stage date" Date="s.Date" DateChanged="st => OnStageDateChanged(st, s)" DateFormat="yyyy-MM-dd" DisableToolbar="true" Class="mx-2" Variant="Variant.Outlined"/>
 
                                             <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Medium" Color="Color.Error" OnClick="() => RemoveStage(s)"></MudIconButton>
                                         </MudGrid>
@@ -189,15 +189,21 @@
         }
     }
 
-    private void UpdateStartDate(string date)
+    private void OnStartDateChanged(DateTime? date)
     {
-        _sendEvent.StartDate = DateTime.Parse(date);
-        _sendEvent.EndDate = DateTime.Parse(date);
+        if (date.HasValue)
+        {
+            _sendEvent.StartDate = date.Value;
+            OnEndDateChanged(date);
+        }
     }
-
-    private void UpdateEndDate(string date)
+    
+    private void OnEndDateChanged(DateTime? date)
     {
-        _sendEvent.EndDate = DateTime.Parse(date);
+        if (date.HasValue)
+        {
+            _sendEvent.EndDate = date.Value;
+        }
     }
 
     private static EventType[] GetTypes()
@@ -243,9 +249,10 @@
         _sendEvent.Deadlines.Add(newDeadline);
     }
 
-    private static void UpdateDeadline(string date, EventDeadline d)
+    private static void OnDeadlineChanged(DateTime? date, EventDeadline d)
     {
-        d.Deadline = DateTime.Parse(date);
+        if (date.HasValue)
+            d.Deadline = date.Value;
     }
 
     private void RemoveDeadline(EventDeadline d)
@@ -262,9 +269,10 @@
         _sendEvent.EventStages.Add(newStage);
     }
 
-    private static void UpdateStageDate(string date, EventStageDTO s)
+    private static void OnStageDateChanged(DateTime? date, EventStageDTO s)
     {
-        s.Date = DateTime.Parse(date);
+        if (date.HasValue)
+            s.Date = date.Value;
     }
 
     private void RemoveStage(EventStageDTO s)
