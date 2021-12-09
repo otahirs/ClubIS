@@ -10,76 +10,101 @@
     }
     else
     {
-        <MudPaper Class="d-flex justify-space-between" Elevation="0">
-            <MudTextField Class="ma-4" @bind-Value="_searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
-            <MudSelect @bind-Value="_searchType" Label="Filter EventType" Class=" ma-4">
-                @foreach (var type in _types)
-                {
-                    <MudSelectItem Value="@type"/>
-                }
-            </MudSelect>
-        </MudPaper>
-        <MudTable Items="@_events" Filter="new Func<EventListWithUserEntryDTO, bool>(FilterFunc)" OnRowClick="@(e => Navigate(e))" T="EventListWithUserEntryDTO" Hover="true" Dense="true">
-            <HeaderContent>
-                <MudTh>Date</MudTh>
-                <MudTh>Name</MudTh>
-                <MudTh>Place</MudTh>
-                <MudTh>Type</MudTh>
-                <MudTh>Deadlines</MudTh>
-                <MudTh>Entries</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="Date">@GetDate(context.Event.StartDate, context.Event.EndDate)</MudTd>
-                <MudTd DataLabel="Name">@context.Event.Name</MudTd>
-                <MudTd DataLabel="Place">@context.Event.Place</MudTd>
-                <MudTd DataLabel="Type">@context.Event.EventType</MudTd>
-                <MudTd DataLabel="Deadlines">@GetDeadlines(context.Event.Deadlines)</MudTd>
-                <MudTd DataLabel="Entries">
-                    @if (context.EntryInfo == null)
-                    {
-                        <MudChip Size="Size.Small" Label="true">@GetClass(context.EntryInfo)</MudChip>
-                    }
-                    else
-                    {
-                        <MudChip Size="Size.Small" Label="true" Color="Color.Primary">@GetClass(context.EntryInfo)</MudChip>
-                    }
-                </MudTd>
-            </RowTemplate>
-        </MudTable>
+        <MudExpansionPanels>
+            @foreach (var ev in _events)
+            {
+                <MudExpansionPanel IsExpandedChanged="() => ev.Load = true">
+                    <TitleContent>
+                        <MudGrid Class="align-center">
+                            <MudItem xs="2">
+                                @if (ev.EventWithEntry.Event.StartDate.Equals(ev.EventWithEntry.Event.EndDate))
+                                {
+                                    @ev.EventWithEntry.Event.StartDate.ToString("ddd d.M.")
+                                    <br/>
+                                }
+                                else
+                                {
+                                    @ev.EventWithEntry.Event.StartDate.ToString("ddd d.M.")
+                                    <br/>
+                                    @ev.EventWithEntry.Event.EndDate.ToString("- ddd d.M.")
+                                }
+                            </MudItem>
+                            <MudItem xs="5">
+                                <MudText>@ev.EventWithEntry.Event.Name</MudText>
+                            </MudItem>
+                            <MudItem xs="3">
+                                <MudText>@GetDeadlines(ev.EventWithEntry.Event.Deadlines)</MudText>
+                            </MudItem>
+                            <MudItem xs="2">
+                                @if (ev.EventWithEntry.EntryInfo.Class == null)
+                                {
+                                    <MudChip Size="Size.Small" Label="true">not registered</MudChip>
+                                }
+                                else
+                                {
+                                    <MudChip Size="Size.Small" Label="true" Color="Color.Primary">@ev.EventWithEntry.EntryInfo.Class</MudChip>
+                                }
+                            </MudItem>
+                        </MudGrid>
+                    </TitleContent>
+                    <ChildContent>
+                        <MudDivider/>
+                        @if (ev.Load)
+                        {
+                            <EventPreview EventId="ev.EventWithEntry.Event.Id" EnteredClassChanged="c => ev.EventWithEntry.EntryInfo.Class = c"/>
+                        }
+                    </ChildContent>
+                </MudExpansionPanel>
+            }
+        </MudExpansionPanels>
     }
 </MudContainer>
 
 @code {
-    private List<EventListWithUserEntryDTO> _events;
+
+    class EventList
+    {
+        public bool Load { get; set; } = false;
+        public EventListWithUserEntryDTO EventWithEntry { get; set; }
+    }
+    private List<EventList> _events;
     private readonly List<string> _types = Enum.GetNames(typeof(EventType)).Prepend("All").ToList();
     private string _searchType = "All";
     private string _searchString = "";
 
     protected override async Task OnInitializedAsync()
     {
-        _events = (await Http.GetFromJsonAsync<List<EventListWithUserEntryDTO>>("Events/user/")).Where(e => e.Event.EventState != EventState.Archived).ToList();
+        _events = (await Http.GetFromJsonAsync<List<EventListWithUserEntryDTO>>("Events/user/"))
+            .Where(e => e.Event.EventState != EventState.Archived)
+            .Select(e => 
+                new EventList
+                {
+                    Load = false, 
+                    EventWithEntry = 
+                        new EventListWithUserEntryDTO
+                        {
+                            Event = e.Event, 
+                            EntryInfo = e.EntryInfo ?? new EventEntryBasicInfoDTO()
+                        }
+                })
+            .ToList();
     }
 
     bool FilterFunc(EventListWithUserEntryDTO e)
     {
-        var eventData = $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {GetClass(e.EntryInfo)}";
+        var eventData = $"{GetDate(e.Event.StartDate, e.Event.EndDate)} {e.Event.Name} {e.Event.Place} {e.Event.EventType} {GetDeadlines(e.Event.Deadlines)} {e.EntryInfo.Class}";
         var eventType = e.Event.EventType.ToString();
         return (_searchType == "All" || eventType.Contains(_searchType)) && Searching.FilterFunc(eventData, _searchString);
     }
 
     private static string GetDate(DateTime start, DateTime end)
     {
-        return start.Equals(end) ? end.ToString("dd.MM.yyyy") : start.ToString("dd.") + '-' + end.ToString("dd.MM.yyyy");
+        return start.Equals(end) ? end.ToString("dd.MM.yyyy") : start.ToString("dd.") + "\n -" + end.ToString("dd.MM.yyyy");
     }
 
     private static string GetDeadlines(ICollection<EventDeadline> deadlines)
     {
-        return deadlines.Count != 0 ? deadlines.Select(d => d.Deadline.ToString("dd.MM.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
-    }
-
-    private static string GetClass(EventEntryBasicInfoDTO entryInfo)
-    {
-        return entryInfo == null ? "not registered" : entryInfo.Class;
+        return deadlines.Count != 0 ? deadlines.Select(d => d.Deadline.ToString("d.M.yyyy")).Aggregate((a, b) => a + ", " + b) : "";
     }
 
     private void Navigate(TableRowClickEventArgs<EventListWithUserEntryDTO> obj)
