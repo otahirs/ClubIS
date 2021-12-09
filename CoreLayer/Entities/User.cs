@@ -16,13 +16,8 @@ namespace ClubIS.CoreLayer.Entities
         [ForeignKey(nameof(AccountId))]
         public virtual FinanceAccount Account { get; set; }
 
-        public int? FinanceSupervisorId { get; set; }
-
-        [ForeignKey(nameof(FinanceSupervisorId))]
-        public virtual User FinanceSupervisor { get; set; }
-
-        public virtual ISet<User> EntriesSupervisors { get; set; }
-        public virtual ISet<User> EntriesSupervisedUsers { get; set; }
+        public virtual ICollection<Supervision> SupervisedBy { get; set; }
+        public virtual ICollection<Supervision> UnderSupervision { get; set; }
 
         public int? MemberFeeId { get; set; }
 

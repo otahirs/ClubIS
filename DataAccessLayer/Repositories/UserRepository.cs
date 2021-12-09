@@ -17,22 +17,5 @@ namespace ClubIS.DataAccessLayer.Repositories
         {
             return await _entities.Where(u => ids.Contains(u.Id)).ToListAsync();
         }
-
-        public async Task<User> GetEntriesSupervisorsById(int id)
-        {
-            return await _entities.FirstOrDefaultAsync(u => u.Id == id);
-        }
-
-        public async Task<IEnumerable<User>> GetFinanceSupervisored(int userId)
-        {
-            return await _entities.Where(u => u.FinanceSupervisorId == userId).ToListAsync();
-        }
-
-        public void RemoveFinanceSupervisor(int supervisorUserId)
-        {
-            var users = _entities.Where(u => u.FinanceSupervisorId == supervisorUserId);
-            foreach (var u in users)
-                u.FinanceSupervisorId = null;
-        }
     }
 }

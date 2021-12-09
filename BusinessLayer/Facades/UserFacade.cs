@@ -94,7 +94,7 @@ namespace ClubIS.BusinessLayer.Facades
         {
             var result = new List<EntryUserListDTO>();
             result.Add(await _userService.GetEntryUser(id));
-            result.AddRange(await _userService.GetEntrySupervisedUsers(id));
+            result.AddRange(await _userService.GetUsersUnderEntrySupervision(id));
 
             var userRoles = await _authService.GetRoles(id);
             if (userRoles.Roles.Any(r => r == Role.Entries || r == Role.Admin))

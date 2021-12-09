@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ClubIS.CoreLayer.DTOs;
 
@@ -17,7 +18,8 @@ namespace ClubIS.BusinessLayer.Services.Interfaces
         Task<UserSupervisionsDTO> GetUserSupervisions(int id);
 
         Task<EntryUserListDTO> GetEntryUser(int id);
-        Task<IEnumerable<EntryUserListDTO>> GetEntrySupervisedUsers(int id);
+        Task<IEnumerable<EntryUserListDTO>> GetUsersUnderEntrySupervision(int userId);
         Task<IEnumerable<EntryUserListDTO>> GetEntryAllUsers();
+        Task<IEnumerable<UserListDTO>> GetUsersUnderFinanceSupervision(int userId);
     }
 }

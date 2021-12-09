@@ -62,13 +62,12 @@ namespace ClubIS.DataAccessLayer
                 Email = "tst2@eof.cz",
                 Gender = Gender.Male,
                 Licence = Licence.C,
-                AccountState = AccountState.Active
+                AccountState = AccountState.Active,
             };
             var supervised = new User
             {
                 Id = ID_2,
                 AccountId = ID_2,
-                FinanceSupervisorId = ID_1,
                 Firstname = "Kateřina",
                 Surname = "Muflonová",
                 RegistrationNumber = "ZMB9751",
@@ -76,15 +75,17 @@ namespace ClubIS.DataAccessLayer
                 Email = "tst2@eob.cz",
                 Gender = Gender.Female,
                 Licence = Licence.A,
-                AccountState = AccountState.Active
+                AccountState = AccountState.Active,
             };
             modelBuilder.Entity<User>().HasData(supervisor, supervised);
 
-            modelBuilder.Entity("User_EntriesSupervisor")
-            .HasData(new Dictionary<string, object>
+            modelBuilder.Entity<Supervision>()
+            .HasData(new Supervision
             {
-                ["UserId"] = ID_2,
-                ["EntriesSupervisorId"] = ID_1
+                SupervisorUserId = ID_1,
+                SupervisedUserId = ID_2,
+                IsEntrySupervisionEnabled = true,
+                IsFinanceSupervisionEnabled = true
             });
 
             modelBuilder.Entity<FinanceAccount>()

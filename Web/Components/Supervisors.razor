@@ -12,8 +12,8 @@
             <MudText Typo="Typo.h4">Entries</MudText>
             <MudCardContent>
                 <MudGrid>
-                    @RenderSepervisionTable(_userSupervisions.EntriesSupervisors, true, true, _entriesSupervisingForm)
-                    @RenderSepervisionTable(_userSupervisions.EntriesSupervisedUsers, false, true, _entriesSupervisedUsersForm)
+                    @RenderSepervisionTable(_userSupervisions.EntriesSupervisors, true, _entriesSupervisingForm)
+                    @RenderSepervisionTable(_userSupervisions.EntriesSupervisedUsers, false, _entriesSupervisedUsersForm)
                 </MudGrid>
             </MudCardContent>
         </MudCard>
@@ -22,8 +22,8 @@
             <MudText Typo="Typo.h4" Class="mt-8">Finance</MudText>
             <MudCardContent>
                 <MudGrid>
-                    @RenderSepervisionTable(_financeSupervisorToCollection, true, _financeSupervisorToCollection.Count == 0, _financeSupervisingForm)
-                    @RenderSepervisionTable(_userSupervisions.FinanceSupervisedUsers, false, true, _financeSupervisedUsersForm)
+                    @RenderSepervisionTable(_userSupervisions.FinanceSupervisors, true, _financeSupervisingForm)
+                    @RenderSepervisionTable(_userSupervisions.FinanceSupervisedUsers, false, _financeSupervisedUsersForm)
                 </MudGrid>
             </MudCardContent>
         </MudCard>
@@ -44,7 +44,6 @@
     public bool IsAdmin { get; set; }
 
     private UserSupervisionsDTO _userSupervisions;
-    private List<UserListDTO> _financeSupervisorToCollection = new();
     private UserListDTO[] _allUsers;
 
     private Form _entriesSupervisingForm = new();
@@ -55,12 +54,10 @@
     protected override async Task OnInitializedAsync()
     {
         _userSupervisions = await Http.GetFromJsonAsync<UserSupervisionsDTO>($"Users/supervision/{UserId}");
-        if (_userSupervisions.FinanceSupervisor != null)
-            _financeSupervisorToCollection.Add(_userSupervisions.FinanceSupervisor);
         _allUsers = await Http.GetFromJsonAsync<UserListDTO[]>("Users");
     }
 
-    private RenderFragment RenderSepervisionTable(ICollection<UserListDTO> supervisionCollection, bool isSupervisor, bool enableAddition, Form form)
+    private RenderFragment RenderSepervisionTable(List<UserListDTO> supervisionCollection, bool isSupervisor, Form form)
     {
         return @<MudItem sm="6">
                     <MudSimpleTable Elevation="0">
@@ -85,7 +82,7 @@
                    @if (IsAdmin)
                    {
                        @form.RenderedForm
-                       @if (form.RenderedForm == null && !DisableSupervisionAddition(enableAddition, form, supervisionCollection))
+                       @if (form.RenderedForm == null && !DisableSupervisionAddition(form, supervisionCollection))
                        {
                            <MudButton Class="my-2" ButtonType="ButtonType.Button" Variant="Variant.Filled" OnClick="e => AddSupervisionForm(form, supervisionCollection)"><MudIcon Icon="@Icons.Material.Filled.Add"/></MudButton>
                        }
@@ -98,32 +95,33 @@
         return user.Surname + " " + user.Firstname;
     }
 
-    private void DeleteSupervision(UserListDTO user, ICollection<UserListDTO> collection)
+    private void DeleteSupervision(UserListDTO user, List<UserListDTO> collection)
     {
         collection.Remove(user);
     }
 
-    private void AddSupervisionForm(Form form, ICollection<UserListDTO> supervisionCollection)
+    private void AddSupervisionForm(Form form, List<UserListDTO> supervisionCollection)
     {
-        form.RenderedForm = @<MudGrid>
-                                <MudItem xs="7">
-                                    <MudAutocomplete T="int?" @bind-Value="form.BindedUserId" SearchFunc="str => Search(GetAvailableUsers(supervisionCollection), str)" ToStringFunc="id => RenderUserName(_allUsers.First(u => id == u.Id))" For="() => form.BindedUserId" Variant="Variant.Outlined" ResetValueOnEmptyText="true"/>
-                                </MudItem>
-                                <MudItem xs="5" Class="mt-4">
-                                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="e => AddSupervision(form, supervisionCollection)">Add</MudButton>
-                                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Close" OnClick="e => CancelForm(form)">Cancel</MudButton>
-                                </MudItem>
-                            </MudGrid>;
+        form.RenderedForm = 
+            @<MudGrid>
+                <MudItem xs="7">
+                    <MudAutocomplete T="int?" @bind-Value="form.BindedUserId" SearchFunc="str => Search(GetAvailableUsers(supervisionCollection), str)" ToStringFunc="id => RenderUserName(_allUsers.First(u => id == u.Id))" For="() => form.BindedUserId" Variant="Variant.Outlined" ResetValueOnEmptyText="true"/>
+                </MudItem>
+                <MudItem xs="5" Class="mt-4">
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="e => AddSupervision(form, supervisionCollection)">Add</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Close" OnClick="e => CancelForm(form)">Cancel</MudButton>
+                </MudItem>
+            </MudGrid>;
     }
 
-    private ICollection<UserListDTO> GetAvailableUsers(ICollection<UserListDTO> supervisionCollection)
+    private List<UserListDTO> GetAvailableUsers(List<UserListDTO> supervisionCollection)
     {
         return _allUsers.Where(u => u.Id != UserId && supervisionCollection.All(s => s.Id != u.Id)).ToList();
     }
 
-    private bool DisableSupervisionAddition(bool enableAddition, Form form, ICollection<UserListDTO> supervisionCollection)
+    private bool DisableSupervisionAddition(Form form, List<UserListDTO> supervisionCollection)
     {
-        return !enableAddition || form.RenderedForm != null || GetAvailableUsers(supervisionCollection).Count == 0;
+        return form.RenderedForm != null || GetAvailableUsers(supervisionCollection).Count == 0;
     }
 
     private void CancelForm(Form form)
@@ -131,7 +129,7 @@
         form.RenderedForm = null;
     }
 
-    private async Task AddSupervision(Form form, ICollection<UserListDTO> supervisionCollection)
+    private async Task AddSupervision(Form form, List<UserListDTO> supervisionCollection)
     {
         CancelForm(form);
         try
@@ -145,7 +143,7 @@
         }
     }
 
-    private async Task<IEnumerable<int?>> Search(IEnumerable<UserListDTO> users, string searchValue)
+    private async Task<IEnumerable<int?>> Search(List<UserListDTO> users, string searchValue)
     {
         return Searching.SearchItems(users, searchValue).Cast<int?>().ToList();
     }
@@ -158,7 +156,6 @@
 
     private async Task SaveChanges()
     {
-        _userSupervisions.FinanceSupervisor = _financeSupervisorToCollection.FirstOrDefault();
         await Http.PutAsJsonAsync("Users/supervision", _userSupervisions);
     }
 

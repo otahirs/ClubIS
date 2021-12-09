@@ -27,8 +27,8 @@ namespace ClubIS.BusinessLayer.Tests
                 mock.Mock<IMapper>().Setup(x => x.Map<IEnumerable<EntryUserListDTO>>(It.IsAny<IEnumerable<User>>())).Returns<IEnumerable<User>>(i => _mapper.Map<IEnumerable<EntryUserListDTO>>(i));
 
                 var userService = mock.Create<UserService>();
-                var result1 = await userService.GetEntrySupervisedUsers(1);
-                var result2 = await userService.GetEntrySupervisedUsers(2);
+                var result1 = await userService.GetUsersUnderEntrySupervision(1);
+                var result2 = await userService.GetUsersUnderEntrySupervision(2);
 
                 Assert.True(result1.Count() == 1);
                 Assert.True(result1.First().Id == 2);
@@ -43,8 +43,6 @@ namespace ClubIS.BusinessLayer.Tests
             {
                 mock.Mock<IUnitOfWork>().Setup(x => x.Users.GetById(It.IsAny<int>())).Returns<int>(i => UsersTestDBSample.GetMockUserById(i));
 
-                mock.Mock<IUnitOfWork>().Setup(x => x.Users.GetFinanceSupervisored(It.IsAny<int>())).Returns<int>(i => UsersTestDBSample.GetMockFinanceSupervisored(i));
-
                 mock.Mock<IMapper>().Setup(x => x.Map<ISet<UserListDTO>>(It.IsAny<IEnumerable<User>>())).Returns<IEnumerable<User>>(i => _mapper.Map<ISet<UserListDTO>>(i));
 
                 mock.Mock<IMapper>().Setup(x => x.Map<UserListDTO>(It.IsAny<User>())).Returns<User>(i => _mapper.Map<UserListDTO>(i));
@@ -53,19 +51,19 @@ namespace ClubIS.BusinessLayer.Tests
                 var result1 = await userService.GetUserSupervisions(1);
                 var result2 = await userService.GetUserSupervisions(2);
 
-                Assert.True(result1.EntriesSupervisors.Count == 0);
-                Assert.True(result1.EntriesSupervisedUsers.Count == 1);
+                Assert.True(result1.EntriesSupervisors.ToList().Count == 0);
+                Assert.True(result1.EntriesSupervisedUsers.ToList().Count == 1);
                 Assert.True(result1.EntriesSupervisedUsers.First().Id == 2);
-                Assert.Null(result1.FinanceSupervisor);
-                Assert.True(result1.FinanceSupervisedUsers.Count == 1);
+                Assert.True(result1.FinanceSupervisors.ToList().Count == 0);
+                Assert.True(result1.FinanceSupervisedUsers.ToList().Count == 1);
                 Assert.True(result1.FinanceSupervisedUsers.First().Id == 2);
 
-                Assert.True(result2.EntriesSupervisors.Count == 1);
+                Assert.True(result2.EntriesSupervisors.ToList().Count == 1);
                 Assert.True(result2.EntriesSupervisors.First().Id == 1);
-                Assert.True(result2.EntriesSupervisedUsers.Count == 0);
-                Assert.NotNull(result2.FinanceSupervisor);
-                Assert.True(result2.FinanceSupervisor.Id == 1);
-                Assert.True(result2.FinanceSupervisedUsers.Count == 0);
+                Assert.True(result2.EntriesSupervisedUsers.ToList().Count == 0);
+                Assert.True(result2.FinanceSupervisors.ToList().Count == 1);
+                Assert.True(result2.FinanceSupervisors.First().Id == 1);
+                Assert.True(result2.FinanceSupervisedUsers.ToList().Count == 0);
             }
         }
     }

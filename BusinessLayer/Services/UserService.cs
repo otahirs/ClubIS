@@ -61,52 +61,88 @@ namespace ClubIS.BusinessLayer.Services
             _mapper.Map(user, userEntity);
         }
 
-        public async Task UpdateSupervisions(UserSupervisionsDTO user)
+        public async Task UpdateSupervisions(UserSupervisionsDTO userSupervisions)
         {
-            var userEntity = await _unitOfWork.Users.GetById(user.UserId);
-            userEntity.EntriesSupervisors.Clear();
-            userEntity.EntriesSupervisors = _mapper.Map<ISet<User>>(await _unitOfWork.Users.GetAllById(user.EntriesSupervisors.Select(u => u.Id)));
-            userEntity.EntriesSupervisedUsers.Clear();
-            userEntity.EntriesSupervisedUsers = _mapper.Map<ISet<User>>(await _unitOfWork.Users.GetAllById(user.EntriesSupervisedUsers.Select(u => u.Id)));
-            userEntity.FinanceSupervisorId = user.FinanceSupervisor?.Id;
+            var userEntity = await _unitOfWork.Users.GetById(userSupervisions.UserId);
+            userEntity.UnderSupervision.Clear();
+            userEntity.SupervisedBy.Clear();
 
-            _unitOfWork.Users.RemoveFinanceSupervisor(user.UserId);
-            foreach (var u in user.FinanceSupervisedUsers)
+            var supervised = userSupervisions.EntriesSupervisedUsers.Select(ent => ent.Id)
+                    .Union(userSupervisions.FinanceSupervisedUsers.Select(fin => fin.Id));
+
+            userEntity.UnderSupervision = supervised.Select(sup => new Supervision
             {
-                var finSupervisedUser = await _unitOfWork.Users.GetById(u.Id);
-                finSupervisedUser.FinanceSupervisorId = user.UserId;
-            }
+                SupervisorUserId = userSupervisions.UserId,
+                SupervisedUserId = sup,
+                IsEntrySupervisionEnabled = userSupervisions.EntriesSupervisedUsers.Any(ent => ent.Id == sup),
+                IsFinanceSupervisionEnabled = userSupervisions.FinanceSupervisedUsers.Any(fin => fin.Id == sup),
+            }).ToList();
+            
+            var supervisors = userSupervisions.EntriesSupervisors.Select(ent => ent.Id)
+                .Union(userSupervisions.FinanceSupervisors.Select(fin => fin.Id));
+            
+           userEntity.SupervisedBy = supervisors.Select(sup => new Supervision
+           {
+               SupervisorUserId = sup,
+               SupervisedUserId = userSupervisions.UserId,
+               IsEntrySupervisionEnabled = userSupervisions.EntriesSupervisors.Any(ent => ent.Id == sup),
+               IsFinanceSupervisionEnabled = userSupervisions.FinanceSupervisors.Any(fin => fin.Id == sup),
+           }).ToList();
         }
 
         public async Task<UserSupervisionsDTO> GetUserSupervisions(int id)
         {
             var user = await _unitOfWork.Users.GetById(id);
-            var financeSupervisedUsers = await _unitOfWork.Users.GetFinanceSupervisored(id);
+            user.UnderSupervision ??= new List<Supervision>();
+            user.SupervisedBy ??= new List<Supervision>();
+
             return new UserSupervisionsDTO
             {
                 UserId = id,
-                EntriesSupervisors = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisors),
-                EntriesSupervisedUsers = _mapper.Map<ISet<UserListDTO>>(user.EntriesSupervisedUsers),
-                FinanceSupervisor = _mapper.Map<UserListDTO>(user.FinanceSupervisor),
-                FinanceSupervisedUsers = _mapper.Map<ISet<UserListDTO>>(financeSupervisedUsers)
+                EntriesSupervisors = _mapper.Map<List<UserListDTO>>(await _unitOfWork.Users.GetAllById(
+                    user.SupervisedBy
+                            .Where(s => s.IsEntrySupervisionEnabled)
+                            .Select(s => s.SupervisorUserId))),
+                EntriesSupervisedUsers = _mapper.Map<List<UserListDTO>>(await _unitOfWork.Users.GetAllById(
+                    user.UnderSupervision
+                        .Where(s => s.IsEntrySupervisionEnabled)
+                        .Select(s => s.SupervisedUserId))),
+                FinanceSupervisors = _mapper.Map<List<UserListDTO>>(await _unitOfWork.Users.GetAllById(
+                    user.SupervisedBy
+                        .Where(s => s.IsFinanceSupervisionEnabled)
+                        .Select(s => s.SupervisorUserId))),
+                FinanceSupervisedUsers = _mapper.Map<List<UserListDTO>>(await _unitOfWork.Users.GetAllById(
+                    user.UnderSupervision
+                        .Where(s => s.IsFinanceSupervisionEnabled)
+                        .Select(s => s.SupervisedUserId)))
             };
         }
-
 
         public async Task<EntryUserListDTO> GetEntryUser(int id)
         {
             return _mapper.Map<EntryUserListDTO>(await _unitOfWork.Users.GetById(id));
         }
 
-        public async Task<IEnumerable<EntryUserListDTO>> GetEntrySupervisedUsers(int id)
+        public async Task<IEnumerable<EntryUserListDTO>> GetUsersUnderEntrySupervision(int userId)
         {
-            var user = await _unitOfWork.Users.GetById(id);
-            return _mapper.Map<IEnumerable<EntryUserListDTO>>(user.EntriesSupervisedUsers);
+            var userEntity = await _unitOfWork.Users.GetById(userId);
+            return _mapper.Map<IEnumerable<EntryUserListDTO>>( 
+                await _unitOfWork.Users.GetAllById(
+                userEntity.UnderSupervision.Where(u => u.IsEntrySupervisionEnabled)
+                    .Select(p => p.SupervisedUserId)));
         }
 
         public async Task<IEnumerable<EntryUserListDTO>> GetEntryAllUsers()
         {
             return _mapper.Map<IEnumerable<EntryUserListDTO>>(await _unitOfWork.Users.GetAll());
+        }
+
+        public async Task<IEnumerable<UserListDTO>> GetUsersUnderFinanceSupervision(int userId)
+        {
+            var userEntity = await _unitOfWork.Users.GetById(userId);
+            return _mapper.Map<IEnumerable<UserListDTO>>(await _unitOfWork.Users.GetAllById(
+                userEntity.UnderSupervision.Where(sp => sp.IsFinanceSupervisionEnabled)
+                    .Select(s => s.SupervisedUserId)));
         }
     }
 }

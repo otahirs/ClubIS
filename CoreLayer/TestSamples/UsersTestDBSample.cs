@@ -10,6 +10,16 @@ namespace ClubIS.CoreLayer.TestSamples
     {
         public static IEnumerable<User> GetMockUsers()
         {
+            var supervisions = new List<Supervision>
+            {
+                new Supervision
+                {
+                    SupervisorUserId = 1,
+                    SupervisedUserId = 2,
+                    IsEntrySupervisionEnabled = true,
+                    IsFinanceSupervisionEnabled = true
+                }
+            };
             var users = new List<User>
             {
                 new()
@@ -24,14 +34,12 @@ namespace ClubIS.CoreLayer.TestSamples
                     Gender = Gender.Male,
                     Licence = Licence.C,
                     AccountState = AccountState.Archived,
-                    EntriesSupervisors = new HashSet<User>(),
-                    EntriesSupervisedUsers = new HashSet<User>()
+                    UnderSupervision = supervisions
                 },
                 new()
                 {
                     Id = 2,
                     AccountId = 1,
-                    FinanceSupervisorId = 1,
                     Firstname = "Kateřina",
                     Surname = "Muflonová",
                     RegistrationNumber = "ZMB9751",
@@ -40,13 +48,9 @@ namespace ClubIS.CoreLayer.TestSamples
                     Gender = Gender.Female,
                     Licence = Licence.A,
                     AccountState = AccountState.Active,
-                    EntriesSupervisors = new HashSet<User>(),
-                    EntriesSupervisedUsers = new HashSet<User>()
+                    SupervisedBy = supervisions
                 }
             };
-            users[1].EntriesSupervisors.Add(users[0]);
-            users[0].EntriesSupervisedUsers.Add(users[1]);
-            users[1].FinanceSupervisor = users[0];
 
             return users;
         }
@@ -56,9 +60,5 @@ namespace ClubIS.CoreLayer.TestSamples
             return Task.FromResult(GetMockUsers().FirstOrDefault(u => u.Id == id));
         }
 
-        public static Task<IEnumerable<User>> GetMockFinanceSupervisored(int id)
-        {
-            return Task.FromResult(GetMockUsers().Where(u => u.FinanceSupervisorId == id));
-        }
     }
 }

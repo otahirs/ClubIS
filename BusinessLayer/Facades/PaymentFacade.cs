@@ -108,7 +108,7 @@ namespace ClubIS.BusinessLayer.Facades
         {
             var result = new List<FinanceStatementDTO> {await _paymentService.GetFinanceStatement(userId)};
 
-            foreach (var user in await _unitOfWork.Users.GetFinanceSupervisored(userId))
+            foreach (var user in await _userService.GetUsersUnderFinanceSupervision(userId))
                 result.Add(await _paymentService.GetFinanceStatement(user.Id));
             return result;
         }
@@ -162,8 +162,8 @@ namespace ClubIS.BusinessLayer.Facades
 
         public async Task<bool> IsFinanceSupervisor(int userId, int supervisorId)
         {
-            var supervisions = await _userService.GetUserSupervisions(userId);
-            return supervisions.FinanceSupervisor.Id == supervisorId;
+            var usersUnderFinanceSupervision = await _userService.GetUsersUnderFinanceSupervision(supervisorId);
+            return usersUnderFinanceSupervision.Any(u => u.Id == userId);
         }
 
         public async Task<IEnumerable<MemberFeeDTO>> GetAllMemberFeeTypes()

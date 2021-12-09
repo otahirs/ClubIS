@@ -48,28 +48,41 @@ namespace ClubIS.DataAccessLayer
             modelBuilder.Entity<User>()
                 .Property(u => u.Id).ValueGeneratedNever();
 
-            modelBuilder.Entity<User>()
-                .HasMany(left => left.EntriesSupervisedUsers)
-                .WithMany(right => right.EntriesSupervisors)
-                .UsingEntity<Dictionary<string, object>>("User_EntriesSupervisor", 
-                            b => b.HasOne<User>().WithMany().HasForeignKey("UserId"), 
-                            b => b.HasOne<User>().WithMany().HasForeignKey("EntriesSupervisorId"));
+            // modelBuilder.Entity<User>()
+            //     .HasMany(left => left.SupervisedBy)
+            //     .WithOne(right => right.Supervisor)
+            //     .OnDelete(DeleteBehavior.Restrict);
+            //
+            // modelBuilder.Entity<User>()
+            //     .HasMany(left => left.UnderSupervision)
+            //     .WithOne(right => right.SupervisedUser)
+            //     .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<EventEntry>()
-                .HasMany(left => left.EnteredStages)
-                .WithMany(right => right.StageEntries)
-                .UsingEntity<Dictionary<string, object>>("EvenEntry_EventStage", b => b.HasOne<EventStage>().WithMany().HasForeignKey("EventStageId").OnDelete(DeleteBehavior.NoAction), b => b.HasOne<EventEntry>().WithMany().HasForeignKey("EventEntryId").OnDelete(DeleteBehavior.NoAction));
-
+            modelBuilder.Entity<Supervision>()
+                .HasOne(p => p.Supervisor)
+                .WithMany(u => u.UnderSupervision)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<Supervision>()
+                .HasOne(p => p.SupervisedUser)
+                .WithMany(u => u.SupervisedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<Supervision>()
+                .HasKey(p => new { p.SupervisedUserId, p.SupervisorUserId });
 
             modelBuilder.Entity<FinanceAccount>()
                 .HasOne(a => a.Owner)
                 .WithOne(u => u.Account)
                 .HasForeignKey<User>(u => u.AccountId);
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.FinanceSupervisor)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<EventEntry>()
+                .HasMany(left => left.EnteredStages)
+                .WithMany(right => right.StageEntries)
+                .UsingEntity<Dictionary<string, object>>("EvenEntry_EventStage", b 
+                    => b.HasOne<EventStage>().WithMany().HasForeignKey("EventStageId").OnDelete(DeleteBehavior.NoAction), b 
+                    => b.HasOne<EventEntry>().WithMany().HasForeignKey("EventEntryId").OnDelete(DeleteBehavior.NoAction));
+            
 
             modelBuilder.Entity<IdentityRole<int>>()
                 .HasData(
