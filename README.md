@@ -42,16 +42,18 @@ Live demo is available at [clubis.otahirs.cz](https://clubis.otahirs.cz). Use th
 
 ## Development
 ### Prerequisities
-Before you begin, ensure you have installed the [.NET 5.0 SDK](https://dotnet.microsoft.com/download). 
+Before you begin, ensure you have installed the [.NET 6.0 SDK](https://dotnet.microsoft.com/download) and runnig postgres database. 
 ### Database
-For development purpose, an SQLite database is created and seeded with data on application start.  
-For production, the PostgreSQL database server needs to be set up.  
-Connection strings and database provider `{SQLite|PostgreSQL}` can be configured in [/WebAPI/appsettings.json](https://github.com/otahirs/ClubIS/blob/master/WebAPI/appsettings.json).
+PostgreSQL database server needs to be set up.  
+Configure the connection string in [/WebAPI/appsettings.json](https://github.com/otahirs/ClubIS/blob/master/WebAPI/appsettings.json).
 ### Running
 Using your favourite C# devolopment IDE, set `ClubIS.WebAPI` as your startup project and run the app.  
 As an alternative, you can use `.NET CLI` and start the project by exucuting `dotnet run` in the `WebAPI` folder as the current directory.   
-A web browser should be launched with the application running and fetching data from the API.  
+A web browser should be launched with the application running and fetching data from the API. 
 Summary of the available API calls from the controllers will be at `http://localhost:{port}/swagger/index.html`, although most of the calls require you to log in to the application first in order to obtain the authorization cookie.
+
+## Deploy
+Edit databse credentials and run the docker-compose file. The app is running at port 5100, set up reverse proxy to forward trafic from port 80 and serve SSL.
 
 ---
 <!-- CONTRIBUTING -->
