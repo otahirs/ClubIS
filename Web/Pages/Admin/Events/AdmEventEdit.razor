@@ -49,7 +49,7 @@
                 </MudItem>
                 <MudDivider/>
                 <MudItem md="6">
-                    <MudSelect @bind-Value="_sendEvent.AccommodationOption" Label="Accommodation Option" Variant="Variant.Outlined">
+                    <MudSelect @bind-Value="_sendEvent.TransportOption" Label="Transport Option" Variant="Variant.Outlined">
                         @foreach (var type in GetOptions())
                         {
                             <MudSelectItem Value="@type"/>
@@ -57,7 +57,7 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem md="6">
-                    <MudSelect @bind-Value="_sendEvent.TransportOption" Label="Transport Option" Variant="Variant.Outlined">
+                    <MudSelect @bind-Value="_sendEvent.AccommodationOption" Label="Accommodation Option" Variant="Variant.Outlined">
                         @foreach (var type in GetOptions())
                         {
                             <MudSelectItem Value="@type"/>
