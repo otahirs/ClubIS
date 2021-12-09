@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ClubIS.BusinessLayer;
 using ClubIS.BusinessLayer.Facades;
@@ -19,7 +20,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 
 namespace ClubIS.WebAPI
 {
@@ -130,8 +130,8 @@ namespace ClubIS.WebAPI
             services.AddScoped<IUserFacade, UserFacade>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IAuthFacade, AuthFacade>();
-            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling =
-                    ReferenceLoopHandling.Ignore); // NewtonsoftJson needed for this until net 6.0
+            services.AddControllers().AddJsonOptions(options => 
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             services.AddApiVersioning(x =>
             {
