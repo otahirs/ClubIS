@@ -12,6 +12,7 @@ namespace ClubIS.DataAccessLayer
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         public DataContext()

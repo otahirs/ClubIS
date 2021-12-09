@@ -1,0 +1,23 @@
+﻿version: '3'
+
+services:
+  clubis:
+    build: .
+    image: clubis:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - 127.0.0.1:5100:80
+  
+  db:
+    image: postgres:alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+  
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:8081:8080

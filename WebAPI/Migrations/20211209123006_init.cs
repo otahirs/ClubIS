@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace ClubIS.Migrations.PostgreSQL.Migrations
+#nullable disable
+
+namespace ClubIS.WebAPI.Migrations
 {
     public partial class init : Migration
     {
@@ -277,7 +279,6 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false),
                     AccountId = table.Column<int>(type: "integer", nullable: false),
-                    FinanceSupervisorId = table.Column<int>(type: "integer", nullable: true),
                     MemberFeeId = table.Column<int>(type: "integer", nullable: true),
                     Firstname = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     Surname = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
@@ -303,14 +304,7 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                         name: "FK_Users_MemberFees_MemberFeeId",
                         column: x => x.MemberFeeId,
                         principalTable: "MemberFees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Users_Users_FinanceSupervisorId",
-                        column: x => x.FinanceSupervisorId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -377,7 +371,7 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Text = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true)
+                    Text = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -413,26 +407,22 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                         name: "FK_Payments_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Payments_FinanceAccounts_RecipientAccountId",
                         column: x => x.RecipientAccountId,
                         principalTable: "FinanceAccounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Payments_FinanceAccounts_SourceAccountId",
                         column: x => x.SourceAccountId,
                         principalTable: "FinanceAccounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Payments_Users_ExecutorId",
                         column: x => x.ExecutorId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -457,27 +447,29 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User_EntriesSupervisor",
+                name: "Supervision",
                 columns: table => new
                 {
-                    EntriesSupervisorId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
+                    SupervisorUserId = table.Column<int>(type: "integer", nullable: false),
+                    SupervisedUserId = table.Column<int>(type: "integer", nullable: false),
+                    IsEntrySupervisionEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    IsFinanceSupervisionEnabled = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User_EntriesSupervisor", x => new { x.EntriesSupervisorId, x.UserId });
+                    table.PrimaryKey("PK_Supervision", x => new { x.SupervisedUserId, x.SupervisorUserId });
                     table.ForeignKey(
-                        name: "FK_User_EntriesSupervisor_Users_EntriesSupervisorId",
-                        column: x => x.EntriesSupervisorId,
+                        name: "FK_Supervision_Users_SupervisedUserId",
+                        column: x => x.SupervisedUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_User_EntriesSupervisor_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Supervision_Users_SupervisorUserId",
+                        column: x => x.SupervisorUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -507,12 +499,12 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "8c956876-993b-4fcd-841d-6b299518fa58", "admin", "ADMIN" },
-                    { 2, "a30f789e-ff5c-4a2d-a1b9-569673f2d876", "entries", "ENTRIES" },
-                    { 3, "41a101a4-bf3d-4c7d-be3b-4d8598867107", "events", "EVENTS" },
-                    { 4, "6129044e-1bdf-4f1c-8624-cedbbf6fc8f8", "finance", "FINANCE" },
-                    { 5, "e82a2b1b-eee8-4984-b19c-8ad8a39e643e", "news", "NEWS" },
-                    { 6, "9b6f2ab0-c252-4788-8257-c732797e5d34", "users", "USERS" }
+                    { 1, "e9872454-a9ac-4263-9b57-090c70f0ee13", "admin", "ADMIN" },
+                    { 2, "43f99126-d4c7-4f56-9e15-86a052a877c0", "entries", "ENTRIES" },
+                    { 3, "95f469f3-c93c-4d20-b96e-345a69263b2c", "events", "EVENTS" },
+                    { 4, "61235455-4b69-4040-a1fa-255a1570c3fe", "finance", "FINANCE" },
+                    { 5, "2fd3f196-0c23-4891-bb2b-fa95ff30dcb4", "news", "NEWS" },
+                    { 6, "49d0c106-eceb-49f3-9d71-29755005c64a", "users", "USERS" }
                 });
 
             migrationBuilder.InsertData(
@@ -520,8 +512,8 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "44bf4021-73df-4626-9947-911152427e39", null, false, false, null, null, "ADMIN123", "AQAAAAEAACcQAAAAEEMGQ8gSrmCG5hmb/xcRD1VRD1+6LukW0G9iGAcX26sjjbxXWDvxNE/JHOnkz8YYTQ==", null, false, "", false, "admin123" },
-                    { 2, 0, "0b680948-878f-4101-80ab-4bc935ddb4b6", null, false, false, null, null, "USER123", "AQAAAAEAACcQAAAAEOaFGmplizMVcV3vujNjvi350t+g8zhGA3EhiFZ0DY1eOkUnzreSr2ZbNDCs4xa7Hw==", null, false, "", false, "user123" }
+                    { 1, 0, "68187122-4da8-4855-9b29-fcc80653b21a", null, false, false, null, null, "ADMIN123", "AQAAAAEAACcQAAAAEMyJhyjZAb5/kq9AcwQnfHopfAwRf2WdApY5UhjUuEvmkKvi/w6ZkFtyjV7qSdJtsw==", null, false, "", false, "admin123" },
+                    { 2, 0, "d097b095-eb53-4c79-aac5-a72c08a66bef", null, false, false, null, null, "USER123", "AQAAAAEAACcQAAAAEMNwuzDCeTufCvMaTC7hP3uyaKoo88bBmAqiA+RuThLOok7kLkmw2krjwDQYJDXe2w==", null, false, "", false, "user123" }
                 });
 
             migrationBuilder.InsertData(
@@ -547,8 +539,8 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 columns: new[] { "Id", "Amount", "Description", "MemberFeeType", "Name" },
                 values: new object[,]
                 {
-                    { 2, 0, "Oddílem jsou placeny veškeré závody. Závodník platí pouze storna.", 4, "All Inclusive" },
-                    { 1, 100, "Nikam nejezdím nebo málo  veškeré závody se strhávají z osobního vkladu.", 1, "Základ" }
+                    { 1, 100, "Nikam nejezdím nebo málo  veškeré závody se strhávají z osobního vkladu.", 1, "Základ" },
+                    { 2, 0, "Oddílem jsou placeny veškeré závody. Závodník platí pouze storna.", 4, "All Inclusive" }
                 });
 
             migrationBuilder.InsertData(
@@ -580,18 +572,30 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "AccountId", "AccountState", "DateOfBirth", "Email", "FinanceSupervisorId", "Firstname", "Gender", "Licence", "MemberFeeId", "Nationality", "Phone", "RegistrationNumber", "Surname" },
-                values: new object[] { 1, 1, 0, null, "tst2@eof.cz", null, "Matěj", 0, 0, null, "Česká republika", null, "ZBM1108", "Perník" });
+                columns: new[] { "Id", "AccountId", "AccountState", "DateOfBirth", "Email", "Firstname", "Gender", "Licence", "MemberFeeId", "Nationality", "Phone", "RegistrationNumber", "Surname" },
+                values: new object[,]
+                {
+                    { 1, 1, 0, null, "tst2@eof.cz", "Matěj", 0, 0, null, "Česká republika", null, "ZBM1108", "Perník" },
+                    { 2, 2, 0, null, "tst2@eob.cz", "Kateřina", 1, 2, null, "Česká republika", null, "ZMB9751", "Muflonová" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Address",
                 columns: new[] { "Id", "City", "PostalCode", "StreetAndNumber", "UserId" },
-                values: new object[] { 1, "Brno", "62800", "Pantoflová 16", 1 });
+                values: new object[,]
+                {
+                    { 1, "Brno", "62800", "Pantoflová 16", 1 },
+                    { 2, "Brno", "61300", "Smrková 4", 2 }
+                });
 
             migrationBuilder.InsertData(
                 table: "EventEntries",
                 columns: new[] { "Id", "Class", "EventId", "HasClubAccommodation", "HasClubTransport", "NoteForClub", "NoteForOrganisator", "SiCardNumber", "Status", "UserId" },
-                values: new object[] { 1, "A", 1, true, true, null, null, 464031, 0, 1 });
+                values: new object[,]
+                {
+                    { 1, "A", 1, true, true, null, null, 464031, 0, 1 },
+                    { 2, "B", 1, true, true, null, null, 8670103, 0, 2 }
+                });
 
             migrationBuilder.InsertData(
                 table: "News",
@@ -606,32 +610,16 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
             migrationBuilder.InsertData(
                 table: "SiCard",
                 columns: new[] { "Id", "IsDefault", "Number", "UserId" },
-                values: new object[] { 1, true, 8670103, 1 });
+                values: new object[,]
+                {
+                    { 1, true, 8670103, 1 },
+                    { 2, true, 464031, 2 }
+                });
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "AccountId", "AccountState", "DateOfBirth", "Email", "FinanceSupervisorId", "Firstname", "Gender", "Licence", "MemberFeeId", "Nationality", "Phone", "RegistrationNumber", "Surname" },
-                values: new object[] { 2, 2, 0, null, "tst2@eob.cz", 1, "Kateřina", 1, 2, null, "Česká republika", null, "ZMB9751", "Muflonová" });
-
-            migrationBuilder.InsertData(
-                table: "Address",
-                columns: new[] { "Id", "City", "PostalCode", "StreetAndNumber", "UserId" },
-                values: new object[] { 2, "Brno", "61300", "Smrková 4", 2 });
-
-            migrationBuilder.InsertData(
-                table: "EventEntries",
-                columns: new[] { "Id", "Class", "EventId", "HasClubAccommodation", "HasClubTransport", "NoteForClub", "NoteForOrganisator", "SiCardNumber", "Status", "UserId" },
-                values: new object[] { 2, "B", 1, true, true, null, null, 8670103, 0, 2 });
-
-            migrationBuilder.InsertData(
-                table: "SiCard",
-                columns: new[] { "Id", "IsDefault", "Number", "UserId" },
-                values: new object[] { 2, true, 464031, 2 });
-
-            migrationBuilder.InsertData(
-                table: "User_EntriesSupervisor",
-                columns: new[] { "EntriesSupervisorId", "UserId" },
-                values: new object[] { 1, 2 });
+                table: "Supervision",
+                columns: new[] { "SupervisedUserId", "SupervisorUserId", "IsEntrySupervisionEnabled", "IsFinanceSupervisionEnabled" },
+                values: new object[] { 2, 1, true, true });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_UserId",
@@ -737,20 +725,15 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_EntriesSupervisor_UserId",
-                table: "User_EntriesSupervisor",
-                column: "UserId");
+                name: "IX_Supervision_SupervisorUserId",
+                table: "Supervision",
+                column: "SupervisorUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_AccountId",
                 table: "Users",
                 column: "AccountId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_FinanceSupervisorId",
-                table: "Users",
-                column: "FinanceSupervisorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_MemberFeeId",
@@ -797,7 +780,7 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 name: "SiCard");
 
             migrationBuilder.DropTable(
-                name: "User_EntriesSupervisor");
+                name: "Supervision");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

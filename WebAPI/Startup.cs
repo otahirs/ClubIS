@@ -45,27 +45,11 @@ namespace ClubIS.WebAPI
             
             services.AddDbContext<DataContext>(options =>
             {
-                var provider = _configuration.GetValue("Provider", "PostgreSQL");
-                switch (provider)
-                {
-                    // add-migration init -P ClubIS.Migrations.SQLite
-                    case "SQLite":
-                        options.UseSqlite(
-                            _configuration.GetConnectionString("SQLite"),
-                            x => x.MigrationsAssembly("ClubIS.Migrations.SQLite"));
-                        break;
-
-                    //  add-migration init -P ClubIS.Migrations.PostgreSQL
-                    case "PostgreSQL":
-                        options.UseNpgsql(
-                            _configuration.GetConnectionString("PostgreSQL"),
-                            x => x.MigrationsAssembly("ClubIS.Migrations.PostgreSQL"));
-                        break;
-
-                    default:
-                        throw new Exception($"Unsupported provider: {provider}");
-                }
-
+                
+                options.UseNpgsql(
+                            _configuration.GetConnectionString("Postgres"),
+                            b => b.MigrationsAssembly("ClubIS.WebAPI"));
+                
                 if (_env.IsDevelopment())
                 {
                     options.EnableSensitiveDataLogging();

@@ -3,30 +3,32 @@ using System;
 using ClubIS.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace ClubIS.Migrations.PostgreSQL.Migrations
+#nullable disable
+
+namespace ClubIS.WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210729114438_increaseNewsLength")]
-    partial class increaseNewsLength
+    partial class DataContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.3")
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("City")
                         .HasMaxLength(25)
@@ -73,8 +75,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccommodationOption")
                         .HasColumnType("integer");
@@ -166,8 +169,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("EventId")
                         .HasColumnType("integer");
@@ -218,8 +222,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("timestamp without time zone");
@@ -258,8 +263,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Class")
                         .HasMaxLength(10)
@@ -328,8 +334,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
                         .HasMaxLength(50)
@@ -352,8 +359,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CreditBalance")
                         .HasColumnType("integer");
@@ -379,8 +387,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Amount")
                         .HasColumnType("integer");
@@ -423,8 +432,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
@@ -461,8 +471,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CreditAmount")
                         .HasColumnType("integer");
@@ -522,8 +533,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("boolean");
@@ -557,6 +569,36 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ClubIS.CoreLayer.Entities.Supervision", b =>
+                {
+                    b.Property<int>("SupervisedUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SupervisorUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsEntrySupervisionEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsFinanceSupervisionEnabled")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("SupervisedUserId", "SupervisorUserId");
+
+                    b.HasIndex("SupervisorUserId");
+
+                    b.ToTable("Supervision");
+
+                    b.HasData(
+                        new
+                        {
+                            SupervisedUserId = 2,
+                            SupervisorUserId = 1,
+                            IsEntrySupervisionEnabled = true,
+                            IsFinanceSupervisionEnabled = true
+                        });
+                });
+
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -574,9 +616,6 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                     b.Property<string>("Email")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
-
-                    b.Property<int?>("FinanceSupervisorId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Firstname")
                         .IsRequired()
@@ -615,11 +654,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                     b.HasIndex("AccountId")
                         .IsUnique();
 
-                    b.HasIndex("FinanceSupervisorId");
-
                     b.HasIndex("MemberFeeId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
@@ -641,7 +678,6 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                             AccountId = 2,
                             AccountState = 0,
                             Email = "tst2@eob.cz",
-                            FinanceSupervisorId = 1,
                             Firstname = "Kateřina",
                             Gender = 1,
                             Licence = 2,
@@ -655,8 +691,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
@@ -714,18 +751,18 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("AspNetUsers", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "051e88ba-d861-4bb5-a61b-070f794f76f8",
+                            ConcurrencyStamp = "68187122-4da8-4855-9b29-fcc80653b21a",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN123",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBOM7dcCifDx4vU4b2tFng75DTxmQqQm8fKbjkhOvsNGP7p+e4zmZX3MaN//EWcyBg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMyJhyjZAb5/kq9AcwQnfHopfAwRf2WdApY5UhjUuEvmkKvi/w6ZkFtyjV7qSdJtsw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -735,11 +772,11 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1246bc2b-7aa4-442d-a436-4be686372955",
+                            ConcurrencyStamp = "d097b095-eb53-4c79-aac5-a72c08a66bef",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "USER123",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHlta5hHs7qtjLUOdahtClbt9uB3zxe/Dz70NkaWkC6WmCn3euldE0no1us/sSAnFg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMNwuzDCeTufCvMaTC7hP3uyaKoo88bBmAqiA+RuThLOok7kLkmw2krjwDQYJDXe2w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -766,8 +803,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -787,48 +825,48 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("AspNetRoles", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "189058d7-f064-4707-90a8-5e90672674de",
+                            ConcurrencyStamp = "e9872454-a9ac-4263-9b57-090c70f0ee13",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "009d6684-4f90-4240-926c-022fd4223fd7",
+                            ConcurrencyStamp = "43f99126-d4c7-4f56-9e15-86a052a877c0",
                             Name = "entries",
                             NormalizedName = "ENTRIES"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "bc4a6fe6-8a2f-4ef7-b7a3-9943386b85b6",
+                            ConcurrencyStamp = "95f469f3-c93c-4d20-b96e-345a69263b2c",
                             Name = "events",
                             NormalizedName = "EVENTS"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "e6cc433d-4714-4fea-ba4a-9d38d1a6049e",
+                            ConcurrencyStamp = "61235455-4b69-4040-a1fa-255a1570c3fe",
                             Name = "finance",
                             NormalizedName = "FINANCE"
                         },
                         new
                         {
                             Id = 5,
-                            ConcurrencyStamp = "bc17a670-9582-46e5-a2da-2ea285e3177c",
+                            ConcurrencyStamp = "2fd3f196-0c23-4891-bb2b-fa95ff30dcb4",
                             Name = "news",
                             NormalizedName = "NEWS"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "b5817ac2-6a4c-4e86-9671-0c1141651da9",
+                            ConcurrencyStamp = "49d0c106-eceb-49f3-9d71-29755005c64a",
                             Name = "users",
                             NormalizedName = "USERS"
                         });
@@ -838,8 +876,9 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text");
@@ -854,15 +893,16 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text");
@@ -877,7 +917,7 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("AspNetUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
@@ -898,7 +938,7 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("AspNetUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
@@ -913,7 +953,7 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("AspNetUserRoles", (string)null);
 
                     b.HasData(
                         new
@@ -939,29 +979,7 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("User_EntriesSupervisor", b =>
-                {
-                    b.Property<int>("EntriesSupervisorId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("EntriesSupervisorId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("User_EntriesSupervisor");
-
-                    b.HasData(
-                        new
-                        {
-                            EntriesSupervisorId = 1,
-                            UserId = 2
-                        });
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.Address", b =>
@@ -1068,6 +1086,25 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ClubIS.CoreLayer.Entities.Supervision", b =>
+                {
+                    b.HasOne("ClubIS.CoreLayer.Entities.User", "SupervisedUser")
+                        .WithMany("SupervisedBy")
+                        .HasForeignKey("SupervisedUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ClubIS.CoreLayer.Entities.User", "Supervisor")
+                        .WithMany("UnderSupervision")
+                        .HasForeignKey("SupervisorUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("SupervisedUser");
+
+                    b.Navigation("Supervisor");
+                });
+
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.User", b =>
                 {
                     b.HasOne("ClubIS.CoreLayer.Entities.FinanceAccount", "Account")
@@ -1076,18 +1113,11 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ClubIS.CoreLayer.Entities.User", "FinanceSupervisor")
-                        .WithMany()
-                        .HasForeignKey("FinanceSupervisorId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("ClubIS.CoreLayer.Entities.MemberFee", "MemberFee")
                         .WithMany()
                         .HasForeignKey("MemberFeeId");
 
                     b.Navigation("Account");
-
-                    b.Navigation("FinanceSupervisor");
 
                     b.Navigation("MemberFee");
                 });
@@ -1158,21 +1188,6 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("User_EntriesSupervisor", b =>
-                {
-                    b.HasOne("ClubIS.CoreLayer.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("EntriesSupervisorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ClubIS.CoreLayer.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ClubIS.CoreLayer.Entities.Event", b =>
                 {
                     b.Navigation("ClassOptions");
@@ -1192,6 +1207,10 @@ namespace ClubIS.Migrations.PostgreSQL.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("SiCards");
+
+                    b.Navigation("SupervisedBy");
+
+                    b.Navigation("UnderSupervision");
                 });
 #pragma warning restore 612, 618
         }
