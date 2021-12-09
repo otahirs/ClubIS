@@ -26,6 +26,22 @@
     </Router>
 </CascadingAuthenticationState>
 
-<MudThemeProvider/>
+<MudThemeProvider Theme="MyCustomTheme"/>
 <MudDialogProvider/>
 <MudSnackbarProvider/>
+
+@code {
+
+    MudTheme MyCustomTheme = new MudTheme()
+    {
+        Palette = new Palette()
+        {
+            Background = Colors.Grey.Lighten5
+        },
+
+        LayoutProperties = new LayoutProperties()
+        {
+        }
+    };
+
+}
