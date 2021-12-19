@@ -53,7 +53,7 @@ A web browser should be launched with the application running and fetching data 
 Summary of the available API calls from the controllers will be at `http://localhost:{port}/swagger/index.html`, although most of the calls require you to log in to the application first in order to obtain the authorization cookie.
 
 ## Deploy
-Edit databse credentials and run the docker-compose file. The app is running at port 5100, set up reverse proxy to forward trafic from port 80 and serve SSL.
+Edit databse credentials in [connection string](https://github.com/otahirs/ClubIS/blob/master/WebAPI/appsettings.json) and [docker-compose file](https://github.com/otahirs/ClubIS/blob/master/docker-compose.yaml) and run the docker-compose. The app is running at port 5100, set up reverse proxy to serve the app with HTTPS.
 
 ---
 <!-- CONTRIBUTING -->
