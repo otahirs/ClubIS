@@ -35,17 +35,18 @@ Live demo is available at [clubis.otahirs.cz](https://clubis.otahirs.cz). Use th
 ---
 ## Built With
 
- * [.NET 5](https://dotnet.microsoft.com/) | .NET Framework and .NET Core marged into multiplatform (Windows/Linux) .NET 5
+ * [.NET 6](https://dotnet.microsoft.com/) | .NET Framework and .NET Core marged into multiplatform (Windows/Linux) .NET 6
  * [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor) | component-based C# framework for creating web UI 
  * [MudBlazor](https://github.com/Garderoben/MudBlazor) | Material Design component library for Blazor 
 
 
 ## Development
 ### Prerequisities
-Before you begin, ensure you have installed the [.NET 6.0 SDK](https://dotnet.microsoft.com/download) and runnig postgres database. 
-### Database
-PostgreSQL database server needs to be set up.  
-Configure the connection string in [/WebAPI/appsettings.json](https://github.com/otahirs/ClubIS/blob/master/WebAPI/appsettings.json).
+Before you begin, ensure you have installed the [.NET 6.0 SDK](https://dotnet.microsoft.com/download).  
+PostgreSQL database server needs to be set up. 
+```docker
+docker run --rm --name clubis-postgres-db -p 127.0.0.1:5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+```
 ### Running
 Using your favourite C# devolopment IDE, set `ClubIS.WebAPI` as your startup project and run the app.  
 As an alternative, you can use `.NET CLI` and start the project by exucuting `dotnet run` in the `WebAPI` folder as the current directory.   
