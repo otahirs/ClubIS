@@ -7,9 +7,9 @@
 [![License][license-shield]][license-url]
 
 # ClubIS
-ClubIS is an information system for any Czech orienteering club. The core functionality includes management of Members data, Event entries and Finance. Tight integration with [Oris](https://oris.orientacnisporty.cz/) is planned to be implemented. The goal is to create a modern open-sourced and maintained information system to create an alternative for other outdated https://members.eob.cz/ or paid https://www.privatni-zona.cz/ solutions. I would be very grateful for any contribution, collaboration or feedback.
+ClubIS is an information system for any Czech orienteering club. The core functionality includes management of Members data, Event entries and Finance. Tight integration with [Oris](https://oris.orientacnisporty.cz/) is planned to be implemented. The goal is to create a modern open-sourced and maintained information system to create an alternative for other outdated https://members.eob.cz/ or paid https://www.privatni-zona.cz/ solutions.
 
-![](https://media.giphy.com/media/kfR5iyQgmq7PoiFTAf/source.gif)  
+ <!-- ![](https://media.giphy.com/media/kfR5iyQgmq7PoiFTAf/source.gif)  
 *The project is in an early stage of development and is not ready for production use!*
 
 ### Demo
@@ -18,6 +18,7 @@ Live demo is available at [clubis.otahirs.cz](https://clubis.otahirs.cz). Use th
 | ------ | ------ | ----- |
 | user123 | user123 | basic user
 | admin123 | admin123 | full persmissions
+-->
 
 ### Preview
 | ![](preview.png) | ![](preview3.png) |
